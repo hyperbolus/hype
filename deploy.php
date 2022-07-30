@@ -13,7 +13,7 @@ set('rsync_src', function () {
 });
 
 // Hosts
-host('spellslave.com') // Name of the server
+host('209.145.62.20') // Name of the server
 ->setRemoteUser('deployer') // SSH user
 ->setPort(22) // web host wants this port
 ->setIdentityFile('~/.ssh/gitlab')

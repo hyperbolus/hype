@@ -52,7 +52,7 @@ production:
     - chmod 700 ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/gitlab
     - chmod 600 ~/.ssh/gitlab
-    - ssh-keyscan -p 22 spellslave.com > ~/.ssh/known_hosts
+    - ssh-keyscan -p 22 209.145.62.20 > ~/.ssh/known_hosts
     - ssh-keygen -p -P $SSH_KEY_PASSWORD -N "" -f ~/.ssh/gitlab
     - chmod 644 ~/.ssh/known_hosts
     - ssh-add ~/.ssh/gitlab
