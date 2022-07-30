@@ -96,10 +96,10 @@
 <script>
 import {defineComponent} from 'vue'
 import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3';
-import AppLayout from "@/Pages/Beta/Layout";
-import JetLabel from "@/Jetstream/Label";
-import JetInput from "@/Jetstream/Input";
-import InputError from "@/Jetstream/InputError";
+import AppLayout from "@/Pages/Link/Layout.vue";
+import JetLabel from "@/Jetstream/Label.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import InputError from "@/Jetstream/InputError.vue";
 
 export default defineComponent({
     props: {

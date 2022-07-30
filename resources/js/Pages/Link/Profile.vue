@@ -2,14 +2,14 @@
     <div class="flex flex-col justify-center items-center min-h-screen" style="background:linear-gradient(#004A63, #00222D);">
         <div class="flex flex-col space-y-4 rounded-lg p-4 text-white" style="background-color: rgba(0, 0, 0, 0.6)">
             <h1 class="font-bold text-3xl">{{ profile.username }}</h1>
-            <div class="flex flex-row space-x-4">
+            <!--<div class="flex flex-row space-x-4">
                 <span class="flex flex-row items-center text-xl font-bold"><img class="h-8 mr-2" src="../../../img/star.png" alt="stars"/>{{ profile.stars }}</span>
                 <span class="flex flex-row items-center text-xl font-bold"><img class="h-8 mr-2" src="../../../img/diamond.png" alt="diamond"/>{{ profile.diamonds }}</span>
                 <span class="flex flex-row items-center text-xl font-bold"><img class="h-8 mr-2" src="../../../img/coin.png" alt="coin"/>{{ profile.coins }}</span>
                 <span class="flex flex-row items-center text-xl font-bold"><img class="h-8 mr-2" src="../../../img/silvercoin.png" alt="silvercoin"/>{{ profile.userCoins }}</span>
                 <span class="flex flex-row items-center text-xl font-bold"><img class="h-8 mr-2" src="../../../img/demon.png" alt="demon"/>{{ profile.demons }}</span>
                 <span class="flex flex-row items-center text-xl font-bold"><img class="h-8 mr-2" src="../../../img/cp.png" alt="cp"/>{{ profile.cp }}</span>
-            </div>
+            </div>-->
             <template v-if="!!profile.plus">
                 <p v-if="profile.plus.bio" class="rounded p-2" style="background-color: rgba(255, 255, 255, 0.25)">{{ profile.plus.bio }}</p>
                 <div class="flex flex-row space-x-4 justify-center">

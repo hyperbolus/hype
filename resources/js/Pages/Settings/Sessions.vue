@@ -88,7 +88,7 @@
 </template>
 <script>
 import {defineComponent} from 'vue'
-import AppLayout from "@/Pages/Beta/Layout";
+import AppLayout from "@/Pages/Link/Layout.vue";
 import {Head as DocumentHead, Link} from "@inertiajs/inertia-vue3";
 import JetActionMessage from '@/Jetstream/ActionMessage.vue'
 import JetActionSection from '@/Jetstream/ActionSection.vue'

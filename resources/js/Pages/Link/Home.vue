@@ -41,7 +41,7 @@
 <script>
 import {defineComponent} from 'vue'
 import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3';
-import AppLayout from "@/Pages/Beta/Layout";
+import AppLayout from "@/Pages/Link/Layout.vue";
 
 export default defineComponent({
     components: {
