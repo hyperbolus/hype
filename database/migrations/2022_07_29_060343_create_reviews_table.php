@@ -20,8 +20,8 @@ return new class extends Migration
             $table->tinyInteger('rating_difficulty');
             $table->tinyInteger('rating_overall');
             $table->string('review')->nullable();
-            $table->foreignId('level_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('level_id')->constrained('levels')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }
