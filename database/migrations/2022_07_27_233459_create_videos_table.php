@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('video_id');
-            $table->foreignId('level_id')->constrained('levels')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('level_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
