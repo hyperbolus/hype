@@ -57,7 +57,7 @@ production:
     - chmod 644 ~/.ssh/known_hosts
     - ssh-add ~/.ssh/gitlab
     - *change_file_permissions
-    - php vendor/bin/deployer.phar launch stage=production -vvv
+    - php vendor/bin/dep launch stage=production -vvv
     # steps go here specifically, and after deploy because they
     # restart daemons that need the directory after symlinking
   environment:
