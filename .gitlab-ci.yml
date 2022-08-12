@@ -36,6 +36,8 @@ npm:
       - public/css/
       - public/js/
       - public/images/
+      - public/build/
+      - boostrap/ssr/app.mjs
 
 #phpunit:
 #  stage: test
