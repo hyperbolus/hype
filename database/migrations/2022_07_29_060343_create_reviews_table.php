@@ -19,7 +19,7 @@ return new class extends Migration
             $table->tinyInteger('rating_visuals');
             $table->tinyInteger('rating_difficulty');
             $table->tinyInteger('rating_overall');
-            $table->string('review')->nullable();
+            $table->text('review')->nullable();
             $table->foreignId('level_id');
             $table->foreignId('user_id');
             $table->timestamps();
