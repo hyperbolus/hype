@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Events\RecoveryCodeReplaced;
+use App\Http\Requests\TwoFactorLoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
-use App\Events\RecoveryCodeReplaced;
-use App\Http\Requests\TwoFactorLoginRequest;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use function __;
+use function event;
+use function redirect;
 
 class TwoFactorAuthenticatedSessionController extends Controller
 {

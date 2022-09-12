@@ -13,17 +13,17 @@ class HomeController extends Controller
 {
     public function home()
     {
-        return Inertia::render('Home', [
-            'users' => DB::table('users')->count(),
-            'levels' => DB::table('levels')->count(),
-            'reviews' => DB::table('reviews')->count(),
-            'videos' => DB::table('videos')->count(),
-        ]);
+        return Inertia::render('Home');
     }
 
-    public function forums()
+    public function client()
     {
-        return Inertia::render('Forums');
+        return Inertia::render('Client');
+    }
+
+    public function forge()
+    {
+        return Inertia::render('Forge');
     }
 
     public function levels()

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Actions\GenerateNewRecoveryCodes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Actions\GenerateNewRecoveryCodes;
+use function back;
+use function response;
 
 class RecoveryCodeController extends Controller
 {

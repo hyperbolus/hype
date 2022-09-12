@@ -1,71 +1,73 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
+import { Link } from '@inertiajs/inertia-vue3';
+import StatsPanel from "@/Components/StatsPanel.vue";
+
+defineProps({
+    forums: Array,
+})
 </script>
 <template>
     <app-layout title="Home">
         <template #breadcrumbs>
             <span>Forums</span>
         </template>
-        <div class="flex max-w-6xl w-full gap-4 py-4">
-            <div class="flex flex-col space-y-4 w-3/4">
-                <h2 class="font-bold text-2xl">Forums</h2>
-                <div class="rounded px-2 py-2 space-y-2 bg-gray-50 border border-gray-300">
-                    <h2 class="text-xl">Announcements</h2>
-                    <p>the forum for announcements</p>
+        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+            <div class="flex flex-col space-y-4 md:w-3/4">
+                <div v-if="forums.length === 0">
+                    <div class="rounded px-4 py-2 space-y-2 bg-neutral-900 border border-neutral-700">
+                        <p>No Fooms Have Been Created :(</p>
+                    </div>
+                </div>
+                <div v-for="forum in forums" class="flex-col space-y-2">
+                    <h2 class="font-bold text-2xl">{{ forum.name }}</h2>
+                    <div v-for="subforum in forum.children" class="flex justify-between items-center rounded p-4 space-x-2 bg-neutral-900 border border-neutral-700">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-neutral-800 p-3 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <Link :href="route('forums.show', subforum.slug)" class="text-xl">{{ subforum.name }}</Link>
+                                <p class="text-sm">{{ subforum.description }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex flex-col justify-end">
+                                <h2>128</h2>
+                                <p class="text-xs">Posts</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="flex flex-col space-y-4 w-1/4">
+            <div class="flex flex-col space-y-4 md:w-1/4">
                 <h2 class="font-bold text-2xl">More</h2>
-                <div class="rounded bg-[#5865F2] px-4 py-2 text-gray-50 border border-gray-300">
+                <div class="rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
                     Join us on Discord
                 </div>
-                <div class="rounded bg-gray-100 border border-gray-300">
+                <div class="rounded bg-neutral-900 border border-neutral-700">
                     <h3 class="px-4 font-bold text-xl py-2">Username</h3>
                     <div class="flex flex-col">
-                        <div class="flex border-t border-t-gray-300">
-                            <div class="p-4 text-sm flex flex-col w-1/2 border-r border-r-gray-300">
+                        <div class="flex border-t border-t-neutral-700">
+                            <div class="p-4 text-sm flex flex-col w-1/2 border-r border-r-neutral-700">
                                 <span>9</span>
                                 <span>Reputation</span>
                             </div>
                             <div class="p-4 w-1/2 ">9</div>
                         </div>
-                        <div class="flex border-t border-t-gray-300">
-                            <div class="p-4 w-1/2 border-r border-r-gray-300">9</div>
+                        <div class="flex border-t border-t-neutral-700">
+                            <div class="p-4 w-1/2 border-r border-r-neutral-700">9</div>
                             <div class="p-4 w-1/2">9</div>
                         </div>
                     </div>
                 </div>
                 <h2 class="font-bold text-2xl">Latest Tweets</h2>
-                <div class="rounded px-4 py-2 bg-gray-50 border border-gray-300">
-                    hello
+                <div class="rounded px-4 py-2 bg-neutral-900 border border-neutral-700">
+                    rip bozo
                 </div>
-                <h2 class="font-bold text-2xl">Statistics</h2>
-                <div class="rounded px-4 py-2 bg-gray-50 border border-gray-300">
-                    <div class="flex justify-between">
-                        <span>Members</span>
-                        <span>9</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Threads</span>
-                        <span>9</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Posts</span>
-                        <span>9</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Mods</span>
-                        <span>9</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Texture Packs</span>
-                        <span>9</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Videos</span>
-                        <span>9</span>
-                    </div>
-                </div>
+                <StatsPanel/>
             </div>
         </div>
     </app-layout>

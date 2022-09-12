@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Yggdrasil;
 use App\Events\TwoFactorAuthenticationDisabled;
 use App\Events\TwoFactorAuthenticationEnabled;
 use App\Providers\TwoFactorAuthenticationProvider;
+use App\Yggdrasil;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +13,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use PragmaRX\Google2FA\Google2FA;
 use Symfony\Component\HttpFoundation\Response;
+use function back;
+use function encrypt;
 
 class TwoFactorAuthenticationController extends Controller
 {

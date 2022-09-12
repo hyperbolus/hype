@@ -73,10 +73,10 @@ class ReviewController extends Controller
             'level_id' => $request->level_id,
             'user_id' => $request->user()->id
         ], [
-            'rating_difficulty' => $request->rating_difficulty,
-            'rating_gameplay' => $request->rating_gameplay,
-            'rating_visuals' => $request->rating_visuals,
-            'rating_overall' => $request->rating_overall,
+            'rating_difficulty' => max(0, min(10, $request->rating_difficulty)),
+            'rating_gameplay' => max(0, min(10, $request->rating_gameplay)),
+            'rating_visuals' => max(0, min(10, $request->rating_visuals)),
+            'rating_overall' => max(0, min(10, $request->rating_overall)),
             'review' => $request->body,
             ]);
 

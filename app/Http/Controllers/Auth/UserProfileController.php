@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Jenssegers\Agent\Agent;
+use function collect;
+use function config;
+use function tap;
 
 class UserProfileController extends Controller
 {

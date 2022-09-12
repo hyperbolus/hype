@@ -64,15 +64,15 @@ const submit = () => {
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Levels</Link>
         </template>
-        <div class="flex max-w-6xl w-full gap-4 py-4">
-            <div class="flex flex-col space-y-4 w-3/4">
+        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+            <div class="flex flex-col space-y-4 md:w-3/4">
                 <div class="flex justify-between items-center">
                     <h2 class="font-bold text-2xl">Levels</h2>
                     <div class="flex space-x-4 items-center">
                         <div class="flex space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
-                                    <div class="flex items-center space-x-2 bg-neutral-50 px-2 py-1 rounded text-sm cursor-pointer">
+                                    <div class="flex items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
                                         <span class="capitalize">{{ sortByNames[sortBy] }}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -80,18 +80,18 @@ const submit = () => {
                                     </div>
                                 </template>
                                 <template #content>
-                                    <div @click="setSortBy(0)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Overall Rating</div>
-                                    <div @click="setSortBy(1)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Gameplay Rating</div>
-                                    <div @click="setSortBy(2)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Visual Rating</div>
-                                    <div @click="setSortBy(3)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Difficulty Rating</div>
-                                    <div @click="setSortBy(4)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Review Count</div>
+                                    <div @click="setSortBy(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">Overall Rating</div>
+                                    <div @click="setSortBy(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Gameplay Rating</div>
+                                    <div @click="setSortBy(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Visual Rating</div>
+                                    <div @click="setSortBy(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Difficulty Rating</div>
+                                    <div @click="setSortBy(4)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Review Count</div>
                                 </template>
                             </Dropdown>
                         </div>
                         <div v-if="$page.props.auth && false" class="flex space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
-                                    <div class="flex items-center space-x-2 bg-neutral-50 px-2 py-1 rounded text-sm cursor-pointer">
+                                    <div class="flex items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
                                         <span class="capitalize">{{ filterNames[filter] }}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -99,16 +99,16 @@ const submit = () => {
                                     </div>
                                 </template>
                                 <template #content>
-                                    <div @click="setFilter(0)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">All</div>
-                                    <div @click="setFilter(1)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Reviewed</div>
-                                    <div @click="setFilter(2)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Unreviewed</div>
+                                    <div @click="setFilter(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">All</div>
+                                    <div @click="setFilter(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Reviewed</div>
+                                    <div @click="setFilter(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Unreviewed</div>
                                 </template>
                             </Dropdown>
                         </div>
                         <div class="flex space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
-                                    <div class="flex items-center space-x-2 bg-neutral-50 px-2 py-1 rounded text-sm cursor-pointer">
+                                    <div class="flex items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
                                         <span>{{ sortDirNames[sortDir] }}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -116,15 +116,15 @@ const submit = () => {
                                     </div>
                                 </template>
                                 <template #content>
-                                    <div @click="setSortDir(0)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Descending</div>
-                                    <div @click="setSortDir(1)" class="px-2 py-1 cursor-pointer hover:bg-neutral-100">Ascending</div>
+                                    <div @click="setSortDir(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">Descending</div>
+                                    <div @click="setSortDir(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Ascending</div>
                                 </template>
                             </Dropdown>
                         </div>
                     </div>
                 </div>
-                <Link v-for="level in levels" :href="route('levels.show', level.id)" class="rounded px-4 py-2 space-y-2 bg-gray-50 border border-gray-300 shadow hover:shadow-lg transition-shadow">
-                    <div class="flex items-center space-x-4 justify-between">
+                <Link v-for="level in levels" :href="route('levels.show', level.id)" class="rounded px-4 py-2 space-y-2 bg-neutral-900 border border-neutral-700 shadow hover:shadow-lg transition-shadow">
+                    <div class="flex flex-col md:flex-row items-center md:space-x-4 justify-between">
                         <div>
                             <h2 class="text-xl">{{ level.name }}</h2>
                             <p>{{ level.description }}</p>
@@ -154,16 +154,16 @@ const submit = () => {
                     </div>
                 </Link>
             </div>
-            <div class="flex flex-col space-y-4 w-1/4">
+            <div class="flex flex-col space-y-4 md:w-1/4">
                 <h2 class="font-bold text-2xl">Add Level</h2>
-                <div class="rounded bg-gray-50 p-4 border border-gray-300">
+                <div class="rounded bg-neutral-900 p-4 border border-neutral-700">
                     <form @submit.prevent="submit" class="space-y-2">
-                        <Input v-model="form.level_id" placeholder="Level ID" class="p-2" required/>
+                        <Input v-model="form.level_id" placeholder="Level ID" class="w-full" required/>
                         <Button>Add</Button>
                     </form>
                 </div>
-                <div class="rounded bg-blue-400 text-neutral-50 p-4 border border-gray-300 overflow-clip">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="-z-10 h-6 w-6 -z-10 scale-[6] translate-y-3 opacity-75 float-right text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <div class="rounded bg-cyan-400 text-neutral-50 p-4 overflow-clip">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="-z-10 h-6 w-6 -z-10 scale-[6] translate-y-3 opacity-75 float-right text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <p class="relative">Levels must accrue 20 reviews before their average scores are calculated</p>

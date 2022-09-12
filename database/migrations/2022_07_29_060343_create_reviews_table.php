@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('rating_gameplay');
-            $table->tinyInteger('rating_visuals');
-            $table->tinyInteger('rating_difficulty');
+            $table->tinyInteger('rating_gameplay')->nullable();
+            $table->tinyInteger('rating_visuals')->nullable();
+            $table->tinyInteger('rating_difficulty')->nullable();
             $table->tinyInteger('rating_overall');
             $table->text('review')->nullable();
             $table->foreignId('level_id');

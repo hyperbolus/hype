@@ -15,13 +15,22 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory()->create([
-            'name' => 'Spellslave',
-            'email' => 'spellslave@proton.me',
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
         ]);
 
         \App\Models\User::factory(20)->create();
-        \App\Models\Level::factory(10)->create();
+        \App\Models\Level::factory(30)->create();
         \App\Models\Review::factory(100)->create();
+        \App\Models\Forum::factory(1)->create([
+            'category' => true,
+            'parent_id' => null
+        ]);
+        \App\Models\Forum::factory(1)->create();
+
+        \App\Models\Thread::factory(10)->create();
+
+        \App\Models\Post::factory(100)->create();
 
         $levels = \App\Models\Level::with('reviews')->get();
         $levels->each(function ($level, $i) {
@@ -45,5 +54,9 @@ class DatabaseSeeder extends Seeder
                 $level->save();
             }
         });
+
+        \App\Models\Playlist::factory(5)->create();
+        \App\Models\ReputationLog::factory(100)->create();
+        \App\Models\PostLike::factory(50)->create();
     }
 }

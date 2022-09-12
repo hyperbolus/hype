@@ -3,6 +3,9 @@ import { onMounted, ref } from 'vue';
 
 defineProps({
     modelValue: String,
+    prefix: String,
+    type: String,
+    placeholder: String,
 });
 
 defineEmits(['update:modelValue']);
@@ -19,10 +22,13 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <input
-        ref="input"
-        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-    >
+    <div class="flex bg-neutral-800 rounded">
+        <span class="whitespace-nowrap select-none rounded-l pl-2 py-1 text-neutral-500 bg-neutral-800 border-neutral-600">{{ prefix }}</span>
+        <input
+            ref="input" :type="type" :placeholder="placeholder"
+            class="pr-2 py-1 w-full text-neutral-300 bg-neutral-800 focus:ring-0 focus:outline-none rounded-r shadow-sm"
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+        >
+    </div>
 </template>

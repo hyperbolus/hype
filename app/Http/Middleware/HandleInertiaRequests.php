@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -44,6 +45,12 @@ class HandleInertiaRequests extends Middleware
                 return [
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
+                    'stats' => [
+                        'users' => DB::table('users')->count(),
+                        'levels' => DB::table('levels')->count(),
+                        'reviews' => DB::table('reviews')->count(),
+                        'videos' => DB::table('videos')->count(),
+                    ]
                 ];
             },
             'user' => function () use ($request) {
@@ -54,7 +61,8 @@ class HandleInertiaRequests extends Middleware
                 return array_merge($request->user()->toArray(), [
                     'two_factor_enabled' => !is_null($request->user()->two_factor_secret),
                     'linked_accounts' => $request->user()->accounts,
-                    'roles' => $request->user()->roles
+                    'roles' => $request->user()->roles,
+                    'notifications' => $request->user()->notifications
                 ]);
             },
             'errors' => [
