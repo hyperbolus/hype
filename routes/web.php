@@ -34,7 +34,7 @@ Route::delete('/thread/{thread}', [\App\Http\Controllers\ThreadController::class
 
 Route::get('/post/create', [\App\Http\Controllers\PostController::class, 'create'])->name('posts.create')->middleware(['auth', 'verified']);
 Route::post('/post/create', [\App\Http\Controllers\PostController::class, 'store'])->name('posts.store')->middleware(['auth', 'verified']);
-Route::get('/post/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('posts.store');
+Route::get('/post/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
 Route::post('/post/{post}/like', [\App\Http\Controllers\PostLikeController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
 
 Route::get('/reviews', [\App\Http\Controllers\LevelController::class, 'index'])->name('levels.index');
