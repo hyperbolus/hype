@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('hashtag')->nullable();
             $table->text('content');
             $table->text('submission_content')->nullable();
-            $table->timestampTz('published_at')->default(false);
-            $table->timestampTz('start');
-            $table->timestampTz('end');
-            $table->timestampTz('voting_end');
+            $table->timestampTz('published_at')->nullable();
+            $table->timestampTz('start')->nullable();
+            $table->timestampTz('end')->nullable();
+            $table->timestampTz('voting_end')->nullable();
             $table->integer('participants')->default(0)->nullable();
             $table->integer('submissions')->default(0)->nullable();
             $table->enum('vote_permission', ['closed', 'submitters', 'contributors', 'public']);
