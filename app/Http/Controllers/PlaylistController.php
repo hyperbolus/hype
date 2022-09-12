@@ -62,7 +62,8 @@ class PlaylistController extends Controller
 
         return Inertia::render('Playlists/Show', [
             'playlist' => $playlist,
-            '__meta_description' => $playlist->title . ' by ' . $playlist->owner->name
+            '__meta_description' => $__meta_description,
+            '__meta_title' => $__meta_title,
         ]);
     }
 
