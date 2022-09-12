@@ -49,9 +49,20 @@ class PlaylistController extends Controller
      */
     public function show(Playlist $playlist): \Inertia\Response
     {
+        $playlist->load(['owner', 'submissions']);
+
+        $__meta_description = '';
+        $__meta_title = '';
+        if (\request('invite')) {
+            $__meta_description .= 'You\'ve been invited to edit ' . $playlist->title . ' by ' . $playlist->owner->name;
+        } else {
+            $__meta_description = $playlist->description;
+        }
+        $__meta_title = $playlist->title . ' by ' . $playlist->owner->name;
+
         return Inertia::render('Playlists/Show', [
-            'playlist' => $playlist->load(['owner', 'submissions']),
-            '__meta_description' => $playlist->title . ' by ' . $playlist->owner->id
+            'playlist' => $playlist,
+            '__meta_description' => $playlist->title . ' by ' . $playlist->owner->name
         ]);
     }
 
