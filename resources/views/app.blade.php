@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <meta property="og:url" content="https://gdforums.com">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DashNet">
+    <meta property="og:description" content="{{ $page['props']['__meta_description'] ?? 'Your source for everything Geometry Dash' }}">
+
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->

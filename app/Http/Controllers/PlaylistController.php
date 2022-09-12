@@ -50,7 +50,8 @@ class PlaylistController extends Controller
     public function show(Playlist $playlist): \Inertia\Response
     {
         return Inertia::render('Playlists/Show', [
-            'playlist' => $playlist->load(['owner', 'submissions'])
+            'playlist' => $playlist->load(['owner', 'submissions']),
+            '__meta_description' => $playlist->title . ' by ' . $playlist->owner->id
         ]);
     }
 
