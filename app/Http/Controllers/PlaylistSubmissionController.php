@@ -42,7 +42,7 @@ class PlaylistSubmissionController extends Controller
     public function store(Request $request, Playlist $playlist)
     {
         $submission = new PlaylistSubmission();
-        $submission->submitter_id = $request->user()->id;
+        $submission->submitter_id = $request->user()->id ?? 0;
         $submission->playlist_id = $playlist->id;
         $submission->level_id = $request->level_id;
         $submission->server_id = 0;

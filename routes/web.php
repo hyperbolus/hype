@@ -45,8 +45,8 @@ Route::get('/level/{id}', [\App\Http\Controllers\LevelController::class, 'show']
 Route::get('/playlists', [\App\Http\Controllers\PlaylistController::class, 'index'])->name('playlists.index');
 Route::get('/playlists/create', [\App\Http\Controllers\PlaylistController::class, 'create'])->name('playlists.create')->middleware(['auth', 'verified']);
 Route::post('/playlists/create', [\App\Http\Controllers\PlaylistController::class, 'store'])->name('playlists.store')->middleware(['auth', 'verified']);
-Route::get('/playlists/{playlist}/submit', [\App\Http\Controllers\PlaylistSubmissionController::class, 'create'])->name('submissions.create')->middleware(['auth', 'verified']);
-Route::post('/playlists/{playlist}/submit', [\App\Http\Controllers\PlaylistSubmissionController::class, 'store'])->name('submissions.store')->middleware(['auth', 'verified']);
+Route::get('/playlists/{playlist}/submit', [\App\Http\Controllers\PlaylistSubmissionController::class, 'create'])->name('submissions.create');
+Route::post('/playlists/{playlist}/submit', [\App\Http\Controllers\PlaylistSubmissionController::class, 'store'])->name('submissions.store');
 Route::get('/playlist/{playlist}', [\App\Http\Controllers\PlaylistController::class, 'show'])->name('playlists.show');
 Route::post('/playlist/{playlist}', [\App\Http\Controllers\PlaylistController::class, 'update'])->name('playlists.update')->middleware(['auth', 'verified']);
 Route::delete('/playlist/{playlist}', [\App\Http\Controllers\PlaylistController::class, 'destroy'])->name('playlists.destroy')->middleware(['auth', 'verified']);
