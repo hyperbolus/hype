@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('slug');
+            $table->string('slug')->nullable();
             $table->string('redirect')->nullable();
             $table->foreignId('parent_id')->nullable();
             $table->boolean('category')->default(false);
