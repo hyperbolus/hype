@@ -96,25 +96,11 @@ Route::delete('/contest/{contest}', [\App\Http\Controllers\ContestController::cl
 Route::get('/tags', [\App\Http\Controllers\LevelTagController::class, 'index'])->name('tags.index');
 Route::get('/tag/{tag}', [\App\Http\Controllers\LevelTagController::class, 'show'])->name('tags.show');
 
-Route::get('/mods', [\App\Http\Controllers\PlaylistController::class, 'index'])->name('mods.index');
-Route::get('/mods/create', [\App\Http\Controllers\PlaylistController::class, 'create'])->name('mods.create')->middleware(['auth', 'verified']);
-Route::post('/mods/create', [\App\Http\Controllers\PlaylistController::class, 'store'])->name('mods.store')->middleware(['auth', 'verified']);
-Route::get('/mod/{mod}', [\App\Http\Controllers\PlaylistController::class, 'show'])->name('mods.show');
-Route::post('/mod/{mod}', [\App\Http\Controllers\PlaylistController::class, 'update'])->name('mods.update')->middleware(['auth', 'verified']);
-Route::delete('/mod/{mod}', [\App\Http\Controllers\PlaylistController::class, 'destroy'])->name('mods.destroy')->middleware(['auth', 'verified']);
-
 Route::get('/inbox', [\App\Http\Controllers\MessageController::class, 'index'])->name('inbox.index')->middleware(['auth', 'verified']);
 Route::get('/inbox/new', [\App\Http\Controllers\MessageController::class, 'create'])->name('inbox.create')->middleware(['auth', 'verified']);
 Route::post('/inbox/new', [\App\Http\Controllers\MessageController::class, 'store'])->name('inbox.store')->middleware(['auth', 'verified']);
 Route::get('/inbox/{id}', [\App\Http\Controllers\MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
 Route::delete('/inbox/{id}', [\App\Http\Controllers\MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
-
-Route::get('/styles', [\App\Http\Controllers\PlaylistController::class, 'index'])->name('style.index');
-Route::get('/styles/create', [\App\Http\Controllers\PlaylistController::class, 'create'])->name('style.create')->middleware(['auth', 'verified']);
-Route::post('/styles/create', [\App\Http\Controllers\PlaylistController::class, 'store'])->name('style.store')->middleware(['auth', 'verified']);
-Route::get('/style/{style}', [\App\Http\Controllers\PlaylistController::class, 'show'])->name('style.show');
-Route::post('/style/{style}', [\App\Http\Controllers\PlaylistController::class, 'update'])->name('style.update')->middleware(['auth', 'verified']);
-Route::delete('/style/{style}', [\App\Http\Controllers\PlaylistController::class, 'destroy'])->name('style.destroy')->middleware(['auth', 'verified']);
 
 Route::get('/videos', [\App\Http\Controllers\VideoController::class, 'index'])->name('videos.index');
 Route::post('/videos/create', [\App\Http\Controllers\VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified']);
