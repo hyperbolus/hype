@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('video_id');
-            $table->foreignId('level_id');
+            $table->foreignId('level_id')->nullable();
             $table->foreignId('user_id');
+            $table->unsignedSmallInteger('meta')->nullable();
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }

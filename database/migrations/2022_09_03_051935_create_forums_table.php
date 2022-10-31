@@ -17,15 +17,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('slug')->nullable()->unique();
             $table->string('redirect')->nullable();
             $table->foreignId('parent_id')->nullable();
+            $table->foreignId('group_id')->nullable();
             $table->boolean('category')->default(false);
-            $table->boolean('visible')->default(false);
+            $table->boolean('visible')->default(false)->nullable();
             $table->integer('priority')->nullable();
-            $table->integer('posts')->nullable();
-            $table->integer('threads')->nullable();
             $table->string('password')->nullable();
+            $table->json('permissions')->nullable();
+            $table->integer('thread_points')->nullable();
+            $table->integer('post_points')->nullable();
+            $table->unsignedSmallInteger('meta')->nullable();
             $table->timestamps();
         });
     }

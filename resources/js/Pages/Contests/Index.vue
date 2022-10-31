@@ -12,6 +12,10 @@ import StatsPanel from "@/Components/StatsPanel.vue";
             <div class="flex flex-col space-y-4 md:w-3/4">
                 <div>ooh look a contest</div>
                 <div>wow another</div>
+                <div class="text-green-500 bg-red-50 w-fit px-4 rounded">
+                    <p>&gt; mfw wip feature</p>
+                    <p>&gt; picrel</p>
+                </div>
             </div>
             <div class="flex flex-col space-y-4 md:w-1/4">
                 <h2 class="font-bold text-2xl mx-2">More</h2>

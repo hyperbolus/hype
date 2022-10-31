@@ -52,7 +52,7 @@ const searchID = async () => {
             <div class="flex flex-col rounded p-4 space-y-2 bg-neutral-900 border border-neutral-700">
                 <label class="flex flex-col">
                     <span class="my-1">ID</span>
-                    <Input v-model="form.level_id" placeholder="Required"/>
+                    <Input type="number" v-model="form.level_id" placeholder="Required"/>
                 </label>
                 <template v-if="validID === true">
                     <span class="text-green-500">Valid ID!</span>

@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ReputationLog;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,27 +15,39 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        \App\Models\User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-        ]);
+        if(Storage::disk('local')->exists('version.lock')) {
+            Storage::disk('local')->delete('version.lock');
+        }
+        Artisan::call('app:update');
+        $this->command->info('Finished Setup');
 
-        \App\Models\User::factory(20)->create();
-        \App\Models\Level::factory(30)->create();
-        \App\Models\Review::factory(100)->create();
+        $users = \App\Models\User::factory(20)->create();
+        $levels = \App\Models\Level::factory(30)->create();
+        $reviews = \App\Models\Review::factory(100)->create();
+
+        $this->command->info('Seeded users with levels and reviews');
+
         \App\Models\Forum::factory(1)->create([
+            'name' => 'Official',
             'category' => true,
             'parent_id' => null
         ]);
-        \App\Models\Forum::factory(1)->create();
+        \App\Models\Forum::factory(1)->create([
+            'name' => 'General',
+            'category' => true,
+            'parent_id' => null
+        ]);
 
-        \App\Models\Thread::factory(10)->create();
+        \App\Models\Forum::factory(7)->create();
+        $this->command->info('Seeded forums');
+        \App\Models\Thread::factory(25)->create();
+        $this->command->info('Seeded threads');
+        \App\Models\PostLike::factory(100)->create();
+        $this->command->info('Seeded forum content');
 
-        \App\Models\Post::factory(100)->create();
-
-        $levels = \App\Models\Level::with('reviews')->get();
+        $levels->load('reviews');
         $levels->each(function ($level, $i) {
             $count = 0;
             $total_gameplay = 0;
@@ -55,8 +70,19 @@ class DatabaseSeeder extends Seeder
             }
         });
 
+        $this->command->info('Calculated initial review scores');
+
         \App\Models\Playlist::factory(5)->create();
-        \App\Models\ReputationLog::factory(100)->create();
-        \App\Models\PostLike::factory(50)->create();
+
+        \App\Models\ProfileComment::factory(100)->create();
+        \App\Models\Message::factory(100)->create();
+        \App\Models\Friend::factory(20)->create();
+        $reps = \App\Models\ReputationLog::factory(50)->create();
+        $this->command->info('Seeded additional profile data');
+        $users->each(function (User $user) {
+            $user->reputation = ReputationLog::whereRecipientId($user->id)->sum('reputation');
+            $user->save();
+        });
+        $this->command->info('Persisted reputation totals');
     }
 }

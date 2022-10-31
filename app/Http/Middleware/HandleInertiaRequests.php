@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\Statistics;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
@@ -39,18 +42,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-
         return array_merge(parent::share($request), array_filter([
             'app' => function () use ($request) {
                 return [
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
-                    'stats' => [
-                        'users' => DB::table('users')->count(),
-                        'levels' => DB::table('levels')->count(),
-                        'reviews' => DB::table('reviews')->count(),
-                        'videos' => DB::table('videos')->count(),
-                    ]
+                    'stats' => Statistics::all()
                 ];
             },
             'user' => function () use ($request) {
@@ -59,15 +56,15 @@ class HandleInertiaRequests extends Middleware
                 }
 
                 return array_merge($request->user()->toArray(), [
+                    'impersonating' => app('impersonate')->isImpersonating(),
                     'two_factor_enabled' => !is_null($request->user()->two_factor_secret),
-                    'linked_accounts' => $request->user()->accounts,
-                    'roles' => $request->user()->roles,
-                    'notifications' => $request->user()->notifications
+                    //'linked_accounts' => $request->user()->accounts,
+                    'roles' => $request->user()->roles->pluck('name'),
+                    'notifications' => $request->user()->notifications,
+                    'messages' => Message::query()->where('recipient_id', '=', $request->user()->id)->where('read_at', '=', null)->count(),
                 ]);
             },
-            'errors' => [
-
-            ],
+            'errors' => [],
             'errorBags' => function () {
                 return collect(optional(Session::get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {
                     return [$key => $bag->messages()];

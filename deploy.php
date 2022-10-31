@@ -53,6 +53,8 @@ task('fix:folders', function () {
         '{{deploy_path}}/shared/storage/framework/views');
 });
 
+task('artisan:update', artisan('app:update'));
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
@@ -74,6 +76,7 @@ task('launch', [
     'artisan:config:cache', // | Laravel specific steps
     'artisan:optimize',     // |
     //'artisan:migrate',      // |
+    'artisan:update',      // |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',

@@ -39,6 +39,8 @@ class Kernel extends HttpKernel
 
             \App\Http\Middleware\AuthenticateSession::class, // From Jetstream
             \App\Http\Middleware\HandleInertiaRequests::class,
+
+            \App\Http\Middleware\UserActivity::class,
         ],
 
         'api' => [
@@ -66,5 +68,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }

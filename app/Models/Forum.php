@@ -5,7 +5,12 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @mixin IdeHelperForum
+ */
 class Forum extends Model
 {
     use HasFactory;
@@ -35,18 +40,23 @@ class Forum extends Model
         return 'slug';
     }
 
-    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Forum::class, 'parent_id');
     }
 
-    public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function children(): HasMany
     {
         return $this->hasMany(Forum::class, 'parent_id');
     }
 
-    public function threads(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function threads(): HasMany
     {
         return $this->hasMany(Thread::class, 'forum_id');
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'forum_id');
     }
 }

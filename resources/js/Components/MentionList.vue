@@ -1,7 +1,7 @@
 <template>
-    <div class="relative rounded bg-neutral-900 border border-neutral-700 text-neutral-300">
+    <div class="relative rounded bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300">
         <template v-if="items.length">
-            <div v-for="(item, index) in items" :key="index" :class="{'bg-neutral-800 font-bold': selectedIndex === index}" @click="selectItem(index)" class="flex items-center gap-4 px-2 py-1 justify-between">
+            <div v-for="(item, index) in items" :key="index" :class="{'bg-neutral-200 dark:bg-neutral-800 font-bold': selectedIndex === index}" @click="selectItem(index)" class="flex items-center gap-4 px-2 py-1 justify-between">
                 <span>{{ item.name }}</span>
                 <span class="opacity-50 text-xs">ID: {{ item.id }}</span>
             </div>

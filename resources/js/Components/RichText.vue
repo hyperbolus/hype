@@ -1,5 +1,6 @@
 <script setup>
 import {Link} from "@inertiajs/inertia-vue3";
+import Username from "@/Components/Username.vue";
 
 
 const props = defineProps({
@@ -51,10 +52,10 @@ const getTag = (json) => {
 const typeClasses = (json) => {
     let classes = []
     if(json.type === 'blockquote') {
-        classes.push(['bg-neutral-800', 'rounded', 'p-2', 'my-1'])
+        classes.push(['bg-neutral-100', 'dark:bg-neutral-800', 'rounded', 'p-2', 'my-1'])
     }
     if(json.type === 'mention') {
-        classes.push(['bg-neutral-800', 'rounded', 'px-1', 'py-0.5'])
+        classes.push(['bg-neutral-100', 'dark:bg-neutral-800', 'rounded', 'px-1', 'py-0.5'])
     }
     return classes
 }
@@ -64,10 +65,10 @@ const typeClasses = (json) => {
     <component :is="getTag(json)" :class="typeClasses(json)">
         <template v-if="json.type === 'blockquote'">
             <span class="italics text-sm text-neutral-400">Quote:</span>
-            <div class="border-t border-t-neutral-700"></div>
+            <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
         </template>
         <template v-if="json.type === 'mention'">
-            <Link :href="route('users.show', json.attrs.id)">@{{ json.attrs.label }}</Link>
+            <Link :href="route('users.show', json.attrs.id)">@<Username :user="{id: json.attrs.id, name: json.attrs.label}"/></Link>
         </template>
         <template v-for="node in json.content">
             <template v-if="node.type === 'text'">

@@ -5,9 +5,11 @@ import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import { Inertia } from '@inertiajs/inertia'
+import Pagination from "@/Components/Pagination.vue";
+import route from 'ziggy-js'
 
 const props = defineProps({
-    levels: Array,
+    levels: Object,
     filters: Object
 })
 
@@ -64,15 +66,15 @@ const submit = () => {
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Levels</Link>
         </template>
-        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex flex-col space-y-4 md:w-3/4">
-                <div class="flex justify-between items-center">
+        <div class="y md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+            <div class="y space-y-4 md:w-3/4">
+                <div class="x justify-between items-center">
                     <h2 class="font-bold text-2xl">Levels</h2>
-                    <div class="flex space-x-4 items-center">
-                        <div class="flex space-x-2 items-center">
+                    <div class="x space-x-4 items-center">
+                        <div class="x space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
-                                    <div class="flex items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                    <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
                                         <span class="capitalize">{{ sortByNames[sortBy] }}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -88,10 +90,10 @@ const submit = () => {
                                 </template>
                             </Dropdown>
                         </div>
-                        <div v-if="$page.props.auth && false" class="flex space-x-2 items-center">
+                        <div v-if="$page.props.auth && $page.props.user.roles.includes('admin')" class="x space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
-                                    <div class="flex items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                    <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
                                         <span class="capitalize">{{ filterNames[filter] }}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -105,10 +107,10 @@ const submit = () => {
                                 </template>
                             </Dropdown>
                         </div>
-                        <div class="flex space-x-2 items-center">
+                        <div class="x space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
-                                    <div class="flex items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                    <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
                                         <span>{{ sortDirNames[sortDir] }}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -123,42 +125,44 @@ const submit = () => {
                         </div>
                     </div>
                 </div>
-                <Link v-for="level in levels" :href="route('levels.show', level.id)" class="rounded px-4 py-2 space-y-2 bg-neutral-900 border border-neutral-700 shadow hover:shadow-lg transition-shadow">
-                    <div class="flex flex-col md:flex-row items-center md:space-x-4 justify-between">
+                <Pagination :list="levels"/>
+                <Link v-for="level in levels.data" :href="route('levels.show', level.id)" class="box space-y-2 hover:shadow-lg transition-shadow">
+                    <div class="y md:flex-row items-center md:space-x-4 justify-between">
                         <div>
                             <h2 class="text-xl">{{ level.name }}</h2>
                             <p>{{ level.description }}</p>
                         </div>
-                        <div class="flex justify-end space-x-4">
-                            <div class="flex flex-col items-center">
+                        <div class="x justify-end space-x-4">
+                            <div class="y items-center">
                                 <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
                                 <span class="text-xs">DIFFICULTY</span>
                             </div>
-                            <div class="flex flex-col items-center">
+                            <div class="y items-center">
                                 <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
                                 <span class="text-xs">GAMEPLAY</span>
                             </div>
-                            <div class="flex flex-col items-center">
+                            <div class="y items-center">
                                 <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
                                 <span class="text-xs">VISUALS</span>
                             </div>
-                            <div class="flex flex-col items-center">
+                            <div class="y items-center">
                                 <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
                                 <span class="text-xs">OVERALL</span>
                             </div>
-                            <div class="flex flex-col items-center">
+                            <div class="y items-center">
                                 <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
                                 <span class="text-xs">REVIEWS</span>
                             </div>
                         </div>
                     </div>
                 </Link>
+                <Pagination :list="levels"/>
             </div>
-            <div class="flex flex-col space-y-4 md:w-1/4">
+            <div class="y space-y-4 md:w-1/4">
                 <h2 class="font-bold text-2xl">Add Level</h2>
-                <div class="rounded bg-neutral-900 p-4 border border-neutral-700">
-                    <form @submit.prevent="submit" class="space-y-2">
-                        <Input v-model="form.level_id" placeholder="Level ID" class="w-full" required/>
+                <div class="box">
+                    <form @submit.prevent="submit" class="space-y-2 my-2">
+                        <Input type="text" v-model="form.level_id" placeholder="Level ID" class="w-full" required/>
                         <Button>Add</Button>
                     </form>
                 </div>
@@ -166,7 +170,7 @@ const submit = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" class="-z-10 h-6 w-6 -z-10 scale-[6] translate-y-3 opacity-75 float-right text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <p class="relative">Levels must accrue 20 reviews before their average scores are calculated</p>
+                    <p class="relative">Levels must have at least 5 reviews before their average scores are calculated</p>
                 </div>
             </div>
         </div>

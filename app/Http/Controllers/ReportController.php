@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ReportController extends Controller
 {
@@ -20,11 +21,14 @@ class ReportController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return Inertia::render('Reports/Create', [
+            'type' => $request->type ?? null,
+            'id' => $request->type ?? null,
+        ]);
     }
 
     /**

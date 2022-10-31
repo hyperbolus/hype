@@ -61,15 +61,15 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 //<editor-fold desc="Passwords">
 Route::put('/user/password', [PasswordController::class, 'update'])
     ->middleware(['auth'])
-    ->name('auth:: user-password.update');
+    ->name('auth::user-password.update');
 
 Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])
     ->middleware(['auth'])
-    ->name('auth::password.confirm');
+    ->name('password.confirm');
 
 Route::get('/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])
     ->middleware(['auth'])
-    ->name('auth::password.confirmation');
+    ->name('password.confirmation');
 
 Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])
     ->middleware(['auth']);

@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('playlist_submissions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('submitter_id');
+            $table->foreignId('submitter_id')->nullable();
             $table->boolean('accepted')->default(false);
+            $table->string('rank')->nullable();
             $table->foreignId('playlist_id');
             $table->foreignId('review_id')->nullable();
             $table->foreignId('level_id');

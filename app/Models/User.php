@@ -3,16 +3,26 @@
 namespace App\Models;
 
 use App\Notifications\VerifyEmail;
+
 //use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
+
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasRoles;
+    use Impersonate;
 
     /**
      * The attributes that are mass assignable.
@@ -43,7 +53,19 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_seen' => 'datetime',
+        'time_online' => 'integer'
     ];
+
+    public function canImpersonate(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function canBeImpersonated(): bool
+    {
+        return !$this->hasRole('admin');
+    }
 
     /*
     public function accounts(): HasMany
@@ -52,12 +74,42 @@ class User extends Authenticatable
     }
     */
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(\App\Models\ProfileComment::class, 'user_id')->with('commenter');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(\App\Models\Message::class, 'recipient_id')->with('sender');
+    }
+
     public function reviews(): HasMany
     {
         return $this->hasMany(\App\Models\Review::class, 'user_id');
     }
 
-    public function reviewedLevels(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function threads(): HasMany
+    {
+        return $this->hasMany(\App\Models\Thread::class, 'author_id');
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(\App\Models\Post::class, 'author_id');
+    }
+
+    public function names(): HasMany
+    {
+        return $this->hasMany(\App\Models\NameChange::class, 'user_id');
+    }
+
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Group::class, 'group_memberships', 'user_id', 'group_id');
+    }
+
+    public function reviewedLevels(): BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Level::class, 'reviews', 'user_id', 'level_id');
     }
@@ -67,7 +119,7 @@ class User extends Authenticatable
      *
      * @return void
      */
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail);
     }

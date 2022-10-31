@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Level;
+use App\Models\LevelTag;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -40,7 +43,7 @@ class LevelController extends Controller
         ];
         if($request->filter == 0) {
             return Inertia::render('Levels/Index', [
-                'levels' => Level::withCount('reviews')->orderBy($attributes[$request->sortBy] ?? 'rating_overall', $directions[$request->sortDir] ?? 'DESC')->get(),
+                'levels' => Level::query()->withCount('reviews')->orderBy($attributes[$request->sortBy] ?? 'rating_overall', $directions[$request->sortDir] ?? 'DESC')->paginate(10)->appends(['sortBy' => $request->sortBy ?? 0, 'sortDir' => $request->sortDir ?? 0]),
                 'filters' => $sorting
             ]);
         } else if(auth()->check()) {
@@ -95,12 +98,13 @@ class LevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Level $level
-     * @return Response
+     * @param Request $request
+     * @param $id
+     * @return Response|\Illuminate\Http\Response
      */
-    public function show(Request $request, $id): Response
+    public function show(Request $request, $id): Response|\Illuminate\Http\Response
     {
-        $level = Level::where('id', '=', $id)->first();
+        $level = Level::query()->find($id);
 
         if($level === null) {
             $res = Http::get('https://browser.gdps.io/api/level/' . $request->id)->json();
@@ -117,8 +121,29 @@ class LevelController extends Controller
             $level->save();
         }
 
+        $level->load('tags');
+
         return Inertia::render('Levels/Show', [
             'level' => $level->load(['reviews', 'reviews.author', 'videos']),
+            'review' => auth()->check() ? Review::query()
+                ->where('level_id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->first(): null
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param $id
+     * @return Response|\Illuminate\Http\Response
+     */
+    public function tags(Level $level): Response|\Illuminate\Http\Response
+    {
+        return Inertia::render('Levels/Tags', [
+            'level' => $level->load('tags'),
+            'tags' => LevelTag::all()
         ]);
     }
 
@@ -126,11 +151,13 @@ class LevelController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Level $level
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function edit(Level $level)
+    public function edit(Level $level): Response
     {
-        //
+        return Inertia::render('Levels/Edit', [
+            'level' => $level,
+        ]);
     }
 
     /**
@@ -138,11 +165,29 @@ class LevelController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param Level $level
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Level $level)
+    public function update(Request $request, Level $level): \Illuminate\Http\RedirectResponse
     {
-        //
+        switch ($request->action) {
+            case 'update banner':
+                $request->validate([
+                    'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:5000'
+                ]);
+                $disk = Storage::disk('contabo');
+                $old = $level->banner_url;
+                $level->banner_url = config('filesystems.cdn') . $disk->putFile('levels/banners/', $request->file('content'), 'public');
+                $level->save();
+                if (Level::whereBannerUrl($old)->count() === 0) {
+                    $disk->delete(substr($old, strlen(config('filesystems.cdn'))));
+                }
+                break;
+            case 'update tags':
+                //
+                break;
+        }
+
+        return redirect()->back();
     }
 
     /**

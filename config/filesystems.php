@@ -60,7 +60,7 @@ return [
             'driver' => 's3',
             'key' => env('CONTABO_ACCESS_KEY_ID'),
             'secret' => env('CONTABO_SECRET_ACCESS_KEY'),
-            'region' => 'default',
+            'region' => env('CONTABO_DEFAULT_REGION', 'default'),
             'bucket' => env('CONTABO_BUCKET'),
             'url' => env('CONTABO_URL'),
             'endpoint' => env('CONTABO_ENDPOINT'),
@@ -68,6 +68,8 @@ return [
             'use_path_style_endpoint' => true,
         ],
     ],
+
+    'cdn' => env('CDN_URL'),
 
     /*
     |--------------------------------------------------------------------------

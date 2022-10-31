@@ -21,8 +21,8 @@ const thing = ref({
             <div class="flex flex-col space-y-4 md:w-3/4">
                 <div class="space-y-2">
                     <h2 class="mx-2 font-bold text-2xl">Home</h2>
-                    <div class="md:rounded px-4 py-2 space-y-2 bg-neutral-900 border border-neutral-700">
-                        <p>Breaking News: The Queen fucking died lmao</p>
+                    <div class="box">
+                        <p>Join our Discord to suggest new features, give feedback, and get help!</p>
                     </div>
                 </div>
             </div>

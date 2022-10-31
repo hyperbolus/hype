@@ -16,17 +16,16 @@ return new class extends Migration
         Schema::create('contests', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->nullable();
+            $table->string('slug')->unique()->nullable();
             $table->string('blurb')->nullable();
             $table->string('hashtag')->nullable();
+            $table->string('discord')->nullable();
             $table->text('content');
             $table->text('submission_content')->nullable();
-            $table->timestampTz('published_at')->nullable();
-            $table->timestampTz('start')->nullable();
-            $table->timestampTz('end')->nullable();
-            $table->timestampTz('voting_end')->nullable();
-            $table->integer('participants')->default(0)->nullable();
-            $table->integer('submissions')->default(0)->nullable();
+            $table->timestampTz('published_at')->default(now());
+            $table->timestampTz('start')->default(now()->addDays(3));
+            $table->timestampTz('end')->default(now()->addWeeks(2));
+            $table->timestampTz('voting_end')->default(now()->addWeeks(3));
             $table->enum('vote_permission', ['closed', 'submitters', 'contributors', 'public']);
             $table->boolean('rating_queue')->default(true);
             $table->boolean('ranked')->default(true);
@@ -37,6 +36,7 @@ return new class extends Migration
             $table->boolean('results_hidden')->default(false);
             $table->boolean('late_submissions')->default(false);
             $table->unsignedTinyInteger('queue_unlock')->default(true);
+            $table->foreignId('server_id')->nullable();
             $table->timestamps();
         });
     }

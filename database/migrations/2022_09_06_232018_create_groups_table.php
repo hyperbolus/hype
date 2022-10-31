@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('title')->nullable();
             $table->foreignId('owner_id')->nullable();
             $table->boolean('open')->default(false);
             $table->timestamps();

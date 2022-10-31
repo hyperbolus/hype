@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->nullable();
             $table->text('content');
+            $table->unsignedSmallInteger('meta')->nullable();
             $table->timestamps();
         });
     }

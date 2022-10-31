@@ -3,6 +3,9 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import {Inertia} from "@inertiajs/inertia";
+import Username from "@/Components/Username.vue";
+import route from 'ziggy-js'
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     users: Array,
@@ -43,9 +46,10 @@ const search = () => {
             <Link :href="route('users.index')">Users</Link>
         </template>
         <div class="flex lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex flex-col space-y-4 md:w-3/4">
+            <div class="flex flex-col space-y-2 md:w-3/4">
                 <div class="flex justify-between items-center">
                     <h2 class="font-bold text-2xl">Users</h2>
+                    <Pagination :list="users"/>
                     <div class="flex space-x-4 items-center">
                         <div class="flex space-x-2 items-center">
                             <Dropdown align="left">
@@ -82,10 +86,12 @@ const search = () => {
                         </div>
                     </div>
                 </div>
-                <Link v-for="user in users" :href="route('users.show', user.id)" class="block flex justify-between items-center rounded px-4 py-2 bg-neutral-900 border border-neutral-700 shadow hover:shadow-lg transition-shadow">
-                    <h2>{{ user.name }}</h2>
-                    <span>{{ user.reviews_count }} Reviews</span>
-                </Link>
+                <div class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
+                    <div v-for="user in users.data" class="block flex justify-between items-center px-4 py-2">
+                        <Username :user="user"/>
+                        <span>{{ user.reviews_count }} Reviews</span>
+                    </div>
+                </div>
             </div>
         </div>
     </app-layout>

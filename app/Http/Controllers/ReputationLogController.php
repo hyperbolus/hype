@@ -3,31 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReputationLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ReputationLogController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Inertia\Response
+     * @param $id
+     * @return Response
      */
-    public function index(Request $request, $id)
+    public function index($id): Response
     {
-        return Inertia::render('Reputation/Index', [
-            'entries' => ReputationLog::where('recipient_id', '=', $id)->with('sender')->get()
+        $user = User::query()->find($id);
+        if ($user === null) {
+            abort(404);
+        }
+        return Inertia::render('Users/Reputation', [
+            'profile' => $user,
+            'reps' => ReputationLog::whereRecipientId($id)->with('sender')->paginate(25)
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -38,29 +36,8 @@ class ReputationLogController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ReputationLog  $reputationLog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ReputationLog $reputationLog)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ReputationLog  $reputationLog
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ReputationLog $reputationLog)
-    {
-        //
+        return redirect()->back();
     }
 
     /**

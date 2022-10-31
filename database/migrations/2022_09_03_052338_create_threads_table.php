@@ -17,12 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->nullable();
+            $table->string('background_url')->nullable();
             $table->foreignId('author_id');
             $table->foreignId('forum_id');
             $table->boolean('pinned')->default(false);
             $table->boolean('locked')->default(false);
-            $table->integer('replies')->default(0);
             $table->integer('views')->default(0);
+            $table->unsignedTinyInteger('meta')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

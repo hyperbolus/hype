@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('post_id');
             $table->foreignId('liker_id');
-            //$table->unique(['post_id', 'liker_id', 'reaction_id]);
-            $table->foreignId('reaction_id')->nullable();
+            $table->unique(['post_id', 'liker_id']);
             $table->timestamps();
         });
     }

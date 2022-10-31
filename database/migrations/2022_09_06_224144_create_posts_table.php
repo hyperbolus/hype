@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->text('body');
             $table->foreignId('thread_id');
+            $table->foreignId('forum_id')->nullable();
             $table->foreignId('author_id');
             $table->boolean('rich')->default(false);
             $table->boolean('raw')->default(false);
             $table->boolean('signature')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

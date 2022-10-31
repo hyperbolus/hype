@@ -7,18 +7,19 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class VideoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         return Inertia::render('Videos/Index', [
-            'videos' => Video::all()
+            'videos' => Video::paginate(25)
         ]);
     }
 

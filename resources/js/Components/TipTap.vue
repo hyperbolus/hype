@@ -58,7 +58,7 @@ const editor = useEditor({
         History,
         Mention.configure({
             HTMLAttributes: {
-                class: 'p-1 rounded bg-neutral-900'
+                class: 'p-1 rounded bg-neutral-100 dark:bg-neutral-900'
             },
             suggestion: {
                 items: ({ query }) => {
@@ -125,18 +125,18 @@ watch(props.modelValue, (old, current) => {
 })
 </script>
 <template>
-    <div class="flex flex-col items-center">
-        <div v-if="editor" class="flex flex-wrap mb-2 gap-2">
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-700': editor.isActive('bold') }">
+    <div class="y items-center">
+        <div v-if="editor" class="x flex-wrap mb-2 gap-2">
+            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('bold') }">
                 bold
             </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-700': editor.isActive('italic') }">
+            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('italic') }">
                 italic
             </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-700': editor.isActive('strike') }">
+            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('strike') }">
                 strike
             </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-neutral-700': editor.isActive('blockquote') }">
+            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('blockquote') }">
                 blockquote
             </button>
             <button class="px-2 py-1 rounded" @click="editor.chain().focus().undo().run()">
@@ -146,7 +146,7 @@ watch(props.modelValue, (old, current) => {
                 redo
             </button>
         </div>
-        <editor-content class="w-full prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-neutral-600 !m-2 prose-neutral !prose-invert rounded bg-neutral-800" :editor="editor" />
+        <editor-content class="w-full prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-neutral-600 !m-2 prose-neutral !prose-invert rounded bg-neutral-100 dark:bg-neutral-800" :editor="editor" />
     </div>
 </template>
 <style>

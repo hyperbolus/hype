@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Level;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Review>
+ * @extends Factory<Review>
  */
 class ReviewFactory extends Factory
 {
@@ -16,16 +17,16 @@ class ReviewFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'rating_gameplay' => random_int(0, 10),
-            'rating_difficulty' => random_int(0, 10),
-            'rating_visuals' => random_int(0, 10),
-            'rating_overall' => random_int(0, 10),
+            'rating_gameplay' => fake()->numberBetween(0, 10),
+            'rating_difficulty' => fake()->numberBetween(0, 10),
+            'rating_visuals' => fake()->numberBetween(0, 10),
+            'rating_overall' => fake()->numberBetween(0, 10),
             'review' => fake()->sentences(asText: true),
-            'user_id' => User::inRandomOrder()->first(),
-            'level_id' => Level::inRandomOrder()->first(),
+            'user_id' => User::query()->inRandomOrder()->first(),
+            'level_id' => Level::query()->inRandomOrder()->first(),
         ];
     }
 }

@@ -16,18 +16,19 @@ const props = defineProps({
             </svg>
             <span>{{ playlist.title }}</span>
         </template>
-        <div class="flex flex-col lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex items-center justify-between">
+        <div class="y lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+            <div class="x items-center justify-between">
                 <div>
                     <h2 class="font-bold text-2xl">{{ playlist.title }}</h2>
                     <span class="text-sm">Created by {{ playlist.owner.name }}, {{ new Date(playlist.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Playlist ID: {{ playlist.id }}</span>
                 </div>
                 <div>
-                    <Link :href="route('submissions.create', playlist)" class="px-4 py-2 rounded bg-neutral-900">Submit Level</Link>
+                    <Link :href="route('submissions.create', playlist)" class="button">Submit Level</Link>
                 </div>
             </div>
-            <Link v-for="submission in playlist.submissions" :href="route('levels.show', submission.level.id)" class="block flex flex-col p-2 rounded bg-neutral-900 border border-neutral-700">
-                <div class="flex justify-between">
+            <div class="box" v-if="playlist.submissions.length === 0">This playlist has no levels</div>
+            <Link v-for="submission in playlist.submissions" :href="route('levels.show', submission.level.id)" class="block y p-2 rounded bg-neutral-900 border border-neutral-700">
+                <div class="x justify-between">
                     <h1 class="text-xl font-bold">{{ submission.level.name }}</h1>
                     <div>
                         <span>Submitted By: {{ submission.submitter.name }}</span>

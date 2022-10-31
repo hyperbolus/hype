@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/mention', \App\Http\Controllers\MentionController::class);
+Route::get('/search', \App\Http\Controllers\TagSearchController::class);
 Route::get('/level/{id}', function ($id) {
     $res = Http::get('https://browser.gdps.io/api/level/' . $id);
     return response()->json($res->json());

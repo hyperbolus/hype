@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.x {
+    @apply flex flex-row;
+}
+
+.y {
+    @apply flex flex-col;
+}
+
+.box {
+    @apply rounded px-4 py-2 shadow bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700;
+}
+
+.button {
+    @apply select-none font-semibold rounded px-2 py-1 shadow bg-neutral-200 dark:bg-neutral-900 border-0 hover:bg-neutral-300 dark:hover:bg-neutral-700 hover:shadow-sm cursor-pointer
+}

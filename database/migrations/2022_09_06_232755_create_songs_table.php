@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('name')->nullable();
             $table->string('artist')->nullable();
+            $table->string('artist_youtube')->nullable();
             $table->unsignedBigInteger('artist_id')->nullable();
+            $table->boolean('verified')->default(0);
+            $table->string('video')->nullable();
+            $table->string('link')->nullable();
             $table->unsignedInteger('size')->nullable();
-            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

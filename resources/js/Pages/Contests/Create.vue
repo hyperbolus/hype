@@ -2,10 +2,11 @@
 import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
+import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 </script>
 <template>
-    <app-layout title="Home">
+    <app-layout title="Create Contest">
         <template #breadcrumbs>
             <Link :href="route('contests.index')">Contests</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -13,27 +14,27 @@ import Input from "@/Jetstream/Input.vue";
             </svg>
             <span>Create</span>
         </template>
-        <div class="flex lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex flex-col space-y-4 md:w-3/4">
+        <div class="x lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+            <div class="y space-y-4 md:w-3/4">
                 <h2 class="mx-2 font-bold text-2xl">Create a New Contest</h2>
-                <div class="flex flex-col rounded p-4 space-y-2 bg-neutral-900 border border-neutral-700">
-                    <label class="flex flex-col">
+                <div class="y box space-y-2">
+                    <label class="y">
                         <span class="my-1">Name</span>
-                        <Input placeholder="Required"/>
+                        <Input type="text" placeholder="Required"/>
                     </label>
-                    <label class="flex flex-col">
+                    <label class="y">
                         <span class="my-1">Short Description</span>
-                        <Input placeholder="Required"/>
+                        <Input type="text" placeholder="Required"/>
                     </label>
-                    <label class="flex flex-col">
+                    <label class="y">
                         <span class="my-1">URL</span>
-                        <Input prefix="https://gdforums.com/contest/" class="p-0" placeholder="Required"/>
+                        <Input type="text" prefix="https://gdforums.com/contest/" class="p-0" placeholder="Required"/>
                     </label>
-                    <label class="flex flex-col space-y-2">
-                        <span class="flex items-center"><input type="radio" name="ranked_type" value="true"/> Ranked — Submission are voted on and placed</span>
-                        <span class="flex items-center"><input type="radio" name="ranked_type" value="false"/> Unranked — Submissions are not voted on, just for fun!</span>
+                    <label class="y space-y-2">
+                        <span class="flex items-center"><input type="radio" name="ranked_type" value="true" class="mr-1"/> Ranked — Submission are voted on and placed</span>
+                        <span class="flex items-center"><input type="radio" name="ranked_type" value="false" class="mr-1"/> Unranked — Submissions are not voted on, just for fun!</span>
                     </label>
-                    <span class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-neutral-800 border border-neutral-600">Button</span>
+                    <Button onclick="alert('wip!')" class="w-fit">Create Contest</Button>
                 </div>
             </div>
         </div>

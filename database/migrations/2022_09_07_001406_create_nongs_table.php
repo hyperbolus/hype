@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('nongs', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('artist');
+            $table->string('artist_youtube')->nullable();
+            $table->string('video')->nullable();
+            $table->string('link')->nullable();
+            $table->unsignedInteger('size')->nullable();
             $table->timestamps();
         });
     }

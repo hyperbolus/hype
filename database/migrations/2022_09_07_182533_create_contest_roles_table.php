@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('contest_id');
             $table->foreignId('assigner_id')->nullable();
             $table->foreignId('assignee_id');
-            $table->string('reason')->nullable();
+            $table->foreignId('parent_id')->nullable();
             $table->enum('role', ['host', 'admin', 'judge', 'participant', 'submitter', 'contributor']);
             $table->timestamps();
         });

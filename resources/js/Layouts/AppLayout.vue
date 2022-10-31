@@ -1,8 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import {getCurrentInstance, ref} from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
+import Toggle from "@/Components/Toggle.vue";
+import {useDark} from "@vueuse/core";
+import route from "ziggy-js";
+import {useToggle} from "@vueuse/core";
+import Avatar from "@/Components/Avatar.vue";
 
 defineProps({
     title: String,
@@ -13,19 +18,24 @@ const logout = () => {
 const mobileNavOpen = ref(false);
 
 const subnav = ref(0);
+const isDark = ref(useDark({
+    selector: '#app'
+}));
+const toggleDark = () => {
+    useToggle(isDark.value)
+}
 </script>
 <template>
-    <div class="flex flex-col items-center text-neutral-300 bg-neutral-800 min-h-screen">
+    <div ref="base" class="flex flex-col items-center text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 min-h-screen">
         <Head><title>{{ title }}</title></Head>
-        <div class="flex-col items-center w-full text-neutral-300 py-4 flex bg-neutral-800">
+        <div class="flex-col items-center w-full py-4 flex bg-neutral-200 dark:bg-neutral-800">
             <div class="flex justify-between px-4 lg:max-w-5xl xl:max-w-6xl w-full">
                 <div class="flex items-center space-x-4">
-                    <Link @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-3xl"><span class="text-cyan-400">Dash</span>Net</Link>
+                    <Link @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-3xl select-none" title="More like Dash-NUT"><span class="text-cyan-400">Dash</span>Net</Link>
                     <div class="hidden md:flex items-center space-x-4">
                         <Link @mouseenter="subnav = 0" :href="route('forums.index')" class="hover:text-neutral-500 transition transition-colors">Forums</Link>
                         <Link @mouseenter="subnav = 1" :href="route('levels')" class="hover:text-neutral-500 transition transition-colors">Levels</Link>
                         <Link @mouseenter="subnav = 2" :href="route('forge')" class="hover:text-neutral-500 transition transition-colors">Forge</Link>
-                        <Link @mouseenter="subnav = 3" :href="route('forge')" class="hover:text-neutral-500 transition transition-colors">GDPS</Link>
                     </div>
                 </div>
                 <div class="hidden md:flex">
@@ -45,19 +55,15 @@ const subnav = ref(0);
                                 </div>
                             </template>
                         </Dropdown>
-                        <Dropdown>
-                            <template #trigger>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M2 10c0-3.967 3.69-7 8-7 4.31 0 8 3.033 8 7s-3.69 7-8 7a9.165 9.165 0 01-1.504-.123 5.976 5.976 0 01-3.935 1.107.75.75 0 01-.584-1.143 3.478 3.478 0 00.522-1.756C2.979 13.825 2 12.025 2 10z" clip-rule="evenodd" />
-                                </svg>
-                            </template>
-                            <template #content>
-                                <div class="px-2 py-1 ">No new messages.</div>
-                            </template>
-                        </Dropdown>
+                        <Link :href="route('inbox.index')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                <path fill-rule="evenodd" d="M2 10c0-3.967 3.69-7 8-7 4.31 0 8 3.033 8 7s-3.69 7-8 7a9.165 9.165 0 01-1.504-.123 5.976 5.976 0 01-3.935 1.107.75.75 0 01-.584-1.143 3.478 3.478 0 00.522-1.756C2.979 13.825 2 12.025 2 10z" clip-rule="evenodd" />
+                            </svg>
+                        </Link>
                         <Dropdown>
                             <template #trigger>
                                 <div class="flex items-center cursor-pointer">
+                                    <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                                     <span>{{ $page.props.user.name }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
@@ -65,15 +71,20 @@ const subnav = ref(0);
                                 </div>
                             </template>
                             <template #content>
-                                <div class="px-2 py-1 cursor-pointer hover:bg-neutral-800 rounded-t">Profile</div>
-                                <div class="border-t border-t-neutral-700"></div>
-                                <div class="px-2 py-1 cursor-pointer hover:bg-neutral-800">Settings</div>
-                                <Link href="/admin" class="block px-2 py-1 cursor-pointer hover:bg-neutral-800">Admin Panel</Link>
-                                <div class="border-t border-t-neutral-700"></div>
-                                <div class="px-2 py-1 cursor-pointer hover:bg-neutral-800">Dark Mode</div>
-                                <div class="px-2 py-1 cursor-pointer hover:bg-neutral-800">English</div>
-                                <div class="border-t border-t-neutral-700"></div>
-                                <div @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white rounded-b">Logout</div>
+                                <Link :href="route('users.show', $page.props.user.id)" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Profile</Link>
+                                <Link :href="route('settings.home')" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Settings</Link>
+                                <Link v-if="$page.props.user.roles.includes('admin')" :href="route('system.home')" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Admin Panel</Link>
+                                <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
+                                <label @click.stop class="flex items-center justify-between px-2 py-1">
+                                    <span>Dark Mode</span>
+                                    <Toggle class="pointer-events-none cursor-pointer" @click="toggleDark" v-model="isDark"/>
+                                </label>
+                                <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
+                                <template v-if="$page.props.user.impersonating">
+                                    <Link :href="route('impersonate.leave')" class="block px-2 py-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800">Stop Impersonating</Link>
+                                    <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
+                                </template>
+                                <div @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white">Logout</div>
                             </template>
                         </Dropdown>
                     </div>
@@ -92,10 +103,10 @@ const subnav = ref(0);
                 <Link :href="route('forums.index')">Forums</Link>
                 <Link :href="route('levels')">Levels</Link>
                 <Link :href="route('forge')">Forge</Link>
-                <Link :href="route('forge')">GDPS</Link>
+                <Link :href="route('search')">Search</Link>
             </div>
         </div>
-        <div @mouseleave="subnav = 0" class="flex flex-col items-center w-full bg-neutral-900 text-neutral-50">
+        <div @mouseleave="subnav = 0" class="flex flex-col items-center w-full bg-neutral-300 dark:bg-neutral-900">
             <div v-if="subnav === 0" class="flex items-center py-2.5 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-xs space-x-2">
                 <Link :href="route('home')">DashNet</Link>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -105,29 +116,34 @@ const subnav = ref(0);
             </div>
             <div v-if="subnav === 1" class="flex items-center py-2 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-sm space-x-4">
                 <Link :href="route('levels.index')">Reviews</Link>
-                <Link :href="route('contests.index')">Contests</Link>
-                <Link :href="route('playlists.index')">Playlists</Link>
+                <Link :href="route('videos.index')">Videos</Link>
             </div>
             <div v-if="subnav === 2" class="flex items-center py-2 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-sm space-x-4">
-                <Link :href="route('mods.index')">Mods</Link>
-                <Link :href="route('mods.index')">Styles</Link>
-                <Link :href="route('client')">Client</Link>
+                <Link :href="route('forge')">Mods</Link>
+                <Link :href="route('forge')">Styles</Link>
+                <Link :href="route('forge')">Client</Link>
             </div>
             <div v-if="subnav === 3" class="flex items-center py-2 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-sm space-x-4">
-                <Link :href="route('home')">Pricing</Link>
-                <Link :href="route('home')">Index</Link>
-                <Link :href="route('home')">Control Panel</Link>
+                <Link :href="route('forge')">Pricing</Link>
+                <Link :href="route('forge')">Index</Link>
+                <Link :href="route('forge')">Control Panel</Link>
             </div>
         </div>
-        <div class="flex justify-center mb-auto w-full">
+        <div class="y items-center mb-auto w-full">
             <slot/>
         </div>
-        <div class="flex flex-col p-4 items-center w-full bg-neutral-900 text-neutral-50">
-            <div class="border-t border-t-neutral-800">
-
-            </div>
-            <div>
-                <span class="pb-4 text-neutral-600">&copy; GD Forums 2022</span>
+        <div class="y p-4 items-center w-full bg-neutral-200 dark:bg-neutral-900">
+            <div class="px-4 lg:max-w-5xl xl:max-w-6xl w-full">
+                <div class="flex justify-between w-full">
+                    <div>
+                        <span class="opacity-50" title="Copyright lololol">&copy; GD Forums 2022</span>
+                    </div>
+                    <div class="flex space-x-6 opacity-50">
+                        <Link :href="route('users.index')">Privacy Policy</Link>
+                        <Link :href="route('users.index')">Terms of Service</Link>
+                        <Link :href="route('users.index')">Users</Link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

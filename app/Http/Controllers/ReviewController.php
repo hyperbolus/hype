@@ -43,7 +43,7 @@ class ReviewController extends Controller
             return response('Level Not Found', 400);
         }
 
-        if($level->reviews_count >= 20) {
+        if($level->reviews_count >= 5) {
             if($level->overall_gameplay === null) {
                 $total_gameplay = 0;
                 $total_difficulty = 0;

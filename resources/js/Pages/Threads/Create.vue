@@ -4,6 +4,8 @@ import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
 import Input from "@/Jetstream/Input.vue";
 import PostPad from "@/Components/PostPad.vue";
 import {ref} from "vue";
+import route from "ziggy-js";
+import Button from "@/Jetstream/Button.vue";
 
 const props = defineProps({
     forum_id: Number
@@ -36,18 +38,23 @@ const submit = () => {
             </svg>
             <span>Create Thread</span>
         </template>
-        <div class="flex flex-col lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+        <div class="y lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
             <h2 class="mx-2 font-bold text-2xl">Create a New Thread</h2>
-            <div class="flex flex-col rounded p-4 space-y-2 bg-neutral-900 border border-neutral-700">
-                <label class="flex flex-col">
+            <div class="y box">
+                <label class="y">
                     <span class="my-1">Title</span>
-                    <Input v-model="form.title" placeholder="Required"/>
+                    <Input type="text" v-model="form.title" placeholder="Required"/>
                 </label>
             </div>
+            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                <li v-for="(error, key) in $page.props.errors" :key="key">
+                    {{ error }}
+                </li>
+            </ul>
             <PostPad v-model="postData"/>
-            <div class="flex justify-center gap-2">
-                <span onclick="alert('wip feature')" class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-neutral-800 border border-neutral-600">Save Draft</span>
-                <button :disabled="form.processing" @click="submit" class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-neutral-800 border border-neutral-600">Post Thread</button>
+            <div class="x justify-center gap-2">
+                <Button onclick="alert('wip feature')">Save Draft</Button>
+                <Button :disabled="form.processing" @click="submit">Post Thread</Button>
             </div>
         </div>
     </app-layout>

@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('contest_submissions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('participant_id');
+            $table->foreignId('contest_id');
+            $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
         });
     }

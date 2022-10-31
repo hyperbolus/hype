@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Thread;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -37,10 +38,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+        $thread = Thread::findOrFail($request->thread_id);
         $post = new Post();
         $post->rich = $request->rich;
         $post->signature = $request->signature;
         $post->thread_id = $request->thread_id;
+        $post->forum_id = $thread->forum_id;
         $post->author_id = $request->user()->id;
         $post->body = $request->body;
         $post->save();

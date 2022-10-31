@@ -33,14 +33,14 @@ const sendReply = () => {
             </svg>
             <span>{{ thread.title }}</span>
         </template>
-        <div class="flex flex-col lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+        <div class="y lg:max-w-5xl xl:max-w-6xl w-full space-y-4 p-4">
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-2xl">{{ thread.title }}</h2>
                     <span class="text-sm">Posted by {{ thread.author.name }}, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Thread ID: {{ thread.id }}</span>
                 </div>
                 <div>
-                    <a href="#reply" class="px-4 py-2 rounded bg-neutral-900">Reply</a>
+                    <a href="#reply" class="button">Reply</a>
                 </div>
             </div>
             <Post v-for="(post, index) in thread.posts" :post="post" :key="index" :op="index === 0 ? null : thread.author.id"/>
@@ -48,6 +48,9 @@ const sendReply = () => {
                 <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
                 <PostPad :submit="sendReply" v-model="reply"/>
             </template>
+            <div v-else>
+                Log in to post a reply
+            </div>
         </div>
     </app-layout>
 </template>

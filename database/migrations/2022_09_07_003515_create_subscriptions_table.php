@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subscriber_id');
+            $table->morphs('subscribable');
+            $table->unsignedSmallInteger('meta')->nullable();
             $table->timestamps();
         });
     }

@@ -38,7 +38,18 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            //'description' => '',
+        ]);
+
+        $playlist = new Playlist();
+        $playlist->title = request('title');
+        $playlist->description = request('description');
+        $playlist->owner_id = $request->user()->id;
+        $playlist->save();
+
+        return redirect()->route('playlists.show', $playlist);
     }
 
     /**

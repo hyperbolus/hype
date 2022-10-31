@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('styles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('description');
+            $table->text('content');
             $table->string('slug')->nullable();
             $table->timestamps();
         });

@@ -6,7 +6,7 @@ use App\Models\Forum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Forum>
+ * @extends Factory<Forum>
  */
 class ForumFactory extends Factory
 {
@@ -15,12 +15,12 @@ class ForumFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => fake()->words(asText: true),
             'description' => fake()->sentence,
-            'parent_id' => fake()->numberBetween(1, 1)
+            'parent_id' => Forum::query()->inRandomOrder()->first()
         ];
     }
 }

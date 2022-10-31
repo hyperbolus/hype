@@ -17,9 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('subject');
             $table->text('content');
-            $table->morphs('reportable');
-            $table->foreignId('reporter_id')->nullable();
+            $table->text('action')->nullable();
+            $table->nullableMorphs('reportable');
+            $table->unsignedSmallInteger('reason')->nullable();
             $table->unsignedSmallInteger('meta')->nullable();
+            $table->foreignId('closed_by')->nullable();
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }
