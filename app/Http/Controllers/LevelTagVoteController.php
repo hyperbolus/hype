@@ -71,7 +71,7 @@ class LevelTagVoteController extends Controller
         $this_upvotes = LevelTagVote::query()
             ->where('level_id', '=', $level->id)
             ->where('tag_id', '=', $request->tag_id)
-            ->where('approved', '=', 1)
+            ->where('approved', '=', true)
             ->count();
         $this_votes = LevelTagVote::query()
             ->where('level_id', '=', $level->id)

@@ -76,6 +76,15 @@ class RegisteredUserController extends Controller
             'password' => Hash::make(request('password')),
         ]);
 
+        $banned_ids = [
+            42, 69, 420, 666, 777, 1312, 1488, 1337, 2865
+        ];
+
+        while (in_array($user->id, $banned_ids, false)) {
+            $user->id++;
+            $user->save();
+        }
+
         event(new Registered($user));
 
         $this->guard->login($user);

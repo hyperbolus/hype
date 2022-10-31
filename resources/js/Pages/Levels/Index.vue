@@ -7,15 +7,14 @@ import Dropdown from "@/Jetstream/Dropdown.vue";
 import { Inertia } from '@inertiajs/inertia'
 import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
+import {ref} from "vue";
 
 const props = defineProps({
     levels: Object,
     filters: Object
 })
 
-const form = useForm({
-    level_id: null
-})
+const level_id = ref(null)
 
 let sortBy = props.filters.sortBy;
 const sortByNames = [
@@ -55,10 +54,6 @@ const search = () => {
         sortDir: sortDir,
         //filter: filter,
     }).toString())
-}
-
-const submit = () => {
-    form.post(route('levels.store'))
 }
 </script>
 <template>
@@ -161,10 +156,10 @@ const submit = () => {
             <div class="y space-y-4 md:w-1/4">
                 <h2 class="font-bold text-2xl">Add Level</h2>
                 <div class="box">
-                    <form @submit.prevent="submit" class="space-y-2 my-2">
-                        <Input type="text" v-model="form.level_id" placeholder="Level ID" class="w-full" required/>
-                        <Button>Add</Button>
-                    </form>
+                    <div class="space-y-2 my-2">
+                        <Input type="text" v-model="level_id" placeholder="Level ID" class="w-full" required/>
+                        <Button @click="Inertia.get(level_id ? route('levels.show', level_id) : '#')">Add</Button>
+                    </div>
                 </div>
                 <div class="rounded bg-cyan-400 text-neutral-50 p-4 overflow-clip">
                     <svg xmlns="http://www.w3.org/2000/svg" class="-z-10 h-6 w-6 -z-10 scale-[6] translate-y-3 opacity-75 float-right text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

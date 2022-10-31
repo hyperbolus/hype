@@ -50,7 +50,8 @@ task('fix:folders', function () {
     run('mkdir -p {{deploy_path}}/shared/storage/framework ' .
         '{{deploy_path}}/shared/storage/framework/cache ' .
         '{{deploy_path}}/shared/storage/framework/sessions ' .
-        '{{deploy_path}}/shared/storage/framework/views');
+        '{{deploy_path}}/shared/storage/framework/views ' .
+        '{{deploy_path}}/shared/storage/clockwork');
 });
 
 task('artisan:update', artisan('app:update'));

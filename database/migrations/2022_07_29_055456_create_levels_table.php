@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('levels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('song_id')->nullable();
             $table->foreignId('nong_id')->nullable();
             $table->string('banner_url')->nullable();
             $table->string('name');
@@ -28,6 +27,11 @@ return new class extends Migration
             $table->boolean('coins_verified')->nullable();
             $table->unsignedTinyInteger('coins')->nullable();
             $table->unsignedTinyInteger('stars')->nullable();
+            $table->unsignedTinyInteger('length')->nullable();
+            $table->unsignedInteger('objects')->nullable();
+            $table->unsignedBigInteger('downloads')->nullable();
+            $table->bigInteger('likes')->nullable();
+            $table->foreignId('song_id')->nullable();
             $table->string('song_name')->nullable();
             $table->string('song_author')->nullable();
             $table->string('song_url')->nullable();

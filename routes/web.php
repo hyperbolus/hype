@@ -73,7 +73,7 @@ Route::post('/posts/{post}/like', [\App\Http\Controllers\PostLikeController::cla
 Route::get('/reviews', [\App\Http\Controllers\LevelController::class, 'index'])->name('levels.index');
 Route::get('/level/{id}', [\App\Http\Controllers\LevelController::class, 'show'])->name('levels.show');
 Route::get('/level/{level:id}/tags', [\App\Http\Controllers\LevelController::class, 'tags'])->name('levels.tags.show');
-Route::post('/level/{level:id}/tags', [\App\Http\Controllers\LevelTagVoteController::class, 'store'])->name('levels.tags.store');
+Route::post('/level/{level:id}/tags', [\App\Http\Controllers\LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified', 'role:admin']);
 Route::get('/level/{level:id}/edit', [\App\Http\Controllers\LevelController::class, 'edit'])->name('levels.edit')->middleware(['auth', 'verified', 'role:admin']);
 Route::post('/level/{level:id}/edit', [\App\Http\Controllers\LevelController::class, 'update'])->name('levels.update')->middleware(['auth', 'verified', 'role:admin']);
 

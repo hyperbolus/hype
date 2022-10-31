@@ -20,7 +20,8 @@
         "league/flysystem-aws-s3-v3": "3.0",
         "pragmarx/google2fa": "^8.0",
         "spatie/laravel-permission": "^5.5",
-        "tightenco/ziggy": "^v1.4.3"
+        "tightenco/ziggy": "^v1.4.3",
+        "intervention/image": "2.7.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",

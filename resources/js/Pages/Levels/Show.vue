@@ -27,15 +27,31 @@ const submit = () => {
 };
 
 const difficulties = [
-    "N/A",
+    "Unrated",
     "Auto",
     "Easy",
     "Normal",
     "Hard",
     "Harder",
     "Insane",
-    "Demon",
+    "Easy Demon",
+    "Medium Demon",
+    "Hard Demon",
+    "Insane Demon",
+    "Extreme Demon",
 ]
+
+const face = () => {
+    let name = difficulties[props.level.difficulty].toLowerCase().split(' ').reverse().join('-')
+
+    if(props.level.epic) {
+        name += '-epic'
+    } else if (props.level.featured) {
+        name += '-featured'
+    }
+
+    return name;
+}
 </script>
 <template>
     <app-layout title="Home">
@@ -51,7 +67,7 @@ const difficulties = [
                 <div class="x justify-between items-end">
                     <div class="x items-end">
                         <div class="y items-center">
-                            <img class="h-24 mr-2" src="https://browser.gdps.io/assets/difficulties/harder-epic.png" alt="difficulty"/>
+                            <img class="h-24 mr-2" :src="'https://browser.gdps.io/assets/difficulties/' + face() + '.png'" alt="difficulty"/>
                         </div>
                         <div class="leading-none text-neutral-200">
                             <div class="x items-center">

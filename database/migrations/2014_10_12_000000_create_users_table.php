@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             DB::statement('SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";');
-            $table->id()->from(11);
+            $table->id()->from(14);
             $table->string('name')->unique();
             $table->string('name_format')->nullable();
             $table->string('email')->unique();
