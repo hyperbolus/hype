@@ -75,8 +75,8 @@ task('launch', [
     'artisan:view:cache',   // |
     'artisan:config:cache', // | Laravel specific steps
     'artisan:optimize',     // |
-    //'artisan:migrate',      // |
-    'artisan:update',      // |
+    'artisan:migrate',      // |
+    'artisan:update',       // |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
