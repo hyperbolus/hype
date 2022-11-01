@@ -23,6 +23,7 @@ const thing = ref({
                     <h2 class="mx-2 font-bold text-2xl">Home</h2>
                     <div class="box">
                         <p>Join our Discord to suggest new features, give feedback, and get help!</p>
+                        <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Track development</a>
                     </div>
                 </div>
             </div>
