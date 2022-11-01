@@ -60,7 +60,7 @@ class LevelController extends Controller
                 ->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']])
                 ->withCount('reviews')
                 ->paginate(10)
-                ->appends(['sortBy' => $sorting['sortBy'], 'sortDir' => $sorting['sortDir'], 'filter' => $sorting['filter']]),
+                ->appends($sorting),
             'filters' => $sorting
         ]);
     }

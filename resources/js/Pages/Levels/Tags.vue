@@ -17,7 +17,7 @@ const tags = ref(props.tags)
 const latestResponse = ref(null)
 
 const form = useForm({
-    approve: true,
+    approved: true,
     tag_id: null
 })
 
@@ -31,7 +31,7 @@ const addTag = () => {
 }
 
 const vote = (tag_id, approve) => {
-    form.approve = approve
+    form.approved = approve
     form.tag_id = tag_id
     addTag()
 }
@@ -73,7 +73,7 @@ const selectTag = (tag) => {
                         <Dropdown align="left" ref="dropdown">
                             <template #content>
                                 <ul>
-                                    <li v-if="tags.length === 0">No Results</li>
+                                    <li class="px-2" v-if="tags.length === 0">No Results</li>
                                     <template v-else>
                                         <li class="text-sm italic bg-neutral-200 dark:bg-neutral-800 px-2 border-b border-neutral-300 dark:border-neutral-700">You must click to select</li>
                                         <li class="px-2 py-1 dark:hover:bg-neutral-700 cursor-pointer" v-for="tag in tags" @click="selectTag(tag)">{{ tag.name }}</li>

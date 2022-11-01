@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Level;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function home()
+    public function home(): Response
     {
         return Inertia::render('Home');
     }
 
-    public function client()
+    public function client(): Response
     {
         return Inertia::render('Client');
     }
 
-    public function forge()
+    public function forge(): Response
     {
         return Inertia::render('Forge');
     }
 
-    public function levels()
+    public function levels(): Response
     {
         return Inertia::render('Levels');
     }

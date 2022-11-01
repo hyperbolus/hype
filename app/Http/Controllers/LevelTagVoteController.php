@@ -5,41 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Level;
 use App\Models\LevelTag;
 use App\Models\LevelTagVote;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class LevelTagVoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
-    public function index(Request $request)
+    public function index(): Response
     {
         return Inertia::render('Levels/Tags', [
             'tags' => LevelTag::all(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, Level $level)
+    public function store(Request $request, Level $level): RedirectResponse
     {
         $request->validate([
             'tag_id' => [
@@ -47,35 +33,35 @@ class LevelTagVoteController extends Controller
                 'exists:App\Models\LevelTag,id',
                 Rule::unique('App\Models\LevelTagVote')->where(function ($query) use($request, $level) {
                     return $query->where('level_id', $level->id)
-                        ->where('tag_id', $request->tag_id)
-                        ->where('user_id', $request->user()->id);
+                        ->where('tag_id', $request->integer('tag_id'))
+                        ->where('user_id', auth()->id());
                 })
             ]
         ], [
             'tag_id.unique' => 'This tag has already been added and you have already voted on it'
         ]);
 
-        if(!$level->tags()->where('level_tag_id', '=', $request->tag_id)->first()) {
-            $level->tags()->save(LevelTag::query()->find($request->tag_id));
+        if(!$level->tags()->where('level_tag_id', '=', $request->integer('tag_id'))->first()) {
+            $level->tags()->save(LevelTag::query()->find($request->integer('tag_id')));
         }
 
         $vote = new LevelTagVote();
         $vote->level_id = $level->id;
-        $vote->tag_id = $request->tag_id;
+        $vote->tag_id = $request->integer('tag_id');
         $vote->user_id = $request->user()->id;
-        $vote->approved = $request->approve;
+        $vote->approved = $request->boolean('approved');
         $vote->save();
 
 
         // https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/bayesian-average/
         $this_upvotes = LevelTagVote::query()
             ->where('level_id', '=', $level->id)
-            ->where('tag_id', '=', $request->tag_id)
+            ->where('tag_id', '=', $request->integer('tag_id'))
             ->where('approved', '=', true)
             ->count();
         $this_votes = LevelTagVote::query()
             ->where('level_id', '=', $level->id)
-            ->where('tag_id', '=', $request->tag_id)
+            ->where('tag_id', '=', $request->integer('tag_id'))
             ->count();
 
         $all_avg = 0.25; // Assume this for now
@@ -93,53 +79,28 @@ class LevelTagVoteController extends Controller
             'total_average' => $all_avg,
         ]);
 
-        $level->tags()->updateExistingPivot($request->tag_id, [
+        $level->tags()->updateExistingPivot($request->integer('tag_id'), [
             'score' => $score
         ], 1);
 
-        return redirect()->back();
+        return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\LevelTagVote  $levelTagVote
-     * @return \Illuminate\Http\Response
-     */
     public function show(LevelTagVote $levelTagVote)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\LevelTagVote  $levelTagVote
-     * @return \Illuminate\Http\Response
-     */
     public function edit(LevelTagVote $levelTagVote)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\LevelTagVote  $levelTagVote
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, LevelTagVote $levelTagVote)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LevelTagVote  $levelTagVote
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(LevelTagVote $levelTagVote)
     {
         //

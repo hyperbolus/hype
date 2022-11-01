@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use App\Notifications\Announcement;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
 use function redirect;
@@ -19,16 +15,14 @@ class AdminUserController extends Controller
 {
     /**
      * Mr. admin actions
-     *
-     * @param Request $request
-     * @return JsonResponse|RedirectResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
-        switch ($request->action) {
+        $response = redirect()->back();
+        switch ($request->string('action')) {
             case 'impersonate':
-                $request->user()->impersonate(User::find(request('user')));
-                return redirect()->route('home');
+                $request->user()->impersonate(User::query()->find(request('user')));
+                $response = redirect()->route('home');
                 break;
             case 'create':
                 $user = new User();
@@ -43,13 +37,13 @@ class AdminUserController extends Controller
                 break;
         }
 
-        return redirect()->back();
+        return $response;
     }
 
     public function show(): Response
     {
         return Inertia::render('Admin/Users', [
-            'users' => User::paginate(20)
+            'users' => User::query()->paginate(20)
         ]);
     }
 }

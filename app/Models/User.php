@@ -26,8 +26,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -37,8 +35,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -48,8 +44,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast.
-     *
-     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -76,48 +70,46 @@ class User extends Authenticatable
 
     public function comments(): HasMany
     {
-        return $this->hasMany(\App\Models\ProfileComment::class, 'user_id')->with('commenter');
+        return $this->hasMany(ProfileComment::class, 'user_id')->with('commenter');
     }
 
     public function messages(): HasMany
     {
-        return $this->hasMany(\App\Models\Message::class, 'recipient_id')->with('sender');
+        return $this->hasMany(Message::class, 'recipient_id')->with('sender');
     }
 
     public function reviews(): HasMany
     {
-        return $this->hasMany(\App\Models\Review::class, 'user_id');
+        return $this->hasMany(Review::class, 'user_id');
     }
 
     public function threads(): HasMany
     {
-        return $this->hasMany(\App\Models\Thread::class, 'author_id');
+        return $this->hasMany(Thread::class, 'author_id');
     }
 
     public function posts(): HasMany
     {
-        return $this->hasMany(\App\Models\Post::class, 'author_id');
+        return $this->hasMany(Post::class, 'author_id');
     }
 
     public function names(): HasMany
     {
-        return $this->hasMany(\App\Models\NameChange::class, 'user_id');
+        return $this->hasMany(NameChange::class, 'user_id');
     }
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Group::class, 'group_memberships', 'user_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'group_memberships', 'user_id', 'group_id');
     }
 
     public function reviewedLevels(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Level::class, 'reviews', 'user_id', 'level_id');
+        return $this->belongsToMany(Level::class, 'reviews', 'user_id', 'level_id');
     }
 
     /**
      * Send the email verification notification.
-     *
-     * @return void
      */
     public function sendEmailVerificationNotification(): void
     {

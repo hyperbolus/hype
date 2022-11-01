@@ -10,6 +10,7 @@ class GetProfile
 {
     public static function byName($name)
     {
+        // TODO: Put this stuff back and shove it in Hydrate helper
         $local = Profile::whereRaw('LOWER(`name`) LIKE ? ', ['%'.trim(strtolower($name)).'%'])->first();
         if(is_null($local) || $local->updated_at->diffInHours(Carbon::now()) > 2) {
             $res = Http::get('https://gdbrowser.com/api/profile/' . $name);

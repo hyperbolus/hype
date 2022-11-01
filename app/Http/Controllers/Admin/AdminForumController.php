@@ -3,28 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Forum;
-use App\Models\User;
-use App\Notifications\Announcement;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
-use function redirect;
 
 class AdminForumController extends Controller
 {
     /**
      * Mr. admin actions
-     *
-     * @param Request $request
-     * @return JsonResponse|RedirectResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
-        switch ($request->action) {
+        switch ($request->string('action')) {
             case 'create':
                 $forum = new Forum();
                 $forum->name = request('name');
@@ -44,15 +36,18 @@ class AdminForumController extends Controller
                 $forum->password = request('password');
                 $forum->save();
                 break;
+            case 'delete':
+                //
+                break;
         }
 
-        return redirect()->back();
+        return back();
     }
 
     public function index(): Response
     {
         return Inertia::render('Admin/Forums', [
-            'forums' => Forum::paginate(25)
+            'forums' => Forum::query()->paginate(25)
         ]);
     }
 }

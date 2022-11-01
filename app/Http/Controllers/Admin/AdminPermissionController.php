@@ -4,36 +4,35 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Notifications\Announcement;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
-use function redirect;
 
 class AdminPermissionController extends Controller
 {
     /**
      * Mr. admin actions
-     *
-     * @param Request $request
-     * @return JsonResponse|RedirectResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
-        switch ($request->action) {
+        /**
+         * @var User $user
+         */
+        $user = User::query()->find($request->integer('user_id'));
+        switch ($request->string('action')) {
             case 'approve dev':
-                User::find($request->user_id)->assignRole('dev');
+                $user->assignRole('dev');
                 break;
             case 'send announcement':
                 $users = User::all();
-                Notification::send($users, new Announcement($request->message, $request->link));
+                Notification::send($users, new Announcement($request->string('message'), $request->string('link')));
                 break;
         }
 
-        return redirect()->back();
+        return back();
     }
 
     public function show(): Response

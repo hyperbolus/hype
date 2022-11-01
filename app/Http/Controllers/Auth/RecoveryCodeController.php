@@ -30,7 +30,7 @@ class RecoveryCodeController extends Controller
     }
 
     /**
-     * Generate a fresh set of two factor authentication recovery codes.
+     * Generate a fresh set of two-factor authentication recovery codes.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Actions\GenerateNewRecoveryCodes  $generate

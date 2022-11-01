@@ -54,9 +54,9 @@ class LoginRateLimiter
      * @param Request $request
      * @return void
      */
-    public function increment(Request $request)
+    public function increment(Request $request): void
     {
-        $this->limiter->hit($this->throttleKey($request), 60);
+        $this->limiter->hit($this->throttleKey($request));
     }
 
     /**
@@ -76,7 +76,7 @@ class LoginRateLimiter
      * @param Request $request
      * @return void
      */
-    public function clear(Request $request)
+    public function clear(Request $request): void
     {
         $this->limiter->clear($this->throttleKey($request));
     }

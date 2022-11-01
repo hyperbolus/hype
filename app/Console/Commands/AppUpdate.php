@@ -25,9 +25,9 @@ class AppUpdate extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if (!Storage::disk('local')->exists('version.lock')) {
             Storage::disk('local')->put('version.lock', 0);

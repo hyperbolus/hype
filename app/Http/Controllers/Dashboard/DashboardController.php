@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,20 +11,13 @@ use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Intervention\Image\Facades\Image;
-use function redirect;
 
 class DashboardController extends Controller
 {
-    /**
-     * Mr. admin actions
-     *
-     * @param Request $request
-     * @return JsonResponse|RedirectResponse
-     */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
         $user = $request->user();
-        switch ($request->action) {
+        switch ($request->string('action')) {
             case 'update password':
                 $request->validate([
                     'current_password' => 'current_password',
@@ -85,7 +77,7 @@ class DashboardController extends Controller
                 break;
         }
 
-        return redirect()->back();
+        return back();
     }
 
     public function home(): Response
@@ -95,8 +87,12 @@ class DashboardController extends Controller
 
     public function account(): Response
     {
+        /**
+         * @var User $user
+         */
+        $user = auth()->user();
         return Inertia::render('Dashboard/Account', [
-            'profile' => auth()->user()->makeVisible(['email'])
+            'profile' => $user->makeVisible(['email'])
         ]);
     }
 

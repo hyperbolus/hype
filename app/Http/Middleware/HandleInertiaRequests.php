@@ -5,8 +5,6 @@ namespace App\Http\Middleware;
 use App\Actions\Statistics;
 use App\Models\Message;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperReview
+ * @mixin Eloquent
  */
 class Review extends Model
 {

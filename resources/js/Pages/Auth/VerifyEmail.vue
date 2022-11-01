@@ -51,8 +51,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                         :href="route('logout')"
                         method="post"
                         as="button"
-                        class="underline text-sm text-gray-600 hover:text-gray-900 ml-2"
-                    >
+                        class="underline text-sm text-gray-600 hover:text-gray-900 ml-2">
                         Log Out
                     </Link>
                 </div>

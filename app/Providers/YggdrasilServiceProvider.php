@@ -18,7 +18,7 @@ class YggdrasilServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(StatefulGuard::class, function () {
             return Auth::guard('web');
@@ -30,7 +30,7 @@ class YggdrasilServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configurePermissions();
 
@@ -64,7 +64,7 @@ class YggdrasilServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configurePermissions()
+    protected function configurePermissions(): void
     {
         Yggdrasil::defaultApiTokenPermissions(['read']);
 

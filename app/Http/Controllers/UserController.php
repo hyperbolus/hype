@@ -10,12 +10,6 @@ use Inertia\Response;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return Response
-     */
     public function index(Request $request): Response
     {
         $attributes = [
@@ -23,33 +17,39 @@ class UserController extends Controller
             'name',
             'reviews_count'
         ];
+
         $directions = [
             'DESC',
             'ASC'
         ];
+
+        $sorting = [
+            'sortBy' => $request->integer('sortBy'),
+            'sortDir' => $request->integer('sortDir'),
+        ];
+
+        $sorting['sortBy'] = $sorting['sortBy'] < count($attributes) ? $sorting['sortBy'] : 0;
+        $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
+
         $users = User::query()->withCount('reviews');
-        if ($request->sortBy == 1) {
-            $users->orderByRaw('LOWER(name) ' . $directions[$request->sortDir] ?? 'ASC');
+
+        if ($sorting['sortBy'] === 1) {
+            $users->orderByRaw('LOWER(name) ' . $directions[$sorting['sortDir']]);
         } else {
-            $users->orderBy($attributes[$request->sortBy] ?? 'id', $directions[$request->sortDir] ?? 'ASC');
+            $users->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']]);
         }
+
         return Inertia::render('Users/Index', [
-            'users' => $users->paginate(10),
-            'filters' => [
-                'sortBy' => $request->sortBy ?? 0,
-                'sortDir' => $request->sortDir ?? 1,
-            ]
+            'users' => $users->paginate(10)->appends($sorting),
+            'filters' => $sorting
         ]);
     }
 
-    /**
-     * Display user profile
-     *
-     * @param $id
-     * @return Response
-     */
     public function show($id): Response
     {
+        /**
+         * @var User $user
+         */
         $user = User::query()->find($id);
         if ($user === null) {
             abort(404);

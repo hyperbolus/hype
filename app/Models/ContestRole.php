@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @mixin IdeHelperContestRole
@@ -12,12 +13,12 @@ class ContestRole extends Model
 {
     use HasFactory;
 
-    public function assigner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function assigner(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function assignee(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
