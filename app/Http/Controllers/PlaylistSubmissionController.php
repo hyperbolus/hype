@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Hydrate;
 use App\Models\Level;
 use App\Models\Playlist;
 use App\Models\PlaylistSubmission;
@@ -48,20 +49,7 @@ class PlaylistSubmissionController extends Controller
         $submission->server_id = 0;
         $submission->save();
 
-        if(Level::where('id', '=', $request->level_id)->first() === null) {
-            $res = Http::get('https://browser.gdps.io/api/level/' . $request->level_id)->json();
-
-            if($res == -1) {
-                return response('Level Not Found', 400);
-            }
-
-            $level = new Level();
-            $level->id = $request->level_id;
-            $level->name = $res['name'];
-            $level->creator = $res['author'];
-            $level->description = $res['description'];
-            $level->save();
-        }
+        Hydrate::level($request->input('level_id'));
 
         return redirect()->route('playlists.show', $playlist);
     }

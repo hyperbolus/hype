@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Hydrate;
 use App\Models\Level;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -12,9 +13,7 @@ use Inertia\Response;
 class VideoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Display a listing of the resource
      */
     public function index(): Response
     {
@@ -24,39 +23,11 @@ class VideoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $level = Level::where('id', '=', $request->level_id)->first();
-
-        if($level === null) {
-            $res = Http::get('https://browser.gdps.io/api/level/' . $request->level_id)->json();
-
-            if($res == -1) {
-                return response('Level Not Found', 400);
-            }
-
-            $level = new Level();
-            $level->id = $request->level_id;
-            $level->name = $res['name'];
-            $level->creator = $res['author'];
-            $level->description = $res['description'];
-            $level->save();
-        }
+        Hydrate::level($request->input('level_id'));
 
         $video = new Video();
         $video->video_id = $request->video_id;
@@ -69,9 +40,6 @@ class VideoController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\Video  $video
-     * @return \Illuminate\Http\Response
      */
     public function show(Video $video)
     {
@@ -80,9 +48,6 @@ class VideoController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Video  $video
-     * @return \Illuminate\Http\Response
      */
     public function edit(Video $video)
     {
@@ -91,10 +56,6 @@ class VideoController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Video  $video
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Video $video)
     {
@@ -103,9 +64,6 @@ class VideoController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Video  $video
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Video $video)
     {
