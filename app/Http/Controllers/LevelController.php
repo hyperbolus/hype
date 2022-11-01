@@ -6,6 +6,7 @@ use App\Actions\Hydrate;
 use App\Models\Level;
 use App\Models\LevelTag;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -46,7 +47,11 @@ class LevelController extends Controller
 
         if(auth()->check()) {
             if ($sorting['filter'] === 1) {
-                $levels = auth()->user()->reviewedLevels();
+                /**
+                 * @var User $user
+                 */
+                $user = auth()->user();
+                $levels = $user->reviewedLevels();
             }
         }
 
