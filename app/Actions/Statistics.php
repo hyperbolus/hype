@@ -33,7 +33,7 @@ class Statistics
         $key = 'statistics:' . $table;
         $value = Cache::get($key);
         if($value === null) {
-            Cache::put($key, DB::table($table)->count());
+            Cache::put($key, DB::table($table)->count(), now()->addHour());
         }
         return $value;
     }
