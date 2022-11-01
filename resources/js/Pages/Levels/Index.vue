@@ -18,6 +18,7 @@ const level_id = ref(null)
 
 let sortBy = props.filters.sortBy;
 const sortByNames = [
+    'ID',
     'Overall Rating',
     'Gameplay Rating',
     'Visual Rating',
@@ -32,8 +33,8 @@ const sortDirNames = [
 let filter = props.filters.filter;
 const filterNames = [
     'All',
-    'Unreviewed',
-    'Reviewed'
+    'Reviewed',
+    'Unreviewed'
 ]
 function setSortBy(value) {
     sortBy = value;
@@ -52,7 +53,7 @@ const search = () => {
     Inertia.get(route('levels.index') + '?' + new URLSearchParams({
         sortBy: sortBy,
         sortDir: sortDir,
-        //filter: filter,
+        filter: filter,
     }).toString())
 }
 </script>
@@ -77,15 +78,16 @@ const search = () => {
                                     </div>
                                 </template>
                                 <template #content>
-                                    <div @click="setSortBy(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">Overall Rating</div>
-                                    <div @click="setSortBy(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Gameplay Rating</div>
-                                    <div @click="setSortBy(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Visual Rating</div>
-                                    <div @click="setSortBy(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Difficulty Rating</div>
-                                    <div @click="setSortBy(4)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Review Count</div>
+                                    <div @click="setSortBy(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">ID</div>
+                                    <div @click="setSortBy(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Overall Rating</div>
+                                    <div @click="setSortBy(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Gameplay Rating</div>
+                                    <div @click="setSortBy(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Visual Rating</div>
+                                    <div @click="setSortBy(4)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Difficulty Rating</div>
+                                    <div @click="setSortBy(5)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Review Count</div>
                                 </template>
                             </Dropdown>
                         </div>
-                        <div v-if="$page.props.auth && $page.props.user.roles.includes('admin')" class="x space-x-2 items-center">
+                        <div v-if="$page.props.auth" class="x space-x-2 items-center">
                             <Dropdown align="left">
                                 <template #trigger>
                                     <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
@@ -98,7 +100,7 @@ const search = () => {
                                 <template #content>
                                     <div @click="setFilter(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">All</div>
                                     <div @click="setFilter(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Reviewed</div>
-                                    <div @click="setFilter(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Unreviewed</div>
+                                    <div v-if="false" @click="setFilter(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Unreviewed</div>
                                 </template>
                             </Dropdown>
                         </div>
