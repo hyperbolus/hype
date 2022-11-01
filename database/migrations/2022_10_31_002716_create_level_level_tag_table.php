@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('level_tag_id');
             $table->unique(['level_id', 'level_tag_id']);
             $table->boolean('verified')->nullable();
-            $table->integer('score')->default(0);
+            $table->float('score')->default(0);
             $table->timestamps();
         });
     }
