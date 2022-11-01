@@ -42,6 +42,10 @@ const difficulties = [
 ]
 
 const face = () => {
+    if (!props.level.difficulty) {
+        return difficulties[0].toLowerCase()
+    }
+
     let name = difficulties[props.level.difficulty].toLowerCase().split(' ').reverse().join('-')
 
     if(props.level.epic) {
@@ -102,7 +106,7 @@ const face = () => {
                 </div>
                 <div class="py-2 select-none border-r border-neutral-400 dark:border-neutral-700"></div>
                 <Link v-for="tag in level.tags" :href="route('tags.show', tag)" class="x items-center px-2 py-1 text-sm rounded bg-neutral-100 dark:bg-neutral-800 capitalize">
-                    <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline mr-1 rounded-full text-green-500 w-5 h-5">
+                    <svg title="Verified Tag" v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline mr-1 rounded-full text-green-500 w-5 h-5">
                         <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                     </svg>
                     {{tag.name}}
