@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('mod_versions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mod_id');
-            $table->text('version');
-            $table->string('tag')->nullable();
-            $table->string('tag_version')->nullable();
+            $table->string('version')->collation('en_natural');
+            $table->string('prerelease')->nullable()->collation('en_natural');
             $table->string('metadata')->nullable();
             $table->unique(['mod_id', 'tag', 'tag_version', 'metadata']);
             $table->string('release_notes')->nullable();

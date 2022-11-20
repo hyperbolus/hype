@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @mixin IdeHelperForum
@@ -58,5 +59,9 @@ class Forum extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'forum_id');
+    }
+
+    public function lastPost(): HasOne {
+        return $this->hasOne(Post::class)->orderByDesc('id')->with('thread');
     }
 }

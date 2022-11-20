@@ -18,7 +18,7 @@ const announcementSend = (message, link) => {
 </script>
 <template>
     <admin-layout title="Home">
-        <div class="y box space-y-2">
+        <div class="y pane space-y-2">
             <p>This is the button that annoys the hoes</p>
             <Input type="text" v-model="message" placeholder="Message" required/>
             <Input type="text" v-model="link" placeholder="Link" required/>

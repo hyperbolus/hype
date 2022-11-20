@@ -25,6 +25,11 @@ class Statistics
             'videos' => self::count(\App\Models\Video::class),
             'playlists' => self::count(\App\Models\Playlist::class),
             'nongs' => self::count(\App\Models\Nong::class),
+            'patreon' => (function(){
+                $res = Http::withToken(config('hyperbolus.patreon_token'))
+                    ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage');
+                Cache::get('statistics:patreon', $res);
+            })()
         ];
     }
 

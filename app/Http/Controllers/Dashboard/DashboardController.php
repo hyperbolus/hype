@@ -16,7 +16,10 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request): RedirectResponse
     {
-        $user = $request->user();
+        /**
+         * @type User $user
+         */
+        $user = auth()->user();
         switch ($request->string('action')) {
             case 'update password':
                 $request->validate([

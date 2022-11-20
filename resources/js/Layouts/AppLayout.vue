@@ -1,5 +1,5 @@
 <script setup>
-import {getCurrentInstance, ref} from 'vue';
+import {ref} from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
@@ -8,9 +8,16 @@ import {useDark} from "@vueuse/core";
 import route from "ziggy-js";
 import {useToggle} from "@vueuse/core";
 import Avatar from "@/Components/Avatar.vue";
+import bg from "@/../images/wellrestedbg.jpg"
+import Tooltip from "@/Components/Tooltip.vue";
 
-defineProps({
+const props = defineProps({
     title: String,
+    background: {
+        type: [String, Boolean],
+        default: bg
+    },
+    subtitle: String
 });
 const logout = () => {
     Inertia.post(route('auth::logout'));
@@ -21,21 +28,44 @@ const subnav = ref(0);
 const isDark = ref(useDark({
     selector: '#app'
 }));
+const bgsrc = ref(props.background === false ? 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=' : (props.background ?? bg));
 const toggleDark = () => {
     useToggle(isDark.value)
 }
 </script>
 <template>
-    <div ref="base" class="flex flex-col items-center text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 min-h-screen">
+    <div ref="base" class="y items-center text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-900 min-h-screen">
         <Head><title>{{ title }}</title></Head>
-        <div class="flex-col items-center w-full py-4 flex bg-neutral-200 dark:bg-neutral-800">
-            <div class="flex justify-between px-4 lg:max-w-5xl xl:max-w-6xl w-full">
-                <div class="flex items-center space-x-4">
-                    <Link @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-3xl select-none" title="More like Dash-NUT"><span class="text-cyan-400">Dash</span>Net</Link>
+        <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
+            <div class="x items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
+                <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800 hover:bg-neutral-800">Geometry Dash</a>
+                <Tooltip :caret="false" message="SpinShare is not affiliated with Hyperbolus-supported websites">
+                    <a href="https://spinsha.re" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Spin Rhythm</a>
+                </Tooltip>
+                <a href="https://soundodger-community.com" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Soundodger</a>
+                <a href="https://userlevels.com/snail" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Would You Snail?</a>
+                <a href="https://userlevels.com/impossible" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 !border-r border-neutral-200 dark:border-neutral-800">The Impossible Game 2</a>
+            </div>
+        </div>
+        <div class="y items-center z-20 w-full py-4 bg-neutral-200 dark:bg-neutral-800">
+            <div class="x justify-between lg:max-w-5xl xl:max-w-6xl w-full">
+                <div class="x items-center space-x-4">
+                    <Link @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-2xl select-none"><span class="text-cyan-400">Dash</span>Net</Link>
+                    <Link v-if="false" @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-2xl select-none text-amber-500">Soundodger <span class="text-blue-400">Community</span></Link>
                     <div class="hidden md:flex items-center space-x-4">
-                        <Link @mouseenter="subnav = 0" :href="route('forums.index')" class="hover:text-neutral-500 transition transition-colors">Forums</Link>
-                        <Link @mouseenter="subnav = 1" :href="route('levels')" class="hover:text-neutral-500 transition transition-colors">Levels</Link>
-                        <Link @mouseenter="subnav = 2" :href="route('forge')" class="hover:text-neutral-500 transition transition-colors">Forge</Link>
+                        <Link :href="route('forums.index')" class="hover:text-neutral-500 transition transition-colors">Forums</Link>
+                        <Tooltip :caret="false">
+                            <Link :href="route('levels')" class="hover:text-neutral-500 transition transition-colors">Levels</Link>
+                            <template #content>
+                                <div class="y divide-y divide-neutral-300 dark:divide-neutral-700">
+                                    <span class="px-2 bg-neutral-200 dark:bg-neutral-800 py-0.5 text-xs">OTHER&nbsp;PAGES</span>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('levels.index')">Reviews</Link>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('videos.index')">Videos</Link>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('tags.index')">Tags</Link>
+                                </div>
+                            </template>
+                        </Tooltip>
+                        <Link :href="route('forge')" class="hover:text-neutral-500 transition transition-colors">Forge</Link>
                     </div>
                 </div>
                 <div class="hidden md:flex">
@@ -62,7 +92,7 @@ const toggleDark = () => {
                         </Link>
                         <Dropdown>
                             <template #trigger>
-                                <div class="flex items-center cursor-pointer">
+                                <div class="x items-center cursor-pointer">
                                     <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                                     <span>{{ $page.props.user.name }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -75,7 +105,7 @@ const toggleDark = () => {
                                 <Link :href="route('settings.home')" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Settings</Link>
                                 <Link v-if="$page.props.user.roles.includes('admin')" :href="route('system.home')" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Admin Panel</Link>
                                 <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
-                                <label @click.stop class="flex items-center justify-between px-2 py-1">
+                                <label @click.stop class="x items-center justify-between px-2 py-1">
                                     <span>Dark Mode</span>
                                     <Toggle class="pointer-events-none cursor-pointer" @click="toggleDark" v-model="isDark"/>
                                 </label>
@@ -88,60 +118,65 @@ const toggleDark = () => {
                             </template>
                         </Dropdown>
                     </div>
-                    <div v-else class="flex items-center space-x-4">
+                    <div v-else class="x items-center space-x-4">
                         <Link :href="route('auth::login')">Login</Link>
-                        <Link :href="route('auth::register')">Register</Link>
+                        <Link :href="route('auth::register')" class="bg-cyan-400 rounded text-white font-bold px-2 py-0.5">Register</Link>
                     </div>
                 </div>
-                <div class="flex md:hidden items-center cursor-pointer">
+                <div class="x md:hidden items-center cursor-pointer">
                     <svg @click="mobileNavOpen = !mobileNavOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </div>
             </div>
-            <div v-if="mobileNavOpen" class="flex md:hidden flex-col w-full space-y-2 mt-4 px-4">
+            <div v-if="mobileNavOpen" class="y md:hidden w-full space-y-2 mt-4 px-4">
                 <Link :href="route('forums.index')">Forums</Link>
                 <Link :href="route('levels')">Levels</Link>
                 <Link :href="route('forge')">Forge</Link>
                 <Link :href="route('search')">Search</Link>
             </div>
         </div>
-        <div @mouseleave="subnav = 0" class="flex flex-col items-center w-full bg-neutral-300 dark:bg-neutral-900">
-            <div v-if="subnav === 0" class="flex items-center py-2.5 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-xs space-x-2">
-                <Link :href="route('home')">DashNet</Link>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-                <slot name="breadcrumbs"/>
-            </div>
-            <div v-if="subnav === 1" class="flex items-center py-2 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-sm space-x-4">
-                <Link :href="route('levels.index')">Reviews</Link>
-                <Link :href="route('videos.index')">Videos</Link>
-            </div>
-            <div v-if="subnav === 2" class="flex items-center py-2 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-sm space-x-4">
-                <Link :href="route('forge')">Mods</Link>
-                <Link :href="route('forge')">Styles</Link>
-                <Link :href="route('forge')">Client</Link>
-            </div>
-            <div v-if="subnav === 3" class="flex items-center py-2 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-sm space-x-4">
-                <Link :href="route('forge')">Pricing</Link>
-                <Link :href="route('forge')">Index</Link>
-                <Link :href="route('forge')">Control Panel</Link>
+        <div class="x z-10 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
+            <div class="x items-center gap-2 justify-between py-2.5 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
+                <div class="x space-x-2">
+                    <Link :href="route('home')">DashNet</Link>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                    </svg>
+                    <slot name="breadcrumbs"/>
+                </div>
+                <div class="x">
+                    <span v-if="!subtitle && (bg === bgsrc)">Featured Artwork by <span class="cursor-pointer underline">overdefo</span></span>
+                    <span v-if="subtitle">{{ subtitle }}</span>
+                </div>
             </div>
         </div>
-        <div class="y items-center mb-auto w-full">
-            <slot/>
+        <slot class="z-10" name="header"/>
+        <div class="y z-0 overflow-clip relative flex-grow w-full">
+            <div class="absolute top-0 w-full h-fit" :style="'-webkit-mask:linear-gradient(white 0%, transparent);background-image: url(\'' + bgsrc + '\');background-size:cover;background-position:top;'">
+                <img class="h-full w-full m-auto invisible" :src="bgsrc" alt="Featured Background"/>
+            </div>
+            <div class="y flex-grow relative h-full items-center w-full">
+                <slot/>
+            </div>
         </div>
-        <div class="y p-4 items-center w-full bg-neutral-200 dark:bg-neutral-900">
+        <div class="y p-4 items-center w-full bg-neutral-200 dark:bg-neutral-800">
             <div class="px-4 lg:max-w-5xl xl:max-w-6xl w-full">
-                <div class="flex justify-between w-full">
+                <div class="flex justify-between w-full text-neutral-400 dark:text-neutral-500">
                     <div>
-                        <span class="opacity-50" title="Copyright lololol">&copy; GD Forums 2022</span>
+                        <span>&copy; Hyperbolus 2022</span>
                     </div>
-                    <div class="flex space-x-6 opacity-50">
+                    <div class="flex space-x-6">
                         <Link :href="route('users.index')">Privacy Policy</Link>
                         <Link :href="route('users.index')">Terms of Service</Link>
                         <Link :href="route('users.index')">Users</Link>
+                        <label @click.stop class="flex items-center cursor-pointer">
+                            <Toggle class="pointer-events-none mr-2" @click="toggleDark" v-model="isDark"/>
+                            <span class="y leading-none text-xs font-bold opacity-60">
+                                <span>DARK</span>
+                                <span>MODE</span>
+                            </span>
+                        </label>
                     </div>
                 </div>
             </div>

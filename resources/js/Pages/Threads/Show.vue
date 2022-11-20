@@ -4,6 +4,7 @@ import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
 import route from "ziggy-js";
 import Post from "@/Components/Post.vue";
 import PostPad from "@/Components/PostPad.vue";
+import CommonLayout from "@/Layouts/CommonLayout.vue";
 
 const props = defineProps({
     thread: Object
@@ -25,7 +26,7 @@ const sendReply = () => {
 }
 </script>
 <template>
-    <app-layout :title="thread.title">
+    <common-layout :title="thread.title">
         <template #breadcrumbs>
             <Link :href="route('forums.index')">Forums</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -33,6 +34,27 @@ const sendReply = () => {
             </svg>
             <span>{{ thread.title }}</span>
         </template>
+        <div class="y space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="font-bold text-2xl">{{ thread.title }}</h2>
+                    <span class="text-sm">Posted by {{ thread.author.name }}, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Thread ID: {{ thread.id }}</span>
+                </div>
+                <div>
+                    <a href="#reply" class="button">Reply</a>
+                </div>
+            </div>
+            <Post v-for="(post, index) in thread.posts" :post="post" :key="index" :op="index === 0 ? null : thread.author.id"/>
+            <template v-if="$page.props.auth">
+                <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
+                <PostPad :submit="sendReply" v-model="reply"/>
+            </template>
+            <div v-else>
+                Log in to post a reply
+            </div>
+        </div>
+    </common-layout>
+    <app-layout :title="thread.title">
         <div class="y lg:max-w-5xl xl:max-w-6xl w-full space-y-4 p-4">
             <div class="flex items-center justify-between">
                 <div>

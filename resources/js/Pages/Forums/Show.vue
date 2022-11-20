@@ -1,9 +1,9 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link } from '@inertiajs/inertia-vue3';
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Avatar from "@/Components/Avatar.vue";
+import CommonLayout from "@/Layouts/CommonLayout.vue";
 
 defineProps({
     forum: Object,
@@ -11,7 +11,7 @@ defineProps({
 
 </script>
 <template>
-    <app-layout title="Home">
+    <common-layout title="Forums">
         <template #breadcrumbs>
             <Link :href="route('forums.index')">Forums</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -19,20 +19,13 @@ defineProps({
             </svg>
             <span>{{ forum.name }}</span>
         </template>
-        <div class="flex flex-col lg:max-w-5xl xl:max-w-6xl w-full space-y-4 p-4">
+        <div class="y w-full space-y-2">
             <div>
                 <h2 class="mx-2 font-bold text-2xl">{{ forum.name }}</h2>
                 <p class="text-sm mx-2">{{ forum.description }}</p>
             </div>
             <div class="flex justify-between">
                 <div class="w-full"></div>
-                <div class="w-full flex justify-center invisible">
-                    <div class="flex w-fit rounded bg-neutral-900">
-                        <div class="px-2 py-1">1</div>
-                        <div class="px-2 py-1 border-l border-l-neutral-700">2</div>
-                        <div class="px-2 py-1 border-l border-l-neutral-700">3</div>
-                    </div>
-                </div>
                 <div class="w-full flex justify-end">
                     <Link v-if="!forum.group_id || forum.group_id === $page.props.user.primary_group_id" :href="route('threads.create') + '?fid=' + forum.id" class="button">Create Thread</Link>
                 </div>
@@ -43,27 +36,25 @@ defineProps({
             <div v-if="forum.threads.length === 0">
                 <span>no threads ;(</span>
             </div>
-            <div class="rounded shadow bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 divide-y divide-neutral-200 dark:divide-neutral-700">
-                <div v-for="thread in forum.threads" class="x items-center justify-between px-4 py-2">
-                    <div class="x items-center gap-4">
-                        <Avatar class="w-8" :user="thread.author"/>
-                        <div class="y">
-                            <Link :href="route('threads.show', thread)" class="font-bold text-lg">{{ thread.title }}</Link>
-                            <span class="text-xs text-neutral-400 dark:text-neutral-500">By <Username :user="thread.author"/>, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}</span>
-                        </div>
+            <div v-for="thread in forum.threads" class="x items-center justify-between pane">
+                <div class="x items-center gap-4">
+                    <Avatar class="w-8" :user="thread.author"/>
+                    <div class="y">
+                        <Link :href="route('threads.show', thread)" class="font-bold text-lg">{{ thread.title }}</Link>
+                        <span class="text-xs text-neutral-500 dark:text-neutral-400">By <Username :user="thread.author"/>, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}</span>
                     </div>
-                    <div class="x items-center gap-4">
-                        <div class="y text-center">
-                            <span>{{ thread.views }}</span>
-                            <span class="text-xs uppercase">VIEWS</span>
-                        </div>
-                        <div class="y text-center">
-                            <span>{{ thread.posts_count }}</span>
-                            <span class="text-xs uppercase">REPLIES</span>
-                        </div>
+                </div>
+                <div class="x items-center gap-4">
+                    <div class="y text-center">
+                        <span>{{ thread.views }}</span>
+                        <span class="text-xs uppercase">VIEWS</span>
+                    </div>
+                    <div class="y text-center">
+                        <span>{{ thread.posts_count }}</span>
+                        <span class="text-xs uppercase">REPLIES</span>
                     </div>
                 </div>
             </div>
         </div>
-    </app-layout>
+    </common-layout>
 </template>

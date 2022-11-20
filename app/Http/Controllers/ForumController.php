@@ -33,6 +33,7 @@ class ForumController extends Controller
                 } else {
                     $forum['threads_count'] = $data;
                 }
+                $forum->load('lastPost.author');
             });
         }
 

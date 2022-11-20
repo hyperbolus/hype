@@ -3,7 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm} from '@inertiajs/inertia-vue3';
 import Button from "@/Jetstream/Button.vue";
 import route from 'ziggy-js'
-import background from "@/../images/background.png"
+import background from "@/../images/banner.jpg"
 import Pagination from "@/Components/Pagination.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Timestamp from "@/Components/Timestamp.vue";
@@ -35,7 +35,7 @@ const isOnline = (time) => {
 }
 </script>
 <template>
-    <app-layout title="Home">
+    <app-layout title="Home" :background="profile.banner_url ?? false">
         <template #breadcrumbs>
             <Link :href="route('users.index')">Users</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -43,7 +43,7 @@ const isOnline = (time) => {
             </svg>
             <span>{{ profile.id }}</span>
         </template>
-        <div class="x h-64 justify-center w-full bg-cover bg-center" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -75px 55px -25px inset;" :style="'background-image: url(\'' + (profile.banner_url ?? background) + '\')'">
+        <div class="x h-64 justify-center lg:max-w-5xl xl:max-w-6xl w-full w-full bg-cover bg-center">
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl p-4">
                 <div class="x w-full gap-2" :class="{'justify-end': !$page.props.auth || profile.id === $page.props.user.id, 'justify-between': $page.props.auth && profile.id !== $page.props.user.id}">
                     <div v-if="$page.props.auth && profile.id !== $page.props.user.id" class="x gap-2">
@@ -55,11 +55,8 @@ const isOnline = (time) => {
                 </div>
                 <div class="x items-end justify-between">
                     <div class="x items-end">
-                        <div class="x shadow-lg justify-center items-center rounded-full w-40 h-40 -mb-16 z-10 mr-4">
+                        <div class="x shrink-0 shadow-lg justify-center items-center rounded-full w-40 h-40 -mb-16 z-10 mr-4">
                             <Avatar :user="profile"/>
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="rounded-full p-6 text-neutral-300 dark:text-neutral-500 bg-neutral-800 dark:bg-neutral-200 w-full">-->
-<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />-->
-<!--                            </svg>-->
                         </div>
                         <div class="leading-none text-neutral-200">
                             <h1 class="font-bold text-2xl">{{ profile.name }}</h1>
@@ -99,12 +96,12 @@ const isOnline = (time) => {
                 </div>
             </div>
         </div>
-        <div class="x justify-center bg-neutral-200 dark:bg-neutral-900 w-full">
-            <div class="x justify-between lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
-                <div class="y mt-12 sm:mt-0 sm:ml-44">
-                    <span v-if="isOnline(profile.last_seen)" class="x items-center"><span class="text-sm font-bold text-green-500 mr-1 uppercase">ONLINE</span> Last seen <Timestamp :time="profile.last_seen"/></span>
-                    <span v-else class="x items-center"><span class="text-sm font-bold text-red-500 mr-1 uppercase">OFFLINE</span> Last seen <Timestamp :time="profile.last_seen"/></span>
-                    <span>Time spent online: <Timestamp :time="profile.time_online" length/></span>
+        <div class="x justify-center box !py-0 lg:max-w-5xl xl:max-w-6xl w-full bg-neutral-200 dark:bg-neutral-800 w-full">
+            <div class="x w-full justify-between px-4 py-2">
+                <div class="mt-12 sm:mt-0 sm:ml-44 z-10">
+                    <span class="text-sm font-bold mr-1 uppercase" :class="isOnline() ? 'text-green-500' : 'text-red-500'">{{ isOnline(profile.last_seen) ? 'ON' : 'OFF' }}LINE</span> Last seen <Timestamp :time="profile.last_seen"/>
+                    <br/>
+                    <span>Time spent online: <Timestamp :time="profile.time_online" :length="true"/></span>
                 </div>
                 <div>
 

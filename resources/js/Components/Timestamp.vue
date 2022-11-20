@@ -1,6 +1,9 @@
 <script setup>
+import Tooltip from "@/Components/Tooltip.vue";
+import {onBeforeMount, ref} from "vue";
+
 const props = defineProps({
-    time: String,
+    time: [String, Number],
     length: Boolean
 })
 
@@ -62,9 +65,9 @@ const timeAgo = (dateParam) => {
     } else if (minutes < 60) {
         return `${ minutes } minutes ago`;
     } else if (isToday) {
-        return getFormattedDate(date, 'today'); // Today at 10:20
+        return getFormattedDate(date, 'Today,'); // Today at 10:20
     } else if (isYesterday) {
-        return getFormattedDate(date, 'yesterday'); // Yesterday at 10:20
+        return getFormattedDate(date, 'Yesterday,'); // Yesterday at 10:20
     } else if (isThisYear) {
         return getFormattedDate(date, false, true); // 10. January at 10:20
     }
@@ -116,7 +119,19 @@ const timeLength = (seconds) => {
 
     return time;
 }
+
+const result = ref(null)
+
+onBeforeMount(() => {
+    result.value = props.length ? timeLength(props.time) : timeAgo(props.time)
+})
+
 </script>
 <template>
-    {{ length ? timeLength(time) : timeAgo(time) }}
+    <template v-if="length">
+        {{ result }}
+    </template>
+    <Tooltip v-else class="select-none inline-block" :message="time">
+        {{ result }}
+    </Tooltip>
 </template>

@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 <template>
     <div class="x justify-center">
-        <div class="x items-center box !py-0 !px-0 w-fit divide-x dark:divide-neutral-700">
+        <div class="x items-center pane overflow-clip !py-0 !px-0 w-fit">
             <template v-if="list.current_page !== 1">
                 <Link v-if="list.current_page - 1 !== 1" :href="list.first_page_url" class="px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -21,7 +21,7 @@ const props = defineProps({
                     </svg>
                 </Link>
             </template>
-            <Link v-for="(link, index) in list.links.slice(1, -1)" :href="link.url" :key="index" class="px-2" :class="{'bg-neutral-300 dark:bg-neutral-700': link.active}">
+            <Link v-for="(link, index) in list.links.slice(1, -1)" :href="link.url" :key="index" class="px-2 bg-opacity-50 dark:bg-opacity-50" :class="{'bg-neutral-300 dark:bg-neutral-700': link.active}">
                 {{ link.label }}
             </Link>
             <template v-if="list.current_page !== list.last_page">

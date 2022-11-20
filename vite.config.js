@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 const { resolve } = require('path');
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import {viteSingleFile} from "vite-plugin-singlefile";
 
 export default defineConfig({
     plugins: [
@@ -17,7 +18,11 @@ export default defineConfig({
                 },
             },
         }),
+        //viteSingleFile()
     ],
+    ssr: {
+        noExternal: ['@inertiajs/server'],
+    },
     resolve: {
         alias: {
             '@': resolve('./resources/js'),

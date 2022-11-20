@@ -41,7 +41,7 @@ const sendLike = () => {
 }
 </script>
 <template>
-    <div class="y rounded shadow bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
+    <div class="y pane !p-0 border border-neutral-200 dark:border-neutral-700">
         <div class="x">
             <div class="y space-y-4 items-center p-4 border-r border-r-neutral-300 dark:border-r-neutral-700">
                 <div class="y text-center items-center">
