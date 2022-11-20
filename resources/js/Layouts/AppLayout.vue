@@ -37,7 +37,7 @@ const toggleDark = () => {
     <div ref="base" class="y items-center text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-900 min-h-screen">
         <Head><title>{{ title }}</title></Head>
         <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
-            <div class="x items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
+            <div class="hidden md:flex px-2 items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
                 <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800 hover:bg-neutral-800">Geometry Dash</a>
                 <Tooltip :caret="false" message="SpinShare is not affiliated with Hyperbolus-supported websites">
                     <a href="https://spinsha.re" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Spin Rhythm</a>
@@ -48,7 +48,7 @@ const toggleDark = () => {
             </div>
         </div>
         <div class="y items-center z-20 w-full py-4 bg-neutral-200 dark:bg-neutral-800">
-            <div class="x justify-between lg:max-w-5xl xl:max-w-6xl w-full">
+            <div class="x px-2 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
                 <div class="x items-center space-x-4">
                     <Link @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-2xl select-none"><span class="text-cyan-400">Dash</span>Net</Link>
                     <Link v-if="false" @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-2xl select-none text-amber-500">Soundodger <span class="text-blue-400">Community</span></Link>
