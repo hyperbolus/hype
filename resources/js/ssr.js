@@ -13,6 +13,6 @@ createServer((page) => createInertiaApp({
         return createSSRApp({
             render: () => h(app, props),
         }).use(plugin)
-            .mixin({ methods: { route } })
+            .mixin({ methods: { route: window.route } })
     },
 }))
