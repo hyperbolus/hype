@@ -26,7 +26,7 @@ defineProps({
             </div>
             <div class="flex justify-between">
                 <div class="w-full"></div>
-                <div class="w-full flex justify-end">
+                <div v-if="$page.props.auth" class="w-full flex justify-end">
                     <Link v-if="!forum.group_id || forum.group_id === $page.props.user.primary_group_id" :href="route('threads.create') + '?fid=' + forum.id" class="button">Create Thread</Link>
                 </div>
             </div>
