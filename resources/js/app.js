@@ -22,6 +22,7 @@ createInertiaApp({
         return _app
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .mixin({ methods: { route: window.route } })
             .mount(el);
     },
 });
