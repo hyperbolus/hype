@@ -29,8 +29,8 @@ const thing = ref({
                     <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Click here to visit our Trello</a>
                     <h2 class="font-bold text-lg">Staff:</h2>
                     <ul class="list-inside list-disc">
-                        <li>Spellslave (@spelleslave)</li>
-                        <li>0x1DEA</li>
+                        <li>SeeBeyond</li>
+                        <li>You?</li>
                     </ul>
                 </div>
             </div>
