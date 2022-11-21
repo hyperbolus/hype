@@ -6,10 +6,10 @@
         </div>
         <div class="px-2 py-1 bg-white dark:bg-neutral-900 bg-opacity-40 dark:bg-opacity-40">
             <div class="bg-white px-1 dark:bg-neutral-900 bg-opacity-40 dark:bg-opacity-40 text-center font-bold text-lg py-1 rounded-full w-full">
-                <div class="bg-cyan-400 text-center font-bold text-lg py-1 px-1 rounded-full" style="width: 1%;"></div>
+                <div class="bg-cyan-400 text-center font-bold text-lg py-1 px-1 rounded-full" style="width: 0%;"></div>
             </div>
             <div class="px-2 py-1 x text-xs justify-between">
-                <span>50%</span>
+                <span>0%</span>
                 <span>$0 of $40 per month</span>
             </div>
         </div>
