@@ -34,7 +34,7 @@ const sendReply = () => {
             </svg>
             <span>{{ thread.title }}</span>
         </template>
-        <div class="y space-y-4">
+        <div class="y w-full space-y-4">
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-2xl">{{ thread.title }}</h2>
