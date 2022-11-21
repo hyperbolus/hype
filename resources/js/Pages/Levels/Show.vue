@@ -142,7 +142,7 @@ const face = () => {
                 </div>
                 <div v-for="review in level.reviews" class="x items-center box">
                     <Avatar class="w-8 h-8 mr-4" :user="review.author"/>
-                    <div class="y">
+                    <div class="y w-full">
                         <div class="x justify-between items-center space-x-2">
                             <h2><Username :user="review.author"/></h2>
                             <span>{{ review.rating_overall/2 }}/5</span>
