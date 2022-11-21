@@ -25,8 +25,13 @@ const thing = ref({
                     <div class="shadow rounded -skew-x-[45deg] border-r-[8px] border-r-red-500 w-8 py-1 -ml-4 h-full bg-black">&#8203;</div>
                 </div>
                 <div class="pane">
-                    <p>Join our Discord to suggest new features, give feedback, and get help!</p>
-                    <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Track development</a>
+                    <p>DashNet is currently in beta. Join our Discord to suggest new features, give feedback, and get help!</p>
+                    <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Click here to visit our Trello</a>
+                    <h2 class="font-bold text-lg">Staff:</h2>
+                    <ul class="list-inside list-disc">
+                        <li>Spellslave (@spelleslave)</li>
+                        <li>0x1DEA</li>
+                    </ul>
                 </div>
             </div>
         </div>
