@@ -39,7 +39,7 @@ const toggleDark = () => {
         <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
             <div class="hidden md:flex px-2 items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
                 <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800 hover:bg-neutral-800">Geometry Dash</a>
-                <Tooltip :caret="false" message="SpinShare is not affiliated with Hyperbolus-supported websites">
+                <Tooltip :caret="false" message="SpinShare is not affiliated with Hyperbolus websites">
                     <a href="https://spinsha.re" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Spin Rhythm</a>
                 </Tooltip>
                 <a href="https://soundodger-community.com" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Soundodger</a>
