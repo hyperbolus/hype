@@ -65,7 +65,16 @@ const toggleDark = () => {
                                 </div>
                             </template>
                         </Tooltip>
-                        <Link :href="route('forge')" class="hover:text-neutral-500 transition transition-colors">Forge</Link>
+                        <Tooltip :caret="false">
+                            <Link :href="route('forge')" class="hover:text-neutral-500 transition transition-colors">Forge</Link>
+                            <template #content>
+                                <div class="y divide-y divide-neutral-300 dark:divide-neutral-700">
+                                    <span class="px-2 bg-neutral-200 dark:bg-neutral-800 py-0.5 text-xs">OTHER&nbsp;PAGES</span>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('levels.index')">Mods</Link>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('videos.index')">Texture&nbsp;Packs</Link>
+                                </div>
+                            </template>
+                        </Tooltip>
                     </div>
                 </div>
                 <div class="hidden md:flex">
