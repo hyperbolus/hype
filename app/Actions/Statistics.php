@@ -25,7 +25,7 @@ class Statistics
             'videos' => self::count(\App\Models\Video::class),
             'playlists' => self::count(\App\Models\Playlist::class),
             'nongs' => self::count(\App\Models\Nong::class),
-            'patreon' => (function(){
+            'patreon' => (function () {
                 $res = Http::withToken(config('hyperbolus.patreon_token'))
                     ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage');
                 Cache::get('statistics:patreon', $res);
@@ -33,12 +33,14 @@ class Statistics
         ];
     }
 
-    public static function count($model) {
+    public static function count($model)
+    {
         $table = app($model)->getTable();
         $key = 'statistics:' . $table;
         $value = Cache::get($key);
-        if($value === null) {
-            Cache::put($key, DB::table($table)->count(), now()->addHour());
+        if ($value === null) {
+            $value = DB::table($table)->count();
+            Cache::put($key, $value, now()->addHour());
         }
         return $value;
     }
