@@ -35,7 +35,7 @@ const isOnline = (time) => {
 }
 </script>
 <template>
-    <app-layout title="Home" :background="profile.banner_url ?? false">
+    <app-layout title="Home" :background="profile.banner_url ?? true">
         <template #breadcrumbs>
             <Link :href="route('users.index')">Users</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
