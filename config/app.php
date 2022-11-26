@@ -58,6 +58,10 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'gdps_url' => env('GDPS_URL'),
+
+    'profile_url' => env('PROFILE_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
