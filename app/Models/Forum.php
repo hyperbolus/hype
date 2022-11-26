@@ -62,6 +62,7 @@ class Forum extends Model
     }
 
     public function lastPost(): HasOne {
-        return $this->hasOne(Post::class)->orderByDesc('id')->with('thread');
+        // TODO: Investigate why ->limit(1) is required if hasOne uses ->first()
+        return $this->hasOne(Post::class)->orderByDesc('id')->limit(1)->with('thread');
     }
 }
