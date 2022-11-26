@@ -39,8 +39,8 @@ const toggleDark = () => {
         <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
             <div class="hidden md:flex px-2 items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
                 <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800 hover:bg-neutral-800">Geometry Dash</a>
-                <Tooltip :caret="false" message="SpinShare is not affiliated with Hyperbolus websites">
-                    <a href="https://spinsha.re" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Spin Rhythm</a>
+                <Tooltip class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800" :caret="false" message="SpinShare is not affiliated with Hyperbolus websites">
+                    <a href="https://spinsha.re">Spin Rhythm</a>
                 </Tooltip>
                 <a href="https://soundodger-community.com" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Soundodger</a>
                 <a href="https://userlevels.com/snail" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Would You Snail?</a>
@@ -146,7 +146,7 @@ const toggleDark = () => {
             </div>
         </div>
         <div class="x z-10 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
-            <div class="x items-center gap-2 justify-between py-2.5 px-4 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
+            <div class="x items-center gap-2 justify-between py-2.5 px-2 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
                 <div class="x space-x-2">
                     <Link :href="route('home')">DashNet</Link>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
