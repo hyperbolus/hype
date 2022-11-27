@@ -18,6 +18,7 @@ use App\Http\Controllers\PlaylistSubmissionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\ProfileCommentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReputationLogController;
 use App\Http\Controllers\ReviewController;
@@ -37,8 +38,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::domain(config('app.url'))->group(function() {
+Route::domain(config('app.profile_url'))->group(function() {
     Route::redirect('/', config('app.url'));
+    Route::get('/{profile}', [ProfileController::class, 'show']);
 });
 
 Route::domain(config('app.url'))->group(function () {
@@ -72,9 +74,9 @@ Route::domain(config('app.url'))->group(function () {
 
     Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function() {
         Route::get('/', [DashboardController::class, 'home'])->name('settings.home');
+        Route::post('/', DashboardController::class)->name('settings.update');
         Route::get('/account', [DashboardController::class, 'account'])->name('settings.account');
         Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile');
-        Route::post('/', DashboardController::class)->name('settings.update');
     });
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
