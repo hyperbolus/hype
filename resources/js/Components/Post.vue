@@ -98,7 +98,7 @@ const sendLike = () => {
                                 <p class="mt-4">{{ post.body }}</p>
                             </template>
                         </div>
-                        <p v-else class="mt-4 h-full" style="hyphens: auto;">{{ post.body }}</p>
+                        <p v-else class="mt-4 h-full whitespace-pre-wrap" style="hyphens: auto;">{{ post.body }}</p>
                     </template>
                     <div v-if="!preview" class="x justify-between">
                         <div onclick="alert('cry about it')" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-neutral-800 text-neutral-400 hover:text-white hover:bg-red-500 transition rounded">
@@ -114,7 +114,7 @@ const sendLike = () => {
                     </div>
                 </div>
                 <div v-if="post.signature && user.signature" class="px-4 py-2 border-t border-t-neutral-300 dark:border-t-neutral-700">
-                    {{ user.signature }}
+                    <p class="whitespace-pre-wrap">{{ user.signature }}</p>
                 </div>
             </div>
         </div>

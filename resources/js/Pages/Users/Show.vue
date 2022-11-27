@@ -114,7 +114,7 @@ const isOnline = (time) => {
                     <div class="rounded-t bg-neutral-100 dark:bg-neutral-800 px-2 py-1">
                         Bio
                     </div>
-                    <p class="px-4 py-2 text-sm" v-if="profile.bio">{{ profile.bio }}</p>
+                    <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
                     <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                 </div>
                 <div class="y box text-sm !px-0 !py-0 divide-y dark:divide-neutral-700">
@@ -164,7 +164,7 @@ const isOnline = (time) => {
                     <div class="rounded-t bg-neutral-100 dark:bg-neutral-800 px-2 py-1">
                         Signature
                     </div>
-                    <p class="px-4 py-2" v-if="profile.signature">{{ profile.signature }}</p>
+                    <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
                     <span v-else class="opacity-50 italic px-4 py-2">This user has no signature</span>
                 </div>
             </div>
