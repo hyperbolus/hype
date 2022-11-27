@@ -50,12 +50,12 @@ const getTag = (json) => {
 }
 
 const typeClasses = (json) => {
-    let classes = []
+    let classes = ['whitespace-pre-wrap']
     if(json.type === 'blockquote') {
-        classes.push(['bg-neutral-100', 'dark:bg-neutral-800', 'rounded', 'p-2', 'my-1'])
+        classes.push(...['bg-neutral-100', 'dark:bg-neutral-800', 'rounded', 'p-2', 'my-1'])
     }
     if(json.type === 'mention') {
-        classes.push(['bg-neutral-100', 'dark:bg-neutral-800', 'rounded', 'px-1', 'py-0.5'])
+        classes.push(...['bg-neutral-100', 'dark:bg-neutral-800', 'rounded', 'px-1', 'py-0.5'])
     }
     return classes
 }
@@ -79,3 +79,9 @@ const typeClasses = (json) => {
         </template>
     </component>
 </template>
+<style scoped>
+/* TODO: probably more to do here */
+p, div {
+    white-space: pre-wrap;
+}
+</style>
