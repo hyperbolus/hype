@@ -32,7 +32,7 @@ const props = defineProps({
                 <div class="x justify-between">
                     <h1 class="text-xl font-bold">{{ submission.level.name }}</h1>
                     <div>
-                        <span>Submitted By: {{ submission.submitter.name }}</span>
+                        <span>Submitted By: {{ submission.submitter ? submission.submitter.name : 'Anonymous'  }}</span>
                     </div>
                 </div>
                 <h6 class="text-sm">{{ submission.level.creator }}</h6>
