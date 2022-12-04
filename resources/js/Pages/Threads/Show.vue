@@ -13,13 +13,17 @@ const reply = useForm({
     body: '',
     thread_id: props.thread.id,
     signature: !(!usePage().props.auth || !usePage().props.user.signature),
-    rich: false,
 })
 
 const sendReply = () => {
     reply.post(route('posts.create'), {
         data: reply,
         preserveScroll: true,
+        /*
+        TODO:
+         okay this doesnt actually work because of the same reason as preview.
+         it seems external mutation does not affect a nested tiptap editor
+        */
         onSuccess: () => reply.body = ''
     })
 }
