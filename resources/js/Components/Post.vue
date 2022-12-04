@@ -75,7 +75,7 @@ const sendLike = () => {
                     <p v-if="!post.body" class="text-neutral-100 dark:text-neutral-800 text-3xl text-center h-1/2">This post is empty... Like your soul...</p>
                     <div v-else class="mt-2 h-full w-full">
                         <div class="y justify-between">
-                            <TipTap :editable="!false" v-model="post.body"/>
+                            <TipTap :editable="false" v-model="post.body"/>
                         </div>
                         <details class="text-xs relative" v-if="$page.props.auth && $page.props.user.roles.includes('admin')">
                             <summary class="opacity-50 cursor-pointer">Raw Message</summary>
