@@ -47,7 +47,10 @@ const sendReply = () => {
                     <a href="#reply" class="button">Reply</a>
                 </div>
             </div>
-            <Post v-for="(post, index) in thread.posts" :post="post" :key="index" :op="index === 0 ? null : thread.author.id"/>
+            <template v-for="(post, index) in thread.posts" :key="index">
+                <Post :post="post" :op="thread.author.id"/>
+                <a v-if="index === 0" class="text-center hidden"><img class="inline" src="https://via.placeholder.com/970x90" alt="Advertisement"/></a>
+            </template>
             <template v-if="$page.props.auth">
                 <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
                 <PostPad :submit="sendReply" v-model="reply"/>
