@@ -14,7 +14,7 @@ const props = defineProps({
             <slot/>
         </div>
 
-        <div class="absolute left-0 transition-[visibility] duration-0 invisible group-hover:visible">
+        <div v-if="$slots.content || message" class="absolute left-0 transition-[visibility] duration-0 invisible group-hover:visible">
             <div class="y items-center w-full pt-2 transition ease-out transform duration-75 opacity-0 scale-95 group-hover:opacity-100 group-hover:duration-200 group-hover:scale-100">
                 <template v-if="caret">
                     <div class="drop-shadow absolute border-[8px] border-t-0 top-0 border-transparent border-b-neutral-300 dark:border-b-neutral-700"></div>
