@@ -112,7 +112,7 @@ const extensions = [
 ];
 const editor = useEditor({
     extensions: extensions,
-    content: props.modelValue.value,
+    content: props.modelValue,
     onUpdate: () => {
         //emit('update:modelValue', JSON.stringify(editor.value.getJSON()))
         emit('update:modelValue', editor.value.getHTML())
