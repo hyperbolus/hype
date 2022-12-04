@@ -59,7 +59,7 @@ const sendLike = () => {
                     </div>
                 </div>
             </div>
-            <div class="y w-full">
+            <div class="y w-full min-w-0">
                 <div class="y h-full w-full justify-between p-4">
                     <div class="x items-center space-x-1 text-xs" :class="preview ? 'text-amber-500' : 'text-neutral-400'">
                         <template v-if="!preview">
@@ -79,9 +79,9 @@ const sendLike = () => {
                         <div class="y justify-between">
                             <TipTap :editable="false" v-model="post.body"/>
                         </div>
-                        <details class="text-xs relative" v-if="$page.props.auth && $page.props.user.roles.includes('admin')">
+                        <details class="text-xs" v-if="$page.props.auth && $page.props.user.roles.includes('admin')">
                             <summary class="opacity-50 cursor-pointer">Raw Message</summary>
-                            <pre class="absolute w-full overflow-x-auto">{{ post.body }}</pre>
+                            <pre class="w-full overflow-x-auto">{{ post.body }}</pre>
                         </details>
                     </div>
                     <div v-if="!preview" class="x justify-between">
