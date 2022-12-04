@@ -37,7 +37,9 @@ const sendLike = () => {
                     <Username :user="user"/>
                     <span class="text-xs">Junior Member</span>
                 </div>
-                <Avatar class="w-44" :user="user"/>
+                <div class="px-2">
+                    <Avatar class="w-40" :user="user"/>
+                </div>
                 <div class="border border-neutral-300 dark:border-neutral-700 space-y-1 w-full rounded py-1 px-2 text-xs">
                     <div class="flex justify-between">
                         <span>Reputation:</span>
