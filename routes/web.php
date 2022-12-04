@@ -12,6 +12,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LevelTagController;
 use App\Http\Controllers\LevelTagVoteController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ModController;
 use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\PlaylistSubmissionController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReputationLogController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StyleController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
@@ -132,6 +134,9 @@ Route::domain(config('app.url'))->group(function () {
     Route::post('/inbox/new', [MessageController::class, 'store'])->name('inbox.store')->middleware(['auth', 'verified']);
     Route::get('/inbox/{id}', [MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
     Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
+
+    Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
+    Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
 
     Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
     Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified']);
