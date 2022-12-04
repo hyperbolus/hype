@@ -1,9 +1,9 @@
 <script setup>
-import {EditorContent, useEditor, VueRenderer} from '@tiptap/vue-3'
+import {EditorContent, generateJSON, useEditor, VueRenderer} from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import {ref, watch} from "vue";
+import {ref, toRef, watch} from "vue";
 import {Mention} from "@tiptap/extension-mention";
 import MentionList from "@/Components/MentionList.vue";
 import tippy from "tippy.js";
@@ -27,6 +27,10 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    editable: {
+        type: Boolean,
+        default: true,
+    }
 })
 
 const usernames = ref([]);
@@ -35,122 +39,143 @@ const searchNames = async (query) => {
     return fetch('/api/mention?name=' + query).then(data => data.json())
 }
 
-const emit = defineEmits(['update:modelValue'])
-
-const editor = useEditor({
-    extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-        Italic,
-        Underline,
-        Youtube,
-        TextAlign,
-        TextStyle,
-        Strike,
-        Placeholder,
-        Link,
-        Image,
-        Color,
-        CharacterCount,
-        Blockquote,
-        History,
-        Mention.configure({
-            HTMLAttributes: {
-                class: 'p-1 rounded bg-neutral-100 dark:bg-neutral-900'
-            },
-            suggestion: {
-                items: ({ query }) => {
-                    return searchNames(query)
-                    //return ['admin', 'aladin', 'albert', 'amy'].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
-                },
-                render: () => {
-                    let component, popup
-
-                    return {
-                        onStart: props => {
-                            component = new VueRenderer(MentionList, {
-                                props,
-                                editor: props.editor,
-                            })
-
-                            popup = tippy('body', {
-                                getReferenceClientRect: props.clientRect,
-                                appendTo: () => document.body,
-                                content: component.element,
-                                showOnCreate: true,
-                                interactive: true,
-                                trigger: 'manual',
-                                placement: 'bottom-start',
-                            })
-                        },
-                        onUpdate(props) {
-                            component.updateProps(props)
-
-                            popup[0].setProps({
-                                getReferenceClientRect: props.clientRect,
-                            })
-                        },
-                        onKeyDown(props) {
-                            return component.ref?.onKeyDown(props)
-                        },
-                        onExit() {
-                            popup[0].destroy()
-                            component.destroy()
-                        },
-                    }
-                }
-            }})
-    ],
-    content: props.modelValue,
-    onUpdate: () => {
-        emit('update:modelValue', JSON.stringify(editor.value.getJSON()))
-        //emit('update:modelValue', editor.value.getHTMK())
-    },
+const editable = ref(props.editable);
+watch(editable, (old, current) => {
+    editor.value.setEditable(current);
 })
 
-watch(props.modelValue, (old, current) => {
+const emit = defineEmits(['update:modelValue'])
+const extensions = [
+    Document,
+    Paragraph,
+    Text,
+    Bold,
+    Italic,
+    Underline,
+    Youtube,
+    TextAlign,
+    TextStyle,
+    Strike,
+    Placeholder,
+    Link,
+    Image,
+    Color,
+    CharacterCount,
+    Blockquote,
+    History,
+    Mention.configure({
+        HTMLAttributes: {
+            class: 'p-1 rounded bg-neutral-100 dark:bg-neutral-900'
+        },
+        suggestion: {
+            items: ({ query }) => {
+                return searchNames(query)
+                //return ['admin', 'aladin', 'albert', 'amy'].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
+            },
+            render: () => {
+                let component, popup
+
+                return {
+                    onStart: props => {
+                        component = new VueRenderer(MentionList, {
+                            props,
+                            editor: props.editor,
+                        })
+
+                        popup = tippy('body', {
+                            getReferenceClientRect: props.clientRect,
+                            appendTo: () => document.body,
+                            content: component.element,
+                            showOnCreate: true,
+                            interactive: true,
+                            trigger: 'manual',
+                            placement: 'bottom-start',
+                        })
+                    },
+                    onUpdate(props) {
+                        component.updateProps(props)
+
+                        popup[0].setProps({
+                            getReferenceClientRect: props.clientRect,
+                        })
+                    },
+                    onKeyDown(props) {
+                        return component.ref?.onKeyDown(props)
+                    },
+                    onExit() {
+                        popup[0].destroy()
+                        component.destroy()
+                    },
+                }
+            }
+        }})
+];
+const editor = useEditor({
+    extensions: extensions,
+    content: props.modelValue.value,
+    onUpdate: () => {
+        //emit('update:modelValue', JSON.stringify(editor.value.getJSON()))
+        emit('update:modelValue', editor.value.getHTML())
+    },
+    onCreate: () => {
+        editor.value.setEditable(editable.value);
+    }
+})
+
+watch(props.modelvalue, (old, current) => {
     // HTML
     //const isSame = editor.value.getHTML() === old
 
     // JSON
-    const isSame = JSON.stringify(editor.value.getJSON()) === JSON.stringify(value)
+    //const isSame = JSON.stringify(editor.value.getJSON()) === JSON.stringify(value)
 
-    if (isSame) {
-        return
-    }
+    // if (isSame) {
+    //     return
+    // }
 
-    editor.value.commands.setContent(value, false)
-})
+    editor.value.commands.setContent(props.modelValue, false)
+},
+    {
+        deep: true,
+    })
 </script>
 <template>
     <div class="y items-center">
-        <div v-if="editor" class="x flex-wrap mb-2 gap-2">
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('bold') }">
-                bold
-            </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('italic') }">
-                italic
-            </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('strike') }">
-                strike
-            </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('blockquote') }">
-                blockquote
-            </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().undo().run()">
-                undo
-            </button>
-            <button class="px-2 py-1 rounded" @click="editor.chain().focus().redo().run()">
-                redo
-            </button>
+        <div v-if="editor && editable" class="x w-full flex-wrap divide-x divide-neutral-300 dark:divide-neutral-700 border-b border-neutral-300 dark:border-neutral-700">
+            <div class="x items-center p-1 space-x-1">
+                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('bold') }">
+                    <span class="block w-4 font-bold">B</span>
+                </button>
+                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('italic') }">
+                    <span class="block w-4 italic">I</span>
+                </button>
+                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('strike') }">
+                    <span class="block w-4 line-through">S</span>
+                </button>
+            </div>
+            <div class="x items-center p-1">
+                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('blockquote') }">
+                    blockquote
+                </button>
+            </div>
+            <div class="x items-center p-1">
+                <button class="px-2 py-1 rounded" @click="editor.chain().focus().undo().run()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M7.793 2.232a.75.75 0 01-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 010 10.75H10.75a.75.75 0 010-1.5h2.875a3.875 3.875 0 000-7.75H3.622l4.146 3.957a.75.75 0 01-1.036 1.085l-5.5-5.25a.75.75 0 010-1.085l5.5-5.25a.75.75 0 011.06.025z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button class="px-2 py-1 rounded" @click="editor.chain().focus().redo().run()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M12.207 2.232a.75.75 0 00.025 1.06l4.146 3.958H6.375a5.375 5.375 0 000 10.75H9.25a.75.75 0 000-1.5H6.375a3.875 3.875 0 010-7.75h10.003l-4.146 3.957a.75.75 0 001.036 1.085l5.5-5.25a.75.75 0 000-1.085l-5.5-5.25a.75.75 0 00-1.06.025z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
         </div>
-        <editor-content class="w-full prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-neutral-600 !m-2 prose-neutral !prose-invert rounded bg-neutral-100 dark:bg-neutral-800" :editor="editor" />
+        <editor-content class="w-full prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-neutral-600 prose-neutral !prose-invert" :class="{'p-4 bg-neutral-100 dark:bg-neutral-800': editable}" :editor="editor" />
     </div>
 </template>
 <style>
-.ProseMirror {
+.rounded > .ProseMirror {
     padding: 0.5rem 0.75rem !important;
 }
 .ProseMirror-focused {

@@ -1,9 +1,10 @@
 <script setup>
 import {Link, useForm} from "@inertiajs/inertia-vue3";
-import RichText from "@/Components/RichText.vue";
 import Username from "@/Components/Username.vue";
 import route from "ziggy-js";
 import Avatar from "@/Components/Avatar.vue";
+import TipTap from "@/Components/TipTap.vue";
+import {ref} from "vue";
 
 const props = defineProps({
     post: Object,
@@ -22,18 +23,6 @@ const repColor = (rep) => {
     }
 }
 
-const fromText = (json) => {
-    try {
-        let obj = JSON.parse(json);
-
-        if (obj && typeof obj === "object") {
-            return obj
-        }
-    } catch(e) {
-        return false
-    }
-}
-
 const like = useForm({})
 
 const sendLike = () => {
@@ -43,7 +32,7 @@ const sendLike = () => {
 <template>
     <div class="y pane !p-0 border border-neutral-200 dark:border-neutral-700">
         <div class="x">
-            <div class="y space-y-4 items-center p-4 border-r border-r-neutral-300 dark:border-r-neutral-700">
+            <div class="y space-y-4 shrink-0 items-center p-4 border-r border-r-neutral-300 dark:border-r-neutral-700">
                 <div class="y text-center items-center">
                     <Username :user="user"/>
                     <span class="text-xs">Junior Member</span>
@@ -69,7 +58,7 @@ const sendLike = () => {
                 </div>
             </div>
             <div class="y w-full">
-                <div class="y h-full justify-between p-4">
+                <div class="y h-full w-full justify-between p-4">
                     <div class="x items-center space-x-1 text-xs" :class="preview ? 'text-amber-500' : 'text-neutral-400'">
                         <template v-if="!preview">
                             <span v-if="user.id === op" class="text-xs rounded bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 border border-neutral-300 dark:border-neutral-700 font-bold">OP</span>
@@ -84,22 +73,15 @@ const sendLike = () => {
                         <span v-else>THIS JUST A PREVIEW, YOU STILL NEED TO POST YOUR MESSAGE</span>
                     </div>
                     <p v-if="!post.body" class="text-neutral-100 dark:text-neutral-800 text-3xl text-center h-1/2">This post is empty... Like your soul...</p>
-                    <template v-else>
-                        <div class="mt-4 h-full" v-if="post.rich">
-                            <div class="y justify-between" v-if="fromText(post.body)">
-                                <RichText :json="fromText(post.body)"/>
-                                <details v-if="false">
-                                    <summary>Raw Message</summary>
-                                    <pre class="text-xs overflow-x-scroll">{{ JSON.stringify(fromText(post.body), null, 2) }}</pre>
-                                </details>
-                            </div>
-                            <template v-else-if="post.body.length !== 0">
-                                <span class="font-bold text-red-500">Malformed content cannot be displayed! Contact a site administrator.</span>
-                                <p class="mt-4">{{ post.body }}</p>
-                            </template>
+                    <div v-else class="mt-2 h-full w-full">
+                        <div class="y justify-between">
+                            <TipTap :editable="!false" v-model="post.body"/>
                         </div>
-                        <p v-else class="mt-4 h-full whitespace-pre-wrap" style="hyphens: auto;">{{ post.body }}</p>
-                    </template>
+                        <details class="text-xs relative" v-if="$page.props.auth && $page.props.user.roles.includes('admin')">
+                            <summary class="opacity-50 cursor-pointer">Raw Message</summary>
+                            <pre class="absolute w-full overflow-x-auto">{{ post.body }}</pre>
+                        </details>
+                    </div>
                     <div v-if="!preview" class="x justify-between">
                         <div onclick="alert('cry about it')" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-neutral-800 text-neutral-400 hover:text-white hover:bg-red-500 transition rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">

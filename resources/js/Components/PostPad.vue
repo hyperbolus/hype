@@ -4,6 +4,7 @@ import TipTap from "@/Components/TipTap.vue";
 import Post from "@/Components/Post.vue";
 import Button from "@/Jetstream/Button.vue";
 import {computed, ref} from "vue";
+import Tooltip from "@/Components/Tooltip.vue";
 
 const props = defineProps({
     modelValue: {
@@ -26,42 +27,29 @@ const value = computed({
 })
 
 const emit = defineEmits(['update:modelValue'])
-
-const richToggle = () => {
-    if(value.value.body.length === 0) {
-        value.value.body = '';
-        value.value.rich = !value.value.rich
-    } else {
-        if (confirm('This will erase your current draft, are you sure?')) {
-            value.value.body = '';
-            value.value.rich = !value.value.rich
-        }
-    }
-}
 </script>
 <template>
-    <div class="box">
-        <TipTap v-if="value.rich" v-model="value.body"/>
-        <textarea v-else v-model="value.body" class="resize-none resize-y w-full rounded bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
-        <div class="flex mt-2 items-center space-x-2">
-            <div class="flex items-center space-x-2">
-                <Toggle :disabled="!$page.props.user.signature" v-model="value.signature"/>
-                <span :class="{'opacity-50': !$page.props.user.signature}">Show Signature</span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <Toggle v-model="showingPreview"/>
-                <span>Show Preview</span>
-            </div>
-            <div class="flex items-center space-x-2" @click="richToggle">
-                <Toggle disabled class="cursor-pointer opacity-100" v-model="value.rich"/>
-                <span>Rich Text</span>
-            </div>
+    <div class="pane !p-0 border border-neutral-300 dark:border-neutral-700">
+        <TipTap v-model="value.body"/>
+<!--    <textarea v-else v-model="value.body" class="resize-none resize-y !rounded-none w-full bg-neutral-100 dark:bg-neutral-900"></textarea>-->
+        <div class="flex p-2 items-center space-x-2 border-t border-neutral-300 dark:border-neutral-700">
+            <Tooltip :message="!$page.props.user.signature ? 'You have not specified a post signature' : ''">
+                <div class="flex items-center space-x-2">
+                    <Toggle :disabled="!$page.props.user.signature" v-model="value.signature"/>
+                    <span :class="{'opacity-50': !$page.props.user.signature}">Show Signature</span>
+                </div>
+            </Tooltip>
+            <!-- TODO: this preview when rendered with a readonly tiptap doesnt update from the other tiptap editor -->
+<!--            <div class="flex items-center space-x-2">-->
+<!--                <Toggle v-model="showingPreview"/>-->
+<!--                <span>Show Preview</span>-->
+<!--            </div>-->
         </div>
     </div>
     <form v-if="submit" class="flex justify-center space-x-2" @submit.prevent="submit">
         <Button :class="value.processing ? 'opacity-50' : ''" :disabled="value.processing">Post Reply</Button>
     </form>
     <div :class="{'hidden': !showingPreview}">
-        <Post :post="value" :preview="true" :user="$page.props.user"/>
+        <Post :post="value" v-if="value" :preview="true" :user="$page.props.user"/>
     </div>
 </template>
