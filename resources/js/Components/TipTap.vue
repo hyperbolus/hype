@@ -21,6 +21,7 @@ import {CharacterCount} from "@tiptap/extension-character-count";
 import {Blockquote} from "@tiptap/extension-blockquote";
 import {Image} from "@tiptap/extension-image";
 import {History} from "@tiptap/extension-history";
+import {HardBreak} from "@tiptap/extension-hard-break";
 
 const props = defineProps({
     modelValue: {
@@ -63,6 +64,7 @@ const extensions = [
     CharacterCount,
     Blockquote,
     History,
+    HardBreak,
     Mention.configure({
         HTMLAttributes: {
             class: 'p-1 rounded bg-neutral-100 dark:bg-neutral-900'
