@@ -36,9 +36,10 @@ const toggleDark = () => {
 <template>
     <div ref="base" class="y items-center text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-900 min-h-screen">
         <Head><title>{{ title }}</title></Head>
+        <span class="hidden w-full px-1 py-0.5 x-text-center font-bold text-xs bg-indigo-400 dark:bg-indigo-600">DEV ENVIRONMENT &bull; 127.0.0.1 &bull; <a href="//phpmyadmin" class="underline">PhpMyAdmin</a> &bull; <Link :href="route('system.home')" class="underline">Control Panel</Link> &bull; You've been cunked</span>
         <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
             <div class="hidden md:flex px-2 items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
-                <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800 hover:bg-neutral-800">Geometry Dash</a>
+                <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800">Geometry Dash</a>
                 <Tooltip class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800" :caret="false" message="SpinShare is not affiliated with Hyperbolus websites">
                     <a href="https://spinsha.re">Spin Rhythm</a>
                 </Tooltip>
@@ -70,8 +71,8 @@ const toggleDark = () => {
                             <template #content>
                                 <div class="y divide-y divide-neutral-300 dark:divide-neutral-700">
                                     <span class="px-2 bg-neutral-200 dark:bg-neutral-800 py-0.5 text-xs">OTHER&nbsp;PAGES</span>
-                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('levels.index')">Mods</Link>
-                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('videos.index')">Texture&nbsp;Packs</Link>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('mods.index')">Mods</Link>
+                                    <Link class="px-2 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route('styles.index')">Texture&nbsp;Packs</Link>
                                 </div>
                             </template>
                         </Tooltip>
