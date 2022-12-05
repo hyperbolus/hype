@@ -130,6 +130,7 @@ Route::domain(config('app.url'))->group(function () {
     Route::delete('/contest/{contest}', [ContestController::class, 'destroy'])->name('contests.destroy')->middleware(['auth', 'verified']);
 
     Route::get('/tags', [LevelTagController::class, 'index'])->name('tags.index');
+    Route::post('/tags/create', [LevelTagController::class, 'store'])->name('tags.store')->middleware(['auth', 'verified', 'role:admin']);
     Route::get('/tag/{tag}', [LevelTagController::class, 'show'])->name('tags.show');
 
     Route::get('/inbox', [MessageController::class, 'index'])->name('inbox.index')->middleware(['auth', 'verified']);

@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
+import CommonLayout from '@/Layouts/CommonLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import Pagination from "@/Components/Pagination.vue";
 
@@ -10,7 +10,7 @@ const props = defineProps({
 
 </script>
 <template>
-    <app-layout title="Home">
+    <common-layout title="Home">
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Tags</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -18,17 +18,18 @@ const props = defineProps({
             </svg>
             <span>{{ tag.name }}</span>
         </template>
-        <div class="x max-w-6xl w-full gap-4 py-4">
-            <div class="y space-y-4 w-3/4">
-                <h2 class="font-bold text-2xl capitalize">Levels Tagged <span class="px-2 py-0.5 rounded dark:bg-neutral-900">{{ tag.name }}</span></h2>
+        <div class="y space-y-4 w-3/4">
+            <h2 class="font-bold text-2xl capitalize">Levels Tagged <span class="pane !px-2 !py-0.5 ">{{ tag.name }}</span></h2>
+            <span class="pane" v-if="levels.data.length === 0">There are no levels with this tag</span>
+            <template>
                 <Pagination :list="levels"/>
                 <div class="y box">
                     <Link class="text-xl" v-for="level in levels.data" :href="route('levels.show', level.id)">{{ level.name }}</Link>
                 </div>
-            </div>
-            <div class="y space-y-4 w-1/4">
-
-            </div>
+            </template>
         </div>
-    </app-layout>
+        <div class="y space-y-4 w-1/4">
+
+        </div>
+    </common-layout>
 </template>

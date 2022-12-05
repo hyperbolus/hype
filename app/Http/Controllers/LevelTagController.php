@@ -23,7 +23,15 @@ class LevelTagController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tag' => 'required'
+        ]);
+
+        $tag = new LevelTag();
+        $tag->name = $request->string('tag');
+        $tag->save();
+
+        return back();
     }
 
     public function show(LevelTag $tag): Response
