@@ -177,8 +177,8 @@ const toggleDark = () => {
                         <span>&copy; Hyperbolus 2022</span>
                     </div>
                     <div class="flex space-x-6">
-                        <Link :href="route('users.index')">Privacy Policy</Link>
-                        <Link :href="route('users.index')">Terms of Service</Link>
+                        <Link :href="route('legal.privacy')">Privacy Policy</Link>
+                        <Link :href="route('legal.terms')">Terms of Service</Link>
                         <Link :href="route('users.index')">Users</Link>
                         <label @click.stop class="flex items-center cursor-pointer">
                             <Toggle class="pointer-events-none mr-2" @click="toggleDark" v-model="isDark"/>
