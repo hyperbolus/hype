@@ -56,7 +56,9 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => rtrim(env('ASSET_URL'), "/") . '/',
+    'asset_url' => env('ASSET_URL'),
+
+    'storage_url' => rtrim(env('STORAGE_URL'), "/") . '/',
 
     'gdps_url' => env('GDPS_URL'),
 
