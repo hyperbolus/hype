@@ -65,14 +65,22 @@ class ThreadController extends Controller
         ]);
     }
 
-    public function edit(Thread $thread)
+    public function edit(Thread $thread): Response
     {
-        //
+        return Inertia::render('Threads/Edit', [
+            'thread' => $thread
+        ]);
     }
 
-    public function update(Request $request, Thread $thread)
+    public function update(Request $request, Thread $thread): RedirectResponse
     {
-        //
+        $request->validate([
+            'title' => 'required|min:5'
+        ]);
+        $thread->title = $request->string('title');
+        $thread->save();
+
+        return redirect()->route('threads.show', $thread);
     }
 
     public function destroy(Thread $thread)

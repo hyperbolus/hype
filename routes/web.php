@@ -95,12 +95,15 @@ Route::domain(config('app.url'))->group(function () {
     Route::get('/thread/create', [ThreadController::class, 'create'])->name('threads.create')->middleware(['auth', 'verified']);
     Route::post('/thread/create', [ThreadController::class, 'store'])->name('threads.store')->middleware(['auth', 'verified']);
     Route::get('/thread/{thread}', [ThreadController::class, 'show'])->name('threads.show');
-    Route::post('/thread/{thread}', [ThreadController::class, 'update'])->name('threads.update')->middleware(['auth', 'verified']);
+    Route::get('/thread/{thread}/edit', [ThreadController::class, 'edit'])->name('threads.edit')->middleware(['auth', 'verified']);
+    Route::post('/thread/{thread}/edit', [ThreadController::class, 'update'])->name('threads.update')->middleware(['auth', 'verified']);
     Route::delete('/thread/{thread}', [ThreadController::class, 'destroy'])->name('threads.destroy')->middleware(['auth', 'verified']);
 
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware(['auth', 'verified']);
     Route::post('/posts/create', [PostController::class, 'store'])->name('posts.store')->middleware(['auth', 'verified']);
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::post('/posts/{post}/edit', [PostController::class, 'update'])->name('posts.update');
     Route::post('/posts/{post}/like', [PostLikeController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
 
     Route::get('/reviews', [LevelController::class, 'index'])->name('levels.index');

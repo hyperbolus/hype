@@ -43,7 +43,8 @@ const sendReply = () => {
                     <h2 class="font-bold text-2xl">{{ thread.title }}</h2>
                     <span class="text-sm">Posted by {{ thread.author.name }}, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Thread ID: {{ thread.id }}</span>
                 </div>
-                <div>
+                <div class="space-x-2">
+                    <Link v-if="$page.props.auth && $page.props.user.id === thread.author_id" class="button" :href="route('threads.edit', thread.slug)">Edit Thread</Link>
                     <a href="#reply" class="button">Reply</a>
                 </div>
             </div>
@@ -53,6 +54,11 @@ const sendReply = () => {
             </template>
             <template v-if="$page.props.auth">
                 <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
+                <ul class="list-disc list-inside text-sm text-red-500">
+                    <li v-for="(error, key) in $page.props.errors" :key="key">
+                        {{ error }}
+                    </li>
+                </ul>
                 <PostPad :submit="sendReply" v-model="reply"/>
             </template>
             <div v-else>

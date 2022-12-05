@@ -1,10 +1,11 @@
 <script setup>
-import {Link, useForm} from "@inertiajs/inertia-vue3";
+import {Link, useForm, usePage} from "@inertiajs/inertia-vue3";
 import Username from "@/Components/Username.vue";
 import route from "ziggy-js";
 import Avatar from "@/Components/Avatar.vue";
 import TipTap from "@/Components/TipTap.vue";
-import {ref} from "vue";
+import Timestamp from "@/Components/Timestamp.vue";
+import {computed, onBeforeMount, onUpdated, ref, watch} from "vue";
 
 const props = defineProps({
     post: Object,
@@ -23,10 +24,29 @@ const repColor = (rep) => {
     }
 }
 
+const searchLikes = () => {
+    let found = false
+    if (usePage().props.value.auth && props.post.likes) {
+        props.post.likes.forEach((l) => {
+            if (l.liker_id === usePage().props.value.user.id) {
+                found = true
+            }
+        })
+    }
+    liked.value = found
+}
+
+onBeforeMount(searchLikes)
+onUpdated(searchLikes)
+
+const liked = ref(false)
+
 const like = useForm({})
 
 const sendLike = () => {
-    like.post(route('likes.store', props.post))
+    like.post(route('likes.store', props.post), {
+        preserveScroll: true
+    })
 }
 </script>
 <template>
@@ -84,16 +104,27 @@ const sendLike = () => {
                             <pre class="w-full overflow-x-auto">{{ post.body }}</pre>
                         </details>
                     </div>
+                    <div v-if="!preview && (post.created_at !== post.updated_at)" class="x mb-2 items-center space-x-1 text-xs text-neutral-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
+                            <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                        </svg>
+                        <span>This post last modified <Timestamp :time="post.created_at"/>, by <Username :user="user"/></span>
+                    </div>
                     <div v-if="!preview" class="x justify-between">
                         <div onclick="alert('cry about it')" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-neutral-800 text-neutral-400 hover:text-white hover:bg-red-500 transition rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                                 <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z" />
                             </svg>
                         </div>
-                        <div @click="sendLike" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-neutral-800 text-green-500 hover:bg-green-500 hover:text-white transition rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
-                            </svg>
+                        <div class="x space-x-2">
+                            <div @click="sendLike" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-neutral-800 hover:bg-green-500 hover:text-white transition rounded" :class="liked ? 'text-red-500' : 'text-green-500'">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
+                                </svg>
+                            </div>
+                            <Link v-if="$page.props.auth && $page.props.user.id === post.author_id" :href="route('posts.edit', post.id)" class="p-1.5 uppercase tracking-widest text-xs cursor-pointer bg-neutral-200 dark:bg-neutral-800 rounded">
+                                Edit
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -103,7 +134,7 @@ const sendLike = () => {
             </div>
         </div>
         <div v-if="!preview && post.likes.length > 0" class="x items-center border-t p-2 space-x-2 border-t-neutral-300 dark:border-t-neutral-700">
-            <div class="text-green-500 x items-center space-x-1">
+            <div class="x items-center space-x-1 text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                     <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
                 </svg>
