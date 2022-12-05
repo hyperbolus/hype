@@ -18,7 +18,6 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.post(route('videos.store'))
     form.transform(data => ({
         ...data,
         video_id: getYouTubeID(form.video_id),
