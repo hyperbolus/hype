@@ -52,10 +52,10 @@ class DashboardController extends Controller
                 $path = 'avatars/'.$file->hashName();
                 $disk->put($path, $img->stream()->detach(), 'public');
                 $old = $user->avatar_url;
-                $user->avatar_url = config('filesystems.cdn') . $path;
+                $user->avatar_url = config('app.asset_url') . $path;
                 $user->save();
                 if (User::whereAvatarUrl($old)->count() === 0) {
-                    $disk->delete(substr($old, strlen(config('filesystems.cdn'))));
+                    $disk->delete(substr($old, strlen(config('app.asset_url'))));
                 }
                 break;
             case 'update banner':
@@ -64,10 +64,10 @@ class DashboardController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $user->banner_url;
-                $user->banner_url = config('filesystems.cdn') . $disk->putFile('avatars/', $request->file('content'), 'public');
+                $user->banner_url = config('app.asset_url') . $disk->putFile('avatars/', $request->file('content'), 'public');
                 $user->save();
                 if (User::whereBannerUrl($old)->count() === 0) {
-                    $disk->delete(substr($old, strlen(config('filesystems.cdn'))));
+                    $disk->delete(substr($old, strlen(config('app.asset_url'))));
                 }
                 break;
             case 'update bio':

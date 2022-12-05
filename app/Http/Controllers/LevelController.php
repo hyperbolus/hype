@@ -114,10 +114,10 @@ class LevelController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $level->banner_url;
-                $level->banner_url = config('filesystems.cdn') . $disk->putFile('levels/banners/', $request->file('content'), 'public');
+                $level->banner_url = config('app.asset_url') . $disk->putFile('levels/banners/', $request->file('content'), 'public');
                 $level->save();
                 if (Level::whereBannerUrl($old)->count() === 0) {
-                    $disk->delete(substr($old, strlen(config('filesystems.cdn'))));
+                    $disk->delete(substr($old, strlen(config('app.asset_url'))));
                 }
                 break;
             case 'update tags':
