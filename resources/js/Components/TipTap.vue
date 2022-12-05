@@ -144,20 +144,21 @@ watch(props.modelvalue, (old, current) => {
 <template>
     <div class="y items-center">
         <div v-if="editor && editable" class="x w-full flex-wrap divide-x divide-neutral-300 dark:divide-neutral-700 border-b border-neutral-300 dark:border-neutral-700">
-            <div class="x items-center p-1 space-x-1">
-                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('bold') }">
-                    <span class="block w-4 font-bold">B</span>
+            <div class="x items-center text-xl p-1 space-x-1">
+                <button class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('bold') }">
+                    <span class="block w-4">&#119809;</span>
                 </button>
-                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('italic') }">
-                    <span class="block w-4 italic">I</span>
+                <button class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('italic') }">
+                    <span class="block w-4">&#119868;</span>
                 </button>
-                <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('strike') }">
-                    <span class="block w-4 line-through">S</span>
+                <button class="relative px-2 py-0.5 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('strike') }">
+                    <span class="block w-4 font-bold">S</span>
+                    <span class="absolute rounded left-[25%] top-[.9rem] border-y border-neutral-700 dark:border-neutral-300 px-2"></span>
                 </button>
             </div>
             <div class="x items-center p-1">
                 <button class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-neutral-300 dark:bg-neutral-700': editor.isActive('blockquote') }">
-                    blockquote
+                    <span class="block px-1 scale-[1.8] translate-y-[.42rem]">&#128630;</span>
                 </button>
             </div>
             <div class="x items-center p-1">
