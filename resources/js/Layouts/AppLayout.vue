@@ -102,7 +102,7 @@ const toggleDark = () => {
                         </Link>
                         <Dropdown>
                             <template #trigger>
-                                <div class="x bg-neutral-900 p-1 rounded-full items-center cursor-pointer">
+                                <div class="x bg-neutral-100 dark:bg-neutral-900 p-1 rounded-full items-center cursor-pointer">
                                     <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                                     <span>{{ $page.props.user.name }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
