@@ -149,6 +149,9 @@ Route::domain(config('app.url'))->group(function () {
     Route::get('/reports/new', [ReportController::class, 'create'])->name('reports.create')->middleware(['auth', 'verified']);
     Route::post('/reports/new', [ReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
 
+    Route::inertia('/legal/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
+    Route::inertia('/legal/terms', 'Docs/TermsOfService')->name('legal.terms');
+
     Route::impersonate(); // this yellow line is the bane of my existence...
 });
 

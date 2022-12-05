@@ -96,7 +96,7 @@ const submit = () => {
                         <JetCheckbox id="terms" v-model:checked="form.terms" name="terms" />
 
                         <div class="ml-2">
-                            I agree to the <Link target="_blank" href="/help/terms" class="underline text-neutral-900 dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 text-sm">Terms of Service</Link> and <Link target="_blank" href="/help/privacy" class="underline text-neutral-900 text-sm dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300">Privacy Policy</Link>
+                            I agree to the <Link target="_blank" :href="route('legal.terms')" class="underline text-neutral-900 dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 text-sm">Terms of Service</Link> and <Link target="_blank" :href="route('legal.privacy')" class="underline text-neutral-900 text-sm dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300">Privacy Policy</Link>
                         </div>
                     </div>
                 </JetLabel>

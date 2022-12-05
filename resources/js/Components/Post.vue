@@ -83,7 +83,7 @@ const sendLike = () => {
                 <div class="y h-full w-full justify-between p-4">
                     <div class="x items-center space-x-1 text-xs" :class="preview ? 'text-amber-500' : 'text-neutral-400'">
                         <template v-if="!preview">
-                            <span v-if="user.id === op" class="text-xs rounded bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 border border-neutral-300 dark:border-neutral-700 font-bold">OP</span>
+                            <span v-if="user.id === op" class="text-xs pane !px-2 !py-0.5 font-bold">OP</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="flex-shrink-0 w-3 h-3">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
                             </svg>
@@ -98,11 +98,11 @@ const sendLike = () => {
                     <div v-else class="mt-2 h-full w-full">
                         <div class="y justify-between">
                             <TipTap :editable="false" v-model="post.body"/>
+                            <details class="text-xs" v-if="$page.props.auth && $page.props.user.roles.includes('admin')">
+                                <summary class="opacity-50 cursor-pointer">Raw Message</summary>
+                                <pre class="w-full overflow-x-auto">{{ post.body }}</pre>
+                            </details>
                         </div>
-                        <details class="text-xs" v-if="$page.props.auth && $page.props.user.roles.includes('admin')">
-                            <summary class="opacity-50 cursor-pointer">Raw Message</summary>
-                            <pre class="w-full overflow-x-auto">{{ post.body }}</pre>
-                        </details>
                     </div>
                     <div v-if="!preview && (post.created_at !== post.updated_at)" class="x mb-2 items-center space-x-1 text-xs text-neutral-400">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
