@@ -34,7 +34,7 @@ const toggleDark = () => {
 }
 </script>
 <template>
-    <div ref="base" class="y items-center text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-900 min-h-screen">
+    <div ref="base" class="y items-center text-neutral-700 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-800 min-h-screen">
         <Head><title>{{ title }}</title></Head>
         <span class="hidden w-full px-1 py-0.5 x-text-center font-bold text-xs bg-indigo-400 dark:bg-indigo-600">DEV ENVIRONMENT &bull; 127.0.0.1 &bull; <a href="//phpmyadmin" class="underline">PhpMyAdmin</a> &bull; <Link :href="route('system.home')" class="underline">Control Panel</Link> &bull; You've been cunked</span>
         <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
@@ -170,7 +170,7 @@ const toggleDark = () => {
                 <slot/>
             </div>
         </div>
-        <div class="y p-4 items-center w-full bg-neutral-200 dark:bg-neutral-800">
+        <div class="y p-4 items-center w-full bg-neutral-100 dark:bg-neutral-900">
             <div class="px-4 lg:max-w-5xl xl:max-w-6xl w-full">
                 <div class="flex justify-between w-full text-neutral-400 dark:text-neutral-500">
                     <div>
