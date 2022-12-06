@@ -4,6 +4,7 @@ import StatsPanel from "@/Components/StatsPanel.vue";
 import {ref} from "vue";
 import CommonLayout from "@/Layouts/CommonLayout.vue";
 import PatreonGoal from "@/Components/PatreonGoal.vue";
+import Username from "@/Components/Username.vue";
 
 const thing = ref({
     body: '',
@@ -29,7 +30,10 @@ const thing = ref({
                     <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Click here to visit our Trello</a>
                     <h2 class="font-bold text-lg">Staff:</h2>
                     <ul class="list-inside list-disc">
-                        <li>The evil cabal of decomaxxing gameplay-pilled cope-cels</li>
+                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
+                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
+                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
+                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
                         <li>You?</li>
                     </ul>
                 </div>
