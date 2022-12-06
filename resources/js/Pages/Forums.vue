@@ -1,5 +1,4 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
 import StatsPanel from "@/Components/StatsPanel.vue";
 import ForumTicket from "@/Components/ForumTicket.vue";
 import {Link} from '@inertiajs/inertia-vue3'
@@ -14,7 +13,7 @@ defineProps({
         <template #breadcrumbs>
             <Link :href="$page.props.url">Forums</Link>
         </template>
-        <div class="flex flex-col space-y-4 md:w-3/4">
+        <div class="flex flex-col space-y-2 md:w-3/4">
             <div v-if="forums.length === 0">
                 <div class="rounded px-4 py-2 space-y-2 bg-neutral-200 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700">
                     <p>No Fooms Have Been Created :(</p>
