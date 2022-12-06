@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import CommonLayout from "@/Layouts/CommonLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import {Link, useForm, usePage} from "@inertiajs/inertia-vue3";
 import Avatar from "@/Components/Avatar.vue";
@@ -33,7 +33,7 @@ const sender = (obj) => {
 }
 </script>
 <template>
-    <app-layout title="Messages">
+    <common-layout title="Messages">
         <template #breadcrumbs>
             <Link :href="route('inbox.index')">Inbox</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -41,30 +41,28 @@ const sender = (obj) => {
             </svg>
             <span>Conversation with {{ recipient.name }}</span>
         </template>
-        <div class="x lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="y space-y-4 md:w-3/4">
-                <h2 class="mx-2 font-bold text-2xl">Conversation with {{ recipient.name }}</h2>
-                <Pagination :list="messages"/>
-                <div class="box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                    <div class="x items-center px-4 py-2" v-for="message in messages.data">
-                        <Avatar class="w-8 mr-4" :user="sender(message)"/>
-                        <div class="y w-full">
-                            <div class="x justify-between text-sm">
-                                <Username :user="sender(message)"/>
-                                <span class="text-neutral-400 dark:text-neutral-600"><Timestamp :time="message.created_at"/></span>
-                            </div>
-                            <p>{{ message.body }}</p>
+        <div class="y space-y-4 w-  full">
+            <h2 class="mx-2 font-bold text-2xl">Conversation with {{ recipient.name }}</h2>
+            <Pagination :list="messages"/>
+            <div class="box !px-0 !py-0 divide-y dark:divide-neutral-700">
+                <div class="x items-center px-4 py-2" v-for="message in messages.data">
+                    <Avatar class="w-8 mr-4" :user="sender(message)"/>
+                    <div class="y w-full">
+                        <div class="x justify-between text-sm">
+                            <Username :user="sender(message)"/>
+                            <span class="text-neutral-400 dark:text-neutral-600"><Timestamp :time="message.created_at"/></span>
                         </div>
+                        <p>{{ message.body }}</p>
                     </div>
                 </div>
-                <form @submit.prevent="sendMessage" class="y box space-y-2 !pb-4">
-                    <label class="y">
-                        <span class="my-1">Message</span>
-                        <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full rounded placeholder-neutral-400 dark:placeholder-neutral-600 bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
-                    </label>
-                    <Button class="w-fit">Send Message</Button>
-                </form>
             </div>
+            <form @submit.prevent="sendMessage" class="y box space-y-2 !pb-4">
+                <label class="y">
+                    <span class="my-1">Message</span>
+                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full rounded placeholder-neutral-400 dark:placeholder-neutral-600 bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
+                </label>
+                <Button class="w-fit">Send Message</Button>
+            </form>
         </div>
-    </app-layout>
+    </common-layout>
 </template>

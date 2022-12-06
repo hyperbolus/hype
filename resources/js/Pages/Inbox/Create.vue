@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import CommonLayout from "@/Layouts/CommonLayout.vue";
 import {Link, useForm, usePage} from "@inertiajs/inertia-vue3";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";
@@ -40,7 +40,7 @@ const searchName = async () => {
 }
 </script>
 <template>
-    <app-layout title="Messages">
+    <common-layout title="Messages">
         <template #breadcrumbs>
             <Link :href="route('inbox.index')">Inbox</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -48,34 +48,32 @@ const searchName = async () => {
             </svg>
             <span>New Message</span>
         </template>
-        <div class="x lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="y space-y-4 md:w-3/4">
-                <h2 class="mx-2 font-bold text-2xl">Send a New Message</h2>
-                <form @submit.prevent="sendMessage" class="y box space-y-2 !pb-4">
-                    <label class="y">
-                        <span class="my-1">Recipient</span>
-                        <Input @input="searchName" v-model="username" type="text" placeholder="User"/>
-                        <Dropdown align="left" ref="dropdown">
-                            <template #content>
-                                <ul class="px-2 py-1">
-                                    <li class="dark:hover:bg-neutral-700" v-for="user in users" @click="message.recipient_id = user.id; username = user.name">{{ user.name }}</li>
-                                    <li v-if="users.length === 0">No Results</li>
-                                </ul>
-                            </template>
-                        </Dropdown>
-                    </label>
-                    <label class="y">
-                        <span class="my-1">Message</span>
-                        <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full rounded placeholder-neutral-400 dark:placeholder-neutral-600 bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
-                    </label>
-                    <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                        <li v-for="(error, key) in $page.props.errors.default" :key="key">
-                            {{ error }}
-                        </li>
-                    </ul>
-                    <Button class="w-fit">Send Message</Button>
-                </form>
-            </div>
+        <div class="y space-y-4 w-full">
+            <h2 class="mx-2 font-bold text-2xl">Send a New Message</h2>
+            <form @submit.prevent="sendMessage" class="y pane space-y-2 !pb-4">
+                <label class="y">
+                    <span class="my-1">Recipient</span>
+                    <Input @input="searchName" v-model="username" type="text" placeholder="User"/>
+                    <Dropdown align="left" ref="dropdown">
+                        <template #content>
+                            <ul class="px-2 py-1">
+                                <li class="dark:hover:bg-neutral-700" v-for="user in users" @click="message.recipient_id = user.id; username = user.name">{{ user.name }}</li>
+                                <li v-if="users.length === 0">No Results</li>
+                            </ul>
+                        </template>
+                    </Dropdown>
+                </label>
+                <label class="y">
+                    <span class="my-1">Message</span>
+                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full pane placeholder-neutral-400 dark:placeholder-neutral-600 border-none"></textarea>
+                </label>
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    <li v-for="(error, key) in $page.props.errors.default" :key="key">
+                        {{ error }}
+                    </li>
+                </ul>
+                <Button class="w-fit">Send Message</Button>
+            </form>
         </div>
-    </app-layout>
+    </common-layout>
 </template>
