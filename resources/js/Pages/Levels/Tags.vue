@@ -22,7 +22,7 @@ const form = useForm({
 })
 
 const addTag = () => {
-    form.post(route('levels.tags.store', props.level.id), {
+    form.post(route('tags.store', props.level.id), {
         onSuccess: () => {
             tagname.value = ''
             form.reset()
