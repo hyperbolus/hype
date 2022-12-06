@@ -35,7 +35,8 @@ onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
 const widthClass = computed(() => {
     return {
         '48': 'w-48',
-        'full': 'w-full'
+        'full': 'w-full',
+        'fit': 'w-fit'
     }[props.width.toString()];
 });
 
@@ -53,7 +54,7 @@ const alignmentClasses = computed(() => {
 </script>
 
 <template>
-    <div class="relative">
+    <div class="relative select-none cursor-pointer">
         <div @click="open = ! open">
             <slot name="trigger" />
         </div>
