@@ -23,7 +23,7 @@ class VideoController extends Controller
         Hydrate::level($request->input('level_id'));
 
         $video = new Video();
-        $video->video_id = $request->integer('video_id');
+        $video->video_id = $request->string('video_id');
         $video->user_id = $request->user()->id;
         $video->level_id = $request->integer('level_id');
         $video->save();
