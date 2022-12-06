@@ -2,10 +2,12 @@
 import CommonLayout from "@/Layouts/CommonLayout.vue";
 import {ref} from "vue";
 import {Link, usePage} from '@inertiajs/inertia-vue3'
+import Username from "@/Components/Username.vue";
 
 const props = defineProps({
     levels: Array,
     progress: Number,
+    playlist: Object
 })
 
 const progress = ref(props.progress)
@@ -25,6 +27,10 @@ const newSeed = () => {
         </template>
         <div class="y space-y-2 md:w-2/3">
             <h1 class="mx-2 text-center font-bold text-4xl">{{ finished ? 'Results' : 'Level Roulette'}}</h1>
+            <div class="x self-center space-x-2">
+                <span class="pane !py-1"><Link :href="route('playlists.show', playlist.id)">{{ playlist.title }}</Link> by <Username :user="playlist.owner"/></span>
+                <span class="pane !py-1" v-show="!finished">Current Progress: {{progress }}</span>
+            </div>
             <template v-if="finished">
                 <div class="y space-y-2 text-center">
                     <span class="pane !py-1 self-center">{{ progress }} Level{{ progress === 1 ? '' : 's'}} Passed</span>
@@ -35,7 +41,6 @@ const newSeed = () => {
                 </div>
             </template>
             <template v-else>
-                <span class="pane !py-1 self-center">Current Progress: {{progress }}</span>
                 <div v-for="(level, index) in levels" :key="index" v-show="index <= progress" class="x pane justify-between">
                     <div class="x items-center space-x-2">
                         <span class="font-bold text-xl">{{ level.name }}</span>

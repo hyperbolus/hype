@@ -16,23 +16,24 @@ class RouletteController extends Controller
     public function __invoke(Request $request)
     {
         $levels = [];
+        $playlist = null;
 
         if(!$request->has('seed')) {
             return redirect($request->fullUrlWithQuery(['seed' => mt_rand(10000, 99999)]));
         }
 
         if ($request->string('type') == 'playlist') {
-            $playlist = Playlist::query()->with(['levels' => function ($query) use ($request) {
+            $playlist = Playlist::query()->with(['owner', 'levels' => function ($query) use ($request) {
                 $query->inRandomOrder($request->integer('seed'));
             }])->findOrFail($request->integer('id'));
-            $playlist->levels->map(function (Level $level) use (&$levels) {
-                $levels[] = $level;
-            });
+            $levels = $playlist->levels;
+            $playlist = $playlist->makeHidden('levels');
         }
 
         return Inertia::render('Roulette', [
             'levels' => $levels,
-            'progress' => $request->integer('progress')
+            'playlist' => $playlist,
+            'progress' => $request->integer('progress'),
         ]);
     }
 }
