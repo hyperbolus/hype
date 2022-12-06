@@ -51,7 +51,7 @@ const vote = (tag_id, approve) => {
             <ul class="pane list-inside list-disc space-y-4">
                 <li>The top rated images will appear on the level's page.</li>
                 <li>Site moderators can manually mark images as "verified."</li>
-                <li>Images with a consistent low scores will periodically be pruned from the list completely</li>
+                <li>Images with consistently low scores will periodically be pruned from the list completely</li>
             </ul>
         </div>
     </common-layout>
