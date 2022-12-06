@@ -120,11 +120,11 @@ const face = () => {
         <div class="x max-w-6xl w-full gap-4 py-4">
             <div class="y space-y-2 w-3/4">
                 <div class="x items-center justify-between">
-                    <h2 class="font-bold text-2xl">Screenshots</h2>
-                    <span class="pane !py-1 cursor-pointer">Submit</span>
+                    <h2 class="font-bold text-2xl">Images</h2>
+                    <Link :href="route('levels.images.show', level.id)" class="pane !py-1">Submit</Link>
                 </div>
-                <div v-if="level.screenshots.length === 0" class="pane">No images available. Add one?</div>
-                <Carousel v-else :images="level.screenshots"/>
+                <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
+                <Carousel v-else :images="level.images"/>
                 <h2 class="font-bold text-2xl">Reviews</h2>
                 <form v-if="$page.props.auth" @submit.prevent="submit" class="x pane gap-4">
                     <div class="space-y-2 w-full">

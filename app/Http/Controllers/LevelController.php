@@ -70,7 +70,7 @@ class LevelController extends Controller
      */
     public function show($id): Response
     {
-        $level = Hydrate::level($id)->load(['screenshots', 'tags']);
+        $level = Hydrate::level($id)->load(['images', 'tags']);
 
         return Inertia::render('Levels/Show', [
             'level' => $level->load(['reviews', 'reviews.author', 'videos']),
@@ -89,6 +89,13 @@ class LevelController extends Controller
         return Inertia::render('Levels/Tags', [
             'level' => $level->load('tags'),
             'tags' => LevelTag::all()
+        ]);
+    }
+
+    public function images(Level $level): Response
+    {
+        return Inertia::render('Levels/Images', [
+            'level' => $level
         ]);
     }
 

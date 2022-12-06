@@ -29,8 +29,8 @@ class Level extends Model
         return $this->belongsToMany(LevelTag::class)->withPivot(['verified', 'score'])->orderByPivot('verified', 'DESC')->orderByPivot('score', 'DESC')->withTimestamps();
     }
 
-    public function screenshots(): HasMany
+    public function images(): HasMany
     {
-        return $this->hasMany(Video::class, 'level_id');
+        return $this->hasMany(Video::class, 'level_id')->where('id', 0);
     }
 }

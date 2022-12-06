@@ -111,7 +111,7 @@ Route::domain(config('app.url'))->group(function () {
     Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
     Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
     Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
-    Route::get('/level/{level:id}/tags', [LevelController::class, 'images'])->name('levels.images.show');
+    Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('levels.images.show');
     //Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
     Route::get('/level/{level:id}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware(['auth', 'verified', 'role:admin']);
     Route::post('/level/{level:id}/edit', [LevelController::class, 'update'])->name('levels.update')->middleware(['auth', 'verified', 'role:admin']);
