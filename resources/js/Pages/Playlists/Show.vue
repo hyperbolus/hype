@@ -23,7 +23,9 @@ const props = defineProps({
                     <h2 class="font-bold text-2xl">{{ playlist.title }}</h2>
                     <span class="text-sm">Created by <Username :user="playlist.owner"/>, {{ new Date(playlist.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Playlist ID: {{ playlist.id }}</span>
                 </div>
-                <div>
+                <div class="x space-x-2">
+                    <Link :href="route('roulette') + `?type=playlist&id=${playlist.id}&seed=${Math.floor(Math.random() * (99999 - 10000) + 99999)}`" class="button">Roulette</Link>
+                    <Link :href="route('playlists.edit', playlist)" class="button">Edit</Link>
                     <Link :href="route('submissions.create', playlist)" class="button">Submit Level</Link>
                 </div>
             </div>

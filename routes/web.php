@@ -23,6 +23,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReputationLogController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RouletteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StyleController;
 use App\Http\Controllers\ThreadController;
@@ -116,11 +117,13 @@ Route::domain(config('app.url'))->group(function () {
     Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlists.index');
     Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create')->middleware(['auth', 'verified']);
     Route::post('/playlists/create', [PlaylistController::class, 'store'])->name('playlists.store')->middleware(['auth', 'verified']);
+    Route::get('/playlist/{playlist}', [PlaylistController::class, 'show'])->name('playlists.show');
+    Route::get('/playlist/{playlist}/edit', [PlaylistController::class, 'edit'])->name('playlists.edit')->middleware(['auth', 'verified']);
+    Route::post('/playlist/{playlist}/edit', [PlaylistController::class, 'update'])->name('playlists.update')->middleware(['auth', 'verified']);
+    Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlists.destroy')->middleware(['auth', 'verified']);
+
     Route::get('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'create'])->name('submissions.create');
     Route::post('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'store'])->name('submissions.store');
-    Route::get('/playlist/{playlist}', [PlaylistController::class, 'show'])->name('playlists.show');
-    Route::post('/playlist/{playlist}', [PlaylistController::class, 'update'])->name('playlists.update')->middleware(['auth', 'verified']);
-    Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlists.destroy')->middleware(['auth', 'verified']);
 
     Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');
     Route::get('/contests/create', [ContestController::class, 'create'])->name('contests.create')->middleware(['auth', 'verified']);
@@ -149,6 +152,8 @@ Route::domain(config('app.url'))->group(function () {
 
     Route::get('/reports/new', [ReportController::class, 'create'])->name('reports.create')->middleware(['auth', 'verified']);
     Route::post('/reports/new', [ReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
+
+    Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette');
 
     Route::inertia('/legal/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
     Route::inertia('/legal/terms', 'Docs/TermsOfService')->name('legal.terms');

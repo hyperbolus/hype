@@ -22,7 +22,7 @@ class Playlist extends Model
 
     public function levels(): BelongsToMany
     {
-        return $this->belongsToMany(Level::class, 'playlist_submissions', 'level_id', 'playlist_id');
+        return $this->belongsToMany(Level::class, 'playlist_submissions', 'playlist_id', 'level_id');
     }
 
     public function submissions(): HasMany
