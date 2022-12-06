@@ -19,7 +19,7 @@ const scroll = (el, left) => {
             </svg>
         </div>
         <div ref="scroller" class="x w-full items-center space-x-2 snap-x pane !py-4 overflow-x-hidden">
-            <Lightbox class="shrink-0" classes="max-h-40 object-fill" :image="image.url" :alt="image.caption"/>
+            <Lightbox v-for="(image, index) in images" :key="index" class="shrink-0" classes="max-h-40 object-fill" :image="image.url" :alt="image.caption"/>
         </div>
         <div @click="scroll(scroller, false)" class="absolute right-2 drop-shadow cursor-pointer bg-neutral-100 dark:bg-neutral-800 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
