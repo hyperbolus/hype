@@ -8,7 +8,7 @@ import StatsPanel from "@/Components/StatsPanel.vue";
         <template #breadcrumbs>
             <span>Levels</span>
         </template>
-        <div class="y space-y-4 md:w-3/4">
+        <div class="y space-y-2 md:w-3/4">
             <div class="space-y-2">
                 <h2 class="mx-2 font-bold text-2xl">Levels</h2>
                 <div class="pane">
@@ -16,7 +16,7 @@ import StatsPanel from "@/Components/StatsPanel.vue";
                 </div>
             </div>
         </div>
-        <div class="y space-y-4 md:w-1/4">
+        <div class="y space-y-2 md:w-1/4">
             <h2 class="mx-2 font-bold text-2xl">More</h2>
             <div class="rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
                 Join us on Discord
