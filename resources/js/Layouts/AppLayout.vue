@@ -34,21 +34,21 @@ const toggleDark = () => {
 }
 </script>
 <template>
-    <div ref="base" class="y items-center text-neutral-700 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-800 min-h-screen">
+    <div ref="base" class="y transition-colors items-center text-neutral-700 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-800 min-h-screen">
         <Head><title>{{ title }}</title></Head>
         <span class="hidden w-full px-1 py-0.5 x-text-center font-bold text-xs bg-indigo-400 dark:bg-indigo-600">DEV ENVIRONMENT &bull; 127.0.0.1 &bull; <a href="//phpmyadmin" class="underline">PhpMyAdmin</a> &bull; <Link :href="route('system.home')" class="underline">Control Panel</Link> &bull; You've been cunked</span>
-        <div class="x z-30 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
+        <div class="x z-30 transition-colors justify-center w-full bg-neutral-300 dark:bg-neutral-900">
             <div class="hidden md:flex px-2 items-center divide-x divide-neutral-200 dark:divide-neutral-800 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
-                <a class="px-2 py-1 bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800">Geometry Dash</a>
-                <Tooltip class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800" :caret="false" message="SpinShare is not affiliated with Hyperbolus websites">
+                <a class="px-2 py-1 transition-colors bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800">Geometry Dash</a>
+                <Tooltip class="px-2 py-1 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800" :caret="false" message="SpinShare is not affiliated with Hyperbolus websites">
                     <a href="https://spinsha.re">Spin Rhythm</a>
                 </Tooltip>
-                <a href="https://soundodger-community.com" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Soundodger</a>
-                <a href="https://userlevels.com/snail" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Would You Snail?</a>
-                <a href="https://userlevels.com/impossible" class="px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 !border-r border-neutral-200 dark:border-neutral-800">The Impossible Game 2</a>
+                <a href="https://soundodger-community.com" class="px-2 py-1 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800">Soundodger</a>
+                <a href="https://userlevels.com/snail" class="px-2 py-1 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800">Would You Snail?</a>
+                <a href="https://userlevels.com/impossible" class="px-2 py-1 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 !border-r border-neutral-200 dark:border-neutral-800">The Impossible Game 2</a>
             </div>
         </div>
-        <div class="y items-center z-20 w-full py-4 bg-neutral-200 dark:bg-neutral-800">
+        <div class="y items-center z-20 transition-colors w-full py-4 bg-neutral-200 dark:bg-neutral-800">
             <div class="x px-2 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
                 <div class="x items-center space-x-4">
                     <Link @mouseenter="subnav = 0" :href="route('home')" class="font-bold text-2xl select-none"><span class="text-cyan-400">Dash</span>Net</Link>
@@ -103,7 +103,7 @@ const toggleDark = () => {
                         </Link>
                         <Dropdown>
                             <template #trigger>
-                                <div class="x bg-neutral-100 dark:bg-neutral-900 p-1 rounded-full items-center cursor-pointer">
+                                <div class="x transition-colors bg-neutral-100 dark:bg-neutral-900 p-1 rounded-full items-center cursor-pointer">
                                     <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                                     <span>{{ $page.props.user.name }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mx-1 w-5 h-5">
@@ -147,7 +147,7 @@ const toggleDark = () => {
                 <Link :href="route('search')">Search</Link>
             </div>
         </div>
-        <div class="x z-10 justify-center w-full bg-neutral-300 dark:bg-neutral-900">
+        <div class="x z-10 transition-colors justify-center w-full bg-neutral-300 dark:bg-neutral-900">
             <div class="x items-center gap-2 justify-between py-2.5 px-2 lg:max-w-5xl xl:max-w-6xl w-full text-xs">
                 <div class="x space-x-2">
                     <Link :href="route('home')">DashNet</Link>
@@ -171,7 +171,7 @@ const toggleDark = () => {
                 <slot/>
             </div>
         </div>
-        <div class="y p-4 items-center w-full bg-neutral-100 dark:bg-neutral-900">
+        <div class="y p-4 transition-colors items-center w-full bg-neutral-100 dark:bg-neutral-900">
             <div class="px-4 lg:max-w-5xl xl:max-w-6xl w-full">
                 <div class="flex justify-between w-full text-neutral-400 dark:text-neutral-500">
                     <div>

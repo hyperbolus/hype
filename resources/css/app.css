@@ -11,11 +11,11 @@
 }
 
 .box {
-    @apply rounded px-4 py-2 shadow bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700;
+    @apply rounded px-4 py-2 shadow transition-colors bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700;
 }
 
 .pane {
-    @apply rounded px-4 py-2 shadow bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60
+    @apply  rounded px-4 py-2 shadow transition-colors bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60
 }
 
 .button {

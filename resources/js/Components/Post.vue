@@ -52,7 +52,7 @@ const sendLike = () => {
 <template>
     <div class="y pane !p-0 border border-neutral-200 dark:border-neutral-700">
         <div class="x">
-            <div class="y space-y-4 shrink-0 items-center p-4 border-r border-r-neutral-300 dark:border-r-neutral-700">
+            <div class="y space-y-4 bg-white bg-opacity-50 dark:bg-neutral-800 dark:bg-opacity-50 shrink-0 items-center p-4 transition-colors border-r border-r-neutral-300 dark:border-r-neutral-700">
                 <div class="y text-center items-center">
                     <Username :user="user"/>
                     <span class="text-xs">Junior Member</span>
@@ -60,7 +60,7 @@ const sendLike = () => {
                 <div class="px-2">
                     <Avatar class="w-40" :user="user"/>
                 </div>
-                <div class="border border-neutral-300 dark:border-neutral-700 space-y-1 w-full rounded py-1 px-2 text-xs">
+                <div class="pane !px-2 space-y-1 w-full text-xs">
                     <div class="flex justify-between">
                         <span>Reputation:</span>
                         <span :class="repColor(user.reputation)">{{ user.reputation }}</span>
@@ -133,7 +133,7 @@ const sendLike = () => {
                 </div>
             </div>
         </div>
-        <div v-if="!preview && post.likes.length > 0" class="x items-center border-t p-2 space-x-2 border-t-neutral-300 dark:border-t-neutral-700">
+        <div v-if="!preview && post.likes.length > 0" class="x items-center transition-colors border-t p-2 space-x-2 border-t-neutral-300 dark:border-t-neutral-700">
             <div class="x items-center space-x-1 text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                     <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
