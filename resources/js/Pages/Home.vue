@@ -26,6 +26,7 @@ const thing = ref({
                     <div class="shadow rounded -skew-x-[45deg] border-r-[8px] border-r-red-500 w-8 py-1 -ml-4 h-full bg-black">&#8203;</div>
                 </div>
                 <div class="pane">
+                    <h2 class="font-bold text-xl">About</h2>
                     <p>DashNet is currently in beta. Join our Discord to suggest new features, give feedback, and get help!</p>
                     <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Click here to visit our Trello</a>
                     <h2 class="font-bold text-lg">Staff:</h2>
@@ -35,6 +36,17 @@ const thing = ref({
                         <li><Link href="/user/[Object object]">[Object object]</Link></li>
                         <li><Link href="/user/[Object object]">[Object object]</Link></li>
                         <li>You?</li>
+                    </ul>
+                </div>
+                <div class="pane">
+                    <h2 class="font-bold text-xl">Special Thanks</h2>
+                    <ul class="list-inside list-disc">
+                        <li>Cvolton for help regarding interacting with gd servers</li>
+                        <li>matcool for replay conversion code</li>
+                        <li>matcool again & npesta for inspiring roulette game</li>
+                        <li>dogotrigger for providing a large cache of levels for research</li>
+                        <li>Geometry Dash Programming Discord</li>
+                        <li>Users like you, thank you!</li>
                     </ul>
                 </div>
             </div>
