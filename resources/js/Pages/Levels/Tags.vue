@@ -94,7 +94,7 @@ const selectTag = (tag) => {
             <ul class="pane list-inside list-disc space-y-4">
                 <li>The top rated tags will appear on the level's page.</li>
                 <li>Site moderators can manually mark tags as "verified."</li>
-                <li>Tags with a consistent low scores will periodically be pruned from the tag list completely</li>
+                <li>Tags with consistently low scores will periodically be pruned from the tag list completely</li>
                 <li>Available tags are pre-approved by moderators. If you want to discuss the removal or addition of a tag, visit the level discussion forum.</li>
             </ul>
         </div>
