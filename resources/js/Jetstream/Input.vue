@@ -33,7 +33,7 @@ defineExpose({ focus: () => input.value.focus() });
 <!--        >-->
 <!--    </div>-->
 
-    <div class="flex rounded bg-neutral-100 bg-opacity-50 dark:bg-opacity-50 dark:bg-neutral-900 overflow-clip">
+    <div class="flex rounded transition-colors bg-neutral-100 bg-opacity-50 dark:bg-opacity-50 dark:bg-neutral-900 overflow-clip">
         <span v-if="prefix" class="whitespace-nowrap select-none rounded-l pl-2 pr-1 py-1 bg-neutral-200 dark:bg-neutral-800 text-neutral-500 border-r border-r-neutral-300 dark:border-r-neutral-700">{{ prefix }}</span>
         <input
             ref="input" :pattern="pattern" :type="type" :placeholder="placeholder"
