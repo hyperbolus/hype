@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
+import CommonLayout from '@/Layouts/CommonLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import route from 'ziggy-js'
 
@@ -9,7 +9,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <app-layout title="Home">
+    <common-layout title="Username History">
         <template #breadcrumbs>
             <Link :href="route('users.show', profile.id)">{{ profile.name }}'s Profile</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -17,19 +17,17 @@ const props = defineProps({
             </svg>
             <span>Username History</span>
         </template>
-        <div class="flex lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex flex-col space-y-2 md:w-3/4">
-                <div class="flex justify-between items-center">
-                    <h2 class="font-bold text-2xl">{{ profile.name }}'s Username History</h2>
-                </div>
-                <div v-if="names.length > 0" class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                    <div v-for="change in names" class="block justify-between flex items-center px-4 py-2">
-                        <span>From {{ change.from }} to {{ change.to }}</span>
-                        <span class="text-sm text-neutral-400 dark:text-neutral-600">{{ new Date(change.created_at).toLocaleString([], {day: '2-digit', month: '2-digit', year:'2-digit', hour: '2-digit', minute: '2-digit'}) }}</span>
-                    </div>
-                </div>
-                <div v-else>No name changes have been logged</div>
+        <div class="flex flex-col space-y-2 md:w-3/4">
+            <div class="flex justify-between items-center">
+                <h2 class="font-bold text-2xl">{{ profile.name }}'s Username History</h2>
             </div>
+            <div v-if="names.length > 0" class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
+                <div v-for="change in names" class="block justify-between flex items-center px-4 py-2">
+                    <span>From {{ change.from }} to {{ change.to }}</span>
+                    <span class="text-sm text-neutral-400 dark:text-neutral-600">{{ new Date(change.created_at).toLocaleString([], {day: '2-digit', month: '2-digit', year:'2-digit', hour: '2-digit', minute: '2-digit'}) }}</span>
+                </div>
+            </div>
+            <div v-else>No name changes have been logged</div>
         </div>
-    </app-layout>
+    </common-layout>
 </template>
