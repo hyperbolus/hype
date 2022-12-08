@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Profile;
+use App\Models\GeometryDash\Profile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 

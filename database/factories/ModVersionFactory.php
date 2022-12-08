@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ModVersion>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Forge\ModVersion>
  */
 class ModVersionFactory extends Factory
 {

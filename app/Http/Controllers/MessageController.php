@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Message;
-use App\Models\User;
+use App\Models\Social\Message;
+use App\Models\System\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

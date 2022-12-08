@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
+use App\Models\GeometryDash\Profile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -53,7 +53,7 @@ class ProfileController extends Controller
         }
 
         $user_id = $res[3];
-        if ($profile = Profile::where('user_id', '=', $user_id)->first()) {
+        if ($profile = Profile::where('owner_id', '=', $user_id)->first()) {
             if ($profile->owner_id) {
                 return response()->json(['status' => 'failed', 'reason' => 'Account already linked!']);
             }
@@ -89,18 +89,19 @@ class ProfileController extends Controller
      */
     public function show(string $name): \Inertia\Response|RedirectResponse
     {
-        if (empty($name)) {
-            return redirect('https://www.dashlink.net');
-        }
+        return Inertia::render('Profiles/Show', [
+            'profile' => [
+                'name' => $name
+            ],
+        ]);
 
-        $api = app()->environment('local') ? "https://gdbrowser.com" : "http://127.0.0.1:2000";
-        $res = Http::get($api . '/api/profile/' . $name);
+        $res = Http::get(config('app.gdps_url') . '/api/profile/' . $name);
         if ($res->body() == '-1') {
             abort(404);
         }
         $profile = json_decode($res, true);
         // It's ok if this fails. We show all profiles.
-        $plus = Profile::whereAccountId($profile['accountID'])->first();
+        $plus = Profile::query()->where('account_id', $profile['accountID'])->first();
 
         $profile['plus'] = $plus ? $plus->plus() : false;
 

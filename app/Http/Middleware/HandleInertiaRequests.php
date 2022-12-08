@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Statistics;
-use App\Models\Message;
+use App\Models\Social\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;

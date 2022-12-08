@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Content\Post;
+use App\Models\Content\Thread;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

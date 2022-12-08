@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
 use App\Yggdrasil;
 use Illuminate\Auth\Events\Registered;

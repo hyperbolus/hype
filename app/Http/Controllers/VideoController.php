@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Hydrate;
-use App\Models\Video;
+use App\Models\Content\Video;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

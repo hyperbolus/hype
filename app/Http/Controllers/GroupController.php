@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
+use App\Models\Social\Group;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller

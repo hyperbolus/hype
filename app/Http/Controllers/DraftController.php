@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Draft;
+use App\Models\System\Draft;
 use Illuminate\Http\Request;
 
 class DraftController extends Controller

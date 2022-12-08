@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContestSubmission;
+use App\Models\Content\ContestSubmission;
 use Illuminate\Http\Request;
 
 class ContestSubmissionController extends Controller

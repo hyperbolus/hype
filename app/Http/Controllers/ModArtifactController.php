@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ModArtifact;
+use App\Models\Forge\ModArtifact;
 use Illuminate\Http\Request;
 
 class ModArtifactController extends Controller

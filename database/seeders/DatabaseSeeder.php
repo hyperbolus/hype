@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ReputationLog;
-use App\Models\User;
+use App\Models\System\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         Artisan::call('app:update');
         $this->command->info('Finished Setup');
 
-        $users = \App\Models\User::factory(20)->create();
-        $levels = \App\Models\Level::factory(30)->create();
-        $reviews = \App\Models\Review::factory(100)->create();
+        $users = \App\Models\System\User::factory(20)->create();
+        $levels = \App\Models\GeometryDash\Level::factory(30)->create();
+        $reviews = \App\Models\Content\Review::factory(100)->create();
 
         $this->command->info('Seeded users with levels and reviews');
 
@@ -42,9 +42,9 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Forum::factory(7)->create();
         $this->command->info('Seeded forums');
-        \App\Models\Thread::factory(25)->create();
+        \App\Models\Content\Thread::factory(25)->create();
         $this->command->info('Seeded threads');
-        \App\Models\PostLike::factory(100)->create();
+        \App\Models\Social\PostLike::factory(100)->create();
         $this->command->info('Seeded forum content');
 
         $levels->load('reviews');
@@ -72,11 +72,11 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Calculated initial review scores');
 
-        \App\Models\Playlist::factory(5)->create();
+        \App\Models\Content\Playlist::factory(5)->create();
 
-        \App\Models\ProfileComment::factory(100)->create();
-        \App\Models\Message::factory(100)->create();
-        \App\Models\Friend::factory(20)->create();
+        \App\Models\Social\ProfileComment::factory(100)->create();
+        \App\Models\Social\Message::factory(100)->create();
+        \App\Models\Social\Friend::factory(20)->create();
         $reps = \App\Models\ReputationLog::factory(50)->create();
         $this->command->info('Seeded additional profile data');
         $users->each(function (User $user) {

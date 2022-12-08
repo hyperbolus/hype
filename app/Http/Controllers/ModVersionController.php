@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ModVersion;
+use App\Models\Forge\ModVersion;
 use Illuminate\Http\Request;
 
 class ModVersionController extends Controller

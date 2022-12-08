@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Nong>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Content\Song>
  */
 class NongFactory extends Factory
 {

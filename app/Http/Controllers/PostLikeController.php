@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\PostLike;
+use App\Models\Content\Post;
+use App\Models\Social\PostLike;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

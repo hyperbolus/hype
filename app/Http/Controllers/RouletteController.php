@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Hydrate;
-use App\Models\Level;
-use App\Models\Playlist;
-use App\Models\Review;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Content\Playlist;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

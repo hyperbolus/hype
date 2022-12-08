@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NameChange;
-use App\Models\User;
+use App\Models\System\User;
 use Inertia\Inertia;
 use Inertia\Response;
 

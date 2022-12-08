@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\ProfileComment;
-use App\Models\User;
+use App\Models\Social\ProfileComment;
+use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

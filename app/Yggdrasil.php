@@ -23,6 +23,10 @@ class Yggdrasil
      */
     public static array $defaultPermissions = [];
 
+    public static array $morphMap = [
+
+    ];
+
     /**
      * Generate a new 2fa recovery code.
      *

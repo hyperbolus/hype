@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Level;
+use App\Models\GeometryDash\Level;
 use App\Models\LevelTag;
 use App\Models\LevelTagVote;
 use Illuminate\Http\RedirectResponse;

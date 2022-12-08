@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Playlist;
+use App\Models\Content\Playlist;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Level;
-use App\Models\Review;
-use App\Models\User;
+use App\Models\Content\Review;
+use App\Models\GeometryDash\Level;
+use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

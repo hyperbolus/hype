@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Level;
+use App\Models\GeometryDash\Level;
 use Illuminate\Support\Facades\Http;
 
 class Hydrate

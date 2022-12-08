@@ -11,14 +11,14 @@ class RecoveryCodesGenerated
     /**
      * The user instance.
      *
-     * @var \App\Models\User
+     * @var \App\Models\System\User
      */
     public $user;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\System\User  $user
      * @return void
      */
     public function __construct($user)

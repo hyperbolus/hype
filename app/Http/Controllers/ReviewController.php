@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Hydrate;
-use App\Models\Review;
+use App\Models\Content\Review;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

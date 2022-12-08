@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
+use App\Models\System\User;
 use App\Notifications\Announcement;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

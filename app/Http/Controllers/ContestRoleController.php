@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContestRole;
+use App\Models\Content\ContestRole;
 use Illuminate\Http\Request;
 
 class ContestRoleController extends Controller

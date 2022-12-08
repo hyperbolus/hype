@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Forum;;
-use App\Models\Post;
-use App\Models\Thread;
+use App\Models\Content\Post;
+use App\Models\Content\Thread;
+use App\Models\Forum;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+
+;
 
 class ThreadController extends Controller
 {

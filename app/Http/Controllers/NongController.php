@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Nong;
+use App\Models\Content\Song;
 use Illuminate\Http\Request;
 
 class NongController extends Controller
@@ -22,22 +22,22 @@ class NongController extends Controller
         //
     }
 
-    public function show(Nong $nong)
+    public function show(Song $nong)
     {
         //
     }
 
-    public function edit(Nong $nong)
+    public function edit(Song $nong)
     {
         //
     }
 
-    public function update(Request $request, Nong $nong)
+    public function update(Request $request, Song $nong)
     {
         //
     }
 
-    public function destroy(Nong $nong)
+    public function destroy(Song $nong)
     {
         //
     }

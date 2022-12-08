@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contest;
+use App\Models\Content\Contest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;

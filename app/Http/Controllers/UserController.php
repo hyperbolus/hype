@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Review;
-use App\Models\User;
+use App\Models\Content\Review;
+use App\Models\System\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;

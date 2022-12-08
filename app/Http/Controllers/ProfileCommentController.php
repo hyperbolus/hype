@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProfileComment;
+use App\Models\Social\ProfileComment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

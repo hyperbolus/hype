@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Content\Thread;
 use App\Models\Forum;
-use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;

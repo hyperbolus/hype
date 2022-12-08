@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SoundodgerLevel;
+use App\Models\Soundodger\SoundodgerLevel;
 use Illuminate\Http\Request;
 
 class SoundodgerLevelController extends Controller
@@ -41,7 +41,7 @@ class SoundodgerLevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SoundodgerLevel  $soundodgerLevel
+     * @param  \App\Models\Soundodger\SoundodgerLevel  $soundodgerLevel
      * @return \Illuminate\Http\Response
      */
     public function show(SoundodgerLevel $soundodgerLevel)
@@ -52,7 +52,7 @@ class SoundodgerLevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SoundodgerLevel  $soundodgerLevel
+     * @param  \App\Models\Soundodger\SoundodgerLevel  $soundodgerLevel
      * @return \Illuminate\Http\Response
      */
     public function edit(SoundodgerLevel $soundodgerLevel)
@@ -64,7 +64,7 @@ class SoundodgerLevelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SoundodgerLevel  $soundodgerLevel
+     * @param  \App\Models\Soundodger\SoundodgerLevel  $soundodgerLevel
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, SoundodgerLevel $soundodgerLevel)
@@ -75,7 +75,7 @@ class SoundodgerLevelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SoundodgerLevel  $soundodgerLevel
+     * @param  \App\Models\Soundodger\SoundodgerLevel  $soundodgerLevel
      * @return \Illuminate\Http\Response
      */
     public function destroy(SoundodgerLevel $soundodgerLevel)

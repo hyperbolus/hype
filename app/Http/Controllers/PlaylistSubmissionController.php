@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Hydrate;
-use App\Models\Playlist;
-use App\Models\PlaylistSubmission;
+use App\Models\Content\Playlist;
+use App\Models\Content\PlaylistSubmission;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

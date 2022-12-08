@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Post;
-use App\Models\PostLike;
-use App\Models\User;
+use App\Models\Content\Post;
+use App\Models\Social\PostLike;
+use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
