@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('subject');
             $table->text('content');
             $table->text('action')->nullable();
-            $table->nullableMorphs('reportable');
+            $table->foreignId('reportable_id')->nullable();
+            $table->unsignedTinyInteger('reportable_type')->nullable();
             $table->unsignedSmallInteger('reason')->nullable();
             $table->unsignedSmallInteger('meta')->nullable();
             $table->foreignId('closed_by')->nullable();
