@@ -30,8 +30,8 @@ const props = defineProps({
                 </div>
             </div>
             <p class="pane">{{ playlist.description ?? 'This playlist has no description' }}</p>
-            <div class="box" v-if="playlist.submissions.length === 0">This playlist has no levels</div>
-            <Link v-for="submission in playlist.submissions" :href="route('levels.show', submission.level.id)" class="block y p-2 rounded bg-neutral-900 border border-neutral-700">
+            <div class="pane" v-if="playlist.submissions.length === 0">This playlist has no levels</div>
+            <Link v-for="submission in playlist.submissions" :href="route('levels.show', submission.level.id)" class="block y pane">
                 <div class="x justify-between">
                     <h1 class="text-xl font-bold">{{ submission.level.name }}</h1>
                     <div>

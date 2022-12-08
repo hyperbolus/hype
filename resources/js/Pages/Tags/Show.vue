@@ -23,7 +23,7 @@ const props = defineProps({
             <span class="pane" v-if="levels.data.length === 0">There are no levels with this tag</span>
             <template>
                 <Pagination :list="levels"/>
-                <div class="y box">
+                <div class="y pane">
                     <Link class="text-xl" v-for="level in levels.data" :href="route('levels.show', level.id)">{{ level.name }}</Link>
                 </div>
             </template>

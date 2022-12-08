@@ -1,12 +1,12 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
+import CommonLayout from '@/Layouts/CommonLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 </script>
 <template>
-    <app-layout title="Create Contest">
+    <common-layout title="Create Contest">
         <template #breadcrumbs>
             <Link :href="route('contests.index')">Contests</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -14,29 +14,27 @@ import Input from "@/Jetstream/Input.vue";
             </svg>
             <span>Create</span>
         </template>
-        <div class="x lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="y space-y-4 md:w-3/4">
-                <h2 class="mx-2 font-bold text-2xl">Create a New Contest</h2>
-                <div class="y box space-y-2">
-                    <label class="y">
-                        <span class="my-1">Name</span>
-                        <Input type="text" placeholder="Required"/>
-                    </label>
-                    <label class="y">
-                        <span class="my-1">Short Description</span>
-                        <Input type="text" placeholder="Required"/>
-                    </label>
-                    <label class="y">
-                        <span class="my-1">URL</span>
-                        <Input type="text" prefix="https://gdforums.com/contest/" class="p-0" placeholder="Required"/>
-                    </label>
-                    <label class="y space-y-2">
-                        <span class="flex items-center"><input type="radio" name="ranked_type" value="true" class="mr-1"/> Ranked — Submission are voted on and placed</span>
-                        <span class="flex items-center"><input type="radio" name="ranked_type" value="false" class="mr-1"/> Unranked — Submissions are not voted on, just for fun!</span>
-                    </label>
-                    <Button onclick="alert('wip!')" class="w-fit">Create Contest</Button>
-                </div>
+        <div class="y space-y-4 md:w-2/3">
+            <h2 class="mx-2 font-bold text-2xl">Create a New Contest</h2>
+            <div class="y pane space-y-2">
+                <label class="y">
+                    <span class="my-1">Name</span>
+                    <Input type="text" placeholder="Required"/>
+                </label>
+                <label class="y">
+                    <span class="my-1">Short Description</span>
+                    <Input type="text" placeholder="Required"/>
+                </label>
+                <label class="y">
+                    <span class="my-1">URL</span>
+                    <Input type="text" prefix="https://gdforums.com/contest/" class="p-0" placeholder="Required"/>
+                </label>
+                <label class="y space-y-2">
+                    <span class="flex items-center"><input type="radio" name="ranked_type" value="true" class="mr-1"/> Ranked — Submission are voted on and placed</span>
+                    <span class="flex items-center"><input type="radio" name="ranked_type" value="false" class="mr-1"/> Unranked — Submissions are not voted on, just for fun!</span>
+                </label>
+                <Button onclick="alert('wip!')" class="w-fit">Create Contest</Button>
             </div>
         </div>
-    </app-layout>
+    </common-layout>
 </template>

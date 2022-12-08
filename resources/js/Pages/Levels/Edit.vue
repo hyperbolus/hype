@@ -42,7 +42,7 @@ const previewImage = (e, form, ref) => {
         </template>
         <div class="y space-y-4 w-2/3">
             <h2 class="font-bold text-2xl">Edit</h2>
-            <form @submit.prevent="changeBanner" class="y box space-y-2">
+            <form @submit.prevent="changeBanner" class="y pane space-y-2">
                 <h2 class="font-bold text-xl">Banner</h2>
                 <img class="max-h-32 self-start object-scale-down" ref="banner_preview" :src="level.banner_url" alt="Banner"/>
                 <input type="file" @input="previewImage($event, banner, $refs.banner_preview)"/>

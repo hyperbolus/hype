@@ -115,15 +115,15 @@ const toggleDark = () => {
                                 <Link :href="route('users.show', $page.props.user.id)" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Profile</Link>
                                 <Link :href="route('settings.home')" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Settings</Link>
                                 <Link v-if="$page.props.user.roles.includes('admin')" :href="route('system.home')" class="block px-2 py-1 hover:bg-neutral-200 dark:hover:bg-neutral-800">Admin Panel</Link>
-                                <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
+                                <div class="transition-colors border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
                                 <label @click.stop class="x items-center justify-between px-2 py-1">
                                     <span>Dark Mode</span>
                                     <Toggle class="pointer-events-none cursor-pointer" @click="toggleDark" v-model="isDark"/>
                                 </label>
-                                <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
+                                <div class="transition-colors border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
                                 <template v-if="$page.props.user.impersonating">
                                     <Link :href="route('impersonate.leave')" class="block px-2 py-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800">Stop Impersonating</Link>
-                                    <div class="border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
+                                    <div class="transition-colors border-t border-t-neutral-300 dark:border-t-neutral-700"></div>
                                 </template>
                                 <div @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white">Logout</div>
                             </template>

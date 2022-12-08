@@ -4,8 +4,6 @@ import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 </script>
 <template>
     <dashboard-layout title="Home">
-        <div class="y box">
-            <span>Welcome to the bathroom</span>
-        </div>
+        <p class="y pane">Welcome to the bathroom</p>
     </dashboard-layout>
 </template>

@@ -36,7 +36,7 @@ const impersonate = (id) => {
 <template>
     <admin-layout title="Users">
         <Pagination :list="users"/>
-        <div class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
+        <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
             <div v-for="user in users.data" class="x justify-between px-2 py-1">
                 <div class="x gap-2">
                     <span class="opacity-50">{{ user.id }}</span>
@@ -62,7 +62,7 @@ const impersonate = (id) => {
             </div>
         </div>
         <h2 class="font-bold text-2xl">Create New User</h2>
-        <div class="y box !py-4">
+        <div class="y pane !py-4">
             <form @submit.prevent="addUser" class="y space-y-2">
                 <Input v-model="newUser.username" type="text" placeholder="Username"/>
                 <Input v-model="newUser.email" type="text" placeholder="Email"/>

@@ -47,10 +47,10 @@ const isOnline = (time) => {
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl p-4">
                 <div class="x w-full gap-2" :class="{'justify-end': !$page.props.auth || profile.id === $page.props.user.id, 'justify-between': $page.props.auth && profile.id !== $page.props.user.id}">
                     <div v-if="$page.props.auth && profile.id !== $page.props.user.id" class="x gap-2">
-                        <Link :href="route('inbox.create') + '?to=' + profile.id" class="cursor-pointer text-xs rounded bg-neutral-300 dark:bg-neutral-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Message</Link>
+                        <Link :href="route('inbox.create') + '?to=' + profile.id" class="transition-colors cursor-pointer text-xs rounded bg-neutral-300 dark:bg-neutral-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Message</Link>
                     </div>
                     <div class="x gap-2">
-                        <span onclick="alert('wip')" class="cursor-pointer text-xs rounded bg-neutral-300 dark:bg-neutral-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Report</span>
+                        <Link :href="route('reports.create') + `?type=user&id=${profile.idr}`" class="transition-colors cursor-pointer text-xs rounded bg-neutral-300 dark:bg-neutral-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Report</Link>
                     </div>
                 </div>
                 <div class="x items-end justify-between">
@@ -96,7 +96,7 @@ const isOnline = (time) => {
                 </div>
             </div>
         </div>
-        <div class="x justify-center box !py-0 lg:max-w-5xl xl:max-w-6xl w-full bg-neutral-200 dark:bg-neutral-800 w-full">
+        <div class="x justify-center pane !py-0 lg:max-w-5xl xl:max-w-6xl w-full w-full">
             <div class="x w-full justify-between px-4 py-2">
                 <div class="mt-12 sm:mt-0 sm:ml-44 z-10">
                     <span class="text-sm font-bold mr-1 uppercase" :class="isOnline() ? 'text-green-500' : 'text-red-500'">{{ isOnline(profile.last_seen) ? 'ON' : 'OFF' }}LINE</span> Last seen <Timestamp :time="profile.last_seen"/>
@@ -110,14 +110,14 @@ const isOnline = (time) => {
         </div>
         <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
             <div class="flex flex-col space-y-4 md:w-1/4">
-                <div class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                    <div class="rounded-t bg-neutral-100 dark:bg-neutral-800 px-2 py-1">
+                <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
+                    <div class="transition-colors rounded-t bg-neutral-100 dark:bg-neutral-800 !bg-opacity-50 px-2 py-1">
                         Bio
                     </div>
                     <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
                     <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                 </div>
-                <div class="y box text-sm !px-0 !py-0 divide-y dark:divide-neutral-700">
+                <div class="y pane text-sm !px-2">
                     <div class="x justify-between p-2">
                         <span>Reputation:</span>
                         <Link :href="route('reputation.show', profile.id)" class="text-black dark:text-white">{{ profile.reputation }}</Link>
@@ -137,8 +137,8 @@ const isOnline = (time) => {
                 </div>
             </div>
             <div class="flex flex-col space-y-4 md:w-1/2">
-                <div class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                    <div class="rounded-t bg-neutral-100 dark:bg-neutral-800 px-2 py-1">Profile Comments</div>
+                <div class="y pane !px-0 !py-0 divide-y divide-neutral-100/50 dark:divide-neutral-700/50">
+                    <div class="transition-colors rounded-t bg-neutral-100 dark:bg-neutral-800 !bg-opacity-50 px-2 py-1">Profile Comments</div>
                     <div v-if="comments.data.length === 0" class="px-4 py-2">
                         Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
                     </div>
@@ -155,13 +155,13 @@ const isOnline = (time) => {
                     <div class="px-2">
                         <Pagination class="py-2" :list="comments"/>
                         <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
-                            <textarea v-model="newComment.body" style="min-height: 4rem !important;" class="resize-none !min-h-16 resize-y rounded h-fit w-full bg-neutral-100 dark:bg-neutral-800 placeholder-neutral-400 dark:placeholder-neutral-500 border-neutral-200 dark:border-neutral-700" placeholder="Comment..."></textarea>
+                            <textarea v-model="newComment.body" style="min-height: 4rem !important;" class="resize-none !min-h-16 resize-y h-fit w-full placeholder-neutral-400 dark:placeholder-neutral-500 pane border-none" placeholder="Comment..."></textarea>
                             <Button @click="postComment" class="w-fit">Submit Comment</Button>
                         </div>
                     </div>
                 </div>
-                <div class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                    <div class="rounded-t bg-neutral-100 dark:bg-neutral-800 px-2 py-1">
+                <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
+                    <div class="transition-colors rounded-t bg-neutral-100 dark:bg-neutral-800 !bg-opacity-50 px-2 py-1">
                         Signature
                     </div>
                     <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
@@ -169,8 +169,8 @@ const isOnline = (time) => {
                 </div>
             </div>
             <div class="flex flex-col space-y-4 md:w-1/4">
-                <div class="y box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                    <div class="rounded-t bg-neutral-100 dark:bg-neutral-800 px-2 py-1">
+                <div class="y pane !px-0 !py-0 divide-y divide-neutral-100/50 dark:divide-neutral-700/50">
+                    <div class="transition-colors rounded-t bg-neutral-100 dark:bg-neutral-800 !bg-opacity-50 px-2 py-1">
                         Recent Reviews
                     </div>
                     <div v-if="reviews.data.length === 0" class="px-4 py-2">

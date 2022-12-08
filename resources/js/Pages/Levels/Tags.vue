@@ -65,7 +65,7 @@ const selectTag = (tag) => {
         </template>
         <div class="y space-y-4 w-1/4">
             <h2 class="font-bold text-2xl">Info</h2>
-            <form v-if="$page.props.auth" @submit.prevent="addTag" class="y box space-y-2">
+            <form v-if="$page.props.auth" @submit.prevent="addTag" class="y pane space-y-2">
                 <div>
                     <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Tag</span>
                     <Input @click="dropdown.open = true" @input="searchTag" v-model="tagname" class="mt-1" type="text" placeholder="Tag"/>
@@ -101,7 +101,7 @@ const selectTag = (tag) => {
         <div class="y space-y-4 w-3/4">
             <h2 class="font-bold text-2xl">Level Tags</h2>
             <div class="y space-y-2">
-                <div v-for="tag in level.tags" class="x box justify-between">
+                <div v-for="tag in level.tags" class="x pane justify-between">
                     <div class="x items-center space-x-2">
                         <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline rounded-full text-green-500 w-5 h-5">
                             <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />

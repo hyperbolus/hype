@@ -1,5 +1,4 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm} from '@inertiajs/inertia-vue3';
 import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";

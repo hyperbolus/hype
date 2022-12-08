@@ -45,7 +45,7 @@ const changePassword = () => {
 </script>
 <template>
     <dashboard-layout title="Home">
-        <form @submit.prevent="changeEmail" class="y box space-y-2">
+        <form @submit.prevent="changeEmail" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Change Email</h2>
             <div>
                 <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Email</span>
@@ -62,7 +62,7 @@ const changePassword = () => {
             </ul>
             <Button class="w-fit">Change Email</Button>
         </form>
-        <form @submit.prevent="changePassword" class="y box space-y-2">
+        <form @submit.prevent="changePassword" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Change Password</h2>
             <div>
                 <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Current Password</span>

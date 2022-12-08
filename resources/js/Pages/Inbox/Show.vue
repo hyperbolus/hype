@@ -44,7 +44,7 @@ const sender = (obj) => {
         <div class="y space-y-4 w-  full">
             <h2 class="mx-2 font-bold text-2xl">Conversation with {{ recipient.name }}</h2>
             <Pagination :list="messages"/>
-            <div class="box !px-0 !py-0 divide-y dark:divide-neutral-700">
+            <div class="pane !px-0 !py-0 divide-y dark:divide-neutral-700">
                 <div class="x items-center px-4 py-2" v-for="message in messages.data">
                     <Avatar class="w-8 mr-4" :user="sender(message)"/>
                     <div class="y w-full">
@@ -56,10 +56,10 @@ const sender = (obj) => {
                     </div>
                 </div>
             </div>
-            <form @submit.prevent="sendMessage" class="y box space-y-2 !pb-4">
+            <form @submit.prevent="sendMessage" class="y pane space-y-2 !pb-4">
                 <label class="y">
                     <span class="my-1">Message</span>
-                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full rounded placeholder-neutral-400 dark:placeholder-neutral-600 bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
+                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full placeholder-neutral-400 dark:placeholder-neutral-600 pane border-none"></textarea>
                 </label>
                 <Button class="w-fit">Send Message</Button>
             </form>

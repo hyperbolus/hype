@@ -122,7 +122,7 @@ const search = () => {
                 </div>
             </div>
             <Pagination :list="levels"/>
-            <Link v-for="level in levels.data" :href="route('levels.show', level.id)" class="box space-y-2 hover:shadow-lg transition-shadow">
+            <Link v-for="level in levels.data" :href="route('levels.show', level.id)" class="pane space-y-2 hover:shadow-lg transition-shadow">
                 <div class="y md:flex-row items-center md:space-x-4 justify-between">
                     <div>
                         <h2 class="text-xl">{{ level.name }}</h2>

@@ -26,8 +26,8 @@ const other = (obj) => {
                 <Link :href="route('inbox.create')" class="button">Start Conversation</Link>
             </div>
             <Pagination :list="conversations"/>
-            <div class="box !px-0 !py-0 divide-y dark:divide-neutral-700">
-                <div class="x justify-between items-center px-4 py-2" v-for="conversation in conversations.data">
+            <div class="y space-y-2">
+                <div class="x pane justify-between items-center px-4 py-2" v-for="conversation in conversations.data">
                     <div class="x items-center space-x-2">
                         <Avatar class="w-8" :user="other(conversation)"/>
                         <Username :href="route('inbox.show', other(conversation).id)" :user="other(conversation)"/>

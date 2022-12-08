@@ -14,14 +14,14 @@ const props = defineProps({
         </template>
         <div class="y space-y-4 md:w-3/4">
             <h2 class="mx-2 font-bold text-2xl">Playlists</h2>
-            <Link v-for="playlist in playlists" :href="route('playlists.show', playlist.id)" class="block y box">
+            <Link v-for="playlist in playlists" :href="route('playlists.show', playlist.id)" class="block y pane">
                 <div class="x items-center justify-between">
                     <h1 class="text-xl font-bold">{{ playlist.title }}</h1>
-                    <span>visibility: {{ playlist.visibility }}</span>
+                    <span></span>
                 </div>
                 <div class="x items-center justify-between">
                     <p>{{ playlist.description }}</p>
-                    <span>collaboration: {{ playlist.collaboration }}</span>
+                    <span></span>
                 </div>
             </Link>
         </div>

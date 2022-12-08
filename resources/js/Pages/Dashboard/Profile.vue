@@ -61,7 +61,7 @@ const changeBanner = () => {
 </script>
 <template>
     <dashboard-layout title="Home">
-        <form @submit.prevent="changeAvatar" class="y box space-y-2">
+        <form @submit.prevent="changeAvatar" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Avatar</h2>
             <img class="max-h-32 w-32" ref="avatar_preview" :src="profile.avatar_url" alt="Avatar"/>
             <input type="file" @input="previewImage($event, avatar, $refs.avatar_preview)"/>
@@ -72,7 +72,7 @@ const changeBanner = () => {
             </ul>
             <Button class="w-fit">Change Avatar</Button>
         </form>
-        <form @submit.prevent="changeBanner" class="y box space-y-2">
+        <form @submit.prevent="changeBanner" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Banner</h2>
             <img class="max-h-32 self-start object-scale-down" ref="banner_preview" :src="profile.banner_url" alt="Banner"/>
             <input type="file" @input="previewImage($event, banner, $refs.banner_preview)"/>
@@ -83,14 +83,14 @@ const changeBanner = () => {
             </ul>
             <Button class="w-fit">Change Profile Banner</Button>
         </form>
-        <form @submit.prevent="changeBio" class="y box space-y-2">
+        <form @submit.prevent="changeBio" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Bio</h2>
-            <textarea v-model="bio.content" placeholder="Once upon a time..." class="resize-none resize-y w-full rounded placeholder-neutral-400 dark:placeholder-neutral-600 bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
+            <textarea v-model="bio.content" placeholder="Once upon a time..." class="resize-none resize-y w-full placeholder-neutral-400 dark:placeholder-neutral-600 pane border-none"></textarea>
             <Button class="w-fit">Change Bio</Button>
         </form>
-        <form @submit.prevent="changeSignature" class="y box space-y-2">
+        <form @submit.prevent="changeSignature" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Signature</h2>
-            <textarea v-model="signature.content" placeholder="Sincerely, Summer Glau" class="resize-none resize-y w-full rounded placeholder-neutral-400 dark:placeholder-neutral-600 bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"></textarea>
+            <textarea v-model="signature.content" placeholder="Sincerely, Summer Glau" class="resize-none resize-y w-full placeholder-neutral-400 dark:placeholder-neutral-600 pane border-none"></textarea>
             <Button class="w-fit">Change Signature</Button>
         </form>
     </dashboard-layout>
