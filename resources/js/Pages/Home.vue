@@ -4,7 +4,6 @@ import StatsPanel from "@/Components/StatsPanel.vue";
 import {ref} from "vue";
 import CommonLayout from "@/Layouts/CommonLayout.vue";
 import PatreonGoal from "@/Components/PatreonGoal.vue";
-import Username from "@/Components/Username.vue";
 
 const thing = ref({
     body: '',
@@ -29,12 +28,12 @@ const thing = ref({
                     <h2 class="font-bold text-xl">About</h2>
                     <p>DashNet is currently in beta. Join our Discord to suggest new features, give feedback, and get help!</p>
                     <a class="underline" href="https://trello.com/b/JJOVCmbF/gdc" target="_blank">Click here to visit our Trello</a>
-                    <h2 class="font-bold text-lg">Staff:</h2>
+                </div>
+                <div class="pane">
+                    <h2 class="font-bold text-xl">Staff:</h2>
                     <ul class="list-inside list-disc">
-                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
-                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
-                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
-                        <li><Link href="/user/[Object object]">[Object object]</Link></li>
+                        <li><Link :href="route('users.show', 0)">System</Link></li>
+                        <li><Link :href="route('users.show', 1)">Admin</Link></li>
                         <li>You?</li>
                     </ul>
                 </div>
