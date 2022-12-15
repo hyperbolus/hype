@@ -4,7 +4,7 @@ import {Link} from '@inertiajs/inertia-vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
 </script>
 <template>
-    <app-layout title="Home">
+    <app-layout title="Contests">
         <template #breadcrumbs>
             <Link :href="route('contests.index')">Contests</Link>
         </template>

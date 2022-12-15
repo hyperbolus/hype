@@ -5,7 +5,7 @@ import Button from "@/Jetstream/Button.vue";
 import getYouTubeID from "get-youtube-id";
 import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     videos: Object
@@ -28,7 +28,7 @@ const submit = () => {
 
 </script>
 <template>
-    <common-layout>
+    <app-layout>
         <template #breadcrumbs>
             <Link :href="route('videos.index')">Videos</Link>
         </template>
@@ -56,5 +56,5 @@ const submit = () => {
                 <span>You must <Link class="underline" :href="route('auth::login')">log in</Link> to submit a video</span>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

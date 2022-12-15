@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm} from '@inertiajs/inertia-vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Button from "@/Jetstream/Button.vue";
@@ -16,7 +16,7 @@ const submitPlaylist = () => {
 }
 </script>
 <template>
-    <common-layout title="Create Playlist">
+    <app-layout title="Create Playlist">
         <template #breadcrumbs>
             <Link :href="route('playlists.index')">Playlists</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -45,5 +45,5 @@ const submitPlaylist = () => {
                 </form>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

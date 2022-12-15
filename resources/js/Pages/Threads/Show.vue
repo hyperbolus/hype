@@ -3,7 +3,7 @@ import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
 import route from "ziggy-js";
 import Post from "@/Components/Post.vue";
 import PostPad from "@/Components/PostPad.vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     thread: Object
@@ -29,7 +29,7 @@ const sendReply = () => {
 }
 </script>
 <template>
-    <common-layout :title="thread.title">
+    <app-layout :title="thread.title">
         <template #breadcrumbs>
             <Link :href="route('forums.index')">Forums</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -65,5 +65,5 @@ const sendReply = () => {
                 Log in to post a reply
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

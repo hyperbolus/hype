@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link } from '@inertiajs/inertia-vue3';
 import route from "ziggy-js";
 
@@ -9,7 +9,7 @@ const props = defineProps({
 
 </script>
 <template>
-    <common-layout :title="title + ' - Dashboard'">
+    <app-layout :title="title + ' - Dashboard'">
         <template #breadcrumbs>
             <span>Admin</span>
         </template>
@@ -25,5 +25,5 @@ const props = defineProps({
                 <slot/>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

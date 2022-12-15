@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Avatar from "@/Components/Avatar.vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 defineProps({
     forum: Object,
@@ -11,7 +11,7 @@ defineProps({
 
 </script>
 <template>
-    <common-layout title="Forums">
+    <app-layout title="Forums">
         <template #breadcrumbs>
             <Link :href="route('forums.index')">Forums</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -56,5 +56,5 @@ defineProps({
                 </div>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

@@ -1,12 +1,11 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
-import Dropdown from "@/Jetstream/Dropdown.vue";
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 </script>
 <template>
-    <common-layout title="Create Contest">
+    <app-layout title="Create Contest">
         <template #breadcrumbs>
             <Link :href="route('contests.index')">Contests</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -36,5 +35,5 @@ import Input from "@/Jetstream/Input.vue";
                 <Button onclick="alert('wip!')" class="w-fit">Create Contest</Button>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

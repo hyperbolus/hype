@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import {ref} from "vue";
 import {Link, usePage} from '@inertiajs/inertia-vue3'
 import Username from "@/Components/Username.vue";
@@ -21,7 +21,7 @@ const newSeed = () => {
 }
 </script>
 <template>
-    <common-layout title="Roulette">
+    <app-layout title="Roulette">
         <template #breadcrumbs>
             <Link :href="$page.url">Roulette</Link>
         </template>
@@ -58,5 +58,5 @@ const newSeed = () => {
             <h1 class="mx-2 font-bold text-2xl">About</h1>
             <p class="pane">This game was inspired by <a class="underline" href="https://github.com/matcool/" target="_blank">matcool</a>'s <a class="underline" href="https://matcool.github.io/extreme-demon-roulette/" target="_blank">Extreme Demon Roulette</a> website with the original idea by <a class="underline" href="https://youtu.be/nv_9FkfGRsc" target="_blank">npesta</a></p>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

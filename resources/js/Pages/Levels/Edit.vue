@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm} from '@inertiajs/inertia-vue3';
 import Button from "@/Jetstream/Button.vue";
 import {ref} from "vue";
@@ -28,7 +28,7 @@ const previewImage = (e, form, ref) => {
 }
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Levels</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -62,5 +62,5 @@ const previewImage = (e, form, ref) => {
                 </div>
             </form>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

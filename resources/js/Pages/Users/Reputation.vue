@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
@@ -11,7 +11,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <common-layout title="Reputation Log">
+    <app-layout title="Reputation Log">
         <template #breadcrumbs>
             <Link :href="route('users.show', profile.id)">{{ profile.name }}'s Profile</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -36,5 +36,5 @@ const props = defineProps({
                 </div>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

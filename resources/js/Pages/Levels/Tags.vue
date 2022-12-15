@@ -4,7 +4,7 @@ import Button from '@/Jetstream/Button.vue'
 import Input from '@/Jetstream/Input.vue'
 import Dropdown from '@/Jetstream/Dropdown.vue'
 import {ref} from "vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     level: Object,
@@ -55,7 +55,7 @@ const selectTag = (tag) => {
 }
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="route('levels.show', level.id)">{{ level.id }}</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -122,5 +122,5 @@ const selectTag = (tag) => {
                 </div>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

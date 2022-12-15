@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
 import Input from "@/Jetstream/Input.vue";
 import PostPad from "@/Components/PostPad.vue";
@@ -30,7 +30,7 @@ const submit = () => {
 }
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="route('forums.index')">Forums</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -52,5 +52,5 @@ const submit = () => {
                 <Button :disabled="form.processing" @click="submit">Post Thread</Button>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

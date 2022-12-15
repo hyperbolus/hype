@@ -1,14 +1,14 @@
 <script setup>
 import {Link} from '@inertiajs/inertia-vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     playlists: Object
 })
 </script>
 <template>
-    <common-layout title="Playlists">
+    <app-layout title="Playlists">
         <template #breadcrumbs>
             <Link :href="$page.props.url">Playlists</Link>
         </template>
@@ -32,5 +32,5 @@ const props = defineProps({
             </Link>
             <StatsPanel/>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

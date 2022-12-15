@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import {Link, usePage} from "@inertiajs/inertia-vue3";
 import Avatar from "@/Components/Avatar.vue";
@@ -16,7 +16,7 @@ const other = (obj) => {
 }
 </script>
 <template>
-    <common-layout title="Messages">
+    <app-layout title="Messages">
         <template #breadcrumbs>
             <span>Inbox</span>
         </template>
@@ -36,5 +36,5 @@ const other = (obj) => {
                 </div>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

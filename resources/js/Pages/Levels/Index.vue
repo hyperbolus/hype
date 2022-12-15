@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm} from '@inertiajs/inertia-vue3';
 import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
@@ -58,7 +58,7 @@ const search = () => {
 }
 </script>
 <template>
-    <common-layout title="Levels">
+    <app-layout title="Levels">
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Levels</Link>
         </template>
@@ -169,5 +169,5 @@ const search = () => {
                 <p class="relative">Levels must have at least 5 reviews before their average scores are calculated</p>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

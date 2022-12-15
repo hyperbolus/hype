@@ -5,7 +5,7 @@ import {Inertia} from "@inertiajs/inertia";
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Pagination from "@/Components/Pagination.vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     users: Object,
@@ -41,7 +41,7 @@ const search = () => {
 }
 </script>
 <template>
-    <common-layout title="Users">
+    <app-layout title="Users">
         <template #breadcrumbs>
             <Link :href="route('users.index')">Users</Link>
         </template>
@@ -92,5 +92,5 @@ const search = () => {
                 </div>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

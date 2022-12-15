@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
 import Input from "@/Jetstream/Input.vue";
 import {ref} from "vue";
@@ -34,7 +34,7 @@ const searchID = async () => {
 }
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="route('playlists.index')">Playlists</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -66,5 +66,5 @@ const searchID = async () => {
                 <button :disabled="form.processing" @click="submit" class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-neutral-800 border border-neutral-600">Submit Level</button>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

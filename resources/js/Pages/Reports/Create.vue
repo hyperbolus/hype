@@ -1,7 +1,6 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link, useForm} from '@inertiajs/inertia-vue3';
-import Dropdown from "@/Jetstream/Dropdown.vue";
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
@@ -23,7 +22,7 @@ const submit = () => {
 }
 </script>
 <template>
-    <common-layout title="New Report">
+    <app-layout title="New Report">
         <template #breadcrumbs>
             <Link :href="$page.props.url">New Report</Link>
         </template>
@@ -54,5 +53,5 @@ const submit = () => {
                 </form>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

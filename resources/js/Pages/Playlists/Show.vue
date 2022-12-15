@@ -1,7 +1,7 @@
 <script setup>
 import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
 import route from "ziggy-js";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import Username from "@/Components/Username.vue";
 
 const props = defineProps({
@@ -9,7 +9,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <common-layout :title="playlist.title">
+    <app-layout :title="playlist.title">
         <template #breadcrumbs>
             <Link :href="route('playlists.index')">Playlists</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -42,5 +42,5 @@ const props = defineProps({
                 <p>{{ submission.level.description }}</p>
             </Link>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

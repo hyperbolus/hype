@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import {Link} from "@inertiajs/inertia-vue3"
 
 const props = defineProps({
@@ -7,7 +7,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <common-layout :title="props.profile.name">
+    <app-layout :title="props.profile.name">
         <template #breadcrumbs>
             <Link :href="$page.props.url">{{ props.profile.name }}</Link>
         </template>
@@ -15,5 +15,5 @@ const props = defineProps({
             <h2 class="mx-2 font-bold text-3xl">{{ props.profile.name }}</h2>
 
         </div>
-    </common-layout>
+    </app-layout>
 </template>

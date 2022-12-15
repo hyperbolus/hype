@@ -1,9 +1,9 @@
 <script setup>
 import StatsPanel from "@/Components/StatsPanel.vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 </script>
 <template>
-    <common-layout title="Forge">
+    <app-layout title="Forge">
         <template #breadcrumbs>
             <span>Forge</span>
         </template>
@@ -22,5 +22,5 @@ import CommonLayout from "@/Layouts/CommonLayout.vue";
             </div>
             <StatsPanel/>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

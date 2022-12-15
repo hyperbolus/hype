@@ -1,6 +1,6 @@
 <script setup>
 import ApiTokenManager from '@/Pages/API/Partials/ApiTokenManager.vue'
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 
 defineProps([
     'tokens',
@@ -9,7 +9,7 @@ defineProps([
 ])
 </script>
 <template>
-    <common-layout title="API Tokens">
+    <app-layout title="API Tokens">
         <div>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 API Tokens
@@ -20,5 +20,5 @@ defineProps([
                                    :default-permissions="defaultPermissions" />
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

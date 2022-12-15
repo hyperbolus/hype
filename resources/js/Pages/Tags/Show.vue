@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import Pagination from "@/Components/Pagination.vue";
 
@@ -10,7 +10,7 @@ const props = defineProps({
 
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Tags</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -31,5 +31,5 @@ const props = defineProps({
         <div class="y space-y-4 w-1/4">
 
         </div>
-    </common-layout>
+    </app-layout>
 </template>

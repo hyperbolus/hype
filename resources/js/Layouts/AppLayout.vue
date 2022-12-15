@@ -17,7 +17,11 @@ const props = defineProps({
         type: [String, Boolean],
         default: bg
     },
-    subtitle: String
+    subtitle: String,
+    decorations: {
+        type: Boolean,
+        default: true
+    }
 });
 const logout = () => {
     Inertia.post(route('auth::logout'));
@@ -168,7 +172,10 @@ const toggleDark = () => {
                 <img class="h-full w-full m-auto invisible" :src="bgsrc" alt="Featured Background"/>
             </div>
             <div class="y flex-grow relative h-full items-center w-full">
-                <slot/>
+                <div v-if="decorations" class="flex flex-col flex-grow transition-colors shadow-xl backdrop-blur-lg bg-neutral-200 dark:bg-neutral-900 bg-opacity-75 dark:bg-opacity-75 md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+                    <slot/>
+                </div>
+                <slot v-else/>
             </div>
         </div>
         <div class="y p-4 transition-colors items-center w-full bg-neutral-100 dark:bg-neutral-900">

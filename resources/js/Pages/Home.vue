@@ -2,7 +2,7 @@
 import {Link} from '@inertiajs/inertia-vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
 import {ref} from "vue";
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import PatreonGoal from "@/Components/PatreonGoal.vue";
 
 const thing = ref({
@@ -12,7 +12,7 @@ const thing = ref({
 })
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="$page.props.url">Home</Link>
         </template>
@@ -58,5 +58,5 @@ const thing = ref({
             <PatreonGoal/>
             <StatsPanel/>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

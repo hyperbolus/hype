@@ -1,8 +1,8 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 </script>
 <template>
-    <common-layout title="Privacy Policy">
+    <app-layout title="Privacy Policy">
         <template #breadcrumbs>
             <span>Privacy Policy</span>
         </template>
@@ -102,5 +102,5 @@ import CommonLayout from "@/Layouts/CommonLayout.vue";
             <p>DashNet does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
 
         </div>
-    </common-layout>
+    </app-layout>
 </template>

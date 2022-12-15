@@ -2,14 +2,14 @@
 import StatsPanel from "@/Components/StatsPanel.vue";
 import ForumTicket from "@/Components/ForumTicket.vue";
 import {Link} from '@inertiajs/inertia-vue3'
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 defineProps({
     forums: Array,
 })
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <Link :href="$page.props.url">Forums</Link>
         </template>
@@ -29,5 +29,5 @@ defineProps({
             </div>
             <StatsPanel/>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

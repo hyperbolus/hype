@@ -1,10 +1,10 @@
 <script setup>
-import CommonLayout from '@/Layouts/CommonLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link } from '@inertiajs/inertia-vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
 </script>
 <template>
-    <common-layout title="Home">
+    <app-layout title="Home">
         <template #breadcrumbs>
             <span>Levels</span>
         </template>
@@ -23,5 +23,5 @@ import StatsPanel from "@/Components/StatsPanel.vue";
             </div>
             <StatsPanel/>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

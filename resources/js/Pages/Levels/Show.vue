@@ -60,7 +60,7 @@ const face = () => {
 }
 </script>
 <template>
-    <app-layout title="Home">
+    <app-layout title="Home" :decorations="false">
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Levels</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">

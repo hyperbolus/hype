@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import {Link} from'@inertiajs/inertia-vue3'
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import {Inertia} from "@inertiajs/inertia";
@@ -75,7 +75,7 @@ const search = () => {
 }
 </script>
 <template>
-    <common-layout title="Search">
+    <app-layout title="Search">
         <template #breadcrumbs>
             <span>Search</span>
         </template>
@@ -147,5 +147,5 @@ const search = () => {
                 </div>
             </div>
         </div>
-    </common-layout>
+    </app-layout>
 </template>

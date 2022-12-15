@@ -1,5 +1,5 @@
 <script setup>
-import CommonLayout from "@/Layouts/CommonLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import {Link, useForm, usePage} from "@inertiajs/inertia-vue3";
 import Avatar from "@/Components/Avatar.vue";
@@ -33,7 +33,7 @@ const sender = (obj) => {
 }
 </script>
 <template>
-    <common-layout title="Messages">
+    <app-layout title="Messages">
         <template #breadcrumbs>
             <Link :href="route('inbox.index')">Inbox</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -64,5 +64,5 @@ const sender = (obj) => {
                 <Button class="w-fit">Send Message</Button>
             </form>
         </div>
-    </common-layout>
+    </app-layout>
 </template>
