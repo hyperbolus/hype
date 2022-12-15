@@ -156,7 +156,7 @@ const toggleDark = () => {
                     </svg>
                     <slot name="breadcrumbs"/>
                 </div>
-                <div class="x">
+                <div class="hidden md:flex">
                     <span v-if="!subtitle && (bg === bgsrc)">Featured Artwork by <span class="cursor-pointer underline">overdefo</span></span>
                     <span v-if="subtitle">{{ subtitle }}</span>
                 </div>
