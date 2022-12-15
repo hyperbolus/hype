@@ -19,6 +19,6 @@ const goal = ref(usePage().props.value.app.stats.patreon.included[0].attributes)
                 <span>$0 of ${{ goal.amount_cents / 100 }} per month</span>
             </div>
         </div>
-        <p class="px-2 py-1 x bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60">{{ <goal></goal> }}</p>
+        <p class="px-2 py-1 x bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60">{{ goal.description }}</p>
     </div>
 </template>
