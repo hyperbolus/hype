@@ -53,7 +53,7 @@ const submit = () => {
                 </form>
             </div>
             <div v-else class="pane">
-                <span>You must be signed in to submit a video</span>
+                <span>You must <Link class="underline" :href="route('auth::login')">log in</Link> to submit a video</span>
             </div>
         </div>
     </common-layout>
