@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Content\Forum;
 use App\Models\Content\Post;
 use App\Models\Content\Thread;
-use App\Models\Forum;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

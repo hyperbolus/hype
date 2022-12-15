@@ -1,34 +1,34 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminForumController;
-use App\Http\Controllers\Admin\AdminPermissionController;
-use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\ContestController;
+use App\Http\Controllers\Content\ContestController;
+use App\Http\Controllers\Content\ForumController;
+use App\Http\Controllers\Content\PlaylistController;
+use App\Http\Controllers\Content\PlaylistSubmissionController;
+use App\Http\Controllers\Content\PostController;
+use App\Http\Controllers\Content\ReviewController;
+use App\Http\Controllers\Content\StyleController;
+use App\Http\Controllers\Content\ThreadController;
+use App\Http\Controllers\Content\VideoController;
+use App\Http\Controllers\Dashboard\AdminController;
+use App\Http\Controllers\Dashboard\AdminForumController;
+use App\Http\Controllers\Dashboard\AdminPermissionController;
+use App\Http\Controllers\Dashboard\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\ForumController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LevelController;
+use App\Http\Controllers\Forge\ModController;
+use App\Http\Controllers\Games\GeometryDash\LevelController;
 use App\Http\Controllers\LevelTagController;
 use App\Http\Controllers\LevelTagVoteController;
 use App\Http\Controllers\MessageController;
-use App\Http\Controllers\ModController;
-use App\Http\Controllers\NameChangeController;
-use App\Http\Controllers\PlaylistController;
-use App\Http\Controllers\PlaylistSubmissionController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
-use App\Http\Controllers\ProfileCommentController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ReputationLogController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RouletteController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\StyleController;
-use App\Http\Controllers\ThreadController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\Social\ProfileCommentController;
+use App\Http\Controllers\System\HomeController;
+use App\Http\Controllers\System\NameChangeController;
+use App\Http\Controllers\System\ReportController;
+use App\Http\Controllers\System\ReputationLogController;
+use App\Http\Controllers\System\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*

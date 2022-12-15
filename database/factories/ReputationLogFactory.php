@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\ReputationLog;
+use App\Models\System\ReputationLog;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

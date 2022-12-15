@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Content\CrowdTag;
+use App\Models\Content\CrowdTagVote;
 use App\Models\GeometryDash\Level;
-use App\Models\LevelTag;
-use App\Models\LevelTagVote;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -16,7 +16,7 @@ class LevelTagVoteController extends Controller
     public function index(): Response
     {
         return Inertia::render('Levels/Tags', [
-            'tags' => LevelTag::all(),
+            'tags' => CrowdTag::all(),
         ]);
     }
 
@@ -31,7 +31,7 @@ class LevelTagVoteController extends Controller
             'tag_id' => [
                 'required',
                 'exists:App\Models\LevelTag,id',
-                Rule::unique('App\Models\LevelTagVote')->where(function ($query) use($request, $level) {
+                Rule::unique('App\Models\Content\CrowdTagVote')->where(function ($query) use($request, $level) {
                     return $query->where('level_id', $level->id)
                         ->where('tag_id', $request->integer('tag_id'))
                         ->where('user_id', auth()->id());
@@ -42,10 +42,10 @@ class LevelTagVoteController extends Controller
         ]);
 
         if(!$level->tags()->where('level_tag_id', '=', $request->integer('tag_id'))->first()) {
-            $level->tags()->save(LevelTag::query()->find($request->integer('tag_id')));
+            $level->tags()->save(CrowdTag::query()->find($request->integer('tag_id')));
         }
 
-        $vote = new LevelTagVote();
+        $vote = new CrowdTagVote();
         $vote->level_id = $level->id;
         $vote->tag_id = $request->integer('tag_id');
         $vote->user_id = $request->user()->id;
@@ -54,12 +54,12 @@ class LevelTagVoteController extends Controller
 
 
         // https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/bayesian-average/
-        $this_upvotes = LevelTagVote::query()
+        $this_upvotes = CrowdTagVote::query()
             ->where('level_id', '=', $level->id)
             ->where('tag_id', '=', $request->integer('tag_id'))
             ->where('approved', '=', true)
             ->count();
-        $this_votes = LevelTagVote::query()
+        $this_votes = CrowdTagVote::query()
             ->where('level_id', '=', $level->id)
             ->where('tag_id', '=', $request->integer('tag_id'))
             ->count();
@@ -86,22 +86,22 @@ class LevelTagVoteController extends Controller
         return back();
     }
 
-    public function show(LevelTagVote $levelTagVote)
+    public function show(CrowdTagVote $levelTagVote)
     {
         //
     }
 
-    public function edit(LevelTagVote $levelTagVote)
+    public function edit(CrowdTagVote $levelTagVote)
     {
         //
     }
 
-    public function update(Request $request, LevelTagVote $levelTagVote)
+    public function update(Request $request, CrowdTagVote $levelTagVote)
     {
         //
     }
 
-    public function destroy(LevelTagVote $levelTagVote)
+    public function destroy(CrowdTagVote $levelTagVote)
     {
         //
     }

@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CrowdVote>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\System\CrowdVote>
  */
 class CrowdVoteFactory extends Factory
 {

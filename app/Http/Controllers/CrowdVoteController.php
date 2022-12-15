@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CrowdVote;
+use App\Models\System\CrowdVote;
 use Illuminate\Http\Request;
 
 class CrowdVoteController extends Controller
@@ -41,7 +41,7 @@ class CrowdVoteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CrowdVote  $crowdVote
+     * @param  \App\Models\System\CrowdVote  $crowdVote
      * @return \Illuminate\Http\Response
      */
     public function show(CrowdVote $crowdVote)
@@ -52,7 +52,7 @@ class CrowdVoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\CrowdVote  $crowdVote
+     * @param  \App\Models\System\CrowdVote  $crowdVote
      * @return \Illuminate\Http\Response
      */
     public function edit(CrowdVote $crowdVote)
@@ -64,7 +64,7 @@ class CrowdVoteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CrowdVote  $crowdVote
+     * @param  \App\Models\System\CrowdVote  $crowdVote
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, CrowdVote $crowdVote)
@@ -75,7 +75,7 @@ class CrowdVoteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CrowdVote  $crowdVote
+     * @param  \App\Models\System\CrowdVote  $crowdVote
      * @return \Illuminate\Http\Response
      */
     public function destroy(CrowdVote $crowdVote)

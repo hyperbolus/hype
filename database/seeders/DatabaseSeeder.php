@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ReputationLog;
+use App\Models\System\ReputationLog;
 use App\Models\System\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -29,18 +29,18 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Seeded users with levels and reviews');
 
-        \App\Models\Forum::factory(1)->create([
+        \App\Models\Content\Forum::factory(1)->create([
             'name' => 'Official',
             'category' => true,
             'parent_id' => null
         ]);
-        \App\Models\Forum::factory(1)->create([
+        \App\Models\Content\Forum::factory(1)->create([
             'name' => 'General',
             'category' => true,
             'parent_id' => null
         ]);
 
-        \App\Models\Forum::factory(7)->create();
+        \App\Models\Content\Forum::factory(7)->create();
         $this->command->info('Seeded forums');
         \App\Models\Content\Thread::factory(25)->create();
         $this->command->info('Seeded threads');
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Social\ProfileComment::factory(100)->create();
         \App\Models\Social\Message::factory(100)->create();
         \App\Models\Social\Friend::factory(20)->create();
-        $reps = \App\Models\ReputationLog::factory(50)->create();
+        $reps = \App\Models\System\ReputationLog::factory(50)->create();
         $this->command->info('Seeded additional profile data');
         $users->each(function (User $user) {
             $user->reputation = ReputationLog::whereRecipientId($user->id)->sum('reputation');
