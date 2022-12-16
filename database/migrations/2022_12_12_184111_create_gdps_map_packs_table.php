@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('g_d_p_s_levels', function (Blueprint $table) {
+        Schema::create('gdps_map_packs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('g_d_p_s_levels');
+        Schema::dropIfExists('map_packs');
     }
 };

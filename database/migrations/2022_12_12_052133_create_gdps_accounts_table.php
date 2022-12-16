@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('gdps_accounts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
