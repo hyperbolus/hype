@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -14,7 +15,7 @@ class Statistics
             'users' => self::count(\App\Models\System\User::class),
             'threads' => self::count(\App\Models\Content\Thread::class),
             'posts' => self::count(\App\Models\Content\Post::class),
-            'levels' => self::count(\App\Models\Games\GeometryDash\Level::class),
+            'levels' => self::count(\App\Models\Games\Dash\Level::class),
             'reviews' => self::count(\App\Models\Content\Review::class),
             'videos' => self::count(\App\Models\Content\Video::class),
             'playlists' => self::count(\App\Models\Content\Playlist::class),
@@ -27,11 +28,15 @@ class Statistics
 
         $patreon = Cache::get('statistics:patreon');
         if (!$patreon) {
-            $res = Http::withToken(config('hyperbolus.patreon_token'))
-                ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage')
-                ->json();
-            Cache::put('statistics:patreon', $res, 600);
-            $patreon = $res;
+            try {
+                $res = Http::withToken(config('hyperbolus.patreon_token'))
+                    ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage')
+                    ->json();
+                Cache::put('statistics:patreon', $res, 600);
+                $patreon = $res;
+            } catch (Exception $e) {
+
+            }
         }
         return $patreon;
     }
