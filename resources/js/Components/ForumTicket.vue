@@ -39,7 +39,7 @@ const props = defineProps({
                 <Avatar v-if="forum.last_post" class="scale-75 opacity-30 absolute -right-1/3" :user="forum.last_post.author"/>
             </div>
             <div v-if="forum.last_post" class="y pr-2 py-4 w-full">
-                <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm">{{ forum.last_post.thread.title }}</Link>
+                <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ forum.last_post.thread.title }}</Link>
                 <span class="z-10 text-xs"><Username :user="forum.last_post.author"/> &bull; <Timestamp :time="forum.last_post.created_at"/></span>
             </div>
         </div>
