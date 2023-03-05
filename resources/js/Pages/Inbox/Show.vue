@@ -41,7 +41,7 @@ const sender = (obj) => {
             </svg>
             <span>Conversation with {{ recipient.name }}</span>
         </template>
-        <div class="y space-y-4 w-  full">
+        <div class="y space-y-4 w-full">
             <h2 class="mx-2 font-bold text-2xl">Conversation with {{ recipient.name }}</h2>
             <Pagination :list="messages"/>
             <div class="pane !px-0 !py-0 divide-y dark:divide-neutral-700">
