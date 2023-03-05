@@ -96,13 +96,13 @@ const navigation = useSettingsStore().settings['navigation']['value']
                 </svg>
             </div>
         </div>
-        <div v-if="mobileNavOpen" class="y md:hidden bg-neutral-300 w-full space-y-2 pt-2">
-            <template v-for="(node, key) in navigation">
-                <Link :href="route(node.route)" class="hover:text-neutral-500 transition transition-colors px-4">{{ node.name }}</Link>
-                <div v-if="node.hasOwnProperty('children')" class="y bg-neutral-200">
-                    <Link v-for="(child, key) in node.children" :key="key" class="px-8 py-1 dark:bg-neutral-900 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route(child.route)">{{ child.name }}</Link>
-                </div>
-            </template>
-        </div>
+    </div>
+    <div v-if="mobileNavOpen" class="y md:hidden bg-neutral-300 dark:bg-neutral-900 w-full space-y-2 pt-2">
+        <template v-for="(node, key) in navigation">
+            <Link :href="route(node.route)" class="hover:text-neutral-500 transition transition-colors px-4">{{ node.name }}</Link>
+            <div v-if="node.hasOwnProperty('children')" class="y bg-neutral-200">
+                <Link v-for="(child, key) in node.children" :key="key" class="px-8 py-1 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700" :href="route(child.route)">{{ child.name }}</Link>
+            </div>
+        </template>
     </div>
 </template>
