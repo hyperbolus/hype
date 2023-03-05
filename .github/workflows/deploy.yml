@@ -30,6 +30,7 @@ jobs:
 
       - name: Upload SSR file
         uses: actions/upload-artifact@v3
+        with:
           name: ssr
           path: boostrap/ssr/ssr.mjs
 #  test-php:
@@ -50,7 +51,7 @@ jobs:
           path: public
 
       - name: Extract build files
-          run: tar -xzvf assets.tar
+        run: tar -xzvf assets.tar
 
       - name: Download SSR file
         uses: actions/download-artifact@v3

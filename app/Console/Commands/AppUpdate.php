@@ -36,7 +36,5 @@ class AppUpdate extends Command
         $version = Storage::disk('local')->get('version.lock');
 
         Setup::all($version);
-
-        Storage::disk('local')->put('version.lock', ++$version);
     }
 }
