@@ -19,7 +19,8 @@ const navigation = useSettingsStore().settings['navigation']['value']
         <div class="x px-2 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
             <div class="x items-center space-x-4">
                 <SiteLogo/>
-                <div class="md:flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-4">
+                    <span v-if="navigation.length === 0" class="text-red-500">No key 'navigation' defined in site settings</span>
                     <template v-for="(node, key) in navigation">
                         <Tooltip v-if="node.hasOwnProperty('children')" :caret="false">
                             <Link :href="route(node.route)" class="hover:text-neutral-500 transition transition-colors">{{ node.name }}</Link>
@@ -95,11 +96,13 @@ const navigation = useSettingsStore().settings['navigation']['value']
                 </svg>
             </div>
         </div>
-        <div v-if="mobileNavOpen" class="y md:hidden w-full space-y-2 mt-4 px-4">
-            <Link :href="route('forums.index')">Forums</Link>
-            <Link :href="route('levels')">Levels</Link>
-            <Link :href="route('forge')">Forge</Link>
-            <Link :href="route('search')">Search</Link>
+        <div v-if="mobileNavOpen" class="y md:hidden bg-neutral-300 w-full space-y-2 pt-2">
+            <template v-for="(node, key) in navigation">
+                <Link :href="route(node.route)" class="hover:text-neutral-500 transition transition-colors px-4">{{ node.name }}</Link>
+                <div v-if="node.hasOwnProperty('children')" class="y bg-neutral-200">
+                    <Link v-for="(child, key) in node.children" :key="key" class="px-8 py-1 dark:bg-neutral-900 hover:bg-neutral-200 dark:hover:bg-neutral-800" :href="route(child.route)">{{ child.name }}</Link>
+                </div>
+            </template>
         </div>
     </div>
 </template>
