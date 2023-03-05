@@ -18,9 +18,9 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: assets
-          paths:
-          - public
-          - boostrap/ssr/app.mjs
+          paths: |
+            public
+            boostrap/ssr/app.mjs
 #  test-php:
 #    name: Test/Lint PHP
 #    runs-on: ubuntu-latest
