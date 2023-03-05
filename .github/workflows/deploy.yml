@@ -9,15 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Yarn Build
+      - uses: pnpm/action-setup@v2
+      - name: Build
         run: |
-          yarn install
-          yarn build
+          pnpm install
+          pnpm build
       - name: Upload build files
         uses: actions/upload-artifact@v1
         with:
           name: assets
-          path: public
+          paths:
+          - public
+          - boostrap/ssr/app.mjs
 #  test-php:
 #    name: Test/Lint PHP
 #    runs-on: ubuntu-latest
