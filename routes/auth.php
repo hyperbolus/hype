@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('password.confirm')->middleware('auth');
+Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->name('password.confirm.store')->middleware('auth');
 
 Route::name('auth::')->group(function () {
     //<editor-fold desc="Authentication">
@@ -32,7 +33,7 @@ Route::name('auth::')->group(function () {
 
         Route::get('/auth/register', [RegisteredUserController::class, 'create'])->name('register');
 
-        Route::post('/auth/register', [RegisteredUserController::class, 'store']);
+        Route::post('/auth/register', [RegisteredUserController::class, 'store'])->name('register.store');
 
         Route::post('/auth/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     });
@@ -61,8 +62,6 @@ Route::name('auth::')->group(function () {
 
         Route::get('/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])
             ->name('password.confirmation');
-
-        Route::post('/confirm', [ConfirmablePasswordController::class, 'store']);
     });
 //</editor-fold>
 
@@ -81,7 +80,7 @@ Route::name('auth::')->group(function () {
     //<editor-fold desc="Two Factor Authentication">
     Route::get('/auth/2fa', [\App\Http\Controllers\System\Auth\TwoFactorAuthenticatedSessionController::class, 'create'])->middleware(['guest'])->name('2fa.login');
 
-    Route::post('/auth/2fa', [\App\Http\Controllers\System\Auth\TwoFactorAuthenticatedSessionController::class, 'store'])->middleware(['guest', 'throttle:6,1']);
+    Route::post('/auth/2fa', [\App\Http\Controllers\System\Auth\TwoFactorAuthenticatedSessionController::class, 'store'])->middleware(['guest', 'throttle:6,1'])->name('2fa.login.stpre');
 
     Route::middleware(['auth', 'password.confirm'])->group(function () {
         Route::post('/user/2fa', [\App\Http\Controllers\System\Auth\TwoFactorAuthenticationController::class, 'store'])->name('enable');
@@ -96,7 +95,7 @@ Route::name('auth::')->group(function () {
 
         Route::get('/user/2fa/recovery-codes', [\App\Http\Controllers\System\Auth\RecoveryCodeController::class, 'index'])->name('recovery');
 
-        Route::post('/user/2fa/recovery-codes', [\App\Http\Controllers\System\Auth\RecoveryCodeController::class, 'store']);
+        Route::post('/user/2fa/recovery-codes', [\App\Http\Controllers\System\Auth\RecoveryCodeController::class, 'store'])->name('recovery.store');
     })->name('2fa.');
     //</editor-fold>
 });
