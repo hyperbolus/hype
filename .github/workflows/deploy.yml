@@ -23,7 +23,7 @@ jobs:
         with:
           name: assets
           path: |
-            public
+            public/
             boostrap/ssr/ssr.mjs
 #  test-php:
 #    name: Test/Lint PHP
