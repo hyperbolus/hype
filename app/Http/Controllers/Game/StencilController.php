@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Games\Dash;
+namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Stencil;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Games\GeometryDash;
+namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
-use App\Models\LevelReplay;
+use App\Models\Game\LevelReplay;
 use Illuminate\Http\Request;
 
 class LevelReplayController extends Controller

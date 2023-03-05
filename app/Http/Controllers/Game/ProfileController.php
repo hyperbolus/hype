@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Games\Dash;
+namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
-use App\Models\GeometryDash\Profile;
+use App\Models\Game\Profile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
