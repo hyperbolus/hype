@@ -24,7 +24,7 @@ jobs:
           name: assets
           path: |
             public
-            boostrap/ssr/app.mjs
+            boostrap/ssr/ssr.mjs
 #  test-php:
 #    name: Test/Lint PHP
 #    runs-on: ubuntu-latest
