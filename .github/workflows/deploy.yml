@@ -20,19 +20,19 @@ jobs:
           pnpm build
 
       - name: Tar build files
-        run: tar -czvf assets.tar public/build/
+        run: tar -czvf assets.tar.gz public/build/
 
       - name: Upload build files
         uses: actions/upload-artifact@v3
         with:
           name: assets
-          path: assets.tar
+          path: assets.tar.gz
 
       - name: Upload SSR file
         uses: actions/upload-artifact@v3
         with:
           name: ssr
-          path: boostrap/ssr/ssr.mjs
+          path: bootstrap/ssr/ssr.mjs
 #  test-php:
 #    name: Test/Lint PHP
 #    runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
           path: public
 
       - name: Extract build files
-        run: tar -xzvf assets.tar
+        run: tar -xzvf public/assets.tar
 
       - name: Download SSR file
         uses: actions/download-artifact@v3
