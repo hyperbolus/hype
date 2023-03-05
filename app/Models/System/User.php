@@ -5,7 +5,7 @@ namespace App\Models\System;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
-use App\Models\Games\Dash\Level;
+use App\Models\Game\Level;
 use App\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

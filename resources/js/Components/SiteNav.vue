@@ -12,7 +12,7 @@ import SiteLogo from "@/Components/SiteLogo.vue";
 import {useSettingsStore} from "@/stores/settings.ts";
 
 const mobileNavOpen = ref(false);
-const navigation = useSettingsStore().settings['dash']['navigation']['value']
+const navigation = useSettingsStore().settings['navigation']['value']
 </script>
 <template>
     <div class="y items-center z-20 transition-colors w-full py-4 bg-neutral-200 dark:bg-neutral-800">

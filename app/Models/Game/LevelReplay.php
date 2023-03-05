@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\Games\Dash;
+namespace App\Models\Game;
 
+use App\Models\Games\Dash\IdeHelperLevelReplay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

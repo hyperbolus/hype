@@ -28,7 +28,7 @@ class ThreadController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'forum_id' => 'required|exists:\App\Models\Forum,id',
+            'forum_id' => 'required|exists:forums,id',
             'post.body' => 'required',
         ]);
 
@@ -58,7 +58,7 @@ class ThreadController extends Controller
 
     public function show(Thread $thread): Response
     {
-        $thread->load(['author', 'posts', 'posts.author', 'posts.reactions', 'posts.reactions.reacter']);
+        $thread->load(['author', 'forum', 'posts', 'posts.author', 'posts.reactions', 'posts.reactions.reacter']);
 
         dispatch(function () use ($thread) {
             $thread->views = $thread->views + 1;

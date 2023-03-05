@@ -4,6 +4,7 @@ import {router} from "@inertiajs/vue3"
 import {ref} from "vue"
 import Button from "@/Jetstream/Button.vue"
 import AdminLayout from "@/Layouts/AdminLayout.vue"
+import {MeiliSearch} from "meilisearch";
 
 let message = ref(null);
 let link = ref(null);

@@ -8,7 +8,7 @@ const focused = ref(true);
 
 const client = new MeiliSearch({
     host: 'https://search.gdps.io',
-    apiKey: 'm8dJn1vF7db3Kan38dhaklem18D0d3n',
+    apiKey: 'Ywqrxd0V620a8702732c96928505a5689f8e7d117ad420bec4f765761470f909f9eaf060',
 })
 const index = client.index('levels_index')
 

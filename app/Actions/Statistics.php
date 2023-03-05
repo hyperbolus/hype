@@ -15,7 +15,7 @@ class Statistics
             'users' => self::count(\App\Models\System\User::class),
             'threads' => self::count(\App\Models\Content\Thread::class),
             'posts' => self::count(\App\Models\Content\Post::class),
-            'levels' => self::count(\App\Models\Games\Dash\Level::class),
+            'levels' => self::count(\App\Models\Game\Level::class),
             'reviews' => self::count(\App\Models\Content\Review::class),
             'videos' => self::count(\App\Models\Content\Video::class),
             'playlists' => self::count(\App\Models\Content\Playlist::class),

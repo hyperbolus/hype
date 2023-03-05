@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use App\Models\Content\CrowdVote;
 use App\Models\Content\Tag;
-use App\Models\Games\Dash\Level;
+use App\Models\Game\Level;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

@@ -64,7 +64,7 @@ production:
     # restart daemons that need the directory after symlinking
   environment:
     name: production
-    url: https://www.spellslave.com
+    url: https://www.gdforums.com
 #  when: manual
   only:
     - main

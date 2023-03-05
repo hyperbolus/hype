@@ -6,8 +6,9 @@ import SiteNav from "@/Components/SiteNav.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Footer from "@/Components/Footer.vue";
 import {invisiblePixel} from "@/util";
-
 import dashBG from "@/../images/wellrestedbg.jpg"
+import {useSettingsStore} from "@/stores/settings.ts";
+import {useStatisticsStore} from "@/stores/statistics.ts";
 
 const props = defineProps({
     title: String,
@@ -23,6 +24,9 @@ const props = defineProps({
 
 onBeforeMount(() => {
     setBG()
+    // Required for global cache on first load
+    useSettingsStore()
+    useStatisticsStore()
 });
 
 const bgsrc = ref(null);

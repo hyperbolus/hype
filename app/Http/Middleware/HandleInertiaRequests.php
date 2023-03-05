@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Statistics;
-use App\Models\Setting;
 use App\Models\System\Message;
-use App\Site;
+use App\Models\System\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;

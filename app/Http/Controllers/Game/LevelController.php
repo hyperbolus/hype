@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Games\Impossible;
+namespace App\Http\Controllers\Games\Dash;
 
 use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Review;
 use App\Models\Content\Tag;
-use App\Models\Games\Dash\Level;
+use App\Models\Game\Level;
 use App\Models\System\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -121,7 +121,7 @@ class LevelController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $level->banner_url;
-                $level->banner_url = config('app.storage_url').$disk->putFile('levels/banners/', $request->file('content'), 'public');
+                $level->banner_url = LevelController . phpconfig('app.storage_url');
                 $level->save();
                 if (Level::whereBannerUrl($old)->count() === 0) {
                     $disk->delete(substr($old, strlen(config('app.storage_url'))));

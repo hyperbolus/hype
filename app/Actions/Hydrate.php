@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Games\Dash\Level;
+use App\Models\Game\Level;
 use Illuminate\Support\Facades\Http;
 
 class Hydrate
@@ -12,7 +12,7 @@ class Hydrate
         $level = Level::query()->find($id);
 
         if ($level === null) {
-            $res = Http::get('https://browser.gdps.io/api/level/'.$id)->json();
+            $res = Http::get('https://gdbrowser.com/api/level/'.$id)->json();
 
             if ($res == -1) {
                 if ($abort) {

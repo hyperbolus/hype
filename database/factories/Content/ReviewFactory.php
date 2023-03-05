@@ -3,7 +3,7 @@
 namespace Database\Factories\Content;
 
 use App\Models\Content\Review;
-use App\Models\Games\Dash\Level;
+use App\Models\Game\Level;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

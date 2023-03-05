@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Games\Soundodger;
+namespace Database\Factories\GDPS;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Games\Soundodger\LevelPack>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\GDPS\Level>
  */
-class LevelPackFactory extends Factory
+class LevelFactory extends Factory
 {
     /**
      * Define the model's default state.

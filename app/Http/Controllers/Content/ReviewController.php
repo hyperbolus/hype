@@ -25,7 +25,7 @@ class ReviewController extends Controller
         // TODO: validate types and values of ratings
         $level = Hydrate::level($request->integer('level_id'));
 
-        if ($level->reviews_count >= 5) {
+        if ($level->reviews_count >= 1) {
             if ($level->rating_overall === null) {
                 $total_gameplay = 0;
                 $total_difficulty = 0;
@@ -43,6 +43,7 @@ class ReviewController extends Controller
                 $level->rating_overall = $total_overall / $level->reviews_count;
             } else {
                 // Faster algorithm if ratings have been calculated before
+                // TODO: What if review is edited?
                 $level->rating_gameplay = (($level->rating_gameplay * $level->reviews_count) + $request->integer('rating_gameplay')) / ($level->reviews_count + 1);
                 $level->rating_visuals = (($level->rating_visuals * $level->reviews_count) + $request->integer('rating_visuals')) / ($level->reviews_count + 1);
                 $level->rating_difficulty = (($level->rating_difficulty * $level->reviews_count) + $request->integer('rating_difficulty')) / ($level->reviews_count + 1);
@@ -51,6 +52,7 @@ class ReviewController extends Controller
             $level->save();
         }
 
+        // TODO: I think this should be moved to update or something
         Review::query()->updateOrCreate([
             'level_id' => $request->integer('level_id'),
             'user_id' => $request->user()->id,

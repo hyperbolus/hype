@@ -35,15 +35,16 @@ const props = defineProps({
         </div>
         <div class="py-3 rounded border-r border-r-neutral-300 self-center"></div>
         <div class="x justify-between space-x-2 mr-4 w-1/4 shrink-0">
-            <template v-if="forum.last_post">
-                <div class="y justify-center">
-                    <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
-                    <span class="text-xs"><Username :user="forum.last_post.author"/> &bull; <Timestamp :time="forum.last_post.created_at"/></span>
-                </div>
-                <div class="x items-center shrink-0">
-                    <Avatar v-if="forum.last_post" class="w-10" :user="forum.last_post.author"/>
-                </div>
-            </template>
+            <div v-if="forum.last_post" class="y justify-center">
+                <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
+                <span class="text-xs"><Username :user="forum.last_post.author"/> &bull; <Timestamp :time="forum.last_post.created_at"/></span>
+            </div>
+            <div v-else class="y justify-center">
+                <span class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis opacity-50">No posts</span>
+            </div>
+            <div class="!hidden x items-center shrink-0">
+                <Avatar v-if="forum.last_post" class="w-10" :user="forum.last_post.author"/>
+            </div>
         </div>
     </div>
 </template>

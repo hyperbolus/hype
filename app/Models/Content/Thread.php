@@ -48,6 +48,11 @@ class Thread extends Model
         return $this->hasMany(Post::class, 'thread_id');
     }
 
+    public function forum(): BelongsTo
+    {
+        return $this->belongsTo(Forum::class, 'forum_id');
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');

@@ -65,12 +65,6 @@ return [
         // Tool URLs
         'gdps' => env('GDPS_URL'),
         'profile' => env('PROFILE_URL'),
-
-        // Site URLs
-        'dash' => env('DASH_URL'),
-        'soundodger' => env('SOUNDODGER_URL'),
-        'impossible' => env('IMPOSSIBLE_URL'),
-        'snail' => env('SNAIL_URL'),
     ],
 
     /*

@@ -2,7 +2,7 @@
 
 namespace App\Models\Content;
 
-use App\Models\Games\Dash\Level;
+use App\Models\Game\Level;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

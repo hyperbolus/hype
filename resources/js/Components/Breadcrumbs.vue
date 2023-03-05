@@ -1,7 +1,8 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import route from 'ziggy-js'
-
+import Toggle from "@/Components/Toggle.vue";
+import {toggleDark, isDark} from '../util.js'
 </script>
 <template>
     <div class="x z-10 transition-colors justify-center w-full bg-neutral-300 dark:bg-neutral-900">
@@ -12,6 +13,12 @@ import route from 'ziggy-js'
                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
                 </svg>
                 <slot/>
+            </div>
+            <div class="flex items-center h-full">
+                <label @click.stop class="flex items-center cursor-pointer gap-2">
+                    <span class="text-xs font-bold opacity-60">DARK MODE</span>
+                    <input type="checkbox" class="pointer-events-none" @click="toggleDark" v-model="isDark"/>
+                </label>
             </div>
         </div>
     </div>

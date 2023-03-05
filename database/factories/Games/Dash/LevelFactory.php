@@ -5,7 +5,7 @@ namespace Database\Factories\Games\Dash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Games\Dash\Level>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Game\Level>
  */
 class LevelFactory extends Factory
 {

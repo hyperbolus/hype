@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Models\Games\Soundodger;
+namespace App\Models\Game;
 
+use App\Models\Games\Dash\IdeHelperProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperLevelPack
+ * @mixin IdeHelperProfile
  */
-class LevelPack extends Model
+class Profile extends Model
 {
     use HasFactory;
 }

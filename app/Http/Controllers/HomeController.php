@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Games\Dash;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
 

@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('password.confirm')->middleware('auth');
+
 Route::name('auth::')->group(function () {
     //<editor-fold desc="Authentication">
     Route::middleware('guest')->group(function () {
@@ -55,8 +57,7 @@ Route::name('auth::')->group(function () {
         Route::put('/user/password', [PasswordController::class, 'update'])
             ->name('user-password.update');
 
-        Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])
-            ->name('password.confirm');
+        //Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
 
         Route::get('/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])
             ->name('password.confirmation');

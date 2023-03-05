@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Games\Soundodger;
+namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
-use App\Models\Games\Soundodger\LevelPack;
+use App\Models\System\Setting;
 use Illuminate\Http\Request;
 
-class LevelPackController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class LevelPackController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Games\Soundodger\LevelPack  $levelPack
+     * @param  \App\Models\System\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function show(LevelPack $levelPack)
+    public function show(Setting $setting)
     {
         //
     }
@@ -53,10 +53,10 @@ class LevelPackController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Games\Soundodger\LevelPack  $levelPack
+     * @param  \App\Models\System\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function edit(LevelPack $levelPack)
+    public function edit(Setting $setting)
     {
         //
     }
@@ -65,10 +65,10 @@ class LevelPackController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Games\Soundodger\LevelPack  $levelPack
+     * @param  \App\Models\System\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LevelPack $levelPack)
+    public function update(Request $request, Setting $setting)
     {
         //
     }
@@ -76,10 +76,10 @@ class LevelPackController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Games\Soundodger\LevelPack  $levelPack
+     * @param  \App\Models\System\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LevelPack $levelPack)
+    public function destroy(Setting $setting)
     {
         //
     }

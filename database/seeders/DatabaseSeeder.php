@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\System\ReputationLog;
+use App\Models\System\Setting;
 use App\Models\System\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -21,10 +22,44 @@ class DatabaseSeeder extends Seeder
             Storage::disk('local')->delete('version.lock');
         }
         Artisan::call('app:update');
+
+        $navigation = <<<JSON
+[
+  {
+    "name": "Forums",
+    "route": "forums.index"
+  },
+  {
+    "name": "Levels",
+    "route": "levels",
+    "children": [
+      {
+        "name": "Reviews",
+        "route": "levels.index"
+      },
+      {
+        "name": "Playlists",
+        "route": "playlists.index"
+      },
+      {
+        "name": "Tags",
+        "route": "tags.index"
+      }
+    ]
+  }
+]
+JSON;
+        $setting = new Setting();
+        $setting->key = 'navigation';
+        $setting->value = $navigation;
+        $setting->type = 4;
+        $setting->public = true;
+        $setting->save();
+
         $this->command->info('Finished Setup');
 
         $users = \App\Models\System\User::factory(20)->create();
-        $levels = \App\Models\Games\Dash\Level::factory(30)->create();
+        $levels = \App\Models\Game\Level::factory(30)->create();
         $reviews = \App\Models\Content\Review::factory(100)->create();
 
         $this->command->info('Seeded users with levels and reviews');
@@ -61,7 +96,7 @@ class DatabaseSeeder extends Seeder
                 $total_visuals += $review->rating_visuals;
                 $total_overall += $review->rating_overall;
             }
-            if ($count >= 20) {
+            if ($count >= 1) {
                 $level->rating_gameplay = $total_gameplay / $count;
                 $level->rating_difficulty = $total_difficulty / $count;
                 $level->rating_visuals = $total_visuals / $count;

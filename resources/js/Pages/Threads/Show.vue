@@ -21,7 +21,7 @@ const sendReply = () => {
         preserveScroll: true,
         /*
         TODO:
-         okay this doesnt actually work because of the same reason as preview.
+         okay this doesn't actually work because of the same reason as preview.
          it seems external mutation does not affect a nested tiptap editor
         */
         onSuccess: () => reply.body = ''
@@ -32,6 +32,10 @@ const sendReply = () => {
     <app-layout :title="thread.title">
         <template #breadcrumbs>
             <Link :href="route('forums.index')">Forums</Link>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+            <Link :href="route('forums.show', thread.forum_id)">{{ thread.forum.name }}</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                 <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
             </svg>
