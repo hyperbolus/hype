@@ -51,7 +51,7 @@ jobs:
           path: public
 
       - name: Extract build files
-        run: tar -xzvf public/assets.tar
+        run: tar -xzvf public/assets.tar.gz
 
       - name: Download SSR file
         uses: actions/download-artifact@v3
