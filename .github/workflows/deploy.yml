@@ -41,9 +41,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: assets
-          path: |
-            public/
-            boostrap/ssr/ssr.mjs
+          path: public
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:

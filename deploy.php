@@ -69,7 +69,7 @@ task('launch', [
     'artisan:config:cache', // | Laravel specific steps
     'artisan:optimize',     // |
     'artisan:migrate',      // |
-    'artisan:update',       // |
+    //'artisan:update',       // |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
