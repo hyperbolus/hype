@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Statistics;
-use App\Models\Social\Message;
+use App\Models\Setting;
+use App\Models\System\Message;
+use App\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
@@ -15,6 +17,7 @@ class HandleInertiaRequests extends Middleware
      * The root template that's loaded on the first page visit.
      *
      * @see https://inertiajs.com/server-side-setup#root-template
+     *
      * @var string
      */
     protected $rootView = 'app';
@@ -23,7 +26,8 @@ class HandleInertiaRequests extends Middleware
      * Determines the current asset version.
      *
      * @see https://inertiajs.com/asset-versioning
-     * @param Request $request
+     *
+     * @param  Request  $request
      * @return string|null
      */
     public function version(Request $request): ?string
@@ -35,17 +39,35 @@ class HandleInertiaRequests extends Middleware
      * Defines the props that are shared by default.
      *
      * @see https://inertiajs.com/shared-data
-     * @param Request $request
+     *
+     * @param  Request  $request
      * @return array
      */
     public function share(Request $request): array
     {
+        $firstLoad = $request->hasHeader('X-Inertia') ? [] : [
+            'statistics' => [
+                'counts' => Statistics::all(),
+                'patreon' => Statistics::patreon()
+            ],
+            'settings' => Setting::query()->where('key', 'navigation')->get()->map(function (Setting $setting) {
+                $setting->makeHidden(['site', 'key']);
+                if ($setting->type === 4) {
+                    $setting->value = json_decode($setting->value);
+                }
+
+                return $setting;
+            })->groupBy('site')->mapWithKeys(function ($group) {
+                return $group->keyBy('key');
+            }),
+        ];
+
         return array_merge(parent::share($request), array_filter([
-            'app' => function () use ($request) {
+            'app' => function () use ($firstLoad, $request) {
                 return [
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
-                    'stats' => Statistics::all()
+                    ...$firstLoad,
                 ];
             },
             'user' => function () use ($request) {
@@ -55,7 +77,7 @@ class HandleInertiaRequests extends Middleware
 
                 return array_merge($request->user()->toArray(), [
                     'impersonating' => app('impersonate')->isImpersonating(),
-                    'two_factor_enabled' => !is_null($request->user()->two_factor_secret),
+                    'two_factor_enabled' => ! is_null($request->user()->two_factor_secret),
                     //'linked_accounts' => $request->user()->accounts,
                     'roles' => $request->user()->roles->pluck('name'),
                     'notifications' => $request->user()->notifications,

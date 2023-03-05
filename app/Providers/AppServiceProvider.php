@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Content\Forum;
+use App\Models\Content\Post;
+use App\Models\Content\Tag;
+use App\Models\Games\Dash\Level;
+use App\Models\Games\Dash\LevelReplay;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -16,7 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 
     /**
@@ -27,12 +29,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Recursive Migrations
-        $dirs = glob(database_path('migrations') . '/*' , GLOB_ONLYDIR);
+        $dirs = glob(database_path('migrations').'/*', GLOB_ONLYDIR);
         $paths = array_merge([database_path('migrations')], $dirs);
         $this->loadMigrationsFrom($paths);
 
         Relation::enforceMorphMap([
-            //
+            1 => User::class,
+            11 => Tag::class,
+            21 => Post::class,
+
+            40 => Level::class,
+            41 => LevelReplay::class,
         ]);
     }
 }

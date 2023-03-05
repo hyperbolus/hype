@@ -1,11 +1,14 @@
 <script setup>
-import StatsPanel from "@/Components/StatsPanel.vue";
 import ForumTicket from "@/Components/ForumTicket.vue";
-import {Link} from '@inertiajs/inertia-vue3'
-import AppLayout from "@/Layouts/AppLayout.vue";
+import {Link} from '@inertiajs/vue3'
+import AppLayout from "@/Layouts/Dash.vue";
+import Username from "@/Components/Username.vue";
+import Timestamp from "@/Components/Timestamp.vue";
+import route from 'ziggy-js'
 
 defineProps({
     forums: Array,
+    latestPosts: Array,
 })
 </script>
 <template>
@@ -27,7 +30,13 @@ defineProps({
             <div class="rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
                 Join us on Discord
             </div>
-            <StatsPanel/>
+            <h2 class="mx-2 font-bold text-2xl">Latest Activity</h2>
+            <div class="pane !p-0 divide-y divide-neutral-700">
+                <div v-for="post in latestPosts" class="y px-4 py-3">
+                    <Link :href="route('threads.show', post.thread)" class="z-10 font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ post.thread.title }}</Link>
+                    <span class="z-10 text-xs"><Username :user="post.author"/> &bull; <Timestamp :time="post.created_at"/></span>
+                </div>
+            </div>
         </div>
     </app-layout>
 </template>

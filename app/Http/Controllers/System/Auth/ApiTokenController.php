@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\System\Auth;
 
 use App\Yggdrasil;
+use function back;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
-use function back;
 use function optional;
 
 class ApiTokenController extends Controller
@@ -16,7 +16,7 @@ class ApiTokenController extends Controller
     /**
      * Show the user API token screen.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function index(Request $request): Response
@@ -24,8 +24,8 @@ class ApiTokenController extends Controller
         $data = [
             'tokens' => $request->user()->tokens->map(function ($token) {
                 return $token->toArray() + [
-                        'last_used_ago' => optional($token->last_used_at)->diffForHumans(),
-                    ];
+                    'last_used_ago' => optional($token->last_used_at)->diffForHumans(),
+                ];
             }),
             'availablePermissions' => Yggdrasil::$permissions,
             'defaultPermissions' => Yggdrasil::$defaultPermissions,
@@ -37,7 +37,7 @@ class ApiTokenController extends Controller
     /**
      * Create a new API token.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
      */
     public function store(Request $request)
@@ -52,15 +52,15 @@ class ApiTokenController extends Controller
         )->accessToken;
 
         return back()->with('flash', [
-            'token' => $token
+            'token' => $token,
         ]);
     }
 
     /**
      * Update the given API token's permissions.
      *
-     * @param Request $request
-     * @param string $tokenId
+     * @param  Request  $request
+     * @param  string  $tokenId
      * @return RedirectResponse
      */
     public function update(Request $request, string $tokenId): RedirectResponse
@@ -82,13 +82,14 @@ class ApiTokenController extends Controller
     /**
      * Delete the given API token.
      *
-     * @param Request $request
-     * @param string $tokenId
+     * @param  Request  $request
+     * @param  string  $tokenId
      * @return RedirectResponse
      */
     public function destroy(Request $request, string $tokenId): RedirectResponse
     {
         $request->user()->tokens()->where('id', $tokenId)->first()->revoke();
+
         return back(303);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function config;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use function config;
 use function response;
 
 class ConfirmedPasswordStatusController extends Controller
@@ -13,7 +13,7 @@ class ConfirmedPasswordStatusController extends Controller
     /**
      * Get the password confirmation status.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function show(Request $request): JsonResponse

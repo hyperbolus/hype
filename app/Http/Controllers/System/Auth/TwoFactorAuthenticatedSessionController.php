@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function __;
 use App\Events\RecoveryCodeReplaced;
 use App\Http\Requests\TwoFactorLoginRequest;
 use App\Providers\RouteServiceProvider;
+use function event;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
@@ -13,8 +15,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use function __;
-use function event;
 use function redirect;
 
 class TwoFactorAuthenticatedSessionController extends Controller
@@ -29,7 +29,7 @@ class TwoFactorAuthenticatedSessionController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -40,7 +40,7 @@ class TwoFactorAuthenticatedSessionController extends Controller
     /**
      * Show the two-factor authentication challenge view.
      *
-     * @param TwoFactorLoginRequest $request
+     * @param  TwoFactorLoginRequest  $request
      * @return Response
      */
     public function create(TwoFactorLoginRequest $request): Response
@@ -55,8 +55,9 @@ class TwoFactorAuthenticatedSessionController extends Controller
     /**
      * Attempt to authenticate a new session using the two factor authentication code.
      *
-     * @param TwoFactorLoginRequest $request
+     * @param  TwoFactorLoginRequest  $request
      * @return RedirectResponse|JsonResponse
+     *
      * @throws ValidationException
      */
     public function store(TwoFactorLoginRequest $request): JsonResponse|RedirectResponse

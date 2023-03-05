@@ -52,7 +52,7 @@
 </template>
 <script>
 import {defineComponent} from 'vue'
-import {Link, Head as DocumentHead} from '@inertiajs/inertia-vue3'
+import {Link, Head as DocumentHead} from '@inertiajs/vue3'
 
 
 export default defineComponent({

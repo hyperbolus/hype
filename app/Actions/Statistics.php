@@ -20,14 +20,13 @@ class Statistics
             'videos' => self::count(\App\Models\Content\Video::class),
             'playlists' => self::count(\App\Models\Content\Playlist::class),
             'nongs' => self::count(\App\Models\Content\Song::class),
-            'patreon' => self::patreon()
         ];
     }
 
-    public static function patreon() {
-
+    public static function patreon()
+    {
         $patreon = Cache::get('statistics:patreon');
-        if (!$patreon) {
+        if (! $patreon) {
             try {
                 $res = Http::withToken(config('hyperbolus.patreon_token'))
                     ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage')
@@ -38,18 +37,21 @@ class Statistics
 
             }
         }
+        // Fake it 'til you make it
+        //$patreon['included'][0]['attributes']['completed_percentage'] = 100;
         return $patreon;
     }
 
     public static function count($model)
     {
         $table = app($model)->getTable();
-        $key = 'statistics:' . $table;
+        $key = 'statistics:'.$table;
         $value = Cache::get($key);
         if ($value === null) {
             $value = DB::table($table)->count();
             Cache::put($key, $value, now()->addHour());
         }
+
         return $value;
     }
 }

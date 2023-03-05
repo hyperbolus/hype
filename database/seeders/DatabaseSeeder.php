@@ -17,14 +17,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if(Storage::disk('local')->exists('version.lock')) {
+        if (Storage::disk('local')->exists('version.lock')) {
             Storage::disk('local')->delete('version.lock');
         }
         Artisan::call('app:update');
         $this->command->info('Finished Setup');
 
         $users = \App\Models\System\User::factory(20)->create();
-        $levels = \App\Models\GeometryDash\Level::factory(30)->create();
+        $levels = \App\Models\Games\Dash\Level::factory(30)->create();
         $reviews = \App\Models\Content\Review::factory(100)->create();
 
         $this->command->info('Seeded users with levels and reviews');
@@ -32,20 +32,20 @@ class DatabaseSeeder extends Seeder
         \App\Models\Content\Forum::factory(1)->create([
             'name' => 'Official',
             'category' => true,
-            'parent_id' => null
+            'parent_id' => null,
         ]);
         \App\Models\Content\Forum::factory(1)->create([
             'name' => 'General',
             'category' => true,
-            'parent_id' => null
+            'parent_id' => null,
         ]);
 
         \App\Models\Content\Forum::factory(7)->create();
         $this->command->info('Seeded forums');
         \App\Models\Content\Thread::factory(25)->create();
         $this->command->info('Seeded threads');
-        \App\Models\Social\PostLike::factory(100)->create();
-        $this->command->info('Seeded forum content');
+        //\App\Models\Content\Reaction::factory(100)->create();
+        //$this->command->info('Seeded forum content');
 
         $levels->load('reviews');
         $levels->each(function ($level, $i) {
@@ -74,9 +74,9 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Content\Playlist::factory(5)->create();
 
-        \App\Models\Social\ProfileComment::factory(100)->create();
-        \App\Models\Social\Message::factory(100)->create();
-        \App\Models\Social\Friend::factory(20)->create();
+        \App\Models\System\ProfileComment::factory(100)->create();
+        \App\Models\System\Message::factory(100)->create();
+        \App\Models\System\Friend::factory(20)->create();
         $reps = \App\Models\System\ReputationLog::factory(50)->create();
         $this->command->info('Seeded additional profile data');
         $users->each(function (User $user) {

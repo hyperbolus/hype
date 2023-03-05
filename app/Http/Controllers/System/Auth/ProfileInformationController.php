@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function back;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -10,7 +11,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
-use function back;
 use function request;
 
 class ProfileInformationController extends Controller
@@ -18,8 +18,9 @@ class ProfileInformationController extends Controller
     /**
      * Update the user's profile information.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
+     *
      * @throws ValidationException
      */
     public function update(Request $request): JsonResponse|RedirectResponse

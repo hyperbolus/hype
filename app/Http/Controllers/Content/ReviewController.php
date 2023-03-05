@@ -25,8 +25,8 @@ class ReviewController extends Controller
         // TODO: validate types and values of ratings
         $level = Hydrate::level($request->integer('level_id'));
 
-        if($level->reviews_count >= 5) {
-            if($level->rating_overall === null) {
+        if ($level->reviews_count >= 5) {
+            if ($level->rating_overall === null) {
                 $total_gameplay = 0;
                 $total_difficulty = 0;
                 $total_visuals = 0;
@@ -53,14 +53,14 @@ class ReviewController extends Controller
 
         Review::query()->updateOrCreate([
             'level_id' => $request->integer('level_id'),
-            'user_id' => $request->user()->id
+            'user_id' => $request->user()->id,
         ], [
             'rating_difficulty' => max(0, min(10, $request->integer('rating_difficulty'))),
             'rating_gameplay' => max(0, min(10, $request->integer('rating_gameplay'))),
             'rating_visuals' => max(0, min(10, $request->integer('rating_visuals'))),
             'rating_overall' => max(0, min(10, $request->integer('rating_overall'))),
             'review' => $request->string('body'),
-            ]);
+        ]);
 
         return redirect()->back();
     }

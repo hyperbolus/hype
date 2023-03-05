@@ -1,6 +1,6 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
-import { Link } from '@inertiajs/inertia-vue3';
+import AppLayout from "@/Layouts/Dash.vue";
+import { Link } from '@inertiajs/vue3';
 import route from "ziggy-js";
 
 const props = defineProps({

@@ -29,6 +29,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Passport::ignoreRoutes();
+
         Passport::tokensCan([
             'create' => 'creates',
             'read' => 'reads',

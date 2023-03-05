@@ -16,7 +16,7 @@
 </template>
 <script>
 import {defineComponent} from 'vue'
-import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3';
+import {Head as DocumentHead, Link} from '@inertiajs/vue3';
 
 export default defineComponent({
     props: ['jetstream', 'app', 'user', 'errorBags', 'errors'],

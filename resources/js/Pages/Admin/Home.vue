@@ -1,6 +1,6 @@
 <script setup>
 import Input from "@/Jetstream/Input.vue"
-import {Inertia} from "@inertiajs/inertia"
+import {router} from "@inertiajs/vue3"
 import {ref} from "vue"
 import Button from "@/Jetstream/Button.vue"
 import AdminLayout from "@/Layouts/AdminLayout.vue"
@@ -9,7 +9,7 @@ let message = ref(null);
 let link = ref(null);
 
 const announcementSend = (message, link) => {
-    Inertia.post('/admin' + '?' + new URLSearchParams({
+    router.post('/admin' + '?' + new URLSearchParams({
         message: message,
         link: link,
         action: 'send announcement'

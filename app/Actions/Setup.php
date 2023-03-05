@@ -9,21 +9,23 @@ use Spatie\Permission\Models\Role;
 
 class Setup
 {
-    public static function all($version) {
+    public static function all($version)
+    {
         self::permissions($version);
         self::users($version);
     }
 
     public static function permissions($version)
     {
-        if($version < 1) {
+        if ($version < 1) {
             Role::create(['name' => 'admin']);
             Role::create(['name' => 'moderator']);
             Role::create(['name' => 'writer']);
         }
     }
 
-    public static function users($version) {
+    public static function users($version)
+    {
         if ($version < 1) {
             User::create([
                 'id' => 0,

@@ -13,7 +13,7 @@ class PlaylistController extends Controller
     public function index(): Response
     {
         return Inertia::render('Playlists/Index', [
-            'playlists' => Playlist::all()
+            'playlists' => Playlist::all(),
         ]);
     }
 
@@ -43,9 +43,9 @@ class PlaylistController extends Controller
         $playlist->load(['owner', 'submissions']);
 
         $__meta_description = '';
-        $__meta_title = $playlist->title . ' by ' . $playlist->owner->name;
+        $__meta_title = $playlist->title.' by '.$playlist->owner->name;
         if (\request('invite')) {
-            $__meta_description .= 'You\'ve been invited to edit ' . $__meta_title;
+            $__meta_description .= 'You\'ve been invited to edit '.$__meta_title;
         } else {
             $__meta_description = $playlist->description;
         }

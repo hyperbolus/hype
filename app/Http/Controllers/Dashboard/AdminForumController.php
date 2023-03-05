@@ -22,7 +22,7 @@ class AdminForumController extends Controller
                 $forum->name = request('name');
                 $forum->description = request('description');
                 if (request('use_slug')) {
-                    if (!empty(request('slug'))) {
+                    if (! empty(request('slug'))) {
                         $forum->slug = request('slug');
                     }
                 } else {
@@ -47,7 +47,7 @@ class AdminForumController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/Forums', [
-            'forums' => Forum::query()->paginate(25)
+            'forums' => Forum::query()->paginate(25),
         ]);
     }
 }

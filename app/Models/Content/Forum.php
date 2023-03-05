@@ -2,7 +2,6 @@
 
 namespace App\Models\Content;
 
-use App\Models\IdeHelperForum;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,10 +26,12 @@ class Forum extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
+
+    protected $table = 'forums';
 
     /**
      * Get the route key for the model.
@@ -62,7 +63,8 @@ class Forum extends Model
         return $this->hasMany(Post::class, 'forum_id');
     }
 
-    public function lastPost(): HasOne {
+    public function lastPost(): HasOne
+    {
         // TODO: Investigate why ->limit(1) is required if hasOne uses ->first()
         return $this->hasOne(Post::class)->orderByDesc('id')->limit(1)->with('thread');
     }

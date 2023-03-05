@@ -6,6 +6,8 @@ use App\Events\TwoFactorAuthenticationDisabled;
 use App\Events\TwoFactorAuthenticationEnabled;
 use App\Providers\TwoFactorAuthenticationProvider;
 use App\Yggdrasil;
+use function back;
+use function encrypt;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,16 +15,15 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use PragmaRX\Google2FA\Google2FA;
 use Symfony\Component\HttpFoundation\Response;
-use function back;
-use function encrypt;
 
 class TwoFactorAuthenticationController extends Controller
 {
     /**
      * Enable two-factor authentication for the user.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|Response
+     *
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
@@ -47,7 +48,7 @@ class TwoFactorAuthenticationController extends Controller
     /**
      * Disable two-factor authentication for the user.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse|JsonResponse
      */
     public function destroy(Request $request): JsonResponse|RedirectResponse

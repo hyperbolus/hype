@@ -19,7 +19,7 @@ class TwoFactorAuthenticationProvider
     /**
      * Create a new two-factor authentication provider instance.
      *
-     * @param Google2FA $engine
+     * @param  Google2FA  $engine
      * @return void
      */
     public function __construct(Google2FA $engine)

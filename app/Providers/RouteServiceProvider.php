@@ -44,7 +44,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::namespace($this->namespace)
                 ->group(base_path('routes/passport.php'));
-
         });
     }
 

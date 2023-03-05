@@ -2,7 +2,6 @@
 
 namespace App\Models\System;
 
-use App\Models\IdeHelperReport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

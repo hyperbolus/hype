@@ -43,7 +43,7 @@ class AdminUserController extends Controller
     public function show(): Response
     {
         return Inertia::render('Admin/Users', [
-            'users' => User::query()->paginate(20)
+            'users' => User::query()->paginate(20),
         ]);
     }
 }

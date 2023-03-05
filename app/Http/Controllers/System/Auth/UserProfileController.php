@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function collect;
+use function config;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
@@ -10,8 +12,6 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Jenssegers\Agent\Agent;
-use function collect;
-use function config;
 use function tap;
 
 class UserProfileController extends Controller
@@ -19,7 +19,7 @@ class UserProfileController extends Controller
     /**
      * Show the general profile settings screen.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function show(Request $request): Response
@@ -32,7 +32,7 @@ class UserProfileController extends Controller
     /**
      * Get the current sessions.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Collection
      */
     public function sessions(Request $request): Collection

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
-use App\Models\Social\GroupMembership;
+use App\Models\System\GroupMembership;
 use Illuminate\Http\Request;
 
 class GroupMembershipController extends Controller

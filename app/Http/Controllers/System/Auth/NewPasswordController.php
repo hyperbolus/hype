@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\System\Auth;
 
 use App\Yggdrasil;
+use function back;
+use function config;
+use function event;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -17,16 +20,12 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use function back;
-use function config;
-use function event;
 use function redirect;
 use function request;
 use function trans;
 
 class NewPasswordController extends Controller
 {
-
     /**
      * The guard implementation.
      *
@@ -37,7 +36,7 @@ class NewPasswordController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -48,7 +47,7 @@ class NewPasswordController extends Controller
     /**
      * Show the new password view.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function create(Request $request): Response
@@ -62,7 +61,8 @@ class NewPasswordController extends Controller
     /**
      * Reset the user's password.
      *
-     * @param Request $request
+     * @param  Request  $request
+     *
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse|RedirectResponse
@@ -98,7 +98,7 @@ class NewPasswordController extends Controller
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
-        if($status == Password::PASSWORD_RESET) {
+        if ($status == Password::PASSWORD_RESET) {
             return $request->wantsJson()
                 ? new JsonResponse(['message' => trans($status)], 200)
                 : redirect(route('auth::login'))->with('status', trans($status));

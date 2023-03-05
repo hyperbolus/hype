@@ -2,9 +2,9 @@
 
 namespace App\Actions;
 
+use App\Events\RecoveryCodesGenerated;
 use App\Yggdrasil;
 use Illuminate\Support\Collection;
-use App\Events\RecoveryCodesGenerated;
 
 class GenerateNewRecoveryCodes
 {

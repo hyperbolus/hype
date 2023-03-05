@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function back;
+use function config;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -11,8 +13,6 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use function back;
-use function config;
 use function session;
 use function trans;
 
@@ -33,8 +33,9 @@ class PasswordResetLinkController extends Controller
     /**
      * Send a reset link to the given user.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse|RedirectResponse
@@ -48,7 +49,7 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
-        if($status == Password::RESET_LINK_SENT) {
+        if ($status == Password::RESET_LINK_SENT) {
             return $request->wantsJson()
                 ? new JsonResponse(['message' => trans($status)], 200)
                 : back()->with('status', trans($status));

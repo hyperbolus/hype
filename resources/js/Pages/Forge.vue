@@ -1,6 +1,6 @@
 <script setup>
 import StatsPanel from "@/Components/StatsPanel.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 </script>
 <template>
     <app-layout title="Forge">

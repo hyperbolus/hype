@@ -1,6 +1,6 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/inertia-vue3';
-import AppLayout from "@/Layouts/AppLayout.vue";
+import {Link, useForm} from '@inertiajs/vue3';
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     level: Object,
@@ -36,7 +36,7 @@ const vote = (tag_id, approve) => {
             </svg>
             <span>Tags</span>
         </template>
-        <div class="y space-y-4 w-2/3">
+        <div class="y space-y-2 w-2/3">
             <h2 class="font-bold text-2xl">Info</h2>
             <p class="pane">
                 Screenshot submissions coming soon to a local website near you!

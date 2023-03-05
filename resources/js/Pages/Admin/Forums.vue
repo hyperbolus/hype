@@ -4,7 +4,7 @@ import Input from "@/Jetstream/Input.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
 import Button from "@/Jetstream/Button.vue";
 import Pagination from "@/Components/Pagination.vue";
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 import route from 'ziggy-js'
 import InlineForumEditor from "@/Components/InlineForumEditor.vue";
 

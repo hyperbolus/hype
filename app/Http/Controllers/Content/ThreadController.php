@@ -8,31 +8,33 @@ use App\Models\Content\Post;
 use App\Models\Content\Thread;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-
-;
 
 class ThreadController extends Controller
 {
     public function create(): Response
     {
         return Inertia::render('Threads/Create', [
-            'forum_id' => \request('fid') ?? null
+            'forum_id' => \request('fid') ?? null,
         ]);
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'title' => 'required',
             'forum_id' => 'required|exists:\App\Models\Forum,id',
-            'post.body' => 'required'
+            'post.body' => 'required',
         ]);
 
         $forum = Forum::query()->find($request->integer('forum_id'));
 
-        if($forum->group_id !== $request->user()->primary_group_id) {
+        if ($forum->group_id !== $request->user()->primary_group_id) {
             throw \Illuminate\Validation\ValidationException::withMessages(['forum' => 'You do not have permission to create threads in this forum']);
         }
 
@@ -56,7 +58,7 @@ class ThreadController extends Controller
 
     public function show(Thread $thread): Response
     {
-        $thread->load(['author', 'posts', 'posts.author', 'posts.likes', 'posts.likes.liker']);
+        $thread->load(['author', 'posts', 'posts.author', 'posts.reactions', 'posts.reactions.reacter']);
 
         dispatch(function () use ($thread) {
             $thread->views = $thread->views + 1;
@@ -64,21 +66,21 @@ class ThreadController extends Controller
         })->afterResponse();
 
         return Inertia::render('Threads/Show', [
-            'thread' => $thread
+            'thread' => $thread,
         ]);
     }
 
     public function edit(Thread $thread): Response
     {
         return Inertia::render('Threads/Edit', [
-            'thread' => $thread
+            'thread' => $thread,
         ]);
     }
 
     public function update(Request $request, Thread $thread): RedirectResponse
     {
         $request->validate([
-            'title' => 'required|min:5'
+            'title' => 'required|min:5',
         ]);
         $thread->title = $request->string('title');
         $thread->save();

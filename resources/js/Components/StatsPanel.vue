@@ -1,22 +1,15 @@
+<script setup>
+import {useStatisticsStore} from "@/stores/statistics.ts";
+
+const stats = useStatisticsStore().counts
+</script>
 <template>
     <div class="space-y-2">
         <h2 class="mx-2 font-bold text-2xl">Statistics</h2>
         <div class="pane">
-            <div class="flex justify-between">
-                <span>Users</span>
-                <span>{{ $page.props.app.stats.users }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span>Levels</span>
-                <span>{{ $page.props.app.stats.levels }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span>Reviews</span>
-                <span>{{ $page.props.app.stats.reviews }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span>Videos</span>
-                <span>{{ $page.props.app.stats.videos }}</span>
+            <div v-for="(statistic, key) in stats" class="flex justify-between">
+                <span class="capitalize">{{ key }}</span>
+                <span>{{ statistic }}</span>
             </div>
         </div>
     </div>

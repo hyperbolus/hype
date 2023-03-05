@@ -1,6 +1,6 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
-import {Link, useForm} from '@inertiajs/inertia-vue3';
+import AppLayout from '@/Layouts/Dash.vue'
+import {Link, useForm} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
 import Username from "@/Components/Username.vue";
 import Avatar from "@/Components/Avatar.vue";

@@ -29,10 +29,10 @@ class CreateBansTable extends Migration
             $table->morphs('bannable');
             $table->nullableMorphs('created_by');
             $table->text('comment')->nullable();
+            $table->unsignedTinyInteger('site')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
-
             $table->index('expired_at');
         });
     }

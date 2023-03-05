@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Games\GeometryDash\Level;
+use App\Models\Games\Dash\Level;
 use Illuminate\Support\Facades\Http;
 
 class Hydrate
@@ -11,13 +11,14 @@ class Hydrate
     {
         $level = Level::query()->find($id);
 
-        if($level === null) {
-            $res = Http::get('https://browser.gdps.io/api/level/' . $id)->json();
+        if ($level === null) {
+            $res = Http::get('https://browser.gdps.io/api/level/'.$id)->json();
 
-            if($res == -1) {
+            if ($res == -1) {
                 if ($abort) {
                     abort(400, 'Invalid Level ID');
                 }
+
                 return null;
             }
 
@@ -47,7 +48,7 @@ class Hydrate
                 'short' => 1,
                 'medium' => 2,
                 'long' => 3,
-                'xl' => 4
+                'xl' => 4,
             ];
 
             $level->difficulty = $difficulties[strtolower($res['difficulty'])];

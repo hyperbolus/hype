@@ -1,7 +1,6 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
-import {Link, useForm} from '@inertiajs/inertia-vue3';
-import Dropdown from "@/Jetstream/Dropdown.vue";
+import AppLayout from '@/Layouts/Dash.vue'
+import {Link, useForm} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'

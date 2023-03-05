@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System\Auth;
 use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
 use App\Yggdrasil;
+use function event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
@@ -16,13 +17,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use function event;
 use function redirect;
 use function request;
 
 class RegisteredUserController extends Controller
 {
-
     /**
      * The guard implementation.
      *
@@ -33,7 +32,7 @@ class RegisteredUserController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -54,8 +53,9 @@ class RegisteredUserController extends Controller
     /**
      * Create a new registered user.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse|RedirectResponse
@@ -66,9 +66,9 @@ class RegisteredUserController extends Controller
             'password' => Yggdrasil::passwordRules(),
             'terms' => ['required', 'accepted'],
         ],
-        [
-            'name.regex' => 'Usernames must be alphanumeric (no spaces or symbols except underscores)'
-        ])->validate();
+            [
+                'name.regex' => 'Usernames must be alphanumeric (no spaces or symbols except underscores)',
+            ])->validate();
 
         $user = User::create([
             'email' => request('email'),
@@ -77,7 +77,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $banned_ids = [
-            42, 69, 420, 666, 777, 1312, 1488, 1337, 2865
+            42, 69, 420, 666, 777, 1312, 1488, 1337, 2865,
         ];
 
         while (in_array($user->id, $banned_ids, false)) {

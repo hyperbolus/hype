@@ -1,7 +1,7 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 import Pagination from "@/Components/Pagination.vue";
-import {Link, useForm, usePage} from "@inertiajs/inertia-vue3";
+import {Link, useForm, usePage} from "@inertiajs/vue3";
 import Avatar from "@/Components/Avatar.vue";
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
@@ -29,7 +29,7 @@ const sendMessage = () => {
 }
 
 const sender = (obj) => {
-    return obj.sender_id === usePage().props.value.user.id ? usePage().props.value.user : props.recipient
+    return obj.sender_id === usePage().props.user.id ? usePage().props.user : props.recipient
 }
 </script>
 <template>

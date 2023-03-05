@@ -8,13 +8,19 @@ use JetBrains\PhpStorm\Pure;
 
 class Yggdrasil
 {
-
     /**
      * The permissions that exist within the application.
      *
      * @var array
      */
     public static array $permissions = [];
+
+    public static array $sites = [
+        'soundodger' => '',
+        'dash' => '',
+        'impossible' => '',
+        'snail' => '',
+    ];
 
     /**
      * The default permissions that should be available to new entities.

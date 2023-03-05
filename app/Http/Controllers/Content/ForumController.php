@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Forum;
+use App\Models\Content\Post;
 use App\Models\Content\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -17,7 +18,7 @@ class ForumController extends Controller
         $forums = Forum::query()->where('parent_id', '=', null)->orderBy('priority', 'ASC')->with(['children'])->get();
         foreach ($forums as $forum) {
             $forum->children->map(function (Forum $forum) {
-                $key = 'forums:' . $forum->id . ':post_count';
+                $key = 'forums:'.$forum->id.':post_count';
                 $data = Cache::get($key);
                 if ($data === null) {
                     $forum->loadCount('posts');
@@ -26,7 +27,7 @@ class ForumController extends Controller
                     $forum['posts_count'] = $data;
                 }
 
-                $key = 'forums:' . $forum->id . ':thread_count';
+                $key = 'forums:'.$forum->id.':thread_count';
                 $data = Cache::get($key);
                 if ($data === null) {
                     $forum->loadCount('threads');
@@ -39,7 +40,9 @@ class ForumController extends Controller
         }
 
         return Inertia::render('Forums', [
-            'forums' => $forums
+            'forums' => $forums,
+            // TODO: Get only one of each (latest of each) thread if it repeats multiple times
+            'latestPosts' => Post::query()->latest()->limit(10)->with(['author', 'thread'])->get(),
         ]);
     }
 
@@ -57,7 +60,7 @@ class ForumController extends Controller
     {
         $forum->load('children')->load(['threads', 'threads.author']);
         $forum->threads->map(function (Thread $thread) {
-            $key = 'threads:' . $thread->id . ':posts_count';
+            $key = 'threads:'.$thread->id.':posts_count';
             $data = Cache::get($key);
             if ($data === null) {
                 $thread->loadCount('posts');
@@ -66,6 +69,7 @@ class ForumController extends Controller
                 $thread['posts_count'] = $data;
             }
         });
+
         return Inertia::render('Forums/Show', [
             'forum' => $forum,
         ]);

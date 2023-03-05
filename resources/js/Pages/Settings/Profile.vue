@@ -68,7 +68,7 @@ import JetInput from '@/Jetstream/Input.vue'
 import JetInputError from '@/Jetstream/InputError.vue'
 import JetLabel from '@/Jetstream/Label.vue'
 import AppLayout from '@/Pages/Link/Layout.vue'
-import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3'
+import {Head as DocumentHead, Link} from '@inertiajs/vue3'
 
 export default defineComponent({
     components: {

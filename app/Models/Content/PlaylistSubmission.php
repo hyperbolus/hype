@@ -2,8 +2,7 @@
 
 namespace App\Models\Content;
 
-use App\Models\GeometryDash\Level;
-use App\Models\IdeHelperPlaylistSubmission;
+use App\Models\Games\Dash\Level;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +16,7 @@ class PlaylistSubmission extends Model
     use HasFactory;
 
     protected $casts = [
-      'accepted' => 'boolean'
+        'accepted' => 'boolean',
     ];
 
     public function level(): BelongsTo

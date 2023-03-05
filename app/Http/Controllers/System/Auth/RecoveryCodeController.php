@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\System\Auth;
 
 use App\Actions\GenerateNewRecoveryCodes;
+use function back;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use function back;
 use function response;
 
 class RecoveryCodeController extends Controller

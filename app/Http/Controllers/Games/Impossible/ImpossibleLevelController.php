@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Games\Impossible;
 
 use App\Http\Controllers\Controller;
-use App\Models\ImpossibleLevel;
+use App\Models\Games\Impossible\Level;
 use Illuminate\Http\Request;
 
 class ImpossibleLevelController extends Controller
@@ -42,10 +42,10 @@ class ImpossibleLevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ImpossibleLevel  $impossibleLevel
+     * @param  \App\Models\Games\Impossible\Level  $impossibleLevel
      * @return \Illuminate\Http\Response
      */
-    public function show(ImpossibleLevel $impossibleLevel)
+    public function show(Level $impossibleLevel)
     {
         //
     }
@@ -53,10 +53,10 @@ class ImpossibleLevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ImpossibleLevel  $impossibleLevel
+     * @param  \App\Models\Games\Impossible\Level  $impossibleLevel
      * @return \Illuminate\Http\Response
      */
-    public function edit(ImpossibleLevel $impossibleLevel)
+    public function edit(Level $impossibleLevel)
     {
         //
     }
@@ -65,10 +65,10 @@ class ImpossibleLevelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ImpossibleLevel  $impossibleLevel
+     * @param  \App\Models\Games\Impossible\Level  $impossibleLevel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ImpossibleLevel $impossibleLevel)
+    public function update(Request $request, Level $impossibleLevel)
     {
         //
     }
@@ -76,10 +76,10 @@ class ImpossibleLevelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ImpossibleLevel  $impossibleLevel
+     * @param  \App\Models\Games\Impossible\Level  $impossibleLevel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ImpossibleLevel $impossibleLevel)
+    public function destroy(Level $impossibleLevel)
     {
         //
     }

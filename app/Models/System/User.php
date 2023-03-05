@@ -5,11 +5,7 @@ namespace App\Models\System;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
-use App\Models\GeometryDash\Level;
-use App\Models\IdeHelperUser;
-use App\Models\Social\Group;
-use App\Models\Social\Message;
-use App\Models\Social\ProfileComment;
+use App\Models\Games\Dash\Level;
 use App\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,7 +17,6 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 //use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 
 /**
  * @mixin IdeHelperUser
@@ -56,7 +51,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_seen' => 'datetime',
-        'time_online' => 'integer'
+        'time_online' => 'integer',
     ];
 
     public function canImpersonate(): bool
@@ -66,7 +61,7 @@ class User extends Authenticatable
 
     public function canBeImpersonated(): bool
     {
-        return !$this->hasRole('admin');
+        return ! $this->hasRole('admin');
     }
 
     /*

@@ -12,7 +12,7 @@ class TwoFactorQrCodeController extends Controller
     /**
      * Get the SVG element for the user's two-factor authentication QR code.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array|JsonResponse
      */
     public function show(Request $request): JsonResponse|array

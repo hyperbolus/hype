@@ -1,8 +1,9 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
-import {Link} from '@inertiajs/inertia-vue3';
+import AppLayout from '@/Layouts/Dash.vue'
+import {Link} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
+import route from "ziggy-js";
 </script>
 <template>
     <app-layout title="Create Contest">

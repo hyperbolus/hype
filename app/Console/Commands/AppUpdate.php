@@ -29,7 +29,7 @@ class AppUpdate extends Command
      */
     public function handle(): void
     {
-        if (!Storage::disk('local')->exists('version.lock')) {
+        if (! Storage::disk('local')->exists('version.lock')) {
             Storage::disk('local')->put('version.lock', 0);
         }
 

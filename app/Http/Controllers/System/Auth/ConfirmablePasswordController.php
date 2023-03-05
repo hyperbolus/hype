@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function __;
 use App\Providers\RouteServiceProvider;
+use function back;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -11,8 +13,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use function __;
-use function back;
 use function redirect;
 use function request;
 
@@ -28,7 +28,7 @@ class ConfirmablePasswordController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -49,8 +49,9 @@ class ConfirmablePasswordController extends Controller
     /**
      * Confirm the user's password.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse|RedirectResponse
@@ -65,7 +66,7 @@ class ConfirmablePasswordController extends Controller
             $request->session()->put('auth.password_confirmed_at', time());
         }
 
-        if($confirmed) {
+        if ($confirmed) {
             return $request->wantsJson()
                 ? new JsonResponse('', 201)
                 : redirect()->intended(RouteServiceProvider::HOME);

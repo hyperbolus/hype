@@ -30,8 +30,8 @@ class RedirectIfTwoFactorAuthenticatable
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
-     * @param LoginRateLimiter $limiter
+     * @param  StatefulGuard  $guard
+     * @param  LoginRateLimiter  $limiter
      * @return void
      */
     public function __construct(StatefulGuard $guard, LoginRateLimiter $limiter)
@@ -43,9 +43,10 @@ class RedirectIfTwoFactorAuthenticatable
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
-     * @param callable $next
+     * @param  Request  $request
+     * @param  callable  $next
      * @return mixed
+     *
      * @throws ValidationException
      */
     public function handle(Request $request, callable $next)
@@ -63,8 +64,9 @@ class RedirectIfTwoFactorAuthenticatable
     /**
      * Attempt to validate the incoming credentials.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return mixed
+     *
      * @throws ValidationException
      */
     protected function validateCredentials(Request $request)
@@ -83,7 +85,7 @@ class RedirectIfTwoFactorAuthenticatable
     /**
      * Throw a failed authentication validation exception.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return void
      *
      * @throws ValidationException
@@ -93,7 +95,7 @@ class RedirectIfTwoFactorAuthenticatable
         $this->limiter->increment($request);
 
         throw ValidationException::withMessages([
-            'email'=> [trans('auth.failed')],
+            'email' => [trans('auth.failed')],
         ]);
     }
 
@@ -101,7 +103,7 @@ class RedirectIfTwoFactorAuthenticatable
      * Fire the failed authentication attempt event with the given arguments.
      *
      * @param  Request  $request
-     * @param Authenticatable|null $user
+     * @param  Authenticatable|null  $user
      * @return void
      */
     protected function fireFailedEvent(Request $request, Authenticatable $user = null)

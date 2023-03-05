@@ -12,13 +12,13 @@ class GetProfile
     {
         // TODO: Put this stuff back and shove it in Hydrate helper
         $local = Profile::whereRaw('LOWER(`name`) LIKE ? ', ['%'.trim(strtolower($name)).'%'])->first();
-        if(is_null($local) || $local->updated_at->diffInHours(Carbon::now()) > 2) {
-            $res = Http::get('https://gdbrowser.com/api/profile/' . $name);
+        if (is_null($local) || $local->updated_at->diffInHours(Carbon::now()) > 2) {
+            $res = Http::get('https://gdbrowser.com/api/profile/'.$name);
             if ($res->body() == '-1') {
                 abort(404);
             }
             $profile = json_decode($res, true);
-            if(is_null($local)) {
+            if (is_null($local)) {
                 $local = new Profile();
             }
             $local->name = $name;
@@ -32,6 +32,7 @@ class GetProfile
             $local->creator_points = $profile['cp'];
             $local->save();
         }
+
         return $local;
     }
 }

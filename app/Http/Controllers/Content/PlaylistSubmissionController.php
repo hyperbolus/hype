@@ -21,7 +21,7 @@ class PlaylistSubmissionController extends Controller
     public function create(Playlist $playlist): Response
     {
         return Inertia::render('Submissions/Create', [
-            'playlist' => $playlist
+            'playlist' => $playlist,
         ]);
     }
 

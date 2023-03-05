@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\Content\ContestController;
 use App\Http\Controllers\Content\ForumController;
+use App\Http\Controllers\Content\LevelTagController;
+use App\Http\Controllers\Content\LevelTagVoteController;
 use App\Http\Controllers\Content\PlaylistController;
 use App\Http\Controllers\Content\PlaylistSubmissionController;
 use App\Http\Controllers\Content\PostController;
+use App\Http\Controllers\Content\ReactionController;
 use App\Http\Controllers\Content\ReviewController;
 use App\Http\Controllers\Content\StyleController;
 use App\Http\Controllers\Content\ThreadController;
@@ -12,22 +15,20 @@ use App\Http\Controllers\Content\VideoController;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AdminForumController;
 use App\Http\Controllers\Dashboard\AdminPermissionController;
+use App\Http\Controllers\Dashboard\AdminSettingController;
 use App\Http\Controllers\Dashboard\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Forge\ModController;
-use App\Http\Controllers\Games\GeometryDash\LevelController;
-use App\Http\Controllers\LevelTagController;
-use App\Http\Controllers\LevelTagVoteController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\PostLikeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RouletteController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\Social\ProfileCommentController;
-use App\Http\Controllers\System\HomeController;
+use App\Http\Controllers\Games\Dash\HomeController;
+use App\Http\Controllers\Games\Dash\LevelController;
+use App\Http\Controllers\Games\Dash\ProfileController;
+use App\Http\Controllers\Games\Dash\RouletteController;
+use App\Http\Controllers\System\MessageController;
 use App\Http\Controllers\System\NameChangeController;
+use App\Http\Controllers\System\ProfileCommentController;
 use App\Http\Controllers\System\ReportController;
 use App\Http\Controllers\System\ReputationLogController;
+use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\System\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,12 +42,43 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::domain(config('app.profile_url'))->group(function() {
+
+
+
+Route::domain(config('app.domains.profile'))->group(function () {
     Route::redirect('/', config('app.url'));
     Route::get('/{profile}', [ProfileController::class, 'show']);
 });
 
-Route::domain(config('app.url'))->group(function () {
+Route::domain(config('app.domains.soundodger'))->group(function () {
+    Route::get('/', [\App\Http\Controllers\Games\Soundodger\HomeController::class, 'home']);
+});
+
+Route::domain(config('app.domains.impossible'))->group(function () {
+    Route::get('/', [\App\Http\Controllers\Games\Impossible\HomeController::class, 'home'])->name('tig::home');
+    Route::get('/levels', [HomeController::class, 'levels'])->name('tig::levels');
+
+    Route::get('/reviews', [LevelController::class, 'index'])->name('tig::levels.index');
+
+    Route::get('/level/{id}', [LevelController::class, 'show'])->name('tig::levels.show');
+    Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('tig::levels.tags.show');
+    Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
+    Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('tig::levels.images.show');
+    Route::get('/level/{level:id}/edit', [LevelController::class, 'edit'])->name('tig::levels.edit')->middleware(['auth', 'verified', 'role:admin']);
+    Route::post('/level/{level:id}/edit', [LevelController::class, 'update'])->name('tig::levels.update')->middleware(['auth', 'verified', 'role:admin']);
+
+    Route::get('/forums', [ForumController::class, 'index'])->name('tig::forums.index');
+    Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('tig::forums.show');
+
+    Route::get('/thread/create', [ThreadController::class, 'create'])->name('tig::threads.create')->middleware(['auth', 'verified']);
+    Route::post('/thread/create', [ThreadController::class, 'store'])->name('tig::threads.store')->middleware(['auth', 'verified']);
+    Route::get('/thread/{thread}', [ThreadController::class, 'show'])->name('tig::threads.show');
+    Route::get('/thread/{thread}/edit', [ThreadController::class, 'edit'])->name('tig::threads.edit')->middleware(['auth', 'verified']);
+    Route::post('/thread/{thread}/edit', [ThreadController::class, 'update'])->name('tig::threads.update')->middleware(['auth', 'verified']);
+    Route::delete('/thread/{thread}', [ThreadController::class, 'destroy'])->name('tig::threads.destroy')->middleware(['auth', 'verified']);
+});
+
+Route::domain(config('app.domains.dash'))->group(function () {
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::get('/forge', [HomeController::class, 'forge'])->name('forge');
     Route::get('/levels', [HomeController::class, 'levels'])->name('levels');
@@ -54,12 +86,15 @@ Route::domain(config('app.url'))->group(function () {
 
     Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
 
-    Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:admin']], function() {
+    Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:admin']], function () {
         Route::get('/', [AdminController::class, 'show'])->name('system.home');
         Route::post('/', AdminController::class);
 
         Route::get('/users', [AdminUserController::class, 'show'])->name('system.users');
         Route::post('/users', AdminUserController::class);
+
+        Route::get('/settings', [AdminSettingController::class, 'show'])->name('system.settings');
+        Route::post('/settings', AdminSettingController::class);
 
         Route::get('/permissions', [AdminPermissionController::class, 'show'])->name('system.permissions');
         Route::post('/permissions', AdminPermissionController::class);
@@ -75,7 +110,7 @@ Route::domain(config('app.url'))->group(function () {
         Route::post('/cosmetics', AdminPermissionController::class);
     });
 
-    Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function() {
+    Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
         Route::get('/', [DashboardController::class, 'home'])->name('settings.home');
         Route::post('/', DashboardController::class)->name('settings.update');
         Route::get('/account', [DashboardController::class, 'account'])->name('settings.account');
@@ -105,7 +140,7 @@ Route::domain(config('app.url'))->group(function () {
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::post('/posts/{post}/edit', [PostController::class, 'update'])->name('posts.update');
-    Route::post('/posts/{post}/like', [PostLikeController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
+    Route::post('/posts/{post}/like', [ReactionController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
 
     Route::get('/reviews', [LevelController::class, 'index'])->name('levels.index');
     Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
@@ -162,7 +197,7 @@ Route::domain(config('app.url'))->group(function () {
 
     Route::inertia('/legal/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
     Route::inertia('/legal/terms', 'Docs/TermsOfService')->name('legal.terms');
+    Route::inertia('/help', 'Docs/Help')->name('help');
 
     Route::impersonate(); // this yellow line is the bane of my existence...
 });
-

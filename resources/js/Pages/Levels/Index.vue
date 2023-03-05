@@ -1,10 +1,9 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
-import {Link, useForm} from '@inertiajs/inertia-vue3';
+import AppLayout from '@/Layouts/Dash.vue'
+import {Link, router} from '@inertiajs/vue3';
 import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
-import { Inertia } from '@inertiajs/inertia'
 import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
 import {ref} from "vue";
@@ -50,7 +49,7 @@ function setFilter(value) {
 }
 
 const search = () => {
-    Inertia.get(route('levels.index') + '?' + new URLSearchParams({
+    router.get(route('levels.index') + '?' + new URLSearchParams({
         sortBy: sortBy,
         sortDir: sortDir,
         filter: filter,
@@ -69,7 +68,7 @@ const search = () => {
                     <div class="x space-x-2 items-center">
                         <Dropdown align="left">
                             <template #trigger>
-                                <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                <div class="x items-center space-x-2 pane !px-2 !py-1 rounded text-sm cursor-pointer">
                                     <span class="capitalize">{{ sortByNames[sortBy] }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -89,7 +88,7 @@ const search = () => {
                     <div v-if="$page.props.auth" class="x space-x-2 items-center">
                         <Dropdown align="left">
                             <template #trigger>
-                                <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                <div class="x items-center space-x-2 pane !px-2 !py-1 rounded text-sm cursor-pointer">
                                     <span class="capitalize">{{ filterNames[filter] }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -106,7 +105,7 @@ const search = () => {
                     <div class="x space-x-2 items-center">
                         <Dropdown align="left">
                             <template #trigger>
-                                <div class="x items-center space-x-2 bg-neutral-200 dark:bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                <div class="x items-center space-x-2 pane !px-2 !py-1 rounded text-sm cursor-pointer">
                                     <span>{{ sortDirNames[sortDir] }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -122,13 +121,13 @@ const search = () => {
                 </div>
             </div>
             <Pagination :list="levels"/>
-            <Link v-for="level in levels.data" :href="route('levels.show', level.id)" class="pane space-y-2 hover:shadow-lg transition-shadow">
+            <Link v-for="level in levels.data" :href="route('levels.show', level.id)" class="pane overflow-clip relative space-y-2 hover:shadow-lg transition-shadow">
                 <div class="y md:flex-row items-center md:space-x-4 justify-between">
                     <div>
                         <h2 class="text-xl">{{ level.name }}</h2>
-                        <p>{{ level.description }}</p>
+                        <p class="text-sm">{{ level.description }}</p>
                     </div>
-                    <div class="x justify-end space-x-4">
+                    <div class="x justify-end space-x-4 py-4">
                         <div class="y items-center">
                             <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
                             <span class="text-xs">DIFFICULTY</span>
@@ -151,6 +150,9 @@ const search = () => {
                         </div>
                     </div>
                 </div>
+                <div class="absolute -z-10 -top-32 right-0 opacity-100 w-3/4" style="mask-image: linear-gradient(to right, transparent 25%, black 75%);">
+                    <img :src="level.banner_url"/>
+                </div>
             </Link>
             <Pagination :list="levels"/>
         </div>
@@ -159,7 +161,7 @@ const search = () => {
             <div class="pane">
                 <div class="space-y-2 my-2">
                     <Input type="text" v-model="level_id" placeholder="Level ID" class="w-full" required/>
-                    <Button @click="Inertia.get(level_id ? route('levels.show', level_id) : '#')">Add</Button>
+                    <Button @click="router.get(level_id ? route('levels.show', level_id) : '#')">Add</Button>
                 </div>
             </div>
             <div class="rounded bg-cyan-400 text-neutral-50 p-4 overflow-clip">

@@ -2,7 +2,6 @@
 
 namespace App\Models\Content;
 
-use App\Models\IdeHelperContest;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +13,8 @@ class Contest extends Model
 {
     use HasFactory;
 
-    public function hosts() {
+    public function hosts()
+    {
         return $this->hasManyThrough(User::class, ContestRole::class, 'assignee_id', 'contest_id');
     }
 }

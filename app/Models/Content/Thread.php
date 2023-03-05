@@ -2,7 +2,6 @@
 
 namespace App\Models\Content;
 
-use App\Models\IdeHelperThread;
 use App\Models\System\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,8 +28,8 @@ class Thread extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
-            ]
+                'source' => 'title',
+            ],
         ];
     }
 

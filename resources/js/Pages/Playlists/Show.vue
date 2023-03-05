@@ -1,7 +1,7 @@
 <script setup>
-import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
+import {Link} from '@inertiajs/vue3';
 import route from "ziggy-js";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 import Username from "@/Components/Username.vue";
 
 const props = defineProps({

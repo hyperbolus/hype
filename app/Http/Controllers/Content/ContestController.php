@@ -13,7 +13,7 @@ class ContestController extends Controller
     public function index(): Response
     {
         return Inertia::render('Contests/Index', [
-            'contests' => Contest::all()
+            'contests' => Contest::all(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class ContestController extends Controller
     public function show(Contest $contest): Response
     {
         return Inertia::render('Contests/Show', [
-            'contest' => $contest
+            'contest' => $contest,
         ]);
     }
 

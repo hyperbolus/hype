@@ -19,13 +19,13 @@ class UserActivity
 
     public function terminate(): void
     {
-        if(auth()->check()) {
+        if (auth()->check()) {
             /**
              * @var User $user
              */
             $user = auth()->user();
 
-            if($user->last_seen->diffInMinutes() <= 5) {
+            if ($user->last_seen->diffInMinutes() <= 5) {
                 $user->time_online = $user->time_online + $user->last_seen->diffInSeconds();
             }
 

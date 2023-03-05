@@ -1,7 +1,7 @@
 <script setup>
-import {Link} from '@inertiajs/inertia-vue3';
+import {Link} from '@inertiajs/vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     playlists: Object

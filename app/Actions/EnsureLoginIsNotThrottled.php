@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use Illuminate\Auth\Events\Lockout;
 use App\LoginRateLimiter;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ class EnsureLoginIsNotThrottled
     /**
      * Create a new class instance.
      *
-     * @param LoginRateLimiter $limiter
+     * @param  LoginRateLimiter  $limiter
      * @return void
      */
     public function __construct(LoginRateLimiter $limiter)
@@ -31,9 +31,10 @@ class EnsureLoginIsNotThrottled
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
-     * @param callable $next
+     * @param  Request  $request
+     * @param  callable  $next
      * @return mixed
+     *
      * @throws ValidationException
      */
     public function handle(Request $request, callable $next): mixed
@@ -43,6 +44,7 @@ class EnsureLoginIsNotThrottled
         }
 
         event(new Lockout($request));
+
         return with($this->limiter->availableIn($request), function ($seconds) {
             throw ValidationException::withMessages([
                 'email' => [

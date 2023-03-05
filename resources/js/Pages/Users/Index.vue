@@ -1,11 +1,10 @@
 <script setup>
-import {Link} from '@inertiajs/inertia-vue3';
+import {Link, router} from '@inertiajs/vue3';
 import Dropdown from "@/Jetstream/Dropdown.vue";
-import {Inertia} from "@inertiajs/inertia";
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Pagination from "@/Components/Pagination.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     users: Object,
@@ -34,7 +33,7 @@ function setSortDir(value) {
 }
 
 const search = () => {
-    Inertia.get(route('users.index') + '?' + new URLSearchParams({
+    router.get(route('users.index') + '?' + new URLSearchParams({
         sortBy: sortBy,
         sortDir: sortDir,
     }).toString())

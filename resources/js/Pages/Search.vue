@@ -1,8 +1,7 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
-import {Link} from'@inertiajs/inertia-vue3'
+import AppLayout from "@/Layouts/Dash.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
-import {Inertia} from "@inertiajs/inertia";
+import {router} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";
 import {ref} from "vue";
@@ -68,7 +67,7 @@ const setSortDir = (value) => {
 }
 
 const search = () => {
-    Inertia.get(route('users.index') + '?' + new URLSearchParams({
+    router.get(route('users.index') + '?' + new URLSearchParams({
         sortBy: sortBy,
         sortDir: sortDir,
     }).toString())

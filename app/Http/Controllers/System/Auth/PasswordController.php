@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function __;
 use App\Yggdrasil;
+use function back;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,17 +12,15 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use function __;
-use function back;
 
 class PasswordController extends Controller
 {
-
     /**
      * Update the user's password.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse|JsonResponse
+     *
      * @throws ValidationException
      */
     public function update(Request $request): JsonResponse|RedirectResponse

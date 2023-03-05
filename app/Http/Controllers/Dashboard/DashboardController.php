@@ -40,7 +40,7 @@ class DashboardController extends Controller
                 break;
             case 'update avatar':
                 $request->validate([
-                    'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:3000'
+                    'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:3000',
                 ]);
 
                 $file = $request->file('content');
@@ -52,7 +52,7 @@ class DashboardController extends Controller
                 $path = 'avatars/'.$file->hashName();
                 $disk->put($path, $img->stream()->detach(), 'public');
                 $old = $user->avatar_url;
-                $user->avatar_url = config('app.storage_url') . $path;
+                $user->avatar_url = config('app.storage_url').$path;
                 $user->save();
                 if (User::whereAvatarUrl($old)->count() === 0) {
                     $disk->delete(substr($old, strlen(config('app.storage_url'))));
@@ -60,11 +60,11 @@ class DashboardController extends Controller
                 break;
             case 'update banner':
                 $request->validate([
-                    'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:5000'
+                    'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:5000',
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $user->banner_url;
-                $user->banner_url = config('app.storage_url') . $disk->putFile('avatars/', $request->file('content'), 'public');
+                $user->banner_url = config('app.storage_url').$disk->putFile('avatars/', $request->file('content'), 'public');
                 $user->save();
                 if (User::whereBannerUrl($old)->count() === 0) {
                     $disk->delete(substr($old, strlen(config('app.storage_url'))));
@@ -94,14 +94,16 @@ class DashboardController extends Controller
          * @var User $user
          */
         $user = auth()->user();
+
         return Inertia::render('Dashboard/Account', [
-            'profile' => $user->makeVisible(['email'])
+            'profile' => $user->makeVisible(['email']),
         ]);
     }
 
     public function profile(): Response
     {
         $user = auth()->user();
+
         return Inertia::render('Dashboard/Profile', [
             'profile' => $user,
         ]);

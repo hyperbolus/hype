@@ -28,7 +28,7 @@
 <script>
 import {defineComponent} from 'vue'
 import AppLayout from "@/Pages/Link/Layout.vue";
-import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3'
+import {Head as DocumentHead, Link} from '@inertiajs/vue3'
 import JetButton from '@/Jetstream/Button.vue'
 import JetFormSection from '@/Jetstream/FormSection.vue'
 import JetInput from '@/Jetstream/Input.vue'

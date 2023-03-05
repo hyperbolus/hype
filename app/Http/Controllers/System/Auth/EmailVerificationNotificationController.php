@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\System\Auth;
 
-use App\Fortify;
+use function back;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use function back;
 use function redirect;
 
 class EmailVerificationNotificationController extends Controller
@@ -15,7 +14,7 @@ class EmailVerificationNotificationController extends Controller
     /**
      * Send a new email verification notification.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
      */
     public function store(Request $request): JsonResponse|RedirectResponse

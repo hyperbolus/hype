@@ -1,11 +1,9 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Input from "@/Jetstream/Input.vue";
-import Checkbox from "@/Jetstream/Checkbox.vue";
 import Button from "@/Jetstream/Button.vue";
-import {Link, useForm} from '@inertiajs/inertia-vue3';
+import {useForm, router} from '@inertiajs/vue3';
 import route from "ziggy-js";
-import {Inertia} from "@inertiajs/inertia";
 import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
@@ -27,7 +25,7 @@ const addUser = () => {
 }
 
 const impersonate = (id) => {
-    Inertia.post(route('system.users'), {
+    router.post(route('system.users'), {
         action: 'impersonate',
         user: id,
     })

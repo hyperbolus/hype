@@ -18,9 +18,8 @@
 </template>
 <script>
 import {defineComponent} from 'vue'
-import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3';
+import {Head as DocumentHead, Link, router} from '@inertiajs/vue3';
 import AppLayout from "@/Pages/Link/Layout.vue";
-import {Inertia} from "@inertiajs/inertia";
 
 export default defineComponent({
     components: {
@@ -34,7 +33,7 @@ export default defineComponent({
     methods: {
         requestClient(token) {
             axios.delete('/settings/connection/' + token);
-            Inertia.reload({ only: ['clients'] });
+            router.reload({ only: ['clients'] });
         }
     }
 })

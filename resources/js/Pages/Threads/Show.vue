@@ -1,9 +1,9 @@
 <script setup>
-import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
+import {Link, useForm, usePage} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import Post from "@/Components/Post.vue";
 import PostPad from "@/Components/PostPad.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     thread: Object

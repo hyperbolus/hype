@@ -2,7 +2,7 @@
 import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import {ref} from "vue";
 

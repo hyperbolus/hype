@@ -1,7 +1,7 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 import {ref} from "vue";
-import {Link, usePage} from '@inertiajs/inertia-vue3'
+import {Link, usePage} from '@inertiajs/vue3'
 import Username from "@/Components/Username.vue";
 
 const props = defineProps({
@@ -15,7 +15,7 @@ const finished = ref(false)
 const won = ref(false)
 
 const newSeed = () => {
-    let params = new URLSearchParams(usePage().url.value)
+    let params = new URLSearchParams(usePage().url)
     params.set('seed', Math.floor(Math.random() * (99999 - 10000) + 99999).toString())
     return params.toString().substring(3).replace('%3F', '?')
 }

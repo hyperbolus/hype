@@ -4,11 +4,11 @@ namespace App\Http\Controllers\System\Auth;
 
 use App\Http\Requests\VerifyEmailRequest;
 use App\Providers\RouteServiceProvider;
+use function event;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
-use function event;
 use function redirect;
 
 class VerifyEmailController extends Controller
@@ -16,7 +16,7 @@ class VerifyEmailController extends Controller
     /**
      * Mark the authenticated user's email address as verified.
      *
-     * @param VerifyEmailRequest $request
+     * @param  VerifyEmailRequest  $request
      * @return JsonResponse|RedirectResponse
      */
     public function __invoke(VerifyEmailRequest $request): JsonResponse|RedirectResponse
@@ -38,6 +38,5 @@ class VerifyEmailController extends Controller
         return $request->wantsJson()
             ? new JsonResponse('', 204)
             : redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
-
     }
 }

@@ -27,6 +27,7 @@ class DraftController extends Controller
     {
         //
     }
+
     public function destroy(Draft $draft)
     {
         //

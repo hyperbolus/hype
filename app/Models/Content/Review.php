@@ -2,16 +2,13 @@
 
 namespace App\Models\Content;
 
-use App\Models\GeometryDash\Level;
-use App\Models\IdeHelperReview;
+use App\Models\Games\Dash\Level;
 use App\Models\System\User;
-use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperReview
- * @mixin Eloquent
  */
 class Review extends Model
 {
@@ -24,7 +21,7 @@ class Review extends Model
         'rating_overall',
         'review',
         'level_id',
-        'user_id'
+        'user_id',
     ];
 
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo

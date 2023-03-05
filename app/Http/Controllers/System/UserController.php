@@ -16,12 +16,12 @@ class UserController extends Controller
         $attributes = [
             'id',
             'name',
-            'reviews_count'
+            'reviews_count',
         ];
 
         $directions = [
             'DESC',
-            'ASC'
+            'ASC',
         ];
 
         $sorting = [
@@ -35,14 +35,14 @@ class UserController extends Controller
         $users = User::query()->withCount('reviews');
 
         if ($sorting['sortBy'] === 1) {
-            $users->orderByRaw('LOWER(name) ' . $directions[$sorting['sortDir']]);
+            $users->orderByRaw('LOWER(name) '.$directions[$sorting['sortDir']]);
         } else {
             $users->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']]);
         }
 
         return Inertia::render('Users/Index', [
             'users' => $users->paginate(10)->appends($sorting),
-            'filters' => $sorting
+            'filters' => $sorting,
         ]);
     }
 

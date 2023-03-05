@@ -1,11 +1,11 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/inertia-vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
 import getYouTubeID from "get-youtube-id";
 import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     videos: Object

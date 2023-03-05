@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -12,6 +11,7 @@ class Announcement extends Notification
     use Queueable;
 
     protected string $message;
+
     protected ?string $link;
 
     /**
@@ -60,7 +60,7 @@ class Announcement extends Notification
     {
         return [
             'message' => $this->message,
-            'link' => $this->link
+            'link' => $this->link,
         ];
     }
 }

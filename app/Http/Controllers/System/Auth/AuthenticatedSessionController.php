@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Attempt to authenticate a new session.
      *
-     * @param LoginRequest $request
+     * @param  LoginRequest  $request
      * @return JsonResponse|RedirectResponse
      */
     public function store(LoginRequest $request): JsonResponse|RedirectResponse
@@ -67,7 +67,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Get the authentication pipeline instance.
      *
-     * @param LoginRequest $request
+     * @param  LoginRequest  $request
      * @return \Illuminate\Pipeline\Pipeline
      */
     protected function loginPipeline(LoginRequest $request): \Illuminate\Pipeline\Pipeline
@@ -89,7 +89,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
      */
     public function destroy(Request $request): JsonResponse|RedirectResponse

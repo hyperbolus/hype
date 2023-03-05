@@ -16,7 +16,7 @@ class NameChangeController extends Controller
 
         return Inertia::render('Users/Names', [
             'profile' => $user,
-            'names' => NameChange::whereUserId($id)->get()
+            'names' => NameChange::whereUserId($id)->get(),
         ]);
     }
 }

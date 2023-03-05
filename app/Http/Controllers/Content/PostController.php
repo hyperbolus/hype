@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Post;
 use App\Models\Content\Thread;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,7 +20,7 @@ class PostController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'body' => 'required|min:20'
+            'body' => 'required|min:20',
         ]);
         /**
          * @var Thread $thread
@@ -39,20 +40,31 @@ class PostController extends Controller
     public function show(Post $post): RedirectResponse
     {
         $post->load('thread');
+
         return redirect()->route('threads.show', $post->thread->slug);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(Post $post): \Inertia\Response
     {
+        $this->authorize($post);
+
         return Inertia::render('Posts/Edit', [
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(Request $request, Post $post): RedirectResponse
     {
+        $this->authorize($post);
+
         $request->validate([
-            'body' => 'required|min:20'
+            'body' => 'required|min:20',
         ]);
         $post->signature = $request->boolean('signature');
         $post->body = $request->string('body');
@@ -61,8 +73,10 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post->id);
     }
 
-    public function destroy(Post $post)
+    public function destroy(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'user_id' => '',
+        ]);
     }
 }

@@ -27,8 +27,8 @@ class AttemptToAuthenticate
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
-     * @param LoginRateLimiter $limiter
+     * @param  StatefulGuard  $guard
+     * @param  LoginRateLimiter  $limiter
      * @return void
      */
     public function __construct(StatefulGuard $guard, LoginRateLimiter $limiter)
@@ -40,9 +40,10 @@ class AttemptToAuthenticate
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
-     * @param callable $next
+     * @param  Request  $request
+     * @param  callable  $next
      * @return mixed
+     *
      * @throws ValidationException
      */
     public function handle(Request $request, callable $next): mixed
@@ -61,7 +62,7 @@ class AttemptToAuthenticate
     /**
      * Throw a failed authentication validation exception.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return void
      *
      * @throws ValidationException
@@ -78,7 +79,7 @@ class AttemptToAuthenticate
     /**
      * Fire the failed authentication attempt event with the given arguments.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return void
      */
     protected function fireFailedEvent(Request $request)

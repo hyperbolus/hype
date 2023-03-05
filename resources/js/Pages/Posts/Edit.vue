@@ -1,6 +1,6 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
-import {Link, useForm, usePage} from '@inertiajs/inertia-vue3';
+import AppLayout from '@/Layouts/Dash.vue'
+import {Link, useForm, usePage} from '@inertiajs/vue3';
 import PostPad from "@/Components/PostPad.vue";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";

@@ -6,7 +6,6 @@ use App\Providers\TwoFactorAuthenticationProvider;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -53,28 +52,30 @@ class TwoFactorLoginRequest extends FormRequest
      * Determine if the request has a valid two factor code.
      *
      * @return bool
+     *
      * @throws ValidationException
      */
     public function hasValidCode()
     {
         return $this->code && tap((new TwoFactorAuthenticationProvider(new Google2FA()))->verify(
-                decrypt($this->challengedUser()->two_factor_secret), $this->code
-            ), function ($result) {
-                if ($result) {
-                    $this->session()->forget('login.id');
-                }
-            });
+            decrypt($this->challengedUser()->two_factor_secret), $this->code
+        ), function ($result) {
+            if ($result) {
+                $this->session()->forget('login.id');
+            }
+        });
     }
 
     /**
      * Get the valid recovery code if one exists on the request.
      *
      * @return string|null
+     *
      * @throws ValidationException
      */
     public function validRecoveryCode()
     {
-        if (!$this->recovery_code) {
+        if (! $this->recovery_code) {
             return null;
         }
 
@@ -108,6 +109,7 @@ class TwoFactorLoginRequest extends FormRequest
      * Get the user that is attempting the two factor challenge.
      *
      * @return mixed
+     *
      * @throws ValidationException
      */
     public function challengedUser()
@@ -118,8 +120,8 @@ class TwoFactorLoginRequest extends FormRequest
 
         $model = app(StatefulGuard::class)->getProvider()->getModel();
 
-        if (!$this->session()->has('login.id') ||
-            !$user = $model::find($this->session()->get('login.id'))) {
+        if (! $this->session()->has('login.id') ||
+            ! $user = $model::find($this->session()->get('login.id'))) {
             $message = __('The provided two factor authentication code was invalid.');
 
             if (request()->wantsJson()) {
@@ -141,7 +143,7 @@ class TwoFactorLoginRequest extends FormRequest
      */
     public function remember()
     {
-        if (!$this->remember) {
+        if (! $this->remember) {
             $this->remember = $this->session()->pull('login.remember', false);
         }
 

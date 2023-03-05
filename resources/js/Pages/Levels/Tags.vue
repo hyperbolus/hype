@@ -1,10 +1,10 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/inertia-vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 import Button from '@/Jetstream/Button.vue'
 import Input from '@/Jetstream/Input.vue'
 import Dropdown from '@/Jetstream/Dropdown.vue'
 import {ref} from "vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     level: Object,
@@ -63,7 +63,7 @@ const selectTag = (tag) => {
             </svg>
             <span>Tags</span>
         </template>
-        <div class="y space-y-4 w-1/4">
+        <div class="y space-y-2 w-1/4">
             <h2 class="font-bold text-2xl">Info</h2>
             <form v-if="$page.props.auth" @submit.prevent="addTag" class="y pane space-y-2">
                 <div>
@@ -98,9 +98,10 @@ const selectTag = (tag) => {
                 <li>Available tags are pre-approved by moderators. If you want to discuss the removal or addition of a tag, visit the level discussion forum.</li>
             </ul>
         </div>
-        <div class="y space-y-4 w-3/4">
+        <div class="y space-y-2 w-3/4">
             <h2 class="font-bold text-2xl">Level Tags</h2>
             <div class="y space-y-2">
+                <div class="pane" v-if="level.tags.length === 0">This level has no tags.</div>
                 <div v-for="tag in level.tags" class="x pane justify-between">
                     <div class="x items-center space-x-2">
                         <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline rounded-full text-green-500 w-5 h-5">

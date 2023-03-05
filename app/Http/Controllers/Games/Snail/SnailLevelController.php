@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Games\Snail;
 
 use App\Http\Controllers\Controller;
-use App\Models\SnailLevel;
+use App\Models\Games\Snail\Level;
 use Illuminate\Http\Request;
 
 class SnailLevelController extends Controller
@@ -42,10 +42,10 @@ class SnailLevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SnailLevel  $snailLevel
+     * @param  \App\Models\Games\Snail\Level  $snailLevel
      * @return \Illuminate\Http\Response
      */
-    public function show(SnailLevel $snailLevel)
+    public function show(Level $snailLevel)
     {
         //
     }
@@ -53,10 +53,10 @@ class SnailLevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SnailLevel  $snailLevel
+     * @param  \App\Models\Games\Snail\Level  $snailLevel
      * @return \Illuminate\Http\Response
      */
-    public function edit(SnailLevel $snailLevel)
+    public function edit(Level $snailLevel)
     {
         //
     }
@@ -65,10 +65,10 @@ class SnailLevelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SnailLevel  $snailLevel
+     * @param  \App\Models\Games\Snail\Level  $snailLevel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SnailLevel $snailLevel)
+    public function update(Request $request, Level $snailLevel)
     {
         //
     }
@@ -76,10 +76,10 @@ class SnailLevelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SnailLevel  $snailLevel
+     * @param  \App\Models\Games\Snail\Level  $snailLevel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SnailLevel $snailLevel)
+    public function destroy(Level $snailLevel)
     {
         //
     }

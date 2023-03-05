@@ -85,7 +85,7 @@
 <script>
 import {defineComponent} from 'vue'
 import AppLayout from "@/Pages/Link/Layout.vue";
-import {Head as DocumentHead, Link} from '@inertiajs/inertia-vue3'
+import {Head as DocumentHead, Link} from '@inertiajs/vue3'
 import JetActionSection from '@/Jetstream/ActionSection.vue'
 import JetButton from '@/Jetstream/Button.vue'
 import JetConfirmsPassword from '@/Jetstream/ConfirmsPassword.vue'

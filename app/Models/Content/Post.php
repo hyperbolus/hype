@@ -2,13 +2,11 @@
 
 namespace App\Models\Content;
 
-use App\Models\IdeHelperPost;
-use App\Models\Social\PostLike;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @mixin IdeHelperPost
@@ -18,7 +16,7 @@ class Post extends Model
     use HasFactory;
 
     protected $casts = [
-      'rich' => 'boolean'
+        'rich' => 'boolean',
     ];
 
     public function author(): BelongsTo
@@ -31,8 +29,8 @@ class Post extends Model
         return $this->belongsTo(Thread::class, 'thread_id');
     }
 
-    public function likes(): HasMany
+    public function reactions(): MorphMany
     {
-        return $this->hasMany(PostLike::class, 'post_id');
+        return $this->morphMany(Reaction::class, 'reactable');
     }
 }

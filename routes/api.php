@@ -19,9 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/mention', [\App\Http\Controllers\SearchController::class, 'username']);
-Route::get('/search', [\App\Http\Controllers\SearchController::class, 'tagname']);
+Route::get('/mention', [\App\Http\Controllers\System\SearchController::class, 'username']);
+Route::get('/search', [\App\Http\Controllers\System\SearchController::class, 'tagname']);
 Route::get('/level/{id}', function ($id) {
-    $res = Http::get('https://browser.gdps.io/api/level/' . $id);
+    $res = Http::get('https://browser.gdps.io/api/level/'.$id);
+
     return response()->json($res->json());
 });

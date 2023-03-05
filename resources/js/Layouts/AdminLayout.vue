@@ -1,7 +1,7 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import route from "ziggy-js";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/Dash.vue";
 
 const props = defineProps({
     title: String
@@ -17,6 +17,7 @@ const props = defineProps({
             <div class="flex flex-col space-y-4 md:w-1/4">
                 <div class="y pane !px-0 !py-0 divide-y divide-neutral-100/50 dark:divide-neutral-700/50">
                     <Link :href="route('system.home')" class="p-2">Home</Link>
+                    <Link :href="route('system.settings')" class="p-2">Settings</Link>
                     <Link :href="route('system.users')" class="p-2">Users</Link>
                     <Link :href="route('system.forums')" class="p-2">Forums</Link>
                     <Link :href="route('system.groups')" class="p-2">Groups</Link>

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use function __;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
-use function __;
 use function request;
 use function url;
 
@@ -16,8 +16,9 @@ class CurrentUserController extends Controller
     /**
      * Delete the current user.
      *
-     * @param Request $request
-     * @param StatefulGuard $guard
+     * @param  Request  $request
+     * @param  StatefulGuard  $guard
+     *
      * @throws ValidationException
      */
     public function destroy(Request $request, StatefulGuard $guard)

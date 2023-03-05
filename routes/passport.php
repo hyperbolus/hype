@@ -18,30 +18,30 @@ use Illuminate\Support\Facades\Route;
 $options = [
     'prefix' => 'api/oauth2', // its like api, but not REALLY. aka. no api middlewarez
     'namespace' => '\Laravel\Passport\Http\Controllers',
+    'as' => 'oauth2::'
 ];
 
 Route::group($options, function () {
-
     /*
      * forAuthorization()
      *
      * Register the routes needed for authorization.
      */
 
-    Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::group(['middleware' => ['web', 'auth'], 'as' => 'authorizations.'], function () {
         Route::get('/authorize', [
             'uses' => 'AuthorizationController@authorize',
-            'as' => 'oauth2::authorizations.authorize',
+            'as' => 'authorize',
         ]);
 
         Route::post('/authorize', [
             'uses' => 'ApproveAuthorizationController@approve',
-            'as' => 'oauth2::authorizations.approve',
+            'as' => 'approve',
         ]);
 
         Route::delete('/authorize', [
             'uses' => 'DenyAuthorizationController@deny',
-            'as' => 'oauth2::authorizations.deny',
+            'as' => 'deny',
         ]);
     });
 
@@ -53,19 +53,19 @@ Route::group($options, function () {
 
     Route::post('/token', [
         'uses' => 'AccessTokenController@issueToken',
-        'as' => 'oauth2::token',
+        'as' => 'token',
         'middleware' => 'throttle',
     ]);
 
     Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/tokens', [
             'uses' => 'AuthorizedAccessTokenController@forUser',
-            'as' => 'oauth2::tokens.index',
+            'as' => 'tokens.index',
         ]);
 
         Route::delete('/tokens/{token_id}', [
             'uses' => 'AuthorizedAccessTokenController@destroy',
-            'as' => 'oauth2::tokens.destroy',
+            'as' => 'tokens.destroy',
         ]);
     });
 
@@ -78,7 +78,7 @@ Route::group($options, function () {
     Route::post('/token/refresh', [
         'middleware' => ['web', 'auth'],
         'uses' => 'TransientTokenController@refresh',
-        'as' => 'oauth2::token.refresh',
+        'as' => 'token.refresh',
     ]);
 
     /*
@@ -90,22 +90,22 @@ Route::group($options, function () {
     Route::group(['middleware' => ['web', 'auth', 'role:dev']], function () {
         Route::get('/clients', [
             'uses' => 'ClientController@forUser',
-            'as' => 'oauth2::clients.index',
+            'as' => 'clients.index',
         ]);
 
         Route::post('/clients', [
             'uses' => 'ClientController@store',
-            'as' => 'oauth2::clients.store',
+            'as' => 'clients.store',
         ]);
 
         Route::put('/clients/{client_id}', [
             'uses' => 'ClientController@update',
-            'as' => 'oauth2::clients.update',
+            'as' => 'clients.update',
         ]);
 
         Route::delete('/clients/{client_id}', [
             'uses' => 'ClientController@destroy',
-            'as' => 'oauth2::clients.destroy',
+            'as' => 'clients.destroy',
         ]);
     });
 
@@ -118,22 +118,22 @@ Route::group($options, function () {
     Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/scopes', [
             'uses' => 'ScopeController@all',
-            'as' => 'oauth2::scopes.index',
+            'as' => 'scopes.index',
         ]);
 
         Route::get('/personal-access-tokens', [
             'uses' => 'PersonalAccessTokenController@forUser',
-            'as' => 'oauth2::personal.tokens.index',
+            'as' => 'personal.tokens.index',
         ]);
 
         Route::post('/personal-access-tokens', [
             'uses' => 'PersonalAccessTokenController@store',
-            'as' => 'oauth2::personal.tokens.store',
+            'as' => 'personal.tokens.store',
         ]);
 
         Route::delete('/personal-access-tokens/{token_id}', [
             'uses' => 'PersonalAccessTokenController@destroy',
-            'as' => 'oauth2::personal.tokens.destroy',
+            'as' => 'personal.tokens.destroy',
         ]);
     });
     */

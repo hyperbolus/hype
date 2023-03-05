@@ -18,7 +18,7 @@ class ClientController extends Controller
     public function index(Request $request): Response
     {
         return Inertia::render('Beta/Developer', [
-            'clients' => Client::query()->where('user_id', '=', $request->user()->id)
+            'clients' => Client::query()->where('user_id', '=', $request->user()->id),
         ]);
     }
 
@@ -47,8 +47,6 @@ class ClientController extends Controller
      */
     public function destroy(Request $request): JsonResponse|RedirectResponse
     {
-
-
         return $request->wantsJson()
             ? new JsonResponse('', 200)
             : back()->with('status', 'profile-information-updated');

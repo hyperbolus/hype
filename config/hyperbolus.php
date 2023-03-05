@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'patreon_token' => env('PATREON_TOKEN')
+    'patreon_token' => env('PATREON_TOKEN'),
 ];

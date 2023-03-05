@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Content\CrowdTag>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Content\Tag>
  */
 class LevelTagFactory extends Factory
 {

@@ -1,6 +1,6 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
-import {Link, useForm, usePage} from "@inertiajs/inertia-vue3";
+import AppLayout from "@/Layouts/Dash.vue";
+import {Link, useForm, usePage} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
@@ -29,7 +29,7 @@ const sendMessage = () => {
 const searchName = async () => {
     let time = Date.now()
     message.recipient_id = null
-    fetch('/api/mention?except=' + usePage().props.value.user.id + '&name=' + username.value)
+    fetch('/api/mention?except=' + usePage().props.user.id + '&name=' + username.value)
         .then(res => res.json())
         .then(data => {
             if(latestResponse.value < time) {

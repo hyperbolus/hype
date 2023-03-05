@@ -54,15 +54,24 @@ return [
     |
     */
 
+    // Main URL
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
 
-    'storage_url' => rtrim(env('STORAGE_URL'), "/") . '/',
+    'storage_url' => rtrim(env('STORAGE_URL'), '/').'/',
 
-    'gdps_url' => env('GDPS_URL'),
+    'domains' => [
+        // Tool URLs
+        'gdps' => env('GDPS_URL'),
+        'profile' => env('PROFILE_URL'),
 
-    'profile_url' => env('PROFILE_URL'),
+        // Site URLs
+        'dash' => env('DASH_URL'),
+        'soundodger' => env('SOUNDODGER_URL'),
+        'impossible' => env('IMPOSSIBLE_URL'),
+        'snail' => env('SNAIL_URL'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
