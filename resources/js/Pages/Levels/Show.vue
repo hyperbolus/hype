@@ -69,7 +69,7 @@ const face = () => {
             <span>{{ level.id }}</span>
         </template>
         <div class="x h-64 justify-center w-full bg-neutral-500 bg-cover bg-center" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 75px -25px inset;" :style="'background-image: url(\'' + (level.banner_url ?? background) + '\')'">
-            <div class="y justify-end w-full lg:max-w-5xl xl:max-w-6xl py-2">
+            <div class="y justify-end w-full lg:max-w-5xl xl:max-w-6xl py-2 px-4">
                 <div class="x justify-between items-end">
                     <div class="x items-end">
                         <div class="y items-center">
