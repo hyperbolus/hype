@@ -47,7 +47,7 @@ task('fix:folders', function () {
         '{{deploy_path}}/shared/storage/framework/views '.
         '{{deploy_path}}/shared/storage/clockwork');
 });
-
+set('writable_dirs', ['{{deploy_path}}/shared/storage/framework', '{{deploy_path}}/shared/storage/clockwork']); // ??????
 task('artisan:update', artisan('app:update'));
 
 after('deploy:failed', 'deploy:unlock');

@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Download build assets
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: assets
           path: |
