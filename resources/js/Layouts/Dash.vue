@@ -36,7 +36,7 @@ const setBG = () => {
 }
 </script>
 <template>
-    <div ref="base" class="y transition-colors items-center text-neutral-700 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-800 min-h-screen">
+    <div ref="base" class="y transition-colors items-center text-neutral-700 dark:text-neutral-300 bg-neutral-200 dark:bg-neutral-800 min-h-screen overflow-hidden">
         <Head><title>{{ title }}</title></Head>
         <NetworkNav/>
         <SiteNav/>
