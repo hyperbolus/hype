@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Tag;
+use App\Models\Game\Level;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,6 +31,7 @@ class LevelTagController extends Controller
 
         $tag = new Tag();
         $tag->name = $request->string('tag');
+        $tag->model = (new Level())->getMorphClass();
         $tag->save();
 
         return back();
