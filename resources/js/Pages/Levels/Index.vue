@@ -55,6 +55,36 @@ const search = () => {
         filter: filter,
     }).toString())
 }
+const difficulties = [
+    "Unrated",
+    "Auto",
+    "Easy",
+    "Normal",
+    "Hard",
+    "Harder",
+    "Insane",
+    "Easy Demon",
+    "Medium Demon",
+    "Hard Demon",
+    "Insane Demon",
+    "Extreme Demon",
+]
+
+const face = (level) => {
+    if (!level.difficulty) {
+        return difficulties[0].toLowerCase()
+    }
+
+    let name = difficulties[level.difficulty].toLowerCase().split(' ').reverse().join('-')
+
+    if(level.epic) {
+        name += '-epic'
+    } else if (level.featured) {
+        name += '-featured'
+    }
+
+    return name;
+}
 </script>
 <template>
     <app-layout title="Levels">
@@ -121,39 +151,44 @@ const search = () => {
                 </div>
             </div>
             <Pagination :list="levels"/>
-            <Link v-for="level in levels.data" :href="route('levels.show', level.id)" class="pane overflow-clip relative space-y-2 hover:shadow-lg transition-shadow">
-                <div class="y md:flex-row items-center md:space-x-4 justify-between">
-                    <div>
-                        <h2 class="text-xl">{{ level.name }}</h2>
-                        <p class="text-sm">{{ level.description }}</p>
+            <transition-group enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="y space-y-4">
+                <Link v-for="(level, index) in levels.data" :href="route('levels.show', level.id)" :key="level.id" :style="`transition-delay: ${index * 65}ms;`" class="pane overflow-hidden relative space-y-2 hover:shadow-lg transition-shadow">
+                    <div class="y md:flex-row items-center md:space-x-4">
+                        <div class="x items-center grow">
+                            <img class="h-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                            <div>
+                                <h2 class="text-2xl font-bold">{{ level.name }}</h2>
+                                <p class="text-lg">{{ level.creator }}</p>
+                            </div>
+                        </div>
+                        <div class="x justify-end space-x-4 py-4">
+                            <div class="y items-center">
+                                <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                                <span class="text-xs">DIFFICULTY</span>
+                            </div>
+                            <div class="y items-center">
+                                <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
+                                <span class="text-xs">GAMEPLAY</span>
+                            </div>
+                            <div class="y items-center">
+                                <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
+                                <span class="text-xs">VISUALS</span>
+                            </div>
+                            <div class="y items-center">
+                                <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
+                                <span class="text-xs">OVERALL</span>
+                            </div>
+                            <div class="y items-center">
+                                <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
+                                <span class="text-xs">REVIEWS</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="x justify-end space-x-4 py-4">
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                            <span class="text-xs">DIFFICULTY</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
-                            <span class="text-xs">GAMEPLAY</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
-                            <span class="text-xs">VISUALS</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
-                            <span class="text-xs">OVERALL</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
-                            <span class="text-xs">REVIEWS</span>
-                        </div>
+                    <div v-if="level.banner_url" class="absolute -z-10 top-1/2 -translate-y-1/2 right-0 w-3/4" style="mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 75%);">
+                        <img :src="level.banner_url" alt="Level Banner"/>
                     </div>
-                </div>
-                <div class="absolute -z-10 -top-32 right-0 opacity-100 w-3/4" style="mask-image: linear-gradient(to right, transparent 25%, black 75%);">
-                    <img :src="level.banner_url"/>
-                </div>
-            </Link>
+                </Link>
+            </transition-group>
             <Pagination :list="levels"/>
         </div>
         <div class="y space-y-4 md:w-1/4">
@@ -167,3 +202,16 @@ const search = () => {
         </div>
     </app-layout>
 </template>
+<style>
+.fade-enter {
+    filter: invert();
+}
+
+.fade-enter-active {
+    transition: opacity 400ms ease-out, transform 300ms ease-out;
+}
+
+.fade-enter-to {
+    filter: saturate(50%);
+}
+</style>
