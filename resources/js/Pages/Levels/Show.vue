@@ -119,8 +119,8 @@ const face = () => {
                 <Link :href="route('levels.tags.show', level)" class="text-sm rounded hover:underline cursor-pointer">{{ level.tags.length === 0 ? 'Submit' : 'More'  }}...</Link>
             </div>
         </div>
-        <div class="x max-w-6xl w-full gap-4 py-4">
-            <div class="y space-y-2 w-3/4">
+        <div class="flex flex-col md:flex-row max-w-6xl w-full gap-4 py-4 px-2">
+            <div class="y space-y-2 md:w-3/4">
                 <div class="x items-center justify-between">
                     <h2 class="font-bold text-2xl">Images</h2>
                     <Link :href="route('levels.images.show', level.id)" class="pane !py-1">Submit</Link>
@@ -162,48 +162,50 @@ const face = () => {
                     </div>
                 </div>
             </div>
-            <div class="y space-y-2 w-1/4">
-                <div class="x items-center justify-between">
-                    <h2 class="font-bold text-2xl">Videos</h2>
-                    <span class="pane !py-1 cursor-pointer hidden">Submit</span>
+            <div class="y space-y-2 md:w-1/4">
+                <div class="w-full space-y-2">
+                    <div class="x items-center justify-between">
+                        <h2 class="font-bold text-2xl">Videos</h2>
+                        <span class="pane !py-1 cursor-pointer hidden">Submit</span>
+                    </div>
+                    <div v-if="level.videos.length === 0" class="pane">
+                        No videos available
+                    </div>
+                    <div v-else v-for="video in level.videos" class="pane">
+                        <iframe class="!w-full" :src="'https://youtube-nocookie.com/embed/'+video.video_id" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
-                <div v-if="level.videos.length === 0" class="pane">
-                    No videos available
-                </div>
-                <div v-else v-for="video in level.videos" class="pane">
-                    <iframe class="!w-full" :src="'https://www.youtube.com/embed/'+video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="x items-center justify-between">
-                    <h2 class="font-bold text-2xl">Replays</h2>
-                    <span class="pane !py-1 cursor-pointer hidden">Submit</span>
-                </div>
-                <div v-if="true" class="pane">
-                    No replays available
-                </div>
-                <div v-else class="pane !px-0 !py-0 divide-y divide-neutral-200 dark:divide-neutral-800">
-                    <div class="x px-4 py-2 space-x-2 items-center justify-between">
-                        <Dropdown width="fit" class="pane !px-2 w-full">
-                            <template #trigger>
-                                <div class="x justify-between items-center">
-                                    <span>Choose Format</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </template>
-                            <template #content>
-                                <div class="divide-y dark:divide-neutral-700 whitespace-nowrap">
-                                    <div class="px-4 py-1">MegaHack Replay (json)</div>
-                                    <div class="px-4 py-1">ReplayBot</div>
-                                    <div class="px-4 py-1">TASBOT</div>
-                                    <div class="px-4 py-1">zbot (frame)</div>
-                                    <div class="px-4 py-1">ybot (frame)</div>
-                                    <div class="px-4 py-1">xbot (frame)</div>
-                                    <div class="px-4 py-1">Universal Replay</div>
-                                </div>
-                            </template>
-                        </Dropdown>
-                        <span class="text-sm underline cursor-pointer">Download</span>
+                <div class="hidden md:block w-full space-y-2">
+                    <div class="x items-center justify-between">
+                        <h2 class="font-bold text-2xl">Replays</h2>
+                        <span class="pane !py-1 cursor-pointer hidden">Submit</span>
+                    </div>
+                    <div v-if="true" class="pane">No replays available</div>
+                    <div v-else class="pane !px-0 !py-0 divide-y divide-neutral-200 dark:divide-neutral-800">
+                        <div class="x px-4 py-2 space-x-2 items-center justify-between">
+                            <Dropdown width="fit" class="pane !px-2 w-full">
+                                <template #trigger>
+                                    <div class="x justify-between items-center">
+                                        <span>Choose Format</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </template>
+                                <template #content>
+                                    <div class="divide-y dark:divide-neutral-700 whitespace-nowrap">
+                                        <div class="px-4 py-1">MegaHack Replay (json)</div>
+                                        <div class="px-4 py-1">ReplayBot</div>
+                                        <div class="px-4 py-1">TASBOT</div>
+                                        <div class="px-4 py-1">zbot (frame)</div>
+                                        <div class="px-4 py-1">ybot (frame)</div>
+                                        <div class="px-4 py-1">xbot (frame)</div>
+                                        <div class="px-4 py-1">Universal Replay</div>
+                                    </div>
+                                </template>
+                            </Dropdown>
+                            <span class="text-sm underline cursor-pointer">Download</span>
+                        </div>
                     </div>
                 </div>
             </div>
