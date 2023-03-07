@@ -12,6 +12,7 @@ import {TextStyle} from "@tiptap/extension-text-style";
 import {Color} from "@tiptap/extension-color";
 import {CharacterCount} from "@tiptap/extension-character-count";
 import {Image} from "@tiptap/extension-image";
+import {Link} from "@tiptap/extension-link";
 import {StarterKit} from "@tiptap/starter-kit";
 
 const props = defineProps({
@@ -47,6 +48,7 @@ const extensions = [
     Placeholder,
     Image,
     Color,
+    Link,
     CharacterCount,
     Mention.configure({
         HTMLAttributes: {

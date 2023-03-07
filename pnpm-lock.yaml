@@ -9,13 +9,14 @@ specifiers:
   '@tiptap/extension-code-block': ^2.0.0-beta.218
   '@tiptap/extension-code-block-lowlight': ^2.0.0-beta.218
   '@tiptap/extension-color': ^2.0.0-beta.218
-  '@tiptap/extension-image': ^2.0.0-beta.218
+  '@tiptap/extension-image': 2.0.0-beta.218
+  '@tiptap/extension-link': 2.0.0-beta.220
   '@tiptap/extension-mention': ^2.0.0-beta.218
   '@tiptap/extension-placeholder': ^2.0.0-beta.218
   '@tiptap/extension-text-align': ^2.0.0-beta.218
   '@tiptap/extension-text-style': ^2.0.0-beta.218
   '@tiptap/extension-underline': ^2.0.0-beta.218
-  '@tiptap/extension-youtube': ^2.0.0-beta.218
+  '@tiptap/extension-youtube': 2.0.0-beta.218
   '@tiptap/pm': 2.0.0-beta.217
   '@tiptap/starter-kit': 2.0.0-beta.204
   '@tiptap/suggestion': ^2.0.0-beta.218
@@ -50,6 +51,7 @@ dependencies:
   '@tiptap/extension-code-block-lowlight': 2.0.0-beta.218_fdlo3t2vece5vxy2e6rlp6vksq
   '@tiptap/extension-color': 2.0.0-beta.218_zynsb2njebftevexpx7prxbqb4
   '@tiptap/extension-image': 2.0.0-beta.218_xixjdlstfbsoyvyes7aewz3ng4
+  '@tiptap/extension-link': 2.0.0-beta.220_ff6sakdfclstupvvimipwh77ie
   '@tiptap/extension-mention': 2.0.0-beta.218_emgdxaoubgjnus5bfp5k3xov6i
   '@tiptap/extension-placeholder': 2.0.0-beta.218_ff6sakdfclstupvvimipwh77ie
   '@tiptap/extension-text-align': 2.0.0-beta.218_xixjdlstfbsoyvyes7aewz3ng4
@@ -425,6 +427,17 @@ packages:
       '@tiptap/core': ^2.0.0-beta.209
     dependencies:
       '@tiptap/core': 2.0.0-beta.218_@tiptap+pm@2.0.0-beta.217
+    dev: false
+
+  /@tiptap/extension-link/2.0.0-beta.220_ff6sakdfclstupvvimipwh77ie:
+    resolution: {integrity: sha512-vjEA8cE37ZZVVgPHSpttw3kbJoClb+ya/BVukDtJ1h6C7mIR1rqzNxTgpbnXJuA8xww0JOjpa5dpzEgcs294fA==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.209
+      '@tiptap/pm': ^2.0.0-beta.209
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.218_@tiptap+pm@2.0.0-beta.217
+      '@tiptap/pm': 2.0.0-beta.217_xixjdlstfbsoyvyes7aewz3ng4
+      linkifyjs: 4.1.0
     dev: false
 
   /@tiptap/extension-list-item/2.0.0-beta.218_xixjdlstfbsoyvyes7aewz3ng4:
@@ -1393,6 +1406,10 @@ packages:
     resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==}
     dependencies:
       uc.micro: 1.0.6
+    dev: false
+
+  /linkifyjs/4.1.0:
+    resolution: {integrity: sha512-Ffv8VoY3+ixI1b3aZ3O+jM6x17cOsgwfB1Wq7pkytbo1WlyRp6ZO0YDMqiWT/gQPY/CmtiGuKfzDIVqxh1aCTA==}
     dev: false
 
   /lodash.castarray/4.4.0:
