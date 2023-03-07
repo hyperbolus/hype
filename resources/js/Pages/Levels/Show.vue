@@ -87,13 +87,13 @@ const face = () => {
                                     <img v-if="level.coins > 1" class="h-4 -ml-1.5" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                                     <img v-if="level.coins > 2" class="h-4 -ml-1.5" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                                 </div>
-                                <div v-if="level.stars" class="x items-center px-2 py-0.5 text-sm rounded bg-neutral-100 dark:bg-neutral-800">
+                                <div v-if="level.stars" class="x items-center px-2 py-0.5 text-sm transition-colors rounded bg-neutral-100 dark:bg-neutral-800">
                                     <span class="font-bold text-xs mr-1">{{ level.stars }}</span>
                                     <img class="h-4" src="https://browser.gdps.io/assets/star.png" alt="star"/>
                                 </div>
-                                <div v-if="level.difficulty" class="px-2 py-0.5 text-xs rounded bg-neutral-100 dark:bg-neutral-800">{{ difficulties[level.difficulty] }}</div>
-                                <div v-if="level.featured" class="px-2 py-0.5 text-xs rounded bg-neutral-100 dark:bg-neutral-800">Featured</div>
-                                <div v-if="level.epic" class="px-2 py-0.5 text-xs rounded bg-neutral-100 dark:bg-neutral-800">Epic</div>
+                                <div v-if="level.difficulty" class="px-2 py-0.5 text-xs transition-colors rounded bg-neutral-100 dark:bg-neutral-800">{{ difficulties[level.difficulty] }}</div>
+                                <div v-if="level.featured" class="px-2 py-0.5 text-xs transition-colors rounded bg-neutral-100 dark:bg-neutral-800">Featured</div>
+                                <div v-if="level.epic" class="px-2 py-0.5 text-xs transition-colors rounded bg-neutral-100 dark:bg-neutral-800">Epic</div>
                             </div>
                         </div>
                     </div>
@@ -101,12 +101,12 @@ const face = () => {
                 </div>
             </div>
         </div>
-        <div class="x justify-center bg-neutral-200 dark:bg-neutral-900 w-full">
+        <div class="x justify-center transition-colors bg-neutral-200 dark:bg-neutral-900 w-full">
             <div class="x items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-2 py-2">
                 <div class="y items-center font-bold text-sm">
                     TOP TAGS
                 </div>
-                <div class="py-2 select-none border-r border-neutral-400 dark:border-neutral-700"></div>
+                <div class="py-2 select-none transition-colors border-r border-neutral-400 dark:border-neutral-700"></div>
                 <span v-if="level.tags.length === 0" class="opacity-50">No Tags</span>
                 <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" class="x items-center text-neutral-700 dark:text-neutral-300 px-2 py-1 text-sm rounded  bg-neutral-100 dark:bg-neutral-800 capitalize">
                     <span title="Verified Tag">
@@ -166,7 +166,7 @@ const face = () => {
                 <div class="w-full space-y-2">
                     <div class="x items-center justify-between">
                         <h2 class="font-bold text-2xl">Videos</h2>
-                        <span class="pane !py-1 cursor-pointer hidden">Submit</span>
+                        <span class="pane !py-1 cursor-pointer">Submit</span>
                     </div>
                     <div v-if="level.videos.length === 0" class="pane">
                         No videos available
@@ -178,7 +178,7 @@ const face = () => {
                 <div class="hidden md:block w-full space-y-2">
                     <div class="x items-center justify-between">
                         <h2 class="font-bold text-2xl">Replays</h2>
-                        <span class="pane !py-1 cursor-pointer hidden">Submit</span>
+                        <span class="pane !py-1 cursor-pointer">Submit</span>
                     </div>
                     <div v-if="true" class="pane">No replays available</div>
                     <div v-else class="pane !px-0 !py-0 divide-y divide-neutral-200 dark:divide-neutral-800">
