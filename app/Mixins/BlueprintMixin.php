@@ -9,18 +9,18 @@ use Illuminate\Database\Schema\Blueprint;
  */
 class BlueprintMixin
 {
-    public function intMorphs(string $name): void
+    public function intMorphs(string $name, string $indexName = null): void
     {
         $this->foreignId($name . '_id');
         $this->unsignedSmallInteger($name . '_type');
-        $this->index([$name . '_id', $name . '_type']);
+        $this->index([$name . '_id', $name . '_type'], $indexName);
     }
 
-    public function nullableIntMorphs(string $name): void
+    public function nullableIntMorphs(string $name, string $indexName = null): void
     {
         $this->foreignId($name . '_id')->nullable();
         $this->unsignedSmallInteger($name . '_type')->nullable();
-        $this->index([$name . '_id', $name . '_type']);
+        $this->index([$name . '_id', $name . '_type'], $indexName);
     }
 
     public function approved(): void
