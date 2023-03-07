@@ -172,7 +172,7 @@ const face = () => {
                         No videos available
                     </div>
                     <div v-else v-for="video in level.videos" class="pane">
-                        <iframe class="!w-full" :src="'https://youtube-nocookie.com/embed/'+video.video_id" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="!w-full" :src="'https://www.youtube-nocookie.com/embed/'+video.video_id" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div class="hidden md:block w-full space-y-2">
