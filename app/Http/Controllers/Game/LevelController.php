@@ -41,7 +41,7 @@ class LevelController extends Controller
 
         $sorting['sortBy'] = $sorting['sortBy'] < count($attributes) ? $sorting['sortBy'] : 0;
         $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
-        $sorting['filter'] = $sorting['filter'] < 2 ? $sorting['filter'] : 0;
+        $sorting['filter'] = $sorting['filter'] < 3 ? $sorting['filter'] : 0;
 
         $levels = Level::query();
 
@@ -52,6 +52,14 @@ class LevelController extends Controller
                  */
                 $user = auth()->user();
                 $levels = $user->reviewedLevels();
+            } else if ($sorting['filter'] === 2) {
+                /**
+                 * @var User $user
+                 */
+                $user = auth()->user();
+                $levels = $levels->whereDoesntHave('reviews', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
             }
         }
 
