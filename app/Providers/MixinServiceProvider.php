@@ -22,11 +22,12 @@ class MixinServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        foreach ($this->mixins as $class => $mixin) {
-            /**
-             * @var Macroable $class
-             */
-            $class::mixin(new $mixin);
-        }
+//        foreach ($this->mixins as $class => $mixin) {
+//            /**
+//             * @var Macroable $class
+//             */
+//            $class::mixin(new $mixin);
+//        }
+        Blueprint::mixin(new BlueprintMixin()); // No ide helper without this, maybe l8r :\
     }
 }

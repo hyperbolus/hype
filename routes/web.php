@@ -170,5 +170,5 @@ Route::domain(config('app.domains.dash'))->group(function () {
     Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
     Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-    Route::impersonate(); // this yellow line is the bane of my existence...
+    Route::impersonate();
 });
