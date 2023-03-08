@@ -10,10 +10,6 @@ use ReflectionException;
 
 class MixinServiceProvider extends ServiceProvider
 {
-    protected array $mixins = [
-        Blueprint::class => BlueprintMixin::class
-    ];
-
     /**
      * Register any application services.
      *
@@ -22,12 +18,6 @@ class MixinServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-//        foreach ($this->mixins as $class => $mixin) {
-//            /**
-//             * @var Macroable $class
-//             */
-//            $class::mixin(new $mixin);
-//        }
-        Blueprint::mixin(new BlueprintMixin()); // No ide helper without this, maybe l8r :\
+        Blueprint::mixin(new BlueprintMixin); // No ide helper without this
     }
 }
