@@ -152,40 +152,42 @@ const face = (level) => {
             </div>
             <Pagination :list="levels"/>
             <transition-group enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="y space-y-4">
-                <Link v-for="(level, index) in levels.data" :href="route('levels.show', level.id)" :key="level.id" :style="`transition-delay: ${index * 65}ms;`" class="pane overflow-hidden relative space-y-2 hover:shadow-lg transition-shadow">
-                    <div class="y md:flex-row relative z-10 items-center md:space-x-4">
-                        <div class="x items-center grow">
-                            <img class="h-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
-                            <div>
-                                <h2 class="text-2xl font-bold">{{ level.name }}</h2>
-                                <p class="text-lg">{{ level.creator }}</p>
+                <Link v-for="(level, index) in levels.data" :href="route('levels.show', level.id)" :key="level.id" :style="`transition-delay: ${index * 65}ms;`">
+                    <div class="pane overflow-hidden relative space-y-2 hover:shadow-lg transition-shadow text-neutral-700 dark:text-neutral-300 delay-0">
+                        <div class="y md:flex-row relative z-10 items-center md:space-x-4">
+                            <div class="x items-center grow">
+                                <img class="h-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                                <div>
+                                    <h2 class="text-2xl font-bold">{{ level.name }}</h2>
+                                    <p class="text-lg">{{ level.creator }}</p>
+                                </div>
+                            </div>
+                            <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:white_0_0_10px] dark:[text-shadow:black_0_0_10px]">
+                                <div class="y items-center">
+                                    <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                                    <span class="text-xs">DIFFICULTY</span>
+                                </div>
+                                <div class="y items-center">
+                                    <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
+                                    <span class="text-xs">GAMEPLAY</span>
+                                </div>
+                                <div class="y items-center">
+                                    <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
+                                    <span class="text-xs">VISUALS</span>
+                                </div>
+                                <div class="y items-center">
+                                    <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
+                                    <span class="text-xs">OVERALL</span>
+                                </div>
+                                <div class="y items-center">
+                                    <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
+                                    <span class="text-xs">REVIEWS</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="x justify-end space-x-4 py-4" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 1))">
-                            <div class="y items-center">
-                                <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                                <span class="text-xs">DIFFICULTY</span>
-                            </div>
-                            <div class="y items-center">
-                                <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
-                                <span class="text-xs">GAMEPLAY</span>
-                            </div>
-                            <div class="y items-center">
-                                <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
-                                <span class="text-xs">VISUALS</span>
-                            </div>
-                            <div class="y items-center">
-                                <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
-                                <span class="text-xs">OVERALL</span>
-                            </div>
-                            <div class="y items-center">
-                                <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
-                                <span class="text-xs">REVIEWS</span>
-                            </div>
+                        <div v-if="level.banner_url" class="absolute top-1/2 -translate-y-1/2 right-0 w-3/4 opacity-80" style="mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 75%);">
+                            <img :src="level.banner_url" alt="Level Banner"/>
                         </div>
-                    </div>
-                    <div v-if="level.banner_url" class="absolute top-1/2 -translate-y-1/2 right-0 w-3/4 opacity-80" style="mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 75%);">
-                        <img :src="level.banner_url" alt="Level Banner"/>
                     </div>
                 </Link>
             </transition-group>
