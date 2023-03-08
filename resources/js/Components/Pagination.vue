@@ -21,7 +21,7 @@ const props = defineProps({
                     </svg>
                 </Link>
             </template>
-            <Link v-for="(link, index) in list.links.slice(1, -1)" :href="link.url" :key="index" class="px-2 bg-opacity-50 dark:bg-opacity-50" :class="{'bg-neutral-300 dark:bg-neutral-700': link.active}">
+            <Link v-for="(link, index) in list.links.slice(1, -1)" :href="link.url" :key="index" class="px-2 bg-opacity-50 dark:bg-opacity-50 transition-colors" :class="{'bg-neutral-300 dark:bg-neutral-700': link.active}">
                 {{ link.label }}
             </Link>
             <template v-if="list.current_page !== list.last_page">
