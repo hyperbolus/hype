@@ -30,7 +30,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Recursive Migrations
         $dirs = glob(database_path('migrations').'/*', GLOB_ONLYDIR);
-        $paths = array_merge([database_path('migrations')], $dirs);
+        $sort = array_filter($dirs, function($p) {
+            $slices = explode('/', $p);
+            return !str_starts_with($slices[count($slices) - 1], '_');
+        });
+        $paths = array_merge([database_path('migrations')], $sort);
         $this->loadMigrationsFrom($paths);
 
         Relation::enforceMorphMap([
