@@ -16,12 +16,15 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('key');
-            $table->unsignedTinyInteger('site')->default(0);
-            $table->unique(['key', 'site']);
             $table->text('value');
+
+            $table->string('name');
+            $table->text('description');
+
             $table->unsignedTinyInteger('type')->default(0);
             $table->unsignedSmallInteger('group_id')->nullable();
             $table->unsignedInteger('display_order')->nullable();
+
             $table->boolean('public')->default(false);
             $table->timestamps();
         });

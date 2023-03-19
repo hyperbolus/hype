@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('taggables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('taggable_id');
-            $table->unsignedSmallInteger('taggable_type');
+            $table->intMorphs('taggable');
             $table->foreignId('tag_id');
             $table->unique(['taggable_id', 'taggable_type', 'tag_id']);
+            $table->string('attribute')->nullable();
             $table->boolean('verified')->nullable();
-            $table->float('score')->default(0);
+            $table->float('score')->default(0)->nullable();
             $table->timestamps();
         });
     }

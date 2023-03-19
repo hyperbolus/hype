@@ -13,20 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('level_replays', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('submitter_id');
             $table->foreignId('level_id');
-            $table->foreignId('user_id');
-
-            $table->text('review')->nullable();
-
-            $table->tinyInteger('rating_gameplay')->nullable();
-            $table->tinyInteger('rating_visuals')->nullable();
-            $table->tinyInteger('rating_difficulty')->nullable();
-            $table->tinyInteger('rating_overall');
-
-            $table->softDeletes();
-            $table->approved();
+            $table->unsignedTinyInteger('type');
+            $table->unsignedTinyInteger('route')->nullable();
+            $table->unsignedTinyInteger('coins')->default(0);
+            $table->timestamp('approved_at')->nullable();
+            $table->foreignId('approved_by_id');
             $table->timestamps();
         });
     }
@@ -38,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('level_replays');
     }
 };

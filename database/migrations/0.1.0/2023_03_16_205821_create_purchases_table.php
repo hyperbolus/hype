@@ -8,29 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
-        Schema::create('level_replays', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('submitter_id');
-            $table->foreignId('level_id');
+            $table->foreignId('buyer_id');
+            $table->intMorphs('resource');
             $table->unsignedTinyInteger('type');
-            $table->unsignedTinyInteger('route')->nullable();
-            $table->unsignedTinyInteger('coins')->default(0);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {
-        Schema::dropIfExists('level_replays');
+        Schema::dropIfExists('purchases');
     }
 };

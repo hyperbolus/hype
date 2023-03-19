@@ -29,6 +29,9 @@ return new class extends Migration
             $table->integer('thread_points')->nullable();
             $table->integer('post_points')->nullable();
             $table->unsignedSmallInteger('meta')->nullable();
+
+            $table->timestamp('locked_at')->nullable();
+            $table->timestamp('locked_by')->nullable();
             $table->timestamps();
         });
     }

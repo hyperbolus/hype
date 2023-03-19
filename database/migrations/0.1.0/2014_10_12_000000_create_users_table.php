@@ -24,6 +24,12 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
 
+            $table->string('flag')->nullable();
+            $table->string('location')->nullable();
+            $table->unsignedTinyInteger('location_visibility')->nullable();
+            $table->string('locale')->nullable();
+            $table->string('timezone')->nullable();
+
             $table->json('attributes')->nullable();
 
             $table->string('avatar_url')->nullable();
@@ -35,8 +41,6 @@ return new class extends Migration
             $table->string('twitch')->nullable();
             $table->string('twitter')->nullable();
             $table->string('discord')->nullable();
-            $table->string('location')->nullable();
-            $table->string('flag')->nullable();
             $table->enum('pronouns', ['he/him', 'she/her', 'they/them', 'she/they', 'he/they', 'it/its', 'any/all'])->default('they/them');
             $table->text('bio')->nullable();
             $table->text('signature')->nullable();

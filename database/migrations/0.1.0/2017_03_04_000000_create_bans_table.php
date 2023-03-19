@@ -26,13 +26,13 @@ class CreateBansTable extends Migration
     {
         Schema::create('bans', function (Blueprint $table) {
             $table->increments('id');
-            $table->morphs('bannable');
-            $table->nullableMorphs('created_by');
+            $table->intMorphs('bannable');
+            $table->nullableIntMorphs('created_by');
             $table->text('comment')->nullable();
-            $table->unsignedTinyInteger('site')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
             $table->index('expired_at');
         });
     }

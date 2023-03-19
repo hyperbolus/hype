@@ -8,27 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('drafts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedSmallInteger('model')->nullable();
-            $table->boolean('namespace')->nullable();
+            $table->foreignId('author_id');
+            $table->intMorphs('draftable');
+            $table->text('data');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('drafts');
     }
 };

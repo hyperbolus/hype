@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('blurb')->nullable();
-            $table->string('creator')->nullable();
+            $table->foreignId('author_id')->nullable()->constrained('users')->cascadeOnUpdate();
+            $table->string('author')->nullable();
             $table->text('description')->nullable();
+            $table->string('banner_url')->nullable();
             $table->unsignedBigInteger('downloads')->default(0);
-            $table->boolean('public')->default(false);
+            $table->timestamp('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

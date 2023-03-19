@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('level_id')->nullable();
             $table->foreignId('user_id');
             $table->unsignedSmallInteger('meta')->nullable();
-            $table->timestamp('verified_at')->nullable();
+            $table->approved();
             $table->timestamps();
         });
     }

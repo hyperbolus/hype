@@ -8,27 +8,22 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('level_images', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedSmallInteger('model')->nullable();
-            $table->boolean('namespace')->nullable();
+            $table->foreignId('level_id');
+            $table->approved();
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('level_images');
     }
 };
