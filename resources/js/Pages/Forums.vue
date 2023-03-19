@@ -16,7 +16,7 @@ defineProps({
         <template #breadcrumbs>
             <Link :href="$page.props.url">Forums</Link>
         </template>
-        <div class="flex flex-col space-y-2 md:w-3/4">
+        <div class="y space-y-2 md:w-3/4">
             <div v-if="forums.length === 0">
                 <p class="pane">No Fooms Have Been Created :(</p>
             </div>

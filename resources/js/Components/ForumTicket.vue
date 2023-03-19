@@ -9,9 +9,9 @@ const props = defineProps({
 })
 </script>
 <template>
-    <div class="x overflow-clip items-stretch items-center rounded bg-opacity-60 dark:bg-opacity-60 bg-white dark:bg-neutral-900 shadow transition hover:shadow-lg hover:bg-opacity-75 dark:hover:bg-opacity-75 gap-4" >
+    <div class="x overflow-clip items-stretch items-center rounded bg-opacity-60 dark:bg-opacity-60 bg-white dark:bg-neutral-900 shadow transition hover:shadow-lg hover:bg-opacity-75 dark:hover:bg-opacity-75 gap-4 px-4">
         <div class="x space-x-4 grow">
-            <div class="x items-center ml-4 my-4">
+            <div class="x items-center my-4">
                 <div class="transition-colors bg-neutral-200 dark:bg-neutral-900 p-3 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
@@ -33,8 +33,8 @@ const props = defineProps({
                 </div>
             </div>
         </div>
-        <div class="py-3 rounded border-r border-r-neutral-300 self-center"></div>
-        <div class="x justify-between space-x-2 mr-4 w-1/4 shrink-0">
+        <div class="hidden md:block py-3 rounded border-r border-r-neutral-300 self-center"></div>
+        <div class="hidden md:flex justify-between space-x-2 mr-4 w-1/4 shrink-0">
             <div v-if="forum.last_post" class="y justify-center">
                 <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
                 <span class="text-xs"><Username :user="forum.last_post.author"/> &bull; <Timestamp :time="forum.last_post.created_at"/></span>
