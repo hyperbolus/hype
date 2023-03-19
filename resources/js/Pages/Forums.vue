@@ -5,6 +5,7 @@ import AppLayout from "@/Layouts/Dash.vue";
 import Username from "@/Components/Username.vue";
 import Timestamp from "@/Components/Timestamp.vue";
 import route from 'ziggy-js'
+import DiscordInvite from "@/Components/DiscordInvite.vue";
 
 defineProps({
     forums: Array,
@@ -27,9 +28,7 @@ defineProps({
         </div>
         <div class="y space-y-2 md:w-1/4">
             <h2 class="mx-2 font-bold text-2xl">More</h2>
-            <div class="rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
-                Join us on Discord
-            </div>
+            <DiscordInvite code="bWt5aks8jb"/>
             <h2 class="mx-2 font-bold text-2xl">Latest Activity</h2>
             <div class="pane !p-0 divide-y divide-neutral-700">
                 <div class="px-4 py-2" v-if="latestPosts.length === 0">No activity</div>

@@ -4,6 +4,7 @@ import StatsPanel from "@/Components/StatsPanel.vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import PatreonGoal from "@/Components/PatreonGoal.vue";
 import route from 'ziggy-js'
+import DiscordInvite from "@/Components/DiscordInvite.vue";
 </script>
 <template>
     <app-layout title="Home">
@@ -40,6 +41,7 @@ import route from 'ziggy-js'
                         <li>matcool again & npesta for inspiring roulette game</li>
                         <li>dogotrigger for providing a large cache of levels for research</li>
                         <li>Geometry Dash Programming Discord</li>
+                        <li>Country flags by freakflags</li>
                         <li>Durianhead for his amazing profile banner artwork (<a class="underline" href="https://twitter.com/real_durianhead/status/1462436726496890881?s=20">source</a>)</li>
                         <li>Users like you, thank you!</li>
                     </ul>
@@ -48,9 +50,7 @@ import route from 'ziggy-js'
         </div>
         <div class="y space-y-2 md:w-1/4">
             <h2 class="mx-2 font-bold text-2xl">More</h2>
-            <Link href="https://discord.gg/bWt5aks8jb" class="block rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
-                Join us on Discord
-            </Link>
+            <DiscordInvite code="bWt5aks8jb"/>
             <PatreonGoal/>
             <h2 class="mx-2 font-bold text-2xl">Staff</h2>
             <div class="pane">
