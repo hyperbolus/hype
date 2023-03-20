@@ -47,8 +47,9 @@ const tilt = (e) => {
 </script>
 <template>
     <div class="cursor-pointer" @click="open = true">
-        <img class="rounded" :class="classes" :alt="alt" :src="image"/>
-        <teleport to="body">
+        <img v-if="image" class="rounded" :class="classes" :alt="alt" :src="image"/>
+        <slot/>
+        <teleport to="#app">
             <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer items-center justify-center z-[100] fixed inset-0 bg-opacity-50 bg-neutral-900" :class="open ? 'flex' : 'hidden'">
                 <transition
                     enter-active-class="transition ease-out duration-200"
@@ -58,7 +59,8 @@ const tilt = (e) => {
                     leave-from-class="transform opacity-100 scale-100"
                     leave-to-class="transform opacity-0 scale-50">
                     <div v-show="open" class="card rounded overflow-clip relative" ref="card">
-                        <img :alt="alt" :src="image"/>
+                        <img v-if="image" :alt="alt" :src="image"/>
+                        <slot name="content"/>
                         <div v-if="holo" ref="shine" class="_sparkle absolute inset-0 w-full h-full"></div>
                         <div v-if="holo" class="_glare absolute inset-0 w-full h-full"></div>
                     </div>
