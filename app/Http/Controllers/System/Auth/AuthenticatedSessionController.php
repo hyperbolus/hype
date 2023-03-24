@@ -42,8 +42,12 @@ class AuthenticatedSessionController extends Controller
      *
      * @return Response
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
+        if(!session()->has('url.intended')) {
+            session()->put('url.intended', url()->previous());
+        }
+
         return Inertia::render('Auth/Login', [
             'status' => session('status'),
         ]);
