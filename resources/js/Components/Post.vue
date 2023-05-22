@@ -8,6 +8,7 @@ import Timestamp from "@/Components/Timestamp.vue";
 import {computed, onBeforeMount, onUpdated, ref, watch} from "vue";
 import prettyBytes from "pretty-bytes";
 import bg from '@/../images/soundparty.jpg'
+import UserFlag from "@/Components/UserFlag.vue";
 
 const props = defineProps({
     post: {
@@ -65,7 +66,7 @@ const sendLike = () => {
                 <div class="flex md:flex-col relative z-10 gap-4 p-4">
                     <div v-if="user.postbit_url" class="absolute -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
-                        <span class="x items-center gap-2"><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
+                        <span class="x items-center gap-2"><UserFlag :user="user"/><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
                         <span class="text-xs" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}">Junior Member</span>
                     </div>
                     <div class="flex place-center px-2">
