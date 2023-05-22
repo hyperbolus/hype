@@ -52,6 +52,9 @@ task('artisan:update', artisan('app:update'));
 
 after('deploy:failed', 'deploy:unlock');
 
+desc('Runs the database migrations for tenants');
+task('artisan:tenants:migrate', artisan('tenants:migrate --force', ['skipIfNoEnv']));
+
 desc('Deploy the application');
 task('launch', [
     'deploy:info',
@@ -64,12 +67,13 @@ task('launch', [
     'deploy:shared',
     'deploy:writable',
     'deploy:vendors',
-    'artisan:storage:link', // |
-    'artisan:view:cache',   // |
-    'artisan:config:cache', // | Laravel specific steps
-    'artisan:optimize',     // |
-    'artisan:migrate',      // |
-    //'artisan:update',       // |
+    'artisan:storage:link',     // |
+    'artisan:view:cache',       // |
+    'artisan:config:cache',     // |
+    'artisan:optimize',         // | Laravel specific steps
+    'artisan:migrate',          // |
+    'artisan:tenants:migrate',  // |
+    //'artisan:update',         // |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
