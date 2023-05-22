@@ -19,7 +19,7 @@ class Statistics
             'reviews' => self::count(\App\Models\Content\Review::class),
             'videos' => self::count(\App\Models\Content\Video::class),
             'playlists' => self::count(\App\Models\Content\Playlist::class),
-            'nongs' => self::count(\App\Models\Content\Song::class),
+            //'nongs' => self::count(\App\Models\Content\Song::class),
         ];
     }
 
@@ -31,7 +31,7 @@ class Statistics
                 $res = Http::withToken(config('hyperbolus.patreon_token'))
                     ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage')
                     ->json();
-                Cache::put('statistics:patreon', $res, 600);
+                Cache::put('statistics:patreon', $res, 300);
                 $patreon = $res;
             } catch (Exception $e) {
 
@@ -49,7 +49,7 @@ class Statistics
         $value = Cache::get($key);
         if ($value === null) {
             $value = DB::table($table)->count();
-            Cache::put($key, $value, now()->addHour());
+            Cache::put($key, $value, 300);
         }
 
         return $value;

@@ -64,9 +64,22 @@ class DashboardController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $user->banner_url;
-                $user->banner_url = config('app.storage_url').$disk->putFile('avatars/', $request->file('content'), 'public');
+                $user->banner_url = config('app.storage_url').$disk->putFile('banners/', $request->file('content'), 'public');
                 $user->save();
                 if (User::whereBannerUrl($old)->count() === 0) {
+                    $disk->delete(substr($old, strlen(config('app.storage_url'))));
+                }
+                break;
+            case 'update postbit':
+                if (!$user->hasRole('admin')) break;
+                $request->validate([
+                    'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:5000',
+                ]);
+                $disk = Storage::disk('contabo');
+                $old = $user->postbit_url;
+                $user->postbit_url = config('app.storage_url').$disk->putFile('postbits/', $request->file('content'), 'public');
+                $user->save();
+                if (User::wherePostbitUrl($old)->count() === 0) {
                     $disk->delete(substr($old, strlen(config('app.storage_url'))));
                 }
                 break;
@@ -76,6 +89,10 @@ class DashboardController extends Controller
                 break;
             case 'update signature':
                 $user->signature = request('content');
+                $user->save();
+                break;
+            case 'update flag':
+                $user->flag = request('content');
                 $user->save();
                 break;
         }

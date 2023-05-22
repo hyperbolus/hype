@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $slug
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Database\Factories\Forge\StyleFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Style newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Style newQuery()

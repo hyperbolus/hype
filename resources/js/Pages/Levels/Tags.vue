@@ -63,7 +63,7 @@ const selectTag = (tag) => {
             </svg>
             <span>Tags</span>
         </template>
-        <div class="y space-y-2 w-1/4">
+        <div class="y space-y-2 md:w-1/3">
             <h2 class="font-bold text-2xl">Info</h2>
             <form v-if="$page.props.auth" @submit.prevent="addTag" class="y pane space-y-2">
                 <div>
@@ -72,10 +72,10 @@ const selectTag = (tag) => {
                     <Dropdown align="left" ref="dropdown">
                         <template #content>
                             <ul>
-                                <li class="px-2" v-if="tags.length === 0">No Results</li>
+                                <li class="px-4 py-1" v-if="tags.length === 0">No Results</li>
                                 <template v-else>
-                                    <li class="text-sm italic bg-neutral-200 dark:bg-neutral-800 px-2 border-b border-neutral-300 dark:border-neutral-700">You must click to select</li>
-                                    <li class="px-2 py-1 dark:hover:bg-neutral-700 cursor-pointer" v-for="tag in tags" @click="selectTag(tag)">{{ tag.name }}</li>
+                                    <li class="text-sm italic bg-neutral-200 dark:bg-ui-800 px-2 border-b border-neutral-300 dark:border-ui-700">You must click to select</li>
+                                    <li class="px-2 py-1 dark:hover:bg-ui-700 cursor-pointer" v-for="tag in tags" @click="selectTag(tag)">{{ tag.name }}</li>
                                 </template>
                             </ul>
                         </template>
@@ -88,6 +88,9 @@ const selectTag = (tag) => {
                 </ul>
                 <Button class="w-fit">Submit Tag</Button>
             </form>
+            <p v-if="!$page.props.auth" class="pane">
+                You must be <Link :href="route('auth::login')" class="underline">logged in</Link> to add or vote on tags.
+            </p>
             <p class="pane">
                 Here you can vote on which tags do or don't fit a level by voting for or against them.
             </p>
@@ -98,7 +101,7 @@ const selectTag = (tag) => {
                 <li>Available tags are pre-approved by moderators. If you want to discuss the removal or addition of a tag, visit the level discussion forum.</li>
             </ul>
         </div>
-        <div class="y space-y-2 w-3/4">
+        <div class="y space-y-2 md:w-2/3">
             <h2 class="font-bold text-2xl">Level Tags</h2>
             <div class="y space-y-2">
                 <div class="pane" v-if="level.tags.length === 0">This level has no tags.</div>

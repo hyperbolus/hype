@@ -44,6 +44,7 @@ jobs:
     needs: [build-js] # Add test-php when re-enabled
     steps:
       - uses: actions/checkout@v1
+
       - name: Download build assets
         uses: actions/download-artifact@v3
         with:
@@ -57,7 +58,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ssr
-          path: boostrap/ssr/
+          path: boostrap/ssr
+
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:

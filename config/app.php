@@ -61,6 +61,8 @@ return [
 
     'storage_url' => rtrim(env('STORAGE_URL'), '/').'/',
 
+    'mode' => env('MODE'),
+
     'domains' => [
         // Tool URLs
         'gdps' => env('GDPS_URL'),
@@ -195,6 +197,7 @@ return [
          * Package Service Providers...
          */
         Lab404\Impersonate\ImpersonateServiceProvider::class,
+        App\Providers\TenancyServiceProvider::class,
 
         /*
          * Application Service Providers...

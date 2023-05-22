@@ -2,7 +2,7 @@
 import {ref} from "vue";
 </script>
 <template>
-    <div class="x z-30 transition-colors justify-center w-full bg-neutral-300 dark:bg-neutral-900">
+    <div class="x z-30 !hidden transition-colors justify-center w-full bg-neutral-300 dark:bg-neutral-900">
         <div class="hidden md:flex justify-between w-full items-center lg:max-w-5xl xl:max-w-6xl w-full text-xs">
             <div class="x divide-x divide-neutral-200 dark:divide-neutral-800">
                 <a class="px-2 py-1 transition-colors bg-neutral-200 dark:bg-neutral-800 border-l dark:border-neutral-800">Geometry Dash</a>

@@ -10,7 +10,7 @@ let message = ref(null);
 let link = ref(null);
 
 const announcementSend = (message, link) => {
-    router.post('/admin' + '?' + new URLSearchParams({
+    router.post('/system/' + '?' + new URLSearchParams({
         message: message,
         link: link,
         action: 'send announcement'

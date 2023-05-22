@@ -66,6 +66,7 @@ class HandleInertiaRequests extends Middleware
                 return [
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
+                    'csrf' => csrf_token(),
                     ...$firstLoad,
                 ];
             },

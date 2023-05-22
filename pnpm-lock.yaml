@@ -35,6 +35,8 @@ specifiers:
   meilisearch: ^0.31.1
   pinia: ^2.0.32
   postcss: ^8.4.21
+  pretty-bytes: ^6.1.0
+  resumablejs: ^1.1.0
   tailwindcss: ^3.2.7
   tippy.js: ^6.3.7
   typescript: ^4.9.5
@@ -66,6 +68,8 @@ dependencies:
   get-youtube-id: 1.0.1
   meilisearch: 0.31.1
   pinia: 2.0.32_hmuptsblhheur2tugfgucj7gc4
+  pretty-bytes: 6.1.0
+  resumablejs: 1.1.0
   tippy.js: 6.3.7
 
 devDependencies:
@@ -1684,6 +1688,11 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
+  /pretty-bytes/6.1.0:
+    resolution: {integrity: sha512-Rk753HI8f4uivXi4ZCIYdhmG1V+WKzvRMg/X+M42a6t7D07RcmopXJMDNk6N++7Bl75URRGsb40ruvg7Hcp2wQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
+
   /prosemirror-changeset/2.2.0:
     resolution: {integrity: sha512-QM7ohGtkpVpwVGmFb8wqVhaz9+6IUXcIQBGZ81YNAKYuHiFJ1ShvSzab4pKqTinJhwciZbrtBEk/2WsqSt2PYg==}
     dependencies:
@@ -1877,6 +1886,10 @@ packages:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
+
+  /resumablejs/1.1.0:
+    resolution: {integrity: sha512-gUTWTtJ2aheRb5svHDGHMtQsBkGxTILpZApT11ODoxEe5D75GhYL7Nc/WYgCcJXY+5RVmm2BEsp2qriCkKWRRg==}
+    dev: false
 
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}

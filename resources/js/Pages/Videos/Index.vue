@@ -7,6 +7,7 @@ import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
 import AppLayout from "@/Layouts/Dash.vue";
 import Lightbox from "@/Components/Lightbox.vue";
+import VideoLightbox from "@/Components/VideoLightbox.vue";
 
 const props = defineProps({
     videos: Object
@@ -29,33 +30,16 @@ const submit = () => {
 
 </script>
 <template>
-    <app-layout>
+    <app-layout title="Videos">
         <template #breadcrumbs>
             <Link :href="route('videos.index')">Videos</Link>
         </template>
         <div class="flex flex-col space-y-4 md:w-3/4">
             <h2 class="font-bold text-2xl">Videos</h2>
             <Pagination :list="videos"/>
-            <div class="pane" v-if="videos.data.length === 0">No videos ;(</div>
+            <div v-if="videos.total === 0" class="pane text-center italic text-neutral-400 dark:text-neutral-500">No Videos ;(</div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                <Lightbox v-for="video in videos.data" class="w-full">
-                    <img class="w-full aspect-video object-cover rounded glass" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt="Thumbnail"/>
-                    <template #content>
-                        <div class="y space-y-2">
-                            <iframe class="rounded box !px-0 !py-0 aspect-video h-[60vh]" :src="'https://www.youtube-nocookie.com/embed/' + video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            <div class="x gap-2 justify-between dark:text-neutral-200">
-                                <Link @click.stop :href="route('levels.show', video.level_id)" class="box !py-1 !px-3">Level Page</Link>
-                                <a @click.stop :href="`https://youtube.com/watch?v=${video.video_id}`" target="_blank" class="x items-center space-x-1 box !py-1 !px-3">
-                                    <span>YouTube Video</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                        <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
-                                        <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </template>
-                </Lightbox>
+                <VideoLightbox v-for="video in videos.data" :video="video" class="w-full"/>
             </div>
             <Pagination :list="videos"/>
         </div>

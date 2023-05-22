@@ -5,6 +5,7 @@ namespace App\Models\System;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
+use App\Models\Forge\Mod;
 use App\Models\Game\Level;
 use App\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -109,6 +110,11 @@ class User extends Authenticatable
     public function reviewedLevels(): BelongsToMany
     {
         return $this->belongsToMany(Level::class, 'reviews', 'user_id', 'level_id');
+    }
+
+    public function purchasedMods(): BelongsToMany
+    {
+        return $this->belongsToMany(Mod::class, 'purchases', 'user_id', 'level_id')->wherePivot('type', '=', '1');
     }
 
     /**

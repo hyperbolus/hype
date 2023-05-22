@@ -2,6 +2,7 @@
 
 namespace App\Models\Content;
 
+use App\Models\Media;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,13 @@ class Post extends Model
         'rich' => 'boolean',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     */
+    protected $hidden = [
+        'ip',
+    ];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
@@ -32,5 +40,10 @@ class Post extends Model
     public function reactions(): MorphMany
     {
         return $this->morphMany(Reaction::class, 'reactable');
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'owner');
     }
 }

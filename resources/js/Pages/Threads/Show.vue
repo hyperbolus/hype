@@ -4,6 +4,7 @@ import route from "ziggy-js";
 import Post from "@/Components/Post.vue";
 import PostPad from "@/Components/PostPad.vue";
 import AppLayout from "@/Layouts/Dash.vue";
+import {ref} from "vue"
 
 const props = defineProps({
     thread: Object
@@ -15,6 +16,9 @@ const reply = useForm({
     signature: !(!usePage().props.auth || !usePage().props.user.signature),
 })
 
+// This will force update the post pad
+const postKey = ref(0)
+
 const sendReply = () => {
     reply.post(route('posts.create'), {
         data: reply,
@@ -24,7 +28,10 @@ const sendReply = () => {
          okay this doesn't actually work because of the same reason as preview.
          it seems external mutation does not affect a nested tiptap editor
         */
-        onSuccess: () => reply.body = ''
+        onSuccess: () => {
+            reply.body = ''
+            postKey.value++
+        }
     })
 }
 </script>
@@ -52,20 +59,21 @@ const sendReply = () => {
                     <a href="#reply" class="button">Reply</a>
                 </div>
             </div>
+            <div class="pane text-center italic text-neutral-400 dark:text-neutral-500" v-if="thread.posts && thread.posts.length === 0">Strangely, this thread doesn't have a post...</div>
             <template v-for="(post, index) in thread.posts" :key="index">
                 <Post :post="post" :op="thread.author.id"/>
                 <a v-if="index === 0" class="text-center hidden"><img class="inline" src="https://via.placeholder.com/970x90" alt="Advertisement"/></a>
             </template>
             <template v-if="$page.props.auth">
                 <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
-                <ul class="list-disc list-inside text-sm text-red-500">
+                <ul v-if="Object.keys($page.props.errors).length > 0" class="list-disc list-inside text-sm text-red-500">
                     <li v-for="(error, key) in $page.props.errors" :key="key">
                         {{ error }}
                     </li>
                 </ul>
-                <PostPad :submit="sendReply" v-model="reply"/>
+                <PostPad :key="postKey" :submit="sendReply" v-model="reply"/>
             </template>
-            <div v-else>
+            <div id="reply" v-else>
                 Log in to post a reply
             </div>
         </div>

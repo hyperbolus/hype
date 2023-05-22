@@ -17,7 +17,11 @@
 }
 
 .box {
-    @apply rounded px-4 py-2 shadow transition-colors bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700;
+    @apply rounded-lg px-4 py-2 shadow transition-colors bg-white dark:bg-ui-900 border border-neutral-200 dark:border-ui-700 overflow-hidden;
+}
+
+.box-og {
+    @apply rounded-lg px-4 py-2 shadow transition-colors bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
 }
 
 .pane {
@@ -25,9 +29,13 @@
 }
 
 .glass {
-    @apply rounded shadow transition-colors bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60
+    @apply rounded-lg shadow transition-colors bg-ui-50 dark:bg-ui-900
+}
+
+.glass-og {
+    @apply rounded-lg shadow transition-colors bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60
 }
 
 .button {
-    @apply select-none font-semibold rounded px-2 py-1 shadow bg-neutral-200 dark:bg-neutral-900 border-0 hover:bg-neutral-300 dark:hover:bg-neutral-700 hover:shadow-sm cursor-pointer
+    @apply select-none font-semibold rounded px-2 py-1 shadow bg-neutral-200 dark:bg-ui-800 border-0 hover:bg-neutral-300 dark:hover:bg-ui-900 hover:shadow-sm cursor-pointer
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Forum;
 use App\Models\Content\Post;
 use App\Models\Content\Thread;
+use App\Models\System\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -58,12 +59,25 @@ class ThreadController extends Controller
 
     public function show(Thread $thread): Response
     {
-        $thread->load(['author', 'forum', 'posts', 'posts.author', 'posts.reactions', 'posts.reactions.reacter']);
+        $thread->load(['author', 'forum', 'posts', 'posts.author', 'posts.media', 'posts.reactions', 'posts.reactions.reacter']);
+
+        foreach ($thread->posts as $post) {
+            $post->author->loadCount('posts');
+        }
 
         dispatch(function () use ($thread) {
-            $thread->views = $thread->views + 1;
+            $thread->views++;
             $thread->save();
         })->afterResponse();
+
+        if (!!$user = auth()->user()) {
+            /** @var User $user */
+            if ($user->hasRole('admin')) {
+                $thread->posts->each(function (Post $post) {
+                    $post->makeVisible('ip');
+                });
+            }
+        }
 
         return Inertia::render('Threads/Show', [
             'thread' => $thread,

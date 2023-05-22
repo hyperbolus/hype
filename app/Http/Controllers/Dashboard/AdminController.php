@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\System\User;
+use App\Notifications\Announcement;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
+use Notification;
 
 class AdminController extends Controller
 {
@@ -15,6 +18,12 @@ class AdminController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse
     {
+        switch ($request->string('action')) {
+            case 'send announcement':
+                $users = User::all();
+                Notification::send($users, new Announcement($request->string('message'), $request->string('link')));
+                break;
+        }
         return back();
     }
 

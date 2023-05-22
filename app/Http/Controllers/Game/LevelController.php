@@ -8,6 +8,7 @@ use App\Models\Content\Review;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
 use App\Models\System\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -46,21 +47,22 @@ class LevelController extends Controller
         $levels = Level::query();
 
         if (auth()->check()) {
+            /**
+             * @var User $user
+             */
+            $user = auth()->user();
+
             if ($sorting['filter'] === 1) {
-                /**
-                 * @var User $user
-                 */
-                $user = auth()->user();
                 $levels = $user->reviewedLevels();
             } else if ($sorting['filter'] === 2) {
-                /**
-                 * @var User $user
-                 */
-                $user = auth()->user();
                 $levels = $levels->whereDoesntHave('reviews', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 });
             }
+
+            $levels->with(['reviews' => function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }]);
         }
 
         return Inertia::render('Levels/Index', [

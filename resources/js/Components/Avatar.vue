@@ -4,5 +4,5 @@ const props = defineProps({
 })
 </script>
 <template>
-    <img class="rounded-full" :src="user.avatar_url ?? 'https://ui-avatars.com/api/?background=random&size=256&rounded=true&&format=svg&name=' + user.name" alt="avatar"/>
+    <img class="rounded-full" :src="user.avatar_url ?? '/api/avatar?name=' + user.name" alt="avatar"/>
 </template>

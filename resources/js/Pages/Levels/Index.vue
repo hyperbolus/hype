@@ -106,12 +106,12 @@ const face = (level) => {
                                 </div>
                             </template>
                             <template #content>
-                                <div @click="setSortBy(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">ID</div>
-                                <div @click="setSortBy(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Overall Rating</div>
-                                <div @click="setSortBy(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Gameplay Rating</div>
-                                <div @click="setSortBy(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Visual Rating</div>
-                                <div @click="setSortBy(4)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Difficulty Rating</div>
-                                <div @click="setSortBy(5)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Review Count</div>
+                                <div @click="setSortBy(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">ID</div>
+                                <div @click="setSortBy(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Overall Rating</div>
+                                <div @click="setSortBy(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Gameplay Rating</div>
+                                <div @click="setSortBy(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Visual Rating</div>
+                                <div @click="setSortBy(4)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Difficulty Rating</div>
+                                <div @click="setSortBy(5)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Review Count</div>
                             </template>
                         </Dropdown>
                     </div>
@@ -126,9 +126,9 @@ const face = (level) => {
                                 </div>
                             </template>
                             <template #content>
-                                <div @click="setFilter(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">All</div>
-                                <div @click="setFilter(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700">Reviewed</div>
-                                <div @click="setFilter(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Unreviewed</div>
+                                <div @click="setFilter(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">All</div>
+                                <div @click="setFilter(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Reviewed</div>
+                                <div @click="setFilter(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Unreviewed</div>
                             </template>
                         </Dropdown>
                     </div>
@@ -143,50 +143,57 @@ const face = (level) => {
                                 </div>
                             </template>
                             <template #content>
-                                <div @click="setSortDir(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-t">Descending</div>
-                                <div @click="setSortDir(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-700 rounded-b">Ascending</div>
+                                <div @click="setSortDir(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Descending</div>
+                                <div @click="setSortDir(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Ascending</div>
                             </template>
                         </Dropdown>
                     </div>
                 </div>
             </div>
             <Pagination :list="levels"/>
-            <transition-group enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="y space-y-4">
+            <transition-group enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="y relative space-y-4">
                 <Link v-for="(level, index) in levels.data" :href="route('levels.show', level.id)" :key="level.id" :style="`transition-delay: ${index * 65}ms;`">
-                    <div class="pane overflow-hidden relative space-y-2 hover:shadow-lg transition-shadow text-neutral-700 dark:text-neutral-300 delay-0">
-                        <div class="y md:flex-row relative z-10 items-center md:space-x-4">
-                            <div class="x items-center grow">
-                                <img class="h-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
-                                <div>
-                                    <h2 class="text-2xl font-bold">{{ level.name }}</h2>
-                                    <p class="text-lg">{{ level.creator }}</p>
-                                </div>
-                            </div>
-                            <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:white_0_0_10px] dark:[text-shadow:black_0_0_10px]">
-                                <div class="y items-center">
-                                    <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">DIFFICULTY</span>
-                                </div>
-                                <div class="y items-center">
-                                    <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">GAMEPLAY</span>
-                                </div>
-                                <div class="y items-center">
-                                    <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">VISUALS</span>
-                                </div>
-                                <div class="y items-center">
-                                    <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">OVERALL</span>
-                                </div>
-                                <div class="y items-center">
-                                    <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
-                                    <span class="text-xs">REVIEWS</span>
-                                </div>
-                            </div>
+                    <div class="relative group">
+                        <div v-if="level.reviews && level.reviews.length" class="z-10 absolute -top-2 -right-2 p-2 bg-ui-700 rounded-full" :title="`Your Review:\n\nDifficulty:\t${level.reviews[0].rating_difficulty}\nGameplay:\t${level.reviews[0].rating_gameplay}\nVisuals:\t\t${level.reviews[0].rating_visuals}\nOverall:\t\t${level.reviews[0].rating_overall}`">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" :class="{'text-amber-500': !!level.reviews[0].rating_difficulty + !!level.reviews[0].rating_gameplay + !!level.reviews[0].rating_visuals + !!level.reviews[0].rating_overall < 4}">
+                                <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                            </svg>
                         </div>
-                        <div v-if="level.banner_url" class="absolute top-1/2 -translate-y-1/2 right-0 w-3/4 opacity-80" style="mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 75%);">
-                            <img :src="level.banner_url" alt="Level Banner"/>
+                        <div class="pane overflow-hidden relative space-y-2 hover:shadow-lg transition-shadow text-neutral-700 dark:text-ui-300 delay-0">
+                            <div class="y md:flex-row relative z-10 items-center md:space-x-4">
+                                <div class="x items-center grow">
+                                    <img class="w-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                                    <div>
+                                        <h2 class="text-2xl font-bold">{{ level.name }}</h2>
+                                        <p class="text-lg">{{ level.creator }}</p>
+                                    </div>
+                                </div>
+                                <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:white_0_0_10px] dark:[text-shadow:black_0_0_10px]">
+                                    <div class="y items-center">
+                                        <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-xs">DIFFICULTY</span>
+                                    </div>
+                                    <div class="y items-center">
+                                        <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-xs">GAMEPLAY</span>
+                                    </div>
+                                    <div class="y items-center">
+                                        <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-xs">VISUALS</span>
+                                    </div>
+                                    <div class="y items-center">
+                                        <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-xs">OVERALL</span>
+                                    </div>
+                                    <div class="y items-center">
+                                        <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
+                                        <span class="text-xs">REVIEWS</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="level.banner_url" class="group-hover:scale-105 transition-transform duration-200 ease-in-out absolute top-1/2 -translate-y-1/2 right-0 w-3/4 opacity-80" style="mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 75%);">
+                                <img :src="level.banner_url" alt="Level Banner"/>
+                            </div>
                         </div>
                     </div>
                 </Link>

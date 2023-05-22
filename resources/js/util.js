@@ -3,9 +3,10 @@ import {ref} from "vue";
 import {router} from "@inertiajs/vue3";
 import route from "ziggy-js";
 
-export const isDark = ref(useDark({
-    selector: '#app'
-}));
+// export const isDark = ref(useDark({
+//     selector: '#body'
+// }));
+export const isDark = ref(true);
 
 export const toggleDark = () => {
     useToggle(isDark.value)

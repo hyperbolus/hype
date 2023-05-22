@@ -13,7 +13,9 @@ const card = ref(null)
 const open = ref(false)
 
 onMounted(() => {
-    card.value.style.setProperty('--url', `url('${bg}')`)
+    if (props.image) {
+        card.value.style.setProperty('--url', `url('${bg}')`)
+    }
 })
 
 const lerp = (min, max, alpha) => {
@@ -49,8 +51,8 @@ const tilt = (e) => {
     <div class="cursor-pointer" @click="open = true">
         <img v-if="image" class="rounded" :class="classes" :alt="alt" :src="image"/>
         <slot/>
-        <teleport to="#app">
-            <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer items-center justify-center z-[100] fixed inset-0 bg-opacity-50 bg-neutral-900" :class="open ? 'flex' : 'hidden'">
+        <teleport to="#body">
+            <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer items-center justify-center z-[100] fixed inset-0 bg-neutral-900/50 dark:bg-ui-1000/50" :class="open ? 'flex' : 'hidden'">
                 <transition
                     enter-active-class="transition ease-out duration-200"
                     enter-from-class="transform opacity-0 scale-50"
@@ -60,7 +62,7 @@ const tilt = (e) => {
                     leave-to-class="transform opacity-0 scale-50">
                     <div v-show="open" class="card rounded overflow-clip relative" ref="card">
                         <img v-if="image" :alt="alt" :src="image"/>
-                        <slot name="content"/>
+                        <slot v-if="open" name="content"/>
                         <div v-if="holo" ref="shine" class="_sparkle absolute inset-0 w-full h-full"></div>
                         <div v-if="holo" class="_glare absolute inset-0 w-full h-full"></div>
                     </div>

@@ -1,6 +1,9 @@
 <?php
 
-function site()
+function meta(string $title = null, string $description = null): array
 {
-    return '';
+    return [
+        '__meta_title' => $title,
+        '__meta_description' => $description,
+    ];
 }
