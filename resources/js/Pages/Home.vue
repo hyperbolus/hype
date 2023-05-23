@@ -26,6 +26,14 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     <p>GD Forums is currently in beta. Join our Discord to suggest new features, give feedback, and get help!</p>
                 </div>
                 <div class="pane">
+                    <h2 class="font-bold text-xl">What</h2>
+                    <p>This site currently has a forum for discussion and a system for rating, tagging, and adding videos to levels. Also putting levels into playlists and playing level roulette.</p>
+                </div>
+                <div class="pane">
+                    <h2 class="font-bold text-xl">How</h2>
+                    <p>Create an account to contribute content. Go to the level reviews page to fetch a level and on the level page you can leave a review or suggest a tag and vote on other tags.</p>
+                </div>
+                <div class="pane">
                     <div class="x space-x-4 h-[50vh]">
                         <div class="y space-y-2 w-1/3 overflow-y-auto">
                             <h2 class="font-bold">Planned</h2>
