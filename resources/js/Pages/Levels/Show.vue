@@ -71,8 +71,14 @@ const face = () => {
             <span>{{ level.id }}</span>
         </template>
         <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-neutral-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
-            <div class="x justify-end items-start">
-                <Link v-if="$page.props.auth && $page.props.user.roles.includes('admin')" :href="route('levels.edit', level)" class="button">Edit</Link>
+            <div class="x justify-between items-start">
+                <div class="x space-x-2">
+                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                </div>
+                <Link v-show="$page.props.auth && $page.props.user.roles.includes('admin')" :href="route('levels.edit', level)" class="button">Edit</Link>
             </div>
             <div class="x justify-between items-end">
                 <div class="x items-end">
@@ -101,7 +107,7 @@ const face = () => {
                         </div>
                     </div>
                 </div>
-                <div class="x space-x-2 items-end">
+                <div class="!hidden x space-x-2 items-end">
                     <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
                     <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
                     <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
