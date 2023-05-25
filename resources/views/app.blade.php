@@ -6,8 +6,8 @@
 
     <meta property="og:url" content="https://gdforums.com">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="DashNet">
-    <meta property="og:title" content="{{ $page['props']['__meta_title'] ?? 'DashNet' }}">
+    <meta property="og:site_name" content="GD Forums">
+    <meta property="og:title" content="{{ $page['props']['__meta_title'] ?? 'GD Forums' }}">
     <meta property="og:description" content="{{ $page['props']['__meta_description'] ?? 'Your source for everything Geometry Dash' }}">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
