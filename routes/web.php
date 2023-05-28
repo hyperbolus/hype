@@ -48,10 +48,6 @@ Route::domain(config('app.domains.profile'))->group(function () {
     Route::get('/{profile}', [ProfileController::class, 'show']);
 });
 
-Route::get('/tenant', function () {
-    return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
-});
-
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/forge', [HomeController::class, 'forge'])->name('forge');
 Route::get('/levels', [HomeController::class, 'levels'])->name('levels');
@@ -187,5 +183,4 @@ Route::get('/notifications/read')->middleware(['auth', 'verified'])->name('notif
 Route::impersonate();
 
 
-require_once 'web.php';
 require_once 'auth.php';
