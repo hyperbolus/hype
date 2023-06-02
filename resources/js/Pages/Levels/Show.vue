@@ -154,13 +154,13 @@ const face = () => {
                     </div>
                     <div class="w-full">
                         <h2>Gameplay Rating: {{ form.rating_gameplay }}<span class="opacity-50 text-xs">/10</span></h2>
-                        <input class="w-full" v-model="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
+                        <input class="w-full" v-model.number="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
                         <h2>Difficulty Rating: {{ form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></h2>
-                        <input class="w-full" v-model="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
+                        <input class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
                         <h2>Visuals Rating: {{ form.rating_visuals }}<span class="opacity-50 text-xs">/10</span></h2>
-                        <input class="w-full" v-model="form.rating_visuals" type="range" min="0" max="10" step="1"/>
+                        <input class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
                         <h2>Overall Rating: {{ form.rating_overall }}<span class="opacity-50 text-xs">/10</span></h2>
-                        <input class="w-full" v-model="form.rating_overall" type="range" min="0" max="10" step="1"/>
+                        <input class="w-full" v-model.number="form.rating_overall" type="range" min="0" max="10" step="1"/>
                     </div>
                     <Button class="w-fit" @click="submit">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</Button>
                 </form>
