@@ -62,7 +62,7 @@ class RegisteredUserController extends Controller
     {
         Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'name' => ['required', 'string', 'max:32', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/'],
+            'name' => ['required', 'string', 'min:3', 'max:32', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/'],
             'password' => Yggdrasil::passwordRules(),
             'terms' => ['required', 'accepted'],
         ],
