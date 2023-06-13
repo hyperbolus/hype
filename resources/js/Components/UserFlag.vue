@@ -3,7 +3,7 @@ const props = defineProps({
     user: Object,
     size: {
         type: String,
-        default: 'md'
+        default: 'sm'
     }
 });
 </script>
