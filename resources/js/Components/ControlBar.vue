@@ -7,12 +7,14 @@ import route from 'ziggy-js'
 import {logout, isDark, toggleDark} from '@/util.js'
 import {ref} from "vue";
 import {useSettingsStore} from "@/stores/settings.ts";
+import SearchBar from "@/Components/SearchBar.vue";
 
 const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
 </script>
 <template>
     <div class="flex items-center space-x-4">
+        <SearchBar/>
         <Dropdown>
             <template #trigger>
                 <div class="relative">
@@ -48,12 +50,12 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                 <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
             </svg>
         </Link>
-        <Dropdown>
+        <Dropdown class="shrink-0">
             <template #trigger>
                 <div class="x transition-colors bg-neutral-100 dark:bg-ui-950 p-1 rounded-full items-center cursor-pointer">
                     <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                     <span>{{ $page.props.user.name }}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mx-1 w-5 h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="shrink-0 mx-1 w-5 h-5">
                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                     </svg>
                 </div>

@@ -17,7 +17,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
 </script>
 <template>
     <div class="y top-0 items-center relative z-20 transition-colors w-full py-4 bg-neutral-200 dark:bg-ui-900">
-        <div class="x px-2 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
+        <div class="x px-2 gap-4 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
             <div class="x items-center space-x-4">
                 <SiteLogo/>
                 <div class="hidden md:flex items-center space-x-4 text-sm">
@@ -40,8 +40,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                     </template>
                 </div>
             </div>
-            <div class="hidden md:flex items-center space-x-4">
-                <SearchBar/>
+            <div class="hidden md:flex items-center">
                 <ControlBar v-if="$page.props.auth"/>
                 <div v-else class="x items-center space-x-4">
                     <Link :href="route('auth::login')">Login</Link>
@@ -56,7 +55,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
         </div>
     </div>
     <div v-if="mobileNavOpen" class="y md:hidden relative z-20 bg-neutral-300 dark:bg-ui-900 w-full pb-1 space-y-2">
-        <ControlBar v-if="$page.props.auth" class="justify-center dark:bg-ui-800 py-2"/>
+        <ControlBar v-if="$page.props.auth" class="justify-center dark:bg-ui-900 py-1 border-y dark:border-ui-700"/>
         <template v-for="(node, key) in navigation">
             <Link :href="route(node.route)" class="hover:text-neutral-500 dark:hover:text-ui-500 transition transition-colors px-4">{{ node.name }}</Link>
             <div v-if="node.hasOwnProperty('children')" class="y bg-neutral-200">
