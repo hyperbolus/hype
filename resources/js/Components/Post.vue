@@ -99,7 +99,7 @@ const sendLike = () => {
                     <div class="x justify-between items-center text-xs">
                         <div class="x gap-1 items-center " :class="preview ? 'text-amber-500' : 'text-neutral-500 dark:text-ui-400'">
                             <template v-if="!preview">
-                                <span v-if="user.id === op" class="text-xs pane !px-2 !py-0.5 font-bold">OP</span>
+                                <span v-if="user.id === op" class="text-xs bg-ui-800 rounded px-2 py-0.5 font-bold">OP</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="flex-shrink-0 w-3 h-3">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
                                 </svg>
