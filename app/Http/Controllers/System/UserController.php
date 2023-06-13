@@ -41,7 +41,7 @@ class UserController extends Controller
         }
 
         return Inertia::render('Users/Index', [
-            'users' => $users->paginate(10)->appends($sorting),
+            'users' => $users->paginate(18)->appends($sorting),
             'filters' => $sorting,
         ]);
     }
