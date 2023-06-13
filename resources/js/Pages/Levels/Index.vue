@@ -159,11 +159,11 @@ const face = (level) => {
                                 <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
                             </svg>
                         </div>
-                        <div class="pane overflow-hidden relative space-y-2 hover:shadow-lg transition-shadow text-neutral-700 dark:text-ui-300 delay-0">
+                        <div class="pane overflow-hidden relative hover:shadow-lg transition-shadow text-neutral-700 dark:text-ui-300 delay-0">
                             <div class="y md:flex-row relative z-10 items-center md:space-x-4">
                                 <div class="x items-center grow">
                                     <img class="w-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
-                                    <div>
+                                    <div class="[text-shadow:black_0_0_10px]">
                                         <h2 class="text-2xl font-bold">{{ level.name }}</h2>
                                         <p class="text-lg">{{ level.creator }}</p>
                                     </div>
@@ -191,9 +191,7 @@ const face = (level) => {
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="level.banner_url" class="group-hover:scale-105 transition-transform duration-200 ease-in-out absolute top-1/2 -translate-y-1/2 right-0 w-3/4 opacity-80" style="mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 75%);">
-                                <img :src="level.banner_url" alt="Level Banner"/>
-                            </div>
+                            <div v-if="level.banner_url" class="absolute right-0 top-0 h-full w-full md:w-3/4 group-hover:scale-105 transition-transform bg-cover bg-center opacity-80 md:[mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.8)_75%);]" :style="`background-image:url('${level.banner_url}');`"></div>
                         </div>
                     </div>
                 </Link>
