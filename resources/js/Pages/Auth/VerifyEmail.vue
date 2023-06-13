@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue';
-import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue';
+import SiteLogo from '@/Components/SiteLogo.vue';
 import JetButton from '@/Jetstream/Button.vue';
 import route from 'ziggy-js'
 
@@ -24,7 +24,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 
     <JetAuthenticationCard>
         <template #logo>
-            <JetAuthenticationCardLogo />
+            <SiteLogo />
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
