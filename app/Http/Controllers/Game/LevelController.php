@@ -35,14 +35,15 @@ class LevelController extends Controller
             'ASC',
         ];
         $sorting = [
-            'sortBy' => $request->integer('sortBy'),
-            'sortDir' => $request->integer('sortDir'),
-            'filter' => $request->integer('filter'),
+            'sortBy' => $request->integer('sortBy', 5),
+            'sortDir' => $request->integer('sortDir', 0),
+            'filter' => $request->integer('filter', 0),
         ];
 
         $sorting['sortBy'] = $sorting['sortBy'] < count($attributes) ? $sorting['sortBy'] : 0;
         $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
         $sorting['filter'] = $sorting['filter'] < 3 ? $sorting['filter'] : 0;
+        // TODO: be more explicit about unauthenticated attempt to use filters
 
         $levels = Level::query();
 
