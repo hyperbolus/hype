@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('password.confirm')->middleware('auth');
-Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->name('password.confirm.store')->middleware('auth');
+Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->middleware('auth');
 
 Route::name('auth::')->group(function () {
     //<editor-fold desc="Authentication">
