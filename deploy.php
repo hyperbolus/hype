@@ -70,6 +70,7 @@ task('launch', [
     'artisan:storage:link',     // |
     'artisan:view:cache',       // |
     'artisan:config:cache',     // |
+    'artisan:route:cache',      // |
     'artisan:optimize',         // | Laravel specific steps
     'artisan:migrate',          // |
     'artisan:tenants:migrate',  // |
