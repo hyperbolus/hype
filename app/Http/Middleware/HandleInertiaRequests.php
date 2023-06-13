@@ -49,8 +49,8 @@ class HandleInertiaRequests extends Middleware
                 'counts' => Statistics::all(),
                 'patreon' => Statistics::patreon()
             ],
-            'settings' => Setting::query()->where('key', 'navigation')->get()->map(function (Setting $setting) {
-                $setting->makeHidden(['site', 'key']);
+            'settings' => Setting::query()->where('public', '=', true)->get()->map(function (Setting $setting) {
+                $setting->makeHidden(['key']);
                 if ($setting->type === 4) {
                     $setting->value = json_decode($setting->value);
                 }

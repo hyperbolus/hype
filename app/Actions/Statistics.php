@@ -29,7 +29,7 @@ class Statistics
         if (! $patreon) {
             try {
                 $res = Http::withToken(config('hyperbolus.patreon_token'))
-                    ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?include=goals&fields%5Bgoal%5D=description,amount_cents,completed_percentage')
+                    ->get('https://patreon.com/api/oauth2/v2/campaigns/1078668?fields%5Bgoal%5D=description,amount_cents,completed_percentage')
                     ->json();
                 Cache::put('statistics:patreon', $res, 300);
                 $patreon = $res;
@@ -37,6 +37,7 @@ class Statistics
 
             }
         }
+        clock($patreon);
         // Fake it 'til you make it
         //$patreon['included'][0]['attributes']['completed_percentage'] = 100;
         return $patreon;
