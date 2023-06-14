@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Models\Content\Tag;
+use App\Models\System\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -26,11 +28,11 @@ class SearchController extends Controller
     {
         $except = (int) \request('except') ?? null;
 
-        return DB::table('users')->select(['id', 'name'])->where('name', 'LIKE', '%'.\request('name').'%')->whereNot('id', '=', $except)->get();
+        return User::query()->select(['id', 'name'])->where('name', 'LIKE', '%'.\request('name').'%')->whereNot('id', '=', $except)->get();
     }
 
     public function tagname(Request $request): Collection
     {
-        return DB::table('tags')->select(['id', 'name'])->where('name', 'LIKE', '%'.\request('name').'%')->get();
+        return Tag::query()->select(['id', 'name'])->where('name', 'LIKE', '%'.\request('name').'%')->get();
     }
 }
