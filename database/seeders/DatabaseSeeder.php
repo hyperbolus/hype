@@ -180,29 +180,7 @@ JSON;
 //        ]);
 //        $this->command->info('Seeded forge content');
 
-        $levels->load('reviews');
-        $levels->each(function ($level, $i) {
-            $count = 0;
-            $total_gameplay = 0;
-            $total_difficulty = 0;
-            $total_visuals = 0;
-            $total_overall = 0;
-            foreach ($level->reviews as $review) {
-                $count++;
-                $total_gameplay += $review->rating_gameplay;
-                $total_difficulty += $review->rating_difficulty;
-                $total_visuals += $review->rating_visuals;
-                $total_overall += $review->rating_overall;
-            }
-            if ($count >= 1) {
-                $level->rating_gameplay = $total_gameplay / $count;
-                $level->rating_difficulty = $total_difficulty / $count;
-                $level->rating_visuals = $total_visuals / $count;
-                $level->rating_overall = $total_overall / $count;
-                $level->save();
-            }
-        });
-
+        Artisan::call('app:ratings:calculate');
         $this->command->info('Calculated initial review scores');
 
         \App\Models\Content\Playlist::factory(5)->create();

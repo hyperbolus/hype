@@ -2,10 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\Setup;
 use App\Models\Game\Level;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class CalculateRatings extends Command
 {
@@ -50,14 +48,13 @@ class CalculateRatings extends Command
                 $level->rating_difficulty = $total_difficulty / $count;
                 $level->rating_visuals = $total_visuals / $count;
                 $level->rating_overall = $total_overall / $count;
-                $level->save();
             } else {
                 $level->rating_gameplay = null;
                 $level->rating_difficulty = null;
                 $level->rating_visuals = null;
                 $level->rating_overall = null;
-                $level->save();
             }
+            $level->save();
         });
     }
 }
