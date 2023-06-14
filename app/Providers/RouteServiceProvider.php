@@ -32,7 +32,11 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::prefix('api')
-                ->middleware('api')
+                ->middleware([
+                    'api',
+                    InitializeTenancyByDomain::class,
+                    PreventAccessFromCentralDomains::class
+                ])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
@@ -49,7 +53,7 @@ class RouteServiceProvider extends ServiceProvider
                 'web',
                 InitializeTenancyByDomain::class,
                 PreventAccessFromCentralDomains::class,
-            ])
+                ])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
