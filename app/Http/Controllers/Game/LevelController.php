@@ -26,7 +26,7 @@ class LevelController extends Controller
             'id',
             'rating_overall',
             'rating_gameplay',
-            'rating_visual',
+            'rating_visuals',
             'rating_overall',
             'reviews_count',
         ];
