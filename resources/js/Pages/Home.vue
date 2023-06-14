@@ -21,19 +21,16 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     <div class="z-10 bg-gradient-to-t from-black to-neutral-900 -skew-x-[45deg] border-r-[2px] border-r-red-500 w-12 py-1 -ml-4 h-full bg-black">&#8203;</div>
                     <div class="shadow rounded -skew-x-[45deg] border-r-[8px] border-r-red-500 w-8 py-1 -ml-4 h-full bg-black">&#8203;</div>
                 </div>
-                <div class="pane">
-                    <h2 class="font-bold text-xl">About</h2>
-                    <p>GD Forums is currently in beta. Join our Discord to suggest new features, give feedback, and get help!</p>
-                </div>
-                <div class="pane">
-                    <h2 class="font-bold text-xl">What</h2>
+                <details class="pane" open>
+                    <summary class="font-bold text-xl">What's Here</summary>
                     <p>This site currently has a forum for discussion and a system for rating, tagging, and adding videos to levels. Also putting levels into playlists and playing level roulette.</p>
-                </div>
-                <div class="pane">
-                    <h2 class="font-bold text-xl">How</h2>
-                    <p>Create an account to contribute content. Go to the level reviews page to fetch a level and on the level page you can leave a review or suggest a tag and vote on other tags.</p>
-                </div>
-                <div class="hidden md:flex flex-col pane">
+                </details>
+                <details class="pane" open>
+                    <summary class="font-bold text-xl">How Do I...</summary>
+                    <p>Hopefully the UI is intuitive but if you are having trouble with anything and would like help or would like to suggest a feature or change, please join out Discord linked in the sidebar.</p>
+                </details>
+                <details class="hidden md:flex flex-col pane">
+                    <summary class="font-bold text-xl">Roadmap</summary>
                     <div class="x space-x-4 h-[50vh]">
                         <div class="y space-y-2 w-1/3 overflow-y-auto">
                             <h2 class="font-bold">Planned</h2>
@@ -98,7 +95,7 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     </div>
                     <hr class="border-ui-700 mt-4 mb-1"/>
                     <p>Current roadmap. The "Done" milestone is for v1 release. We are currently in beta!</p>
-                </div>
+                </details>
                 <div class="relative hidden">
                     <img class="w-64" :src="hyper1"/>
                     <img class="absolute top-0 left-0 rotate-hue w-64" :src="hyper2"/>
@@ -112,8 +109,12 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     </div>
                     <input class="w-full transition-colors bg-neutral-200 dark:bg-neutral-900 outline-0 border-none focus:ring-0 placeholder-neutral-600 dark:placeholder-neutral-600 " placeholder="Type your message..." type="text"/>
                 </div>
-                <div class="pane">
-                    <h2 class="font-bold text-xl">Special Thanks</h2>
+                <details class="pane">
+                    <summary class="font-bold text-xl">About</summary>
+                    <p>GD Forums is a project that started ~2016 in my mind palace and it's current iteration is what you are using right now. This version (specifically the review system) was originally based on the work of Spellslave's Grimoire software. Though it has since been essentially rewritten.</p>
+                </details>
+                <details class="pane">
+                    <summary class="font-bold text-xl">Special Thanks</summary>
                     <ul class="list-inside list-disc">
                         <li>Cvolton for help regarding interacting with gd servers</li>
                         <li>GD Colon for all of his awesome work with gd on web</li>
@@ -125,7 +126,7 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                         <li>Durianhead for his amazing profile banner artwork (<a class="underline" href="https://twitter.com/real_durianhead/status/1462436726496890881?s=20">source</a>)</li>
                         <li>Users like you, thank you!</li>
                     </ul>
-                </div>
+                </details>
             </div>
         </div>
         <div class="y space-y-2 md:w-1/4">

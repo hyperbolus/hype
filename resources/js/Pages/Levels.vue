@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/Dash.vue'
 import { Link } from '@inertiajs/vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
+import DiscordInvite from "@/Components/DiscordInvite.vue";
 </script>
 <template>
     <app-layout title="Home">
@@ -18,9 +19,7 @@ import StatsPanel from "@/Components/StatsPanel.vue";
         </div>
         <div class="y space-y-2 md:w-1/4">
             <h2 class="mx-2 font-bold text-2xl">More</h2>
-            <div class="rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
-                Join us on Discord
-            </div>
+            <DiscordInvite/>
             <StatsPanel/>
         </div>
     </app-layout>
