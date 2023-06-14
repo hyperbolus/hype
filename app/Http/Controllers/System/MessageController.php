@@ -67,8 +67,10 @@ class MessageController extends Controller
         $messages = Message::query()->where($request->user()->id < $id ? 'a' : 'b', '=', $request->user()->id)->where($request->user()->id > $id ? 'a' : 'b', '=', $id)->paginate(25);
 
         foreach ($messages->items() as $message) {
-            $message->read_at = now();
-            $message->save();
+            if($message->recipient_id === auth()->id()) {
+                $message->read_at = now();
+                $message->save();
+            }
         }
 
         return Inertia::render('Inbox/Show', [
