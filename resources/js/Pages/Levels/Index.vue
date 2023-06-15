@@ -165,8 +165,8 @@ const face = (level) => {
                     <Button @click="router.get(level_id ? route('levels.show', level_id) : '#')">Add</Button>
                 </div>
             </div>
-            <div class="rounded bg-ui-700 p-4 overflow-clip">
-                <svg xmlns="http://www.w3.org/2000/svg" class="-z-10 h-6 w-6 -z-10 scale-[6] translate-y-3 opacity-75 float-right text-ui-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div class="rounded-lg bg-ui-700 p-4 overflow-clip">
+                <svg xmlns="http://www.w3.org/2000/svg" class="-z-10 h-6 w-6 -z-10 scale-[6] translate-y-3 float-right text-ui-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <p class="relative">Levels must have at least 5 reviews before their average scores are calculated</p>
