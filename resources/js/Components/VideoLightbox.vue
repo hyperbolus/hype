@@ -11,7 +11,10 @@ const props = defineProps({
         <img class="w-full aspect-video object-cover rounded glass" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt="Thumbnail"/>
         <template #content>
             <div class="y space-y-2">
-                <iframe class="rounded box !px-0 !py-0 aspect-video h-[60vh]" :src="'https://www.youtube-nocookie.com/embed/' + video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="relative box !px-0 !py-0">
+                    <iframe class="z-10 relative aspect-video h-[60vh]" :src="'https://www.youtube-nocookie.com/embed/' + video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <span class="absolute top-1/2 w-full text-center text-ui-200 text-xl font-bold">Loading&nbsp;Video...</span>
+                </div>
                 <div class="x gap-2 justify-between dark:text-neutral-200">
                     <Link @click.stop :href="route('levels.show', video.level_id)" class="box !py-1 !px-3">Level Page</Link>
                     <a @click.stop :href="`https://youtube.com/watch?v=${video.video_id}`" target="_blank" class="x items-center space-x-1 box !py-1 !px-3">
