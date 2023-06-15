@@ -11,7 +11,11 @@ class ProfileCommentController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
-        // TODO: validate
+        $request->validate([
+            'body' => 'required|max:140',
+            'user_id' => 'required|exists:App\Models\System\User,id'
+        ]);
+
         $comment = new ProfileComment();
         $comment->user_id = $request->integer('user_id');
         $comment->commenter_id = auth()->id();

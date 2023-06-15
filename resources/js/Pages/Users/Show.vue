@@ -172,7 +172,7 @@ const tab = ref(0);
                         <Pagination class="py-2" :list="comments"/>
                         <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
                             <textarea v-model="newComment.body" style="min-height: 4rem !important;" class="resize-none !min-h-16 resize-y h-fit w-full placeholder-neutral-400 dark:placeholder-ui-500 pane dark:bg-ui-800 border-none" placeholder="Comment..."></textarea>
-                            <Button @click="postComment" class="w-fit" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : '' }}Submit Comment</Button>
+                            <Button @click="postComment" class="w-fit" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : 'Submit Comment' }}</Button>
                         </div>
                     </div>
                 </div>
