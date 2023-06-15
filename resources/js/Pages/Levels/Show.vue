@@ -140,30 +140,32 @@ const face = () => {
                 <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
                 <Carousel v-else :images="level.images"/>
                 <h2 class="font-bold text-2xl">Reviews</h2>
-                <form v-if="$page.props.auth" @submit.prevent="submit" class="y pane gap-4">
-                    <div class="space-y-2 w-full">
-                        <h2 class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</h2>
-                        <ul v-if="Object.keys($page.props.errors).length > 0" class="list-disc list-inside text-sm text-red-500">
-                            <li v-for="(error, key) in $page.props.errors" :key="key">
-                                {{ error }}
-                            </li>
-                        </ul>
-                        <p class="hidden">{{ form.body }}</p>
-                        <textarea v-model="form.body" class="resize-none resize-y w-full pane !bg-ui-800 border-none"></textarea>
-                        <PostPad v-if="false" v-model="form"/>
-                    </div>
-                    <div class="w-full">
-                        <h2>Gameplay Rating: {{ form.rating_gameplay }}<span class="opacity-50 text-xs">/10</span></h2>
-                        <input class="w-full" v-model.number="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
-                        <h2>Difficulty Rating: {{ form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></h2>
-                        <input class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
-                        <h2>Visuals Rating: {{ form.rating_visuals }}<span class="opacity-50 text-xs">/10</span></h2>
-                        <input class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
-                        <h2>Overall Rating: {{ form.rating_overall }}<span class="opacity-50 text-xs">/10</span></h2>
-                        <input class="w-full" v-model.number="form.rating_overall" type="range" min="0" max="10" step="1"/>
-                    </div>
-                    <Button class="w-fit" @click="submit">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</Button>
-                </form>
+                <details v-if="$page.props.auth" class="pane">
+                    <summary class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</summary>
+                    <form @submit.prevent="submit" class="y gap-4">
+                        <div class="space-y-2 w-full">
+                            <ul v-if="Object.keys($page.props.errors).length > 0" class="list-disc list-inside text-sm text-red-500">
+                                <li v-for="(error, key) in $page.props.errors" :key="key">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                            <p class="hidden">{{ form.body }}</p>
+                            <textarea v-model="form.body" class="resize-none resize-y w-full pane !bg-ui-800 border-none"></textarea>
+                            <PostPad v-if="false" v-model="form"/>
+                        </div>
+                        <div class="w-full">
+                            <h2>Gameplay Rating: {{ form.rating_gameplay }}<span class="opacity-50 text-xs">/10</span></h2>
+                            <input class="w-full" v-model.number="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
+                            <h2>Difficulty Rating: {{ form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></h2>
+                            <input class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
+                            <h2>Visuals Rating: {{ form.rating_visuals }}<span class="opacity-50 text-xs">/10</span></h2>
+                            <input class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
+                            <h2>Overall Rating: {{ form.rating_overall }}<span class="opacity-50 text-xs">/10</span></h2>
+                            <input class="w-full" v-model.number="form.rating_overall" type="range" min="0" max="10" step="1"/>
+                        </div>
+                        <Button class="w-fit" @click="submit">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</Button>
+                    </form>
+                </details>
                 <div v-else class="y pane">
                     <h2 class="text-xl"><Link class="underline" :href="route('auth::login')">Log in</Link> to submit a review</h2>
                 </div>
