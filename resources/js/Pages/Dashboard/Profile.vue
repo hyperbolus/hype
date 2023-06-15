@@ -30,7 +30,7 @@ const signature = useForm({
 })
 
 const changeSignature = () => {
-    bio.post(route('settings.update'))
+    signature.post(route('settings.update'))
 }
 
 const avatar = useForm({
