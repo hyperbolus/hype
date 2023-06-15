@@ -1,10 +1,17 @@
 <script setup>
-import {Link} from '@inertiajs/vue3';
+import {Link, router} from '@inertiajs/vue3';
+import route from "ziggy-js";
 
 const props = defineProps({
     list: Object
 })
 
+const promptPage = () => {
+    let page = prompt('Jump to page number:')
+    let first = props.list.first_page_url.toString();
+    let url = first.substring(0, first.length - 1) + page;
+    router.get(url);
+}
 </script>
 <template>
     <div class="x justify-center">
@@ -21,9 +28,12 @@ const props = defineProps({
                     </svg>
                 </Link>
             </template>
-            <Link v-for="(link, index) in list.links.slice(1, -1)" :href="link.url" :key="index" class="px-2 bg-opacity-50 dark:bg-opacity-50 transition-colors" :class="{'bg-neutral-300 dark:bg-ui-700': link.active}">
-                {{ link.label }}
-            </Link>
+            <template v-for="(link, index) in list.links.slice(1, -1)">
+                <Link v-if="link.label !== '...'" :href="link.url" :key="index" class="px-2 bg-opacity-50 dark:bg-opacity-50 transition-colors" :class="{'bg-neutral-300 dark:bg-ui-700': link.active}">
+                    {{ link.label }}
+                </Link>
+                <span @click="promptPage" v-else>{{ link.label }}</span>
+            </template>
             <template v-if="list.current_page !== list.last_page">
                 <Link :href="list.next_page_url" class="px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
