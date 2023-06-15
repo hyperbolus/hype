@@ -15,7 +15,7 @@ class VideoController extends Controller
     public function index(): Response
     {
         return Inertia::render('Videos/Index', [
-            'videos' => Video::query()->paginate(25),
+            'videos' => Video::query()->paginate(18),
         ]);
     }
 
