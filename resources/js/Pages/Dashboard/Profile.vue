@@ -119,7 +119,7 @@ const changeFlag = () => {
         </form>
         <form @submit.prevent="changeFlag" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Country Flag <span class="fflag ff-sm" :class="`fflag-${flag.content}`"></span></h2>
-            <select v-model="flag.content" class="border-0 rounded-lg dark:bg-ui-800">
+            <select v-model="flag.content" class="border-0 rounded-lg bg-ui-800">
                 <option :value="null">None</option>
                 <optgroup label="Americas">
                     <option value="US">United States of America</option>
@@ -158,12 +158,12 @@ const changeFlag = () => {
         </form>
         <form @submit.prevent="changeBio" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Bio</h2>
-            <textarea v-model="bio.content" placeholder="Once upon a time..." class="resize-none resize-y w-full placeholder-neutral-400 dark:placeholder-ui-600 dark:bg-ui-800 rounded-lg border-none"></textarea>
+            <textarea v-model="bio.content" placeholder="Once upon a time..." class="resize-none resize-y w-full placeholder-ui-600 bg-ui-800 rounded-lg border-none"></textarea>
             <Button class="w-fit">Change Bio</Button>
         </form>
         <form @submit.prevent="changeSignature" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Signature</h2>
-            <textarea v-model="signature.content" placeholder="Sincerely, Summer Glau" class="resize-none resize-y w-full placeholder-neutral-400 dark:placeholder-ui-600 dark:bg-ui-800 rounded-lg border-none"></textarea>
+            <textarea v-model="signature.content" placeholder="Sincerely, Summer Glau" class="resize-none resize-y w-full placeholder-ui-600 bg-ui-800 rounded-lg border-none"></textarea>
             <Button class="w-fit">Change Signature</Button>
         </form>
     </dashboard-layout>

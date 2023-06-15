@@ -54,7 +54,7 @@ const extensions = [
     CharacterCount,
     Mention.configure({
         HTMLAttributes: {
-            class: 'p-1 overflow-hidden rounded bg-neutral-100 dark:bg-ui-900'
+            class: 'p-1 overflow-hidden rounded bg-ui-900'
         },
         suggestion: {
             items: ({ query }) => {
@@ -139,33 +139,33 @@ watch(props.modelvalue, (old, current) => {
 </script>
 <template>
     <div class="y items-center">
-        <div v-if="editor && editable" class="x w-full flex-wrap transition-colors divide-x divide-neutral-300 dark:divide-ui-700 border-b border-neutral-300 dark:border-ui-700">
+        <div v-if="editor && editable" class="x w-full flex-wrap transition-colors divide-x divide-ui-700 border-b border-ui-700">
             <div class="x items-center text-xl p-1 space-x-1">
-                <button title="Bold" class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('bold') }">
+                <button title="Bold" class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-ui-700': editor.isActive('bold') }">
                     <span class="block w-4">&#119809;</span>
                 </button>
-                <button title="Italics" class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('italic') }">
+                <button title="Italics" class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-ui-700': editor.isActive('italic') }">
                     <span class="block w-4">&#119868;</span>
                 </button>
-                <button title="Strikethrough" class="relative px-2 py-0.5 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('strike') }">
+                <button title="Strikethrough" class="relative px-2 py-0.5 rounded" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-ui-700': editor.isActive('strike') }">
                     <span class="block w-4 font-bold">S</span>
-                    <span class="absolute rounded left-[25%] top-[.9rem] border-y border-neutral-700 dark:border-ui-300 px-2"></span>
+                    <span class="absolute rounded left-[25%] top-[.9rem] border-y border-ui-300 px-2"></span>
                 </button>
-                <button title="Underline" class="relative px-2 py-0.5 rounded" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('underline') }">
+                <button title="Underline" class="relative px-2 py-0.5 rounded" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'bg-ui-700': editor.isActive('underline') }">
                     <span class="block w-4 font-bold text-lg relative -top-[0.05rem]">U</span>
-                    <span class="absolute rounded left-[25%] bottom-[0.5rem] border-y border-neutral-700 dark:border-ui-300 px-2"></span>
+                    <span class="absolute rounded left-[25%] bottom-[0.5rem] border-y border-ui-300 px-2"></span>
                 </button>
             </div>
             <div class="x items-center p-1 transition-colors">
-                <button title="Blockquote" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('blockquote') }">
+                <button title="Blockquote" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-ui-700': editor.isActive('blockquote') }">
                     <span class="block px-1 scale-[1.8] translate-y-[.42rem]">&#128630;</span>
                 </button>
-                <button title="Bullet Points" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('bulletList') }">
+                <button title="Bullet Points" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'bg-ui-700': editor.isActive('bulletList') }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                     </svg>
                 </button>
-                <button title="Numbered List" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'bg-neutral-300 dark:bg-ui-700': editor.isActive('orderedList') }">
+                <button title="Numbered List" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'bg-ui-700': editor.isActive('orderedList') }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
                     </svg>
@@ -182,7 +182,7 @@ watch(props.modelvalue, (old, current) => {
                         <path fill-rule="evenodd" d="M12.207 2.232a.75.75 0 00.025 1.06l4.146 3.958H6.375a5.375 5.375 0 000 10.75H9.25a.75.75 0 000-1.5H6.375a3.875 3.875 0 010-7.75h10.003l-4.146 3.957a.75.75 0 001.036 1.085l5.5-5.25a.75.75 0 000-1.085l-5.5-5.25a.75.75 0 00-1.06.025z" clip-rule="evenodd" />
                     </svg>
                 </button>
-                <button title="Source" class="px-2 py-1 rounded" v-if="$page.props.auth && $page.props.user.roles.includes('admin')" @click="source = !source" :class="{ 'bg-neutral-300 dark:bg-ui-700': source }">
+                <button title="Source" class="px-2 py-1 rounded" v-if="$page.props.auth && $page.props.user.roles.includes('admin')" @click="source = !source" :class="{ 'bg-ui-700': source }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
                     </svg>
@@ -202,7 +202,7 @@ watch(props.modelvalue, (old, current) => {
                         <div @click.stop class="p-2">
                             <input type="file"/>
                             <span>or</span>
-                            <Input class="bg-neutral-200 dark:!bg-ui-800" type="text" placeholder="Image URL"/>
+                            <Input class="bg-ui-800" type="text" placeholder="Image URL"/>
                         </div>
                     </template>
                 </Dropdown>
@@ -217,15 +217,15 @@ watch(props.modelvalue, (old, current) => {
                     </template>
                     <template #content>
                         <div @click.stop class="y p-2 gap-2">
-                            <Input v-model="addLinkURL" class="bg-neutral-200 dark:!bg-ui-800" type="text" placeholder="URL"/>
-                            <Input v-model="addLinkText" class="bg-neutral-200 dark:!bg-ui-800" type="text" placeholder="Text (optional)"/>
-                            <button @click="addLink" class="dark:bg-ui-700 rounded-md py-1">Insert</button>
+                            <Input v-model="addLinkURL" class="bg-ui-800" type="text" placeholder="URL"/>
+                            <Input v-model="addLinkText" class="bg-ui-800" type="text" placeholder="Text (optional)"/>
+                            <button @click="addLink" class="bg-ui-700 rounded-md py-1">Insert</button>
                         </div>
                     </template>
                 </Dropdown>
             </div>
         </div>
-        <editor-content class="transition-colors w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-neutral !prose-invert" :class="{'p-4 bg-neutral-100 dark:bg-ui-800': editable}" :editor="editor" />
+        <editor-content class="transition-colors w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
         <pre v-if="source" class="p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</pre>
     </div>
 </template>

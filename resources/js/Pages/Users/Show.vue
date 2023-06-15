@@ -12,6 +12,7 @@ import Tabs from "@/Components/Tabs.vue";
 import Username from "@/Components/Username.vue";
 import UserFlag from "@/Components/UserFlag.vue";
 import {comment} from "postcss";
+import Textbox from "@/Components/Textbox.vue";
 
 const props = defineProps({
     profile: Object,
@@ -54,10 +55,10 @@ const tab = ref(0);
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl p-4">
                 <div class="x w-full gap-2" :class="{'justify-end': !$page.props.auth || profile.id === $page.props.user.id, 'justify-between': $page.props.auth && profile.id !== $page.props.user.id}">
                     <div v-if="$page.props.auth && profile.id !== $page.props.user.id" class="x gap-2">
-                        <Link :href="route('inbox.create') + '?to=' + profile.id" class="transition-colors cursor-pointer text-xs rounded bg-neutral-300 dark:bg-ui-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Message</Link>
+                        <Link :href="route('inbox.create') + '?to=' + profile.id" class="transition-colors cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
                     </div>
                     <div class="x gap-2">
-                        <Link :href="route('reports.create') + `?type=user&id=${profile.id}`" class="hidden transition-colors cursor-pointer text-xs rounded bg-neutral-300 dark:bg-ui-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Report</Link>
+                        <Link :href="route('reports.create') + `?type=user&id=${profile.id}`" class="hidden transition-colors cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Report</Link>
                     </div>
                 </div>
                 <div class="x items-end justify-between">
@@ -65,12 +66,12 @@ const tab = ref(0);
                         <div class="x shrink-0 shadow-lg justify-center items-center rounded-full w-40 h-40 -mb-16 z-10 mr-4">
                             <Avatar :user="profile"/>
                         </div>
-                        <div class="leading-none text-neutral-200">
+                        <div class="leading-none text-ui-200">
                             <h1 class="font-bold text-2xl x items-center space-x-1"><UserFlag size="md" :user="profile"/><span>{{ profile.name }}</span></h1>
                             <span class="text-sm">Junior Member</span>
                         </div>
                     </div>
-                    <div class="x text-neutral-200 py-2 rounded-lg dark:bg-ui-900">
+                    <div class="x text-ui-200 py-2 rounded-lg bg-ui-900">
                         <div class="x items-center gap-2 px-4">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z" clip-rule="evenodd" />
@@ -120,7 +121,7 @@ const tab = ref(0);
                 <div class="y pane text-sm !px-2">
                     <div class="x justify-between p-2">
                         <span>Reputation:</span>
-                        <Link :href="route('reputation.show', profile.id)" class="text-black dark:text-white">{{ profile.reputation }}</Link>
+                        <Link :href="route('reputation.show', profile.id)" class="text-white">{{ profile.reputation }}</Link>
                     </div>
                     <div class="x justify-between p-2">
                         <span>Credits:</span>
@@ -128,7 +129,7 @@ const tab = ref(0);
                     </div>
                     <div class="x justify-between p-2">
                         <span>Username Changes:</span>
-                        <Link :href="route('names.show', profile.id)" class="text-black dark:text-white">{{ profile.names_count }}</Link>
+                        <Link :href="route('names.show', profile.id)" class="text-white">{{ profile.names_count }}</Link>
                     </div>
                     <div class="x justify-between p-2">
                         <span>Member Since:</span>
@@ -138,23 +139,23 @@ const tab = ref(0);
             </div>
             <div class="flex space-x-4 md:w-3/4">
                 <div data-tab-name="About" class="y gap-2 w-1/2">
-                    <div class="y pane !px-0 !py-0 divide-y dark:divide-ui-700">
-                        <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
+                    <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
+                        <div class="transition-colors rounded-t-lg bg-ui-800 px-2 py-1">
                             Bio
                         </div>
                         <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
                         <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                     </div>
-                    <div class="y pane !px-0 !py-0 divide-y dark:divide-ui-700">
-                        <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
+                    <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
+                        <div class="transition-colors rounded-t-lg bg-ui-800 px-2 py-1">
                             Signature
                         </div>
                         <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
                         <span v-else class="opacity-50 italic px-4 py-2">This user has no signature</span>
                     </div>
                 </div>
-                <div data-tab-name="Comments" class="y pane !px-0 !py-0 w-1/2 divide-y divide-neutral-100 dark:divide-ui-700">
-                    <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">Profile Comments</div>
+                <div data-tab-name="Comments" class="y pane !px-0 !py-0 w-1/2 divide-y divide-ui-700">
+                    <div class="transition-colors rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
                     <div v-if="comments.data.length === 0" class="px-4 py-2">
                         Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
                     </div>
@@ -171,14 +172,14 @@ const tab = ref(0);
                     <div class="px-2">
                         <Pagination class="py-2" :list="comments"/>
                         <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
-                            <textarea v-model="newComment.body" style="min-height: 4rem !important;" class="resize-none !min-h-16 resize-y h-fit w-full placeholder-neutral-400 dark:placeholder-ui-500 pane dark:bg-ui-800 border-none" placeholder="Comment..."></textarea>
+                            <Textbox v-model="newComment.body" placeholder="Comment..." style="min-height: 4rem !important;"/>
                             <Button @click="postComment" class="w-fit" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : 'Submit Comment' }}</Button>
                         </div>
                     </div>
                 </div>
                 <div class="!hidden" data-tab-name="Activity">
-                    <div class="y pane !px-0 !py-0 divide-y divide-neutral-100 dark:divide-ui-700">
-                        <div class="transition-colors rounded-t bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
+                    <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
+                        <div class="transition-colors rounded-t bg-ui-800 px-2 py-1">
                             Recent Reviews
                         </div>
                         <div v-if="reviews.data.length === 0" class="px-4 py-2">

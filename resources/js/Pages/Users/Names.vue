@@ -21,10 +21,10 @@ const props = defineProps({
             <div class="flex justify-between items-center">
                 <h2 class="font-bold text-2xl">{{ profile.name }}'s Username History</h2>
             </div>
-            <div v-if="names.length > 0" class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
+            <div v-if="names.length > 0" class="y pane !px-0 !py-0 divide-y divide-ui-700">
                 <div v-for="change in names" class="block justify-between flex items-center px-4 py-2">
                     <span>From {{ change.from }} to {{ change.to }}</span>
-                    <span class="text-sm text-neutral-400 dark:text-neutral-600">{{ new Date(change.created_at).toLocaleString([], {day: '2-digit', month: '2-digit', year:'2-digit', hour: '2-digit', minute: '2-digit'}) }}</span>
+                    <span class="text-sm text-ui-600">{{ new Date(change.created_at).toLocaleString([], {day: '2-digit', month: '2-digit', year:'2-digit', hour: '2-digit', minute: '2-digit'}) }}</span>
                 </div>
             </div>
             <div v-else>No name changes have been logged</div>

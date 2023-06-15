@@ -6,6 +6,7 @@ import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import {ref} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
+import Textbox from "@/Components/Textbox.vue";
 
 const props = defineProps({
     recipient: Object
@@ -58,14 +59,14 @@ const searchName = async () => {
                         <template #content>
                             <ul>
                                 <li class="px-2 py-1 opacity-75 italic" v-if="users.length === 0">No Results</li>
-                                <li class="px-2 py-1 hover:bg-neutral-400 dark:hover:bg-neutral-700" v-for="user in users" @click="message.recipient_id = user.id; username = user.name">{{ user.name }}</li>
+                                <li class="px-2 py-1 hover:bg-ui-700" v-for="user in users" @click="message.recipient_id = user.id; username = user.name">{{ user.name }}</li>
                             </ul>
                         </template>
                     </Dropdown>
                 </label>
                 <label class="y">
                     <span class="my-1">Message</span>
-                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full pane placeholder-neutral-400 dark:placeholder-neutral-600 border-none"></textarea>
+                    <Textbox v-model="message.body" placeholder="Required"/>
                 </label>
                 <ul class="mt-3 list-disc list-inside text-sm text-red-600">
                     <li v-for="(error, key) in $page.props.errors.default" :key="key">

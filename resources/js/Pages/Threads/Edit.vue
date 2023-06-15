@@ -34,7 +34,7 @@ const submit = () => {
                 </li>
             </ul>
             <Input class="p-2" type="text" v-model="form.title" placeholder="Title (Required)"/>
-            <p>Trying to edit your post? Click the <span class="p-1.5 uppercase tracking-widest select-none text-xs bg-neutral-200 dark:bg-neutral-800 rounded">Edit</span> button on the post itself.</p>
+            <p>Trying to edit your post? Click the <span class="p-1.5 uppercase tracking-widest select-none text-xs bg-ui-800 rounded">Edit</span> button on the post itself.</p>
             <div class="x justify-center gap-2">
                 <Button :disabled="form.processing" @click="submit">Post Thread</Button>
             </div>

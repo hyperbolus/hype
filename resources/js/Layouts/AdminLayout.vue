@@ -15,7 +15,7 @@ const props = defineProps({
         </template>
         <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
             <div class="flex flex-col space-y-4 md:w-1/4">
-                <div class="y pane !px-0 !py-0 divide-y divide-neutral-100/50 dark:divide-neutral-700/50">
+                <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
                     <Link :href="route('system.home')" class="p-2">Home</Link>
                     <Link :href="route('system.settings')" class="p-2">Settings</Link>
                     <Link :href="route('system.users')" class="p-2">Users</Link>

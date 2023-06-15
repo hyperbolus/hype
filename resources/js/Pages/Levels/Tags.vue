@@ -86,15 +86,15 @@ onMounted(() => {
             <h2 class="font-bold text-2xl">Info</h2>
             <form v-if="$page.props.auth" @submit.prevent="addTag" class="y pane space-y-2">
                 <div>
-                    <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Tag</span>
+                    <span class="block font-medium text-sm text-ui-300">Tag</span>
                     <Input @click="dropdown.open = true" @input="searchTag" v-model="tagname" class="mt-1" type="text" placeholder="Tag"/>
                     <Dropdown align="left" ref="dropdown">
                         <template #content>
                             <ul>
                                 <li class="px-4 py-1" v-if="tags.length === 0">No Results</li>
                                 <template v-else>
-                                    <li class="text-sm italic bg-neutral-200 dark:bg-ui-800 px-2 border-b border-neutral-300 dark:border-ui-700">You must click to select</li>
-                                    <li class="px-2 py-1 dark:hover:bg-ui-700 cursor-pointer" v-for="tag in tags" @click="selectTag(tag)">{{ tag.name }}</li>
+                                    <li class="text-sm italic bg-ui-800 px-2 border-b border-ui-700">You must click to select</li>
+                                    <li class="px-2 py-1 hover:bg-ui-700 cursor-pointer" v-for="tag in tags" @click="selectTag(tag)">{{ tag.name }}</li>
                                 </template>
                             </ul>
                         </template>

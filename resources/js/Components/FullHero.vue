@@ -3,25 +3,25 @@
         <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl p-4">
             <div class="x w-full gap-2 justify-between">
                 <div class="x gap-2">
-                    <span onclick="alert('wip')" class="cursor-pointer text-xs rounded bg-neutral-300 dark:bg-neutral-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Report</span>
+                    <span onclick="alert('wip')" class="cursor-pointer text-xs rounded bg-ui-800/75 px-2 pb-1 pt-1.5 uppercase">Report</span>
                 </div>
                 <div class="x gap-2">
-                    <span onclick="alert('wip')" class="cursor-pointer text-xs rounded bg-neutral-300 dark:bg-neutral-800 !bg-opacity-75 px-2 pb-1 pt-1.5 uppercase">Report</span>
+                    <span onclick="alert('wip')" class="cursor-pointer text-xs rounded bg-ui-800/75 px-2 pb-1 pt-1.5 uppercase">Report</span>
                 </div>
             </div>
             <div class="x items-end justify-between">
                 <div class="x items-end">
                     <div class="x shadow-lg justify-center items-center rounded-full w-40 h-40 -mb-16 z-10 mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="rounded-full p-6 text-neutral-300 dark:text-neutral-500 bg-neutral-800 dark:bg-neutral-200 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="rounded-full p-6 text-ui-500 bg-ui-200 w-full">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
                         </svg>
                     </div>
-                    <div class="leading-none text-neutral-200">
+                    <div class="leading-none text-ui-200">
                         <h1 class="font-bold text-2xl">User</h1>
                         <span class="text-sm">Junior Member</span>
                     </div>
                 </div>
-                <div class="x text-neutral-200">
+                <div class="x text-ui-200">
                     <div class="x items-center gap-2 px-4">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                             <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z" clip-rule="evenodd" />
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="x justify-center bg-neutral-200 dark:bg-neutral-900 w-full">
+    <div class="x justify-center bg-ui-900 w-full">
         <div class="x justify-between lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
             <div class="mt-12 sm:mt-0 sm:ml-44 z-10">
                 <span class="text-sm font-bold text-green-500 mr-1 uppercase">ONLINE</span> Last seen idk

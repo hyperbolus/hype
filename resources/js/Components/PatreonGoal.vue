@@ -7,12 +7,12 @@ const patronsGoal = 20;
 <template>
     <div class="y text-sm rounded-lg overflow-clip shadow">
         <template v-if="!goal.error">
-            <div class="x transition-colors justify-between px-2 py-2 bg-white dark:bg-ui-900">
-                <a class="font-bold px-2 text-neutral-100 rounded-full" style="background-color:#FF424D;" href="https://patreon.com/hyperbolus" target="_blank">Patreon</a>
+            <div class="x transition-colors justify-between px-2 py-2 bg-ui-900">
+                <a class="font-bold px-2 text-ui-100 rounded-full" style="background-color:#FF424D;" href="https://patreon.com/hyperbolus" target="_blank">Patreon</a>
                 <span>Monthly Goal</span>
             </div>
-            <div class="px-2 transition-colors py-1 bg-white dark:bg-ui-900">
-                <div class="transition-colors bg-white px-1 dark:bg-ui-800 text-center font-bold text-lg py-1 rounded-full w-full">
+            <div class="px-2 transition-colors py-1 bg-ui-900">
+                <div class="transition-colors bg-ui-800 text-center font-bold text-lg py-1 rounded-full w-full">
                     <div :class="goal.patron_count >= patronsGoal ? 'bg-amber-50 shadow-[0_0px_6px_4px_rgba(200,120,40,0.75)]' : 'bg-cyan-400'" class="text-center font-bold text-lg py-1 px-1 rounded-full" :style="`width: ${Math.min(goal.patron_count / patronsGoal * 100, 100)}%;`"></div>
                 </div>
                 <div class="px-2 py-1 x text-xs justify-between">
@@ -21,6 +21,6 @@ const patronsGoal = 20;
                 </div>
             </div>
         </template>
-        <p v-else class="px-2 py-1 transition-colors x bg-white dark:bg-ui-900 text-red-500">{{ goal.error }}</p>
+        <p v-else class="px-2 py-1 transition-colors x bg-ui-900 text-red-500">{{ goal.error }}</p>
     </div>
 </template>

@@ -23,9 +23,9 @@ const props = defineProps({
             <div class="flex flex-col space-y-2 md:w-3/4">
                 <h2 class="font-bold text-2xl">{{ profile.name }}'s Reputation</h2>
                 <Pagination :list="reps"/>
-                <div class="pane !px-0 !py-0 divide-y dark:divide-neutral-700">
+                <div class="pane !px-0 !py-0 divide-y divide-ui-700">
                     <div v-for="rep in reps.data" class="x items-center py-4 px-4">
-                        <div class="x items-center font-bold p-2 w-8 h-8 rounded mr-4 bg-neutral-200 dark:bg-neutral-800" :class="{'!bg-red-500': rep.reputation < 0, '!bg-green-500': rep.reputation > 0, '!text-white': rep.reputation !== 0}">
+                        <div class="x items-center font-bold p-2 w-8 h-8 rounded mr-4 bg-ui-800" :class="{'!bg-red-500': rep.reputation < 0, '!bg-green-500': rep.reputation > 0, '!text-white': rep.reputation !== 0}">
                             <span class="text-center w-full">{{ rep.reputation > 0 ? '+' : '' }}{{ rep.reputation }}</span>
                         </div>
                         <div class="y">

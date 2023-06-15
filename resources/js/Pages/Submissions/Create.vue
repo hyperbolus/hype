@@ -60,10 +60,10 @@ const searchID = async () => {
                     <p>{{ searchResult.description }}</p>
                 </template>
                 <span v-else-if="validID === false" class="text-red-500">Invalid ID!</span>
-                <div @click="searchID" class="rounded w-fit cursor-pointer border border-neutral-700 px-2 py-1 bg-neutral-800">Check</div>
+                <div @click="searchID" class="rounded w-fit cursor-pointer border border-ui-700 px-2 py-1 bg-neutral-800">Check</div>
             </div>
             <div class="flex justify-center gap-2">
-                <button :disabled="form.processing" @click="submit" class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-neutral-800 border border-neutral-600">Submit Level</button>
+                <button :disabled="form.processing" @click="submit" class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-ui-800 border border-neutral-600">Submit Level</button>
             </div>
         </div>
     </app-layout>

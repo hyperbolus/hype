@@ -41,7 +41,7 @@ defineProps({
                     <Avatar class="w-8" :user="thread.author"/>
                     <div class="y">
                         <Link :href="route('threads.show', thread)" class="font-bold text-lg">{{ thread.title }}</Link>
-                        <span class="text-xs text-neutral-500 dark:text-ui-400">By <Username :user="thread.author"/>, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}</span>
+                        <span class="text-xs text-ui-400">By <Username :user="thread.author"/>, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}</span>
                     </div>
                 </div>
                 <div class="x items-center gap-4">

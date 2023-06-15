@@ -52,7 +52,7 @@ const tilt = (e) => {
         <img v-if="image" class="rounded" :class="classes" :alt="alt" :src="image"/>
         <slot/>
         <teleport to="#body">
-            <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer items-center justify-center z-[100] fixed inset-0 bg-neutral-900/50 dark:bg-ui-1000/50" :class="open ? 'flex' : 'hidden'">
+            <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer items-center justify-center z-[100] fixed inset-0 bg-ui-1000/50" :class="open ? 'flex' : 'hidden'">
                 <transition
                     enter-active-class="transition ease-out duration-200"
                     enter-from-class="transform opacity-0 scale-50"

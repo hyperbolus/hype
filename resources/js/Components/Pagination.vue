@@ -29,7 +29,7 @@ const promptPage = () => {
                 </Link>
             </template>
             <template v-for="(link, index) in list.links.slice(1, -1)">
-                <Link v-if="link.label !== '...'" :href="link.url" :key="index" class="px-2 bg-opacity-50 dark:bg-opacity-50 transition-colors" :class="{'bg-neutral-300 dark:bg-ui-700': link.active}">
+                <Link v-if="link.label !== '...'" :href="link.url" :key="index" class="px-2 bg-opacity-50 transition-colors" :class="{'bg-ui-700': link.active}">
                     {{ link.label }}
                 </Link>
                 <span @click="promptPage" v-else>{{ link.label }}</span>

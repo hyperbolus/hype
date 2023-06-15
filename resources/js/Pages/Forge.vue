@@ -17,7 +17,7 @@ import AppLayout from "@/Layouts/Dash.vue";
         </div>
         <div class="y space-y-2 md:w-1/4">
             <h2 class="font-bold text-2xl">More</h2>
-            <div class="rounded bg-[#5865F2] px-4 py-2 text-neutral-50">
+            <div class="rounded bg-[#5865F2] px-4 py-2 text-ui-50">
                 Join us on Discord
             </div>
             <StatsPanel/>

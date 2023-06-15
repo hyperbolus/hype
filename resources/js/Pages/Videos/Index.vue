@@ -37,7 +37,7 @@ const submit = () => {
         <div class="flex flex-col space-y-4 md:w-3/4">
             <h2 class="font-bold text-2xl">Videos</h2>
             <Pagination :list="videos"/>
-            <div v-if="videos.total === 0" class="pane text-center italic text-neutral-400 dark:text-neutral-500">No Videos ;(</div>
+            <div v-if="videos.total === 0" class="pane text-center italic text-ui-500">No Videos ;(</div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 <VideoLightbox v-for="video in videos.data" :video="video" class="w-full"/>
             </div>

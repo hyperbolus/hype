@@ -27,7 +27,7 @@ const props = defineProps({
         </div>
         <div class="y space-y-4 md:w-1/4">
             <h2 class="font-bold text-2xl mx-2">More</h2>
-            <Link :href="route('playlists.create')" class="rounded-lg text-neutral-100 px-4 py-2 shadow border border-neutral-300 dark:border-transparent bg-cyan-400 bg-ui-700">
+            <Link :href="route('playlists.create')" class="rounded-lg text-ui-100 px-4 py-2 shadow bg-ui-700">
                 Create a Playlist
             </Link>
             <StatsPanel/>

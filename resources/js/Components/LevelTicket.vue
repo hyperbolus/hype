@@ -44,7 +44,7 @@ const face = () => {
                     <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
                 </svg>
             </div>
-            <div class="pane overflow-hidden relative hover:shadow-lg transition-shadow text-neutral-700 dark:text-ui-300 delay-0">
+            <div class="pane overflow-hidden relative hover:shadow-lg transition-shadow text-ui-300 delay-0">
                 <div class="y md:flex-row relative z-10 items-center md:space-x-4">
                     <div class="x items-center grow">
                         <img class="w-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
@@ -53,7 +53,7 @@ const face = () => {
                             <p class="text-lg">{{ level.creator }}</p>
                         </div>
                     </div>
-                    <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:white_0_0_10px] dark:[text-shadow:black_0_0_10px]">
+                    <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:black_0_0_10px]">
                         <div class="y items-center">
                             <span class="text-2xl font-bold">{{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
                             <span class="text-xs">DIFFICULTY</span>

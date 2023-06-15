@@ -34,7 +34,7 @@ const impersonate = (id) => {
 <template>
     <admin-layout title="Users">
         <Pagination :list="users"/>
-        <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
+        <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
             <div v-for="user in users.data" class="x justify-between px-2 py-1">
                 <div class="x gap-2">
                     <span class="opacity-50">{{ user.id }}</span>

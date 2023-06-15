@@ -17,8 +17,8 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
             <div class="space-y-2">
                 <h2 class="mx-2 font-bold text-2xl">Home</h2>
                 <div class="x items-center !hidden">
-                    <div class="shadow z-20 bg-gradient-to-t from-black to-neutral-900 rounded-l px-4 py-1 w-fit">Message</div>
-                    <div class="z-10 bg-gradient-to-t from-black to-neutral-900 -skew-x-[45deg] border-r-[2px] border-r-red-500 w-12 py-1 -ml-4 h-full bg-black">&#8203;</div>
+                    <div class="shadow z-20 bg-gradient-to-t from-black to-ui-900 rounded-l px-4 py-1 w-fit">Message</div>
+                    <div class="z-10 bg-gradient-to-t from-black to-ui-900 -skew-x-[45deg] border-r-[2px] border-r-red-500 w-12 py-1 -ml-4 h-full bg-black">&#8203;</div>
                     <div class="shadow rounded -skew-x-[45deg] border-r-[8px] border-r-red-500 w-8 py-1 -ml-4 h-full bg-black">&#8203;</div>
                 </div>
                 <details class="pane" open>
@@ -34,7 +34,7 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     <div class="x space-x-4 h-[50vh]">
                         <div class="y space-y-2 w-1/3 overflow-y-auto">
                             <h2 class="font-bold">Planned</h2>
-                            <div class="y rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="y rounded-lg bg-ui-800 px-4 py-2">
                                 <p>GD Profiles</p>
                                 <label>
                                     <input type="checkbox" class="rounded" @click.prevent/> Pages
@@ -49,10 +49,10 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                         </div>
                         <div class="y space-y-2 w-1/3 overflow-y-auto">
                             <h2 class="font-bold">In-Progress</h2>
-                            <div class="rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="rounded-lg bg-ui-800 px-4 py-2">
                                 <p>Forums <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
                             </div>
-                            <div class="y rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="y rounded-lg bg-ui-800 px-4 py-2">
                                 <p>Level Database <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
                                 <label>
                                     <input type="checkbox" class="rounded" @click.prevent checked/> Reviews
@@ -67,10 +67,10 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                                     <input type="checkbox" class="rounded" @click.prevent/> Crowdsourced Replays
                                 </label>
                             </div>
-                            <div class="rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="rounded-lg bg-ui-800 px-4 py-2">
                                 <p>Profiles <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
                             </div>
-                            <div class="y rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="y rounded-lg bg-ui-800 px-4 py-2">
                                 <p>Social Features <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
                                 <label>
                                     <input type="checkbox" class="rounded" @click.prevent checked/> Messages
@@ -82,13 +82,13 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                                     <input type="checkbox" class="rounded" @click.prevent/> Earned Credits / XP
                                 </label>
                             </div>
-                            <div class="rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="rounded-lg bg-ui-800 px-4 py-2">
                                 <p>Mods & texture pack marketplace</p>
                             </div>
                         </div>
                         <div class="y space-y-2 w-1/3 overflow-y-auto">
                             <h2 class="font-bold">Finished</h2>
-                            <div class="rounded-lg dark:bg-ui-800 px-4 py-2">
+                            <div class="rounded-lg bg-ui-800 px-4 py-2">
                                 <p class="opacity-50">Nothing... ;v;</p>
                             </div>
                         </div>
@@ -102,12 +102,12 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                 </div>
                 <div class="hidden glass pt-2 overflow-clip">
                     <h2 class="font-bold text-xl mx-4 mb-2">Shoutbox</h2>
-                    <div class="y transition-colors bg-white dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60 h-64 overflow-y-auto text-sm divide-y divide-neutral-200 dark:divide-neutral-700">
+                    <div class="y transition-colors bg-ui-900 h-64 overflow-y-auto text-sm divide-y divide-ui-700">
                         <span class="px-2 py-1">Chatter 1: hello!</span>
                         <span class="px-2 py-1 transition-colors">Chatter 2: hi!</span>
                         <span class="px-2 py-1 transition-colors">Chatter 192: hey!</span>
                     </div>
-                    <input class="w-full transition-colors bg-neutral-200 dark:bg-neutral-900 outline-0 border-none focus:ring-0 placeholder-neutral-600 dark:placeholder-neutral-600 " placeholder="Type your message..." type="text"/>
+                    <input class="w-full transition-colors bg-ui-900 outline-0 border-none focus:ring-0 placeholder-ui-600 " placeholder="Type your message..." type="text"/>
                 </div>
                 <details class="pane">
                     <summary class="font-bold text-xl">About</summary>

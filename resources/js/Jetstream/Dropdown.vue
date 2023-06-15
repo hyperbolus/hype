@@ -70,7 +70,7 @@ const alignmentClasses = computed(() => {
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95">
             <div v-show="open" class="absolute z-50 rounded-md shadow-lg" :class="[widthClass, alignmentClasses, containerClasses]" style="display: none;" @click="open = false">
-                <div class="dropdown rounded-md transition-colors overflow-hidden bg-neutral-100 dark:bg-ui-900 border border-neutral-300 dark:border-ui-700" :class="contentClasses">
+                <div class="dropdown rounded-md transition-colors overflow-hidden bg-ui-900 border border-ui-700" :class="contentClasses">
                     <slot name="content" />
                 </div>
             </div>
@@ -79,6 +79,6 @@ const alignmentClasses = computed(() => {
 </template>
 <style scoped>
 .dropdown > * + * {
-    @apply border-t border-t-neutral-300 dark:border-t-neutral-700;
+    @apply border-t border-t-ui-700;
 }
 </style>

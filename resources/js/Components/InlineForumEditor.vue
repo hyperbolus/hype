@@ -27,7 +27,7 @@ const open = ref(false)
             </svg>
         </div>
     </div>
-    <div v-show="open" class="x bg-neutral-900 p-2">
+    <div v-show="open" class="x bg-ui-900 p-2">
         ddddd
     </div>
 </template>

@@ -44,13 +44,13 @@ const sender = (obj) => {
         <div class="y space-y-4 w-full">
             <h2 class="mx-2 font-bold text-2xl">Conversation with {{ recipient.name }}</h2>
             <Pagination :list="messages"/>
-            <div class="pane !px-0 !py-0 divide-y dark:divide-ui-700">
+            <div class="pane !px-0 !py-0 divide-y divide-ui-700">
                 <div class="x items-center px-4 py-2" v-for="message in messages.data">
                     <Avatar class="w-8 mr-4" :user="sender(message)"/>
                     <div class="y w-full">
                         <div class="x justify-between text-sm">
                             <Username :user="sender(message)"/>
-                            <span class="text-neutral-400 dark:text-ui-600"><Timestamp :time="message.created_at"/></span>
+                            <span class="text-ui-400 text-ui-600"><Timestamp :time="message.created_at"/></span>
                         </div>
                         <p>{{ message.body }}</p>
                     </div>
@@ -59,7 +59,7 @@ const sender = (obj) => {
             <form @submit.prevent="sendMessage" class="y pane space-y-2 !pb-4">
                 <label class="y">
                     <span class="my-1">Message</span>
-                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full placeholder-neutral-400 dark:placeholder-ui-600 pane border-none"></textarea>
+                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full placeholder-ui-600 pane border-none"></textarea>
                 </label>
                 <Button class="w-fit">Send Message</Button>
             </form>

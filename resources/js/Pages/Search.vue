@@ -90,7 +90,7 @@ const search = () => {
                         <span class="text-sm">Search Type</span>
                         <Dropdown align="left" class="w-full" container-classes="mt-0" content-classes="select-none rounded-t-none border-t-0 -mt-1" width="full">
                             <template #trigger>
-                                <div class="flex justify-between border border-neutral-200 dark:border-neutral-700 items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                <div class="flex justify-between border border-ui-700 items-center space-x-2 bg-ui-900 px-2 py-1 rounded text-sm cursor-pointer">
                                     <span class="capitalize select-none">{{ searchTypeNames[searchType] }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -98,7 +98,7 @@ const search = () => {
                                 </div>
                             </template>
                             <template #content>
-                                <div v-for="(option, index) in searchTypeNames" @click="setSearchType(index)" :key="index" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-800">{{ searchTypeNames[index] }}</div>
+                                <div v-for="(option, index) in searchTypeNames" @click="setSearchType(index)" :key="index" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800">{{ searchTypeNames[index] }}</div>
                             </template>
                         </Dropdown>
                     </div>
@@ -106,7 +106,7 @@ const search = () => {
                         <span class="text-sm">Sort By</span>
                         <Dropdown align="left" class="w-full" :container-classes="['mt-0']" :content-classes="['select-none', 'rounded-t-none', 'border-t-0', '-mt-1']" width="full">
                             <template #trigger>
-                                <div class="flex justify-between border border-neutral-200 dark:border-neutral-700 items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                <div class="flex justify-between border border-ui-700 items-center space-x-2 bg-ui-900 px-2 py-1 rounded text-sm cursor-pointer">
                                     <span class="capitalize select-none">{{ sortByNames[searchType][sortBy] }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -114,7 +114,7 @@ const search = () => {
                                 </div>
                             </template>
                             <template #content>
-                                <div v-for="(option, index) in sortByNames[searchType]" @click="setSortBy(index)" :key="index" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-800">{{ sortByNames[searchType][index] }}</div>
+                                <div v-for="(option, index) in sortByNames[searchType]" @click="setSortBy(index)" :key="index" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800">{{ sortByNames[searchType][index] }}</div>
                             </template>
                         </Dropdown>
                     </div>
@@ -122,7 +122,7 @@ const search = () => {
                         <span class="text-sm">Sort Direction</span>
                         <Dropdown align="left" class="w-full" container-classes="mt-0" content-classes="select-none rounded-t-none border-t-0 -mt-1" width="full">
                             <template #trigger>
-                                <div class="flex justify-between border border-neutral-200 dark:border-neutral-700 items-center space-x-2 bg-neutral-900 px-2 py-1 rounded text-sm cursor-pointer">
+                                <div class="flex justify-between border border-ui-700 items-center space-x-2 bg-ui-900 px-2 py-1 rounded text-sm cursor-pointer">
                                     <span class="capitalize select-none">{{ sortDirNames[sortDir] }}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -130,7 +130,7 @@ const search = () => {
                                 </div>
                             </template>
                             <template #content>
-                                <div v-for="(option, index) in sortDirNames" @click="setSortDir(index)" :key="index" class="px-2 py-1 text-sm cursor-pointer hover:bg-neutral-800">{{ sortDirNames[index] }}</div>
+                                <div v-for="(option, index) in sortDirNames" @click="setSortDir(index)" :key="index" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800">{{ sortDirNames[index] }}</div>
                             </template>
                         </Dropdown>
                     </div>

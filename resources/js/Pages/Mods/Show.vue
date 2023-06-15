@@ -73,18 +73,18 @@ const post = ref({
                         <span class="text-sm">{{ mod.blurb }}</span>
                     </div>
                 </div>
-                <div class="y cursor-pointer items-center leading-none rounded h-fit bg-white/60 dark:bg-neutral-900/60 px-3 py-1">
+                <div class="y cursor-pointer items-center leading-none rounded h-fit bg-ui-900 px-3 py-1">
                     <span class="font-bold text-sm">Download Now</span>
                     <span class="text-xs -mt-1">12.83 KB .geode</span>
                 </div>
             </div>
             <div>
                 <div class="x space-x-1 px-4">
-                    <div class="bg-white/60 dark:bg-neutral-900/60 px-2 py-1 rounded-t text-sm">Content</div>
-                    <div class="bg-neutral-100/60 dark:bg-neutral-800/60 px-2 py-1 rounded-t text-sm">Files</div>
-                    <div class="bg-neutral-100/60 dark:bg-neutral-800/60 px-2 py-1 rounded-t text-sm">Updates (4)</div>
-                    <div class="bg-neutral-100/60 dark:bg-neutral-800/60 px-2 py-1 rounded-t text-sm">Reviews (70)</div>
-                    <div class="bg-neutral-100/60 dark:bg-neutral-800/60 px-2 py-1 rounded-t text-sm">Discussion</div>
+                    <div class="bg-ui-900 px-2 py-1 rounded-t text-sm">Content</div>
+                    <div class="bg-ui-800 px-2 py-1 rounded-t text-sm">Files</div>
+                    <div class="bg-ui-800 px-2 py-1 rounded-t text-sm">Updates (4)</div>
+                    <div class="bg-ui-800 px-2 py-1 rounded-t text-sm">Reviews (70)</div>
+                    <div class="bg-ui-800 px-2 py-1 rounded-t text-sm">Discussion</div>
                 </div>
                 <Post class="border-none" :postbit="false" :user="post.user" :post="post"/>
             </div>

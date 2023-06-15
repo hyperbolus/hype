@@ -43,7 +43,7 @@ const setBG = () => {
 </script>
 <template>
     <!-- TODO: Figure out the nesting so scrollbar is inside and colored and overscroll has the header/footer colors extend as the bg color -->
-    <div ref="base" class="y relative transition-colors items-center text-neutral-700 dark:text-ui-300 bg-neutral-300 dark:bg-ui-1000 min-h-screen grow overflow-x-hidden">
+    <div ref="base" class="y relative transition-colors items-center text-ui-300 bg-ui-1000 min-h-screen grow overflow-x-hidden">
         <Head><title>{{ title }}</title></Head>
         <NetworkNav/>
         <SiteNav/>
@@ -51,12 +51,8 @@ const setBG = () => {
             <slot name="breadcrumbs"/>
         </Breadcrumbs>
         <div class="absolute z-0 h-full w-full bg-rainbow" style="mask-size: 8rem;" :style="`mask-image: url('${patternBG}?');`"></div>
-        <div v-if="false" class="absolute overflow-hidden z-0 top-0 w-full h-full">
-            <div v-if="false" class="scale-125 rotate-12 absolute z-10 h-full w-full mix-blend-lighten dark:mix-blend-darken dark:invert bg-white bg-cover" style="background-size: 5rem; background-position: center 20px" :style="`background-image: url(${patternBG});`"></div>
-            <img v-if="false" class="absolute z-20 w-full m-auto" style="mask:linear-gradient(white 75%, transparent);" :src="bgsrc" alt="Featured Background"/>
-        </div>
         <div class="y relative grow items-center w-full">
-            <div v-if="decorations" class="flex flex-col flex-grow transition-colors shadow-xl backdrop-blur-lg dark:backdrop-blur-0 bg-neutral-200 dark:bg-ui-950 dark:border dark:border-ui-900 bg-opacity-75 md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4 my-4 rounded-lg">
+            <div v-if="decorations" class="flex flex-col flex-grow transition-colors shadow-xl bg-ui-950 border border-ui-900/75 md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4 my-4 rounded-lg">
                 <slot/>
             </div>
             <slot v-else/>

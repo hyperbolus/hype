@@ -71,12 +71,12 @@ resumable.value.on('fileProgress', function(file, message){
 })
 </script>
 <template>
-    <div class="pane !p-0 border border-neutral-300 dark:border-ui-700 transition-colors">
+    <div class="pane !p-0 border border-ui-700 transition-colors">
         <TipTap v-model="value.body"/>
 <!--    <textarea v-else v-model="value.body" class="resize-none resize-y !rounded-none w-full bg-neutral-100 dark:bg-neutral-900"></textarea>-->
-        <div class="!hidden y gap-2 p-4 bg-neutral-100 dark:bg-ui-800 transition-colors">
-            <span class="tracking-widest uppercase text-sm dark:text-ui-500">Attachments:</span>
-            <div ref="dropbox" class="y cursor-pointer place-items-center gap-2 p-4 rounded border-2 transition-colors dark:text-ui-500 border-dashed border-neutral-300 dark:border-ui-700 bg-neutral-200 dark:bg-ui-900">
+        <div class="!hidden y gap-2 p-4 bg-ui-800 transition-colors">
+            <span class="tracking-widest uppercase text-sm text-ui-500">Attachments:</span>
+            <div ref="dropbox" class="y cursor-pointer place-items-center gap-2 p-4 rounded border-2 transition-colors text-ui-500 border-dashed border-ui-700 bg-ui-900">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                 </svg>
@@ -101,14 +101,14 @@ resumable.value.on('fileProgress', function(file, message){
                     </div>
                     <div class="x items-center gap-2">
                         <span class="text-xs">{{ Math.round(file.progress * 100) }}%</span>
-                        <div class="rounded-full overflow-clip border border-neutral-300 dark:border-ui-700 w-64">
+                        <div class="rounded-full overflow-clip border border-ui-700 w-64">
                             <div class="text-xs py-1 transition-[width] duration-500" :class="file.progress === 1 ? 'bg-green-500' : 'bg-blue-500'" :style="`width: ${file.progress * 100}%;`"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex p-2 items-center space-x-2 transition-colors border-t border-neutral-300 dark:border-ui-700">
+        <div class="flex p-2 items-center space-x-2 transition-colors border-t border-ui-700">
             <Tooltip :message="!$page.props.user.signature ? 'You have not specified a post signature in your profile settings' : ''">
                 <div class="flex items-center space-x-2">
                     <Toggle :disabled="!$page.props.user.signature" v-model="value.signature"/>

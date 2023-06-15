@@ -19,7 +19,7 @@ import StatsPanel from "@/Components/StatsPanel.vue";
             </div>
             <div class="flex flex-col space-y-4 md:w-1/4">
                 <h2 class="font-bold text-2xl mx-2">More</h2>
-                <Link :href="route('contests.create')" class="rounded bg-cyan-400 font-bold px-4 py-2 text-neutral-50">
+                <Link :href="route('contests.create')" class="rounded bg-cyan-400 font-bold px-4 py-2 text-ui-50">
                     Create a Contest
                 </Link>
                 <StatsPanel/>

@@ -48,11 +48,11 @@ const changePassword = () => {
         <form @submit.prevent="changeEmail" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Change Email</h2>
             <div>
-                <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Email</span>
+                <span class="block font-medium text-sm text-ui-300">Email</span>
                 <Input v-model="email.email" class="mt-1" type="email" placeholder="Email"/>
             </div>
             <div>
-                <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Confirm Password</span>
+                <span class="block font-medium text-sm text-ui-300">Confirm Password</span>
                 <Input v-model="email.password" class="mt-1" type="password" placeholder="Confirm Password"/>
             </div>
             <ul class="mt-3 list-disc list-inside text-sm text-red-600">
@@ -65,15 +65,15 @@ const changePassword = () => {
         <form @submit.prevent="changePassword" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Change Password</h2>
             <div>
-                <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Current Password</span>
+                <span class="block font-medium text-sm text-ui-300">Current Password</span>
                 <Input v-model="password.current_password" class="mt-1" type="password" placeholder="Current Password"/>
             </div>
             <div>
-                <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">New Password</span>
+                <span class="block font-medium text-sm text-ui-300">New Password</span>
                 <Input v-model="password.new_password" class="mt-1" type="password" placeholder="New Password"/>
             </div>
             <div>
-                <span class="block font-medium text-sm text-neutral-500 dark:text-neutral-300">Confirm New Password</span>
+                <span class="block font-medium text-sm text-ui-300">Confirm New Password</span>
                 <Input v-model="password.new_password_confirmation" class="mt-1" type="password" placeholder="Confirm New Password"/>
             </div>
             <ul class="mt-3 list-disc list-inside text-sm text-red-600">

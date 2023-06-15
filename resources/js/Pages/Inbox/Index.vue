@@ -26,7 +26,7 @@ const other = (obj) => {
                 <Link :href="route('inbox.create')" class="button">Start Conversation</Link>
             </div>
             <Pagination :list="conversations"/>
-            <div v-if="conversations.total === 0" class="pane text-center italic text-neutral-400 dark:text-neutral-500">damn nobody wanna talk to u fr (0 messages)</div>
+            <div v-if="conversations.total === 0" class="pane text-center italic text-ui-500">damn nobody wanna talk to u fr (0 messages)</div>
             <div class="y space-y-2">
                 <div class="x pane justify-between items-center px-4 py-2" v-for="conversation in conversations.data">
                     <div class="x items-center space-x-2">

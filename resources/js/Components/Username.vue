@@ -12,5 +12,5 @@ const props = defineProps({
 })
 </script>
 <template>
-    <Link :href="href ?? route('users.show', user.id)" class="transition-colors text-neutral-900 dark:text-ui-200 break-all">{{ user.name }}</Link>
+    <Link :href="href ?? route('users.show', user.id)" class="transition-colors text-ui-200 break-all">{{ user.name }}</Link>
 </template>

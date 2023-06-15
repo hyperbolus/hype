@@ -5,6 +5,7 @@ import Button from "@/Jetstream/Button.vue";
 import {useForm} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import Pagination from "@/Components/Pagination.vue";
+import Textbox from "@/Components/Textbox.vue";
 
 const props = defineProps({
     settings: Object
@@ -37,7 +38,7 @@ const prettify = () => {
 <template>
     <admin-layout title="Users">
         <Pagination :list="settings"/>
-        <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
+        <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
             <div v-for="setting in settings.data" class="x justify-between px-2 py-1">
                 <div class="x gap-2">
                     <span class="opacity-50">{{ setting.id }}</span>
@@ -71,7 +72,7 @@ const prettify = () => {
                         <option :value="4" selected>JSON</option>
                     </select>
                 </div>
-                <textarea v-model="newSetting.value" spellcheck="false" placeholder="Value" class="whitespace-pre-wrap font-mono text-sm transition-colors bg-neutral-100 dark:bg-neutral-900 bg-opacity-60 dark:bg-opacity-60 rounded border-0 text-neutral-700 dark:text-neutral-300 placeholder-neutral-300 dark:placeholder-neutral-500"></textarea>
+                <Textbox v-model="newSetting.value" spellcheck="false" placeholder="Value"/>
                 <span v-if="newSetting.type === 4" class="text-sm text-blue-500 cursor-pointer" @click="prettify">Prettify</span>
                 <Button class="w-fit">Create Setting</Button>
             </form>

@@ -72,7 +72,7 @@ const face = () => {
             </svg>
             <span>{{ level.id }}</span>
         </template>
-        <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-neutral-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
+        <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-ui-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
             <div class="x justify-between items-start">
                 <div class="x space-x-2">
                     <span>D: {{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
@@ -88,36 +88,36 @@ const face = () => {
                         <img class="h-24 mr-2" :src="'https://browser.gdps.io/assets/difficulties/' + face() + '.png'" alt="difficulty"/>
                     </div>
                     <div class="leading-none">
-                        <div class="x items-center text-neutral-200">
+                        <div class="x items-center text-ui-200">
                             <h1 class="font-bold text-2xl mr-2">{{ level.name }}</h1>
                             <span class="text-sm">by {{ level.creator }}</span>
                         </div>
-                        <p class="text-neutral-200">{{ level.description }}</p>
+                        <p class="text-ui-200">{{ level.description }}</p>
                         <div class="x items-center mt-2 space-x-2">
                             <div v-if="level.coins" class="x">
                                 <img class="h-4" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                                 <img v-if="level.coins > 1" class="h-4 -ml-1.5" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                                 <img v-if="level.coins > 2" class="h-4 -ml-1.5" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                             </div>
-                            <div v-if="level.stars" class="x items-center px-2 py-0.5 text-sm transition-colors rounded bg-neutral-100 dark:bg-ui-800">
+                            <div v-if="level.stars" class="x items-center px-2 py-0.5 text-sm transition-colors rounded bg-ui-800">
                                 <span class="font-bold text-xs mr-1">{{ level.stars }}</span>
                                 <img class="h-4" src="https://browser.gdps.io/assets/star.png" alt="star"/>
                             </div>
-                            <div v-if="level.difficulty" class="px-2 py-0.5 text-xs transition-colors rounded bg-neutral-100 dark:bg-ui-800">{{ difficulties[level.difficulty] }}</div>
-                            <div v-if="level.featured" class="px-2 py-0.5 text-xs transition-colors rounded bg-neutral-100 dark:bg-ui-800">Featured</div>
-                            <div v-if="level.epic" class="px-2 py-0.5 text-xs transition-colors rounded bg-neutral-100 dark:bg-ui-800">Epic</div>
+                            <div v-if="level.difficulty" class="px-2 py-0.5 text-xs transition-colors rounded bg-ui-800">{{ difficulties[level.difficulty] }}</div>
+                            <div v-if="level.featured" class="px-2 py-0.5 text-xs transition-colors rounded bg-ui-800">Featured</div>
+                            <div v-if="level.epic" class="px-2 py-0.5 text-xs transition-colors rounded bg-ui-800">Epic</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="x transition-colors bg-neutral-200 dark:bg-ui-950 dark:border dark:border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
+        <div class="x transition-colors bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
             <div class="y items-center font-bold text-sm">
                 TOP TAGS
             </div>
-            <div class="py-2 select-none transition-colors border-r border-neutral-400 dark:border-ui-700"></div>
+            <div class="py-2 select-none transition-colors border-r border-ui-400 border-ui-700"></div>
             <span v-if="level.tags.length === 0" class="opacity-50">No Tags</span>
-            <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" class="x items-center text-neutral-700 dark:text-ui-300 px-2 py-1 text-sm rounded-md bg-neutral-100 dark:bg-ui-800 capitalize">
+            <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
                     <span title="Verified Tag">
                         <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline mr-1 rounded-full text-green-500 w-5 h-5">
                             <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
@@ -127,7 +127,7 @@ const face = () => {
             </Link>
             <Link :href="route('levels.tags.show', level)" class="text-sm rounded hover:underline cursor-pointer">{{ level.tags.length === 0 ? 'Submit' : 'More'  }}...</Link>
         </div>
-        <div class="flex flex-col md:flex-row dark:bg-ui-950 dark:border dark:border-ui-900 rounded-lg p-4 lg:max-w-5xl xl:max-w-6xl w-full gap-4 my-4">
+        <div class="flex flex-col md:flex-row bg-ui-950 border border-ui-900 rounded-lg p-4 lg:max-w-5xl xl:max-w-6xl w-full gap-4 my-4">
             <div class="y space-y-2 md:w-3/4">
                 <div class="x items-center justify-between">
                     <h2 class="font-bold text-2xl">Images</h2>
@@ -210,7 +210,7 @@ const face = () => {
                         <span class="!hidden pane !py-1 cursor-pointer">Submit</span>
                     </div>
                     <div v-if="true" class="pane">No replays available</div>
-                    <div v-else class="pane !px-0 !py-0 divide-y divide-neutral-200 dark:divide-neutral-800">
+                    <div v-else class="pane !px-0 !py-0 divide-y divide-ui-800">
                         <div class="x px-4 py-2 space-x-2 items-center justify-between">
                             <Dropdown width="fit" class="pane !px-2 w-full">
                                 <template #trigger>
@@ -222,7 +222,7 @@ const face = () => {
                                     </div>
                                 </template>
                                 <template #content>
-                                    <div class="divide-y dark:divide-neutral-700 whitespace-nowrap">
+                                    <div class="divide-y divide-ui-700 whitespace-nowrap">
                                         <div class="px-4 py-1">MegaHack Replay (json)</div>
                                         <div class="px-4 py-1">ReplayBot</div>
                                         <div class="px-4 py-1">TASBOT</div>
@@ -243,10 +243,10 @@ const face = () => {
 </template>
 <style scoped>
 input[type=range] {
-    @apply h-1.5 rounded bg-white dark:bg-ui-950
+    @apply h-1.5 rounded bg-ui-950
 }
 
 input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
-    @apply bg-white dark:bg-ui-700 border-neutral-300 dark:border-none cursor-pointer
+    @apply bg-ui-700 border-none cursor-pointer
 }
 </style>

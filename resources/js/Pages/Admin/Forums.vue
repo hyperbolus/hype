@@ -32,7 +32,7 @@ const addForum = () => {
 <template>
     <admin-layout title="Forums">
         <Pagination :list="forums"/>
-        <div class="y pane !px-0 !py-0 divide-y divide-neutral-200/50 dark:divide-neutral-700/50 overflow-clip">
+        <div class="y pane !px-0 !py-0 divide-y divide-ui-700/50 overflow-clip">
             <div v-for="forum in forums.data" class="y">
                 <InlineForumEditor :forum="forum"/>
             </div>

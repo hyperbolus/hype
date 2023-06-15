@@ -59,7 +59,7 @@ const sendReply = () => {
                     <a href="#reply" class="button">Reply</a>
                 </div>
             </div>
-            <div class="pane text-center italic text-neutral-400 dark:text-neutral-500" v-if="thread.posts && thread.posts.length === 0">Strangely, this thread doesn't have a post...</div>
+            <div class="pane text-center italic text-ui-500" v-if="thread.posts && thread.posts.length === 0">Strangely, this thread doesn't have a post...</div>
             <template v-for="(post, index) in thread.posts" :key="index">
                 <Post :post="post" :op="thread.author.id"/>
                 <a v-if="index === 0" class="text-center hidden"><img class="inline" src="https://via.placeholder.com/970x90" alt="Advertisement"/></a>

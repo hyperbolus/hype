@@ -60,9 +60,9 @@ const sendLike = () => {
 
 </script>
 <template>
-    <div class="y pane overflow-hidden !p-0 border border-neutral-200 dark:border-ui-700">
+    <div class="y pane overflow-hidden !p-0 border border-ui-700">
         <div class="flex flex-col md:flex-row">
-            <div v-if="postbit" class="relative bg-white dark:bg-ui-800 !bg-opacity-50 shrink-0 items-center transition-colors md:border-r border-r-neutral-300 dark:border-r-ui-700">
+            <div v-if="postbit" class="relative bg-ui-800 !bg-opacity-50 shrink-0 items-center transition-colors md:border-r border-r-ui-700">
                 <div class="flex md:flex-col relative z-10 gap-4 p-4">
                     <div v-if="user.postbit_url" class="absolute -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
@@ -97,7 +97,7 @@ const sendLike = () => {
             <div class="y w-full min-w-0">
                 <div class="y h-full w-full justify-between p-4 gap-2">
                     <div class="x justify-between items-center text-xs">
-                        <div class="x gap-1 items-center " :class="preview ? 'text-amber-500' : 'text-neutral-500 dark:text-ui-400'">
+                        <div class="x gap-1 items-center " :class="preview ? 'text-amber-500' : 'text-ui-400'">
                             <template v-if="!preview">
                                 <span v-if="user.id === op" class="text-xs bg-ui-800 rounded px-2 py-0.5 font-bold">OP</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="flex-shrink-0 w-3 h-3">
@@ -113,10 +113,10 @@ const sendLike = () => {
                         <div v-if="!preview && postbit" class="x gap-1">
                             <span v-if="post.ip">(IP: {{ post.ip }})</span>
                             <span class="opacity-50">ID: {{ post.id }}</span>
-                            <input v-if="$page.props.auth && $page.props.user.roles.includes('admin')" type="checkbox" class="rounded dark:bg-ui-800"/>
+                            <input v-if="$page.props.auth && $page.props.user.roles.includes('admin')" type="checkbox" class="rounded bg-ui-800"/>
                         </div>
                     </div>
-                    <p v-if="!post.body" class="text-neutral-100 dark:text-ui-800 text-3xl text-center h-1/2">This post is empty... Like your soul...</p>
+                    <p v-if="!post.body" class="text-ui-800 text-3xl text-center h-1/2">This post is empty... Like your soul...</p>
                     <div v-else class="h-full w-full">
                         <div class="y justify-between">
                             <TipTap :editable="false" v-model="post.body"/>
@@ -152,36 +152,36 @@ const sendLike = () => {
                             </div>
                         </div>
                     </template>
-                    <div v-if="!preview && (post.created_at !== post.updated_at)" class="x mb-2 items-center space-x-1 text-xs text-neutral-400">
+                    <div v-if="!preview && (post.created_at !== post.updated_at)" class="x mb-2 items-center space-x-1 text-xs text-ui-400">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
                             <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
                         </svg>
                         <span>This post last modified <Timestamp :time="post.created_at"/>, by <Username :user="user"/></span>
                     </div>
                     <div v-if="!preview" class="x justify-between">
-                        <div onclick="alert('cry about it')" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-ui-800 text-neutral-400 dark:text-ui-400 hover:text-white hover:bg-red-500 transition rounded">
+                        <div onclick="alert('cry about it')" class="p-1.5 cursor-pointer bg-ui-800 text-ui-400 hover:text-white hover:bg-red-500 transition rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                                 <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z" />
                             </svg>
                         </div>
                         <div class="x space-x-2">
-                            <div @click="sendLike" class="p-1.5 cursor-pointer bg-neutral-200 dark:bg-ui-800 hover:bg-green-500 hover:text-white transition rounded" :class="liked ? 'text-red-500' : 'text-green-500'">
+                            <div @click="sendLike" class="p-1.5 cursor-pointer bg-ui-800 hover:bg-green-500 hover:text-white transition rounded" :class="liked ? 'text-red-500' : 'text-green-500'">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                                     <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
                                 </svg>
                             </div>
-                            <Link v-if="$page.props.auth && $page.props.user.id === post.author_id" :href="route('posts.edit', post.id)" class="p-1.5 uppercase tracking-widest text-xs cursor-pointer bg-neutral-200 dark:bg-ui-800 rounded">
+                            <Link v-if="$page.props.auth && $page.props.user.id === post.author_id" :href="route('posts.edit', post.id)" class="p-1.5 uppercase tracking-widest text-xs cursor-pointer bg-ui-800 rounded">
                                 Edit
                             </Link>
                         </div>
                     </div>
                 </div>
-                <div v-if="post.signature && user.signature" class="px-4 py-2 border-t border-t-neutral-300 dark:border-t-ui-700">
+                <div v-if="post.signature && user.signature" class="px-4 py-2 border-t border-t-ui-700">
                     <p class="whitespace-pre-wrap">{{ user.signature }}</p>
                 </div>
             </div>
         </div>
-        <div v-if="!preview && post.reactions.length > 0" class="x items-center transition-colors border-t p-2 space-x-2 border-t-neutral-300 dark:border-t-ui-700">
+        <div v-if="!preview && post.reactions.length > 0" class="x items-center transition-colors border-t p-2 space-x-2 border-t-ui-700">
             <div class="x items-center space-x-1 text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                     <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />

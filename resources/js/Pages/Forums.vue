@@ -30,7 +30,7 @@ defineProps({
             <h2 class="mx-2 font-bold text-2xl">More</h2>
             <DiscordInvite code="bWt5aks8jb"/>
             <h2 class="mx-2 font-bold text-2xl">Latest Activity</h2>
-            <div class="pane !p-0 divide-y divide-neutral-700 dark:divide-ui-700">
+            <div class="pane !p-0 divide-y divide-ui-700">
                 <div class="px-4 py-2" v-if="latestPosts.length === 0">No activity</div>
                 <div v-for="post in latestPosts" class="y px-4 py-3">
                     <Link :href="route('threads.show', post.thread)" class="z-10 font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ post.thread.title }}</Link>

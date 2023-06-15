@@ -49,7 +49,7 @@ const submit = () => {
                     autofocus
                     autocomplete="name"
                 />
-                <div class="x mt-1 items-center text-xs text-neutral-400 dark:text-neutral-500">
+                <div class="x mt-1 items-center text-xs text-ui-500">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
                         <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
                     </svg>
@@ -98,7 +98,7 @@ const submit = () => {
                         <JetCheckbox id="terms" v-model:checked="form.terms" name="terms" />
 
                         <div class="ml-2">
-                            I agree to the <Link target="_blank" :href="route('legal.terms')" class="underline text-neutral-900 dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 text-sm">Terms of Service</Link> and <Link target="_blank" :href="route('legal.privacy')" class="underline text-neutral-900 text-sm dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300">Privacy Policy</Link>
+                            I agree to the <Link target="_blank" :href="route('legal.terms')" class="underline text-white hover:text-ui-300 text-sm">Terms of Service</Link> and <Link target="_blank" :href="route('legal.privacy')" class="underline text-sm text-white hover:text-ui-300">Privacy Policy</Link>
                         </div>
                     </div>
                 </JetLabel>
@@ -117,7 +117,7 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link :href="route('auth::login')" class="underline text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-500">
+                <Link :href="route('auth::login')" class="underline text-sm text-ui-400 hover:text-ui-500">
                     Already registered?
                 </Link>
 

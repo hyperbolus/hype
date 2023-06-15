@@ -6,7 +6,7 @@ import AppLayout from "@/Layouts/Dash.vue";
         <template #breadcrumbs>
             <span>Privacy Policy</span>
         </template>
-        <div class="y p-4 w-full max-w-none space-y-2 prose prose-neutral dark:prose-gray dark:!prose-invert">
+        <div class="y p-4 w-full max-w-none space-y-2 prose prose-ui !prose-invert">
             <h1>Privacy Policy for DashNet</h1>
 
             <p>At DashNet, accessible from https://gdforums.com & https://profile.gd, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by DashNet and how we use it.</p>
