@@ -2,8 +2,9 @@
 import {Link} from '@inertiajs/vue3'
 import route from 'ziggy-js'
 import {useSettingsStore} from "@/stores/settings.ts";
+import {getGame} from "@/util.js";
 
-const game = useSettingsStore().settings['game'] ? useSettingsStore().settings['game']['value'] : '';
+const game = getGame();
 </script>
 <template>
     <span v-if="!game" class="text-red-500">No game defined</span>
