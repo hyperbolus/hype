@@ -136,8 +136,8 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
             <h2 class="mx-2 font-bold text-2xl">Staff</h2>
             <div class="pane">
                 <ul class="list-inside list-disc">
-                    <li><Link :href="route('users.show', 0)">System</Link></li>
-                    <li><Link :href="route('users.show', 1)">Admin</Link></li>
+                    <li><Link :href="route('users.show', 14)">System</Link></li>
+                    <li><Link :href="route('users.show', 15)">Admin</Link></li>
                     <li>You?</li>
                 </ul>
             </div>
