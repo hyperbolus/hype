@@ -170,27 +170,24 @@ const face = (level) => {
                                 </div>
                                 <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:white_0_0_10px] dark:[text-shadow:black_0_0_10px]">
                                     <div class="y items-center">
-                                        <span class="text-2xl font-bold">{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-2xl font-bold">{{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
                                         <span class="text-xs">DIFFICULTY</span>
                                     </div>
                                     <div class="y items-center">
-                                        <span class="text-2xl font-bold">{{ level.rating_gameplay ? Math.round((level.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-2xl font-bold">{{ level.rating_gameplay ? level.rating_gameplay : 'N/A' }}</span>
                                         <span class="text-xs">GAMEPLAY</span>
                                     </div>
                                     <div class="y items-center">
-                                        <span class="text-2xl font-bold">{{ level.rating_visuals ? Math.round((level.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-2xl font-bold">{{ level.rating_visuals ? level.rating_visuals : 'N/A' }}</span>
                                         <span class="text-xs">VISUALS</span>
                                     </div>
                                     <div class="y items-center">
-                                        <span class="text-2xl font-bold">{{ level.rating_overall ? Math.round((level.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
+                                        <span class="text-2xl font-bold">{{ level.rating_overall ? level.rating_overall : 'N/A' }}</span>
                                         <span class="text-xs">OVERALL</span>
-                                    </div>
-                                    <div class="y items-center">
-                                        <span class="text-2xl font-bold">{{ level.reviews_count }}</span>
-                                        <span class="text-xs">REVIEWS</span>
                                     </div>
                                 </div>
                             </div>
+                            <span class="z-10 absolute right-0 bottom-0 px-2 py-0.5 text-sm rounded-tl-lg bg-ui-700/80">{{ level.reviews_count }} reviews</span>
                             <div v-if="level.banner_url" class="absolute right-0 top-0 h-full w-full md:w-3/4 group-hover:scale-105 transition-transform bg-cover bg-center opacity-80 md:[mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.8)_75%);]" :style="`background-image:url('${level.banner_url}');`"></div>
                         </div>
                     </div>
