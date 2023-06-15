@@ -9,10 +9,12 @@ import Carousel from "@/Components/Carousel.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import PostPad from "@/Components/PostPad.vue";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     level: Object,
-    review: Object
+    review: Object,
+    reviews: Object,
 })
 
 const form = useForm({
@@ -107,12 +109,6 @@ const face = () => {
                         </div>
                     </div>
                 </div>
-                <div class="!hidden x space-x-2 items-end">
-                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                    <span>{{ level.rating_difficulty ? Math.round((level.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                </div>
             </div>
         </div>
         <div class="x transition-colors bg-neutral-200 dark:bg-ui-950 dark:border dark:border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
@@ -140,7 +136,7 @@ const face = () => {
                 <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
                 <Carousel v-else :images="level.images"/>
                 <h2 class="font-bold text-2xl">Reviews</h2>
-                <details v-if="$page.props.auth" class="pane">
+                <details v-if="$page.props.auth" class="pane" :open="!props.review">
                     <summary class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</summary>
                     <form @submit.prevent="submit" class="y gap-4">
                         <div class="space-y-2 w-full">
@@ -163,25 +159,32 @@ const face = () => {
                             <h2>Overall Rating: {{ form.rating_overall }}<span class="opacity-50 text-xs">/10</span></h2>
                             <input class="w-full" v-model.number="form.rating_overall" type="range" min="0" max="10" step="1"/>
                         </div>
-                        <Button class="w-fit" @click="submit">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</Button>
+                        <Button class="w-fit" @click="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : (props.review ? 'Edit Your' : 'Submit') + ' Rating' }}</Button>
                     </form>
                 </details>
                 <div v-else class="y pane">
                     <h2 class="text-xl"><Link class="underline" :href="route('auth::login')">Log in</Link> to submit a review</h2>
                 </div>
-                <div v-if="level.reviews.length === 0" class="pane">
+                <div v-if="reviews.data.length === 0" class="pane">
                     This level has no reviews. Be the first!
                 </div>
-                <div v-for="review in level.reviews" class="x items-center pane">
+                <Pagination :list="reviews"/>
+                <div v-for="review in reviews.data" class="x items-center pane">
                     <Avatar class="w-8 h-8 mr-4" :user="review.author"/>
                     <div class="y w-full">
                         <div class="x justify-between items-center space-x-2">
                             <h2><Username :user="review.author"/></h2>
-                            <span>{{ review.rating_overall }}/10</span>
                         </div>
                         <p>{{ review.review }}</p>
+                        <div class="x space-x-2 text-sm text-ui-400">
+                            <span>DIFF: {{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
+                            <span>GAME: {{ level.rating_gameplay ? level.rating_gameplay : 'N/A' }}</span>
+                            <span>VIS: {{ level.rating_visuals ? level.rating_visuals : 'N/A' }}</span>
+                            <span>ALL: {{ level.rating_overall ? level.rating_overall : 'N/A' }}</span>
+                        </div>
                     </div>
                 </div>
+                <Pagination :list="reviews"/>
             </div>
             <div class="y space-y-2 md:w-1/4">
                 <div class="w-full space-y-2">

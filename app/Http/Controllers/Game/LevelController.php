@@ -81,10 +81,13 @@ class LevelController extends Controller
      */
     public function show($id): Response
     {
-        $level = Hydrate::level($id)->load(['images', 'tags']);
+        $level = Hydrate::level($id)->load(['images', 'tags', 'videos']);
 
         return Inertia::render('Levels/Show', [
-            'level' => $level->load(['reviews', 'reviews.author', 'videos']),
+            'level' => $level,
+            'reviews' => $level->reviews()
+                ->with('author')
+                ->paginate(10),
             'review' => auth()->check() ? Review::query()
                 ->where('level_id', $id)
                 ->where('user_id', auth()->id())
