@@ -15,16 +15,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/mention', [\App\Http\Controllers\System\SearchController::class, 'username']);
 Route::get('/search', [\App\Http\Controllers\System\SearchController::class, 'tagname']);
 Route::get('/level/{id}', function ($id) {
-    $res = Http::get('https://browser.gdps.io/api/level/'.$id);
+    $level = \App\Models\Game\Level::query()->with(['tags'])->withCount(['reviews'])->find($id);
+    $level->tags->map(function (\App\Models\Content\Tag $tag) {
+        $tag->makeHidden(['model', 'namespace', 'pivot', 'created_at', 'updated_at']);
+        $tag->setAttribute('verified', $tag['pivot']['verified']);
+        $tag->setAttribute('score', $tag['pivot']['score']);
+    });
+    $level->setAttribute('reviews_url', \request()->url() . '/reviews');
 
-    return response()->json($res->json());
+    return $level;
+});
+
+Route::get('/level/{id}/reviews', function ($id) {
+    $reviews = \App\Models\Content\Review::query()->where('level_id', '=', $id)->where('deleted_at', '=', null)->with('author')->paginate(20);
+    $reviews->through(function (\App\Models\Content\Review $review) {
+        $review->makeHidden(['user_id', 'approved_at', 'approved_by_id', 'deleted_at']);
+        return $review;
+    });
+
+    return $reviews;
 });
 
 Route::get('avatar', function () {
