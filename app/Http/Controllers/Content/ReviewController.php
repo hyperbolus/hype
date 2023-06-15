@@ -33,8 +33,23 @@ class ReviewController extends Controller
             'body' => 'required|min:20'
         ]);
 
-        if ($level->reviews_count >= 1) {
-            if ($level->rating_overall === null) {
+        // TODO: I think this should be moved to update or something
+        Review::query()->updateOrCreate([
+            'level_id' => $request->integer('level_id'),
+            'user_id' => $request->user()->id,
+        ], [
+            'rating_difficulty' => max(0, min(100, $request->integer('rating_difficulty'))),
+            'rating_gameplay' => max(0, min(10, $request->integer('rating_gameplay'))),
+            'rating_visuals' => max(0, min(10, $request->integer('rating_visuals'))),
+            'rating_overall' => max(0, min(10, $request->integer('rating_overall'))),
+            'review' => $request->string('body'),
+        ]);
+
+        $level->loadCount('reviews');
+
+        if ($level->reviews_count >= 5) {
+            $level->load('reviews');
+            if (!$level->rating_overall) {
                 $total_gameplay = 0;
                 $total_difficulty = 0;
                 $total_visuals = 0;
@@ -59,18 +74,6 @@ class ReviewController extends Controller
             }
             $level->save();
         }
-
-        // TODO: I think this should be moved to update or something
-        Review::query()->updateOrCreate([
-            'level_id' => $request->integer('level_id'),
-            'user_id' => $request->user()->id,
-        ], [
-            'rating_difficulty' => max(0, min(100, $request->integer('rating_difficulty'))),
-            'rating_gameplay' => max(0, min(10, $request->integer('rating_gameplay'))),
-            'rating_visuals' => max(0, min(10, $request->integer('rating_visuals'))),
-            'rating_overall' => max(0, min(10, $request->integer('rating_overall'))),
-            'review' => $request->string('body'),
-        ]);
 
         return redirect()->back();
     }
