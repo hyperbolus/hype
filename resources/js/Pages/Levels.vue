@@ -19,8 +19,9 @@ const props = defineProps({
         <div class="y space-y-2 md:w-3/4">
             <div class="space-y-2">
                 <h2 class="mx-2 font-bold text-2xl">Levels</h2>
-                <div class="pane">
-                    <Link class="underline" :href="route('levels.index')">Click here to visit the level reviews portal</Link>
+                <div class="x justify-between gap-2 text-center font-bold text-lg">
+                    <Link class="pane !bg-ui-700 grow" :href="route('levels.index')">Level Reviews</Link>
+                    <Link class="pane !bg-ui-700 grow" :href="route('levels.random')">Random Level</Link>
                 </div>
                 <h2 class="mx-2 font-bold text-xl">Featured</h2>
                 <Carousel decorations="px-10">

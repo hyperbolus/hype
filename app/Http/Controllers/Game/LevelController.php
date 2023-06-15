@@ -160,4 +160,11 @@ class LevelController extends Controller
 
         return redirect()->back();
     }
+
+    public function random(): RedirectResponse
+    {
+        $level = Level::query()->inRandomOrder()->first();
+
+        return redirect()->route('levels.show', $level->id);
+    }
 }

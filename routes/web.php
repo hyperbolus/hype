@@ -51,6 +51,7 @@ Route::domain(config('app.domains.profile'))->group(function () {
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/forge', [HomeController::class, 'forge'])->name('forge');
 Route::get('/levels', [HomeController::class, 'levels'])->name('levels');
+Route::get('/levels/random', [LevelController::class, 'random'])->name('levels.random');
 Route::get('/client', [HomeController::class, 'client'])->name('client');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
