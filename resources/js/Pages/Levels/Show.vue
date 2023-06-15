@@ -165,10 +165,10 @@ const face = () => {
                 <div v-else class="y pane">
                     <h2 class="text-xl"><Link class="underline" :href="route('auth::login')">Log in</Link> to submit a review</h2>
                 </div>
+                <Pagination :list="reviews"/>
                 <div v-if="reviews.data.length === 0" class="pane">
                     This level has no reviews. Be the first!
                 </div>
-                <Pagination :list="reviews"/>
                 <div v-for="review in reviews.data" class="x items-center pane">
                     <Avatar class="w-8 h-8 mr-4" :user="review.author"/>
                     <div class="y w-full">
