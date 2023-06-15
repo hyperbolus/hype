@@ -11,6 +11,7 @@ import {ref} from "vue";
 import Tabs from "@/Components/Tabs.vue";
 import Username from "@/Components/Username.vue";
 import UserFlag from "@/Components/UserFlag.vue";
+import {comment} from "postcss";
 
 const props = defineProps({
     profile: Object,
@@ -135,70 +136,68 @@ const tab = ref(0);
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col space-y-4 md:w-3/4">
-                <Tabs :decorate="false">
-                    <div data-tab-name="About" class="y gap-2">
-                        <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
-                            <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
-                                Bio
-                            </div>
-                            <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
-                            <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
+            <div class="flex space-x-4 md:w-3/4">
+                <div data-tab-name="About" class="y gap-2 w-1/2">
+                    <div class="y pane !px-0 !py-0 divide-y dark:divide-ui-700">
+                        <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
+                            Bio
                         </div>
-                        <div class="y pane !px-0 !py-0 divide-y dark:divide-neutral-700">
-                            <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
-                                Signature
+                        <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
+                        <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
+                    </div>
+                    <div class="y pane !px-0 !py-0 divide-y dark:divide-ui-700">
+                        <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
+                            Signature
+                        </div>
+                        <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
+                        <span v-else class="opacity-50 italic px-4 py-2">This user has no signature</span>
+                    </div>
+                </div>
+                <div data-tab-name="Comments" class="y pane !px-0 !py-0 w-1/2 divide-y divide-neutral-100 dark:divide-ui-700">
+                    <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">Profile Comments</div>
+                    <div v-if="comments.data.length === 0" class="px-4 py-2">
+                        Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
+                    </div>
+                    <div v-else v-for="comment in comments.data" class="x gap-4 items-center justify-between p-4">
+                        <Avatar class="w-8" :user="comment.commenter"/>
+                        <div class="y w-full">
+                            <div class="x justify-between mb-1 text-xs">
+                                <Link :href="route('users.show', comment.commenter_id)">{{ comment.commenter.name }}</Link>
+                                <span>{{ new Date(comment.created_at).toLocaleString([], {year: 'numeric', month:'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'}) }}</span>
                             </div>
-                            <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
-                            <span v-else class="opacity-50 italic px-4 py-2">This user has no signature</span>
+                            <p class="text-sm">{{ comment.body }}</p>
                         </div>
                     </div>
-                    <div data-tab-name="Comments" class="y pane !px-0 !py-0 divide-y divide-neutral-100/50 dark:divide-ui-700">
-                        <div class="transition-colors rounded-t-lg bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">Profile Comments</div>
-                        <div v-if="comments.data.length === 0" class="px-4 py-2">
-                            Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
-                        </div>
-                        <div v-else v-for="comment in comments.data" class="x gap-4 items-center justify-between p-4">
-                            <Avatar class="w-8" :user="comment.commenter"/>
-                            <div class="y w-full">
-                                <div class="x justify-between mb-1 text-xs">
-                                    <Link :href="route('users.show', comment.commenter_id)">{{ comment.commenter.name }}</Link>
-                                    <span>{{ new Date(comment.created_at).toLocaleString([], {year: 'numeric', month:'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'}) }}</span>
-                                </div>
-                                <p class="text-sm">{{ comment.body }}</p>
-                            </div>
-                        </div>
-                        <div class="px-2">
-                            <Pagination class="py-2" :list="comments"/>
-                            <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
-                                <textarea v-model="newComment.body" style="min-height: 4rem !important;" class="resize-none !min-h-16 resize-y h-fit w-full placeholder-neutral-400 dark:placeholder-ui-500 pane dark:bg-ui-800 border-none" placeholder="Comment..."></textarea>
-                                <Button @click="postComment" class="w-fit">Submit Comment</Button>
-                            </div>
+                    <div class="px-2">
+                        <Pagination class="py-2" :list="comments"/>
+                        <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
+                            <textarea v-model="newComment.body" style="min-height: 4rem !important;" class="resize-none !min-h-16 resize-y h-fit w-full placeholder-neutral-400 dark:placeholder-ui-500 pane dark:bg-ui-800 border-none" placeholder="Comment..."></textarea>
+                            <Button @click="postComment" class="w-fit" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : '' }}Submit Comment</Button>
                         </div>
                     </div>
-                    <div data-tab-name="Activity">
-                        <div class="y pane !px-0 !py-0 divide-y divide-neutral-100/50 dark:divide-neutral-700/50">
-                            <div class="transition-colors rounded-t bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
-                                Recent Reviews
-                            </div>
-                            <div v-if="reviews.data.length === 0" class="px-4 py-2">
-                                User has not written any reviews
-                            </div>
-                            <Link v-else v-for="review in reviews.data" :href="route('levels.show', review.level.id)" class="y justify-between px-4 py-2">
-                                <h2 class="font-bold">{{ review.level.name }}</h2>
-                                <span class="text-xs">by&nbsp;<span class="font-bold">{{ review.level.creator }}</span></span>
-                                <div class="x flex-wrap gap-x-4 lg:gap-x-2 items-center justify-between">
-                                    <span class="text-xs">DIFF:&nbsp;{{ review.rating_difficulty ? Math.round((review.rating_difficulty / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">GAME:&nbsp;{{ review.rating_gameplay ? Math.round((review.rating_gameplay / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">VIS:&nbsp;{{ review.rating_visuals ? Math.round((review.rating_visuals / 2) * 100) / 100 : 'N/A' }}</span>
-                                    <span class="text-xs">ALL:&nbsp;{{ review.rating_overall ? Math.round((review.rating_overall / 2) * 100) / 100 : 'N/A' }}</span>
-                                </div>
-                                <p class="text-sm">{{ review.review }}</p>
-                            </Link>
-                            <Pagination class="py-2" :list="reviews"/>
+                </div>
+                <div class="!hidden" data-tab-name="Activity">
+                    <div class="y pane !px-0 !py-0 divide-y divide-neutral-100 dark:divide-ui-700">
+                        <div class="transition-colors rounded-t bg-neutral-100 dark:bg-ui-800 !bg-opacity-50 px-2 py-1">
+                            Recent Reviews
                         </div>
+                        <div v-if="reviews.data.length === 0" class="px-4 py-2">
+                            User has not written any reviews
+                        </div>
+                        <Link v-else v-for="review in reviews.data" :href="route('levels.show', review.level.id)" class="y justify-between px-4 py-2">
+                            <h2 class="font-bold">{{ review.level.name }}</h2>
+                            <span class="text-xs">by&nbsp;<span class="font-bold">{{ review.level.creator }}</span></span>
+                            <div class="x flex-wrap gap-x-4 lg:gap-x-2 items-center justify-between">
+                                <span class="text-xs">DIFF:&nbsp;{{ review.rating_difficulty ? review.rating_difficulty : 'N/A' }}</span>
+                                <span class="text-xs">GAME:&nbsp;{{ review.rating_gameplay ? review.rating_gameplay : 'N/A' }}</span>
+                                <span class="text-xs">VIS:&nbsp;{{ review.rating_visuals ? review.rating_visuals : 'N/A' }}</span>
+                                <span class="text-xs">ALL:&nbsp;{{ review.rating_overall ? review.rating_overall : 'N/A' }}</span>
+                            </div>
+                            <p class="text-sm">{{ review.review }}</p>
+                        </Link>
+                        <Pagination class="py-2" :list="reviews"/>
                     </div>
-                </Tabs>
+                </div>
             </div>
         </div>
     </app-layout>
