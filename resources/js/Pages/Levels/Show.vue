@@ -177,10 +177,10 @@ const face = () => {
                         </div>
                         <p>{{ review.review }}</p>
                         <div class="x space-x-2 text-sm text-ui-400">
-                            <span>DIFF: {{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
-                            <span>GAME: {{ level.rating_gameplay ? level.rating_gameplay : 'N/A' }}</span>
-                            <span>VIS: {{ level.rating_visuals ? level.rating_visuals : 'N/A' }}</span>
-                            <span>ALL: {{ level.rating_overall ? level.rating_overall : 'N/A' }}</span>
+                            <span>DIFF: {{ review.rating_difficulty ? review.rating_difficulty : 'N/A' }}</span>
+                            <span>GAME: {{ review.rating_gameplay ? review.rating_gameplay : 'N/A' }}</span>
+                            <span>VIS: {{ review.rating_visuals ? review.rating_visuals : 'N/A' }}</span>
+                            <span>ALL: {{ review.rating_overall ? review.rating_overall : 'N/A' }}</span>
                         </div>
                     </div>
                 </div>
