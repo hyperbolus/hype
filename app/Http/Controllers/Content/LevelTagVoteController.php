@@ -52,14 +52,15 @@ class LevelTagVoteController extends Controller
         }
 
         // TODO: ChatGPT'd. Make sure it actually is sound.
-        $vote = new CrowdVote();
-        $vote->user_id = $request->user()->id;
-        $vote->related_id = $level->id;
-        $vote->related_type = $level->getMorphClass();
-        $vote->votable_id = $tag->id;
-        $vote->votable_type = $tag->getMorphClass();
-        $vote->approved = $request->boolean('approved');
-        $vote->save();
+        CrowdVote::query()->updateOrCreate([
+            'user_id' => $request->user()->id,
+            'related_id' => $level->id,
+            'related_type' => $level->getMorphClass(),
+            'votable_id' => $tag->id,
+            'votable_type' => $tag->getMorphClass(),
+        ], [
+            'approved' => $request->boolean('approved'),
+        ]);
 
         // https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/bayesian-average/
         $this_upvotes = CrowdVote::query()

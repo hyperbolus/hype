@@ -13,6 +13,15 @@ class CrowdVote extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        'user_id',
+        'related_id',
+        'related_type',
+        'votable_id',
+        'votable_type',
+        'approved'
+    ];
+
     public function voter()
     {
         return $this->belongsTo(User::class);
