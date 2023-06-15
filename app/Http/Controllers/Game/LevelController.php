@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Game;
 
 use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
+use App\Models\Content\CrowdVote;
 use App\Models\Content\Review;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
@@ -100,9 +101,20 @@ class LevelController extends Controller
      */
     public function tags(Level $level): Response
     {
+        $votes = [];
+        if (auth()->check()) {
+            $votes = CrowdVote::query()
+                ->where('user_id', auth()->id())
+                ->where('related_id', $level->id)
+                ->where('related_type', $level->getMorphClass())
+                ->where('votable_type', (new Tag())->getMorphClass())
+                ->get();
+        }
+
         return Inertia::render('Levels/Tags', [
             'level' => $level->load('tags'),
             'tags' => Tag::all(),
+            'votes' => $votes
         ]);
     }
 
