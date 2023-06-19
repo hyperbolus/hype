@@ -72,7 +72,7 @@ const prettify = () => {
                         <option :value="4" selected>JSON</option>
                     </select>
                 </div>
-                <Textbox v-model="newSetting.value" spellcheck="false" placeholder="Value"/>
+                <textarea class="textbox" v-model="newSetting.value" spellcheck="false" placeholder="Value"/>
                 <span v-if="newSetting.type === 4" class="text-sm text-blue-500 cursor-pointer" @click="prettify">Prettify</span>
                 <Button class="w-fit">Create Setting</Button>
             </form>

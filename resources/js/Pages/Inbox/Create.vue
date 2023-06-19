@@ -66,7 +66,7 @@ const searchName = async () => {
                 </label>
                 <label class="y">
                     <span class="my-1">Message</span>
-                    <Textbox v-model="message.body" placeholder="Required"/>
+                    <textarea class="textbox" v-model="message.body" placeholder="Required"/>
                 </label>
                 <ul class="mt-3 list-disc list-inside text-sm text-red-600">
                     <li v-for="(error, key) in $page.props.errors.default" :key="key">
