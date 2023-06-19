@@ -28,7 +28,7 @@ class LevelController extends Controller
             'rating_overall',
             'rating_gameplay',
             'rating_visuals',
-            'rating_overall',
+            'rating_difficulty',
             'reviews_count',
         ];
         $directions = [
