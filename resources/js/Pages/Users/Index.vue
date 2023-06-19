@@ -87,10 +87,13 @@ const search = () => {
             </div>
             <div class="flex flex-wrap grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div v-for="user in users.data" class="x pane transition shadow hover:shadow-lg hover:bg-opacity-75 justify-between items-center px-4 py-2">
-                    <span class="x items-center">
+                    <div class="x items-center">
                         <Avatar class="h-12 mr-4" :user="user"/>
-                        <Username :user="user"/>
-                    </span>
+                        <div class="y">
+                            <span><Username class="font-bold text-lg" :user="user"/> <span class="hidden text-ui-400 text-sm">({{ user.pronouns }})</span></span>
+                            <span class="text-sm">{{ user.reviews_count }} Reviews</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

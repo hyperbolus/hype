@@ -32,7 +32,9 @@ class UserController extends Controller
         $sorting['sortBy'] = $sorting['sortBy'] < count($attributes) ? $sorting['sortBy'] : 0;
         $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
 
-        $users = User::query()->withCount('reviews');
+        $users = User::query()
+            ->select(['id', 'name', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url'])
+            ->withCount('reviews');
 
         if ($sorting['sortBy'] === 1) {
             $users->orderByRaw('LOWER(name) '.$directions[$sorting['sortDir']]);

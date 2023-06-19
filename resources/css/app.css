@@ -39,3 +39,7 @@
 .button {
     @apply select-none font-semibold rounded px-2 py-1 shadow bg-ui-800 border-0 hover:bg-ui-900 hover:shadow-sm cursor-pointer
 }
+
+.textbox {
+    @apply resize-none resize-y w-full placeholder-ui-600 bg-ui-800 rounded-lg border-none;
+}
