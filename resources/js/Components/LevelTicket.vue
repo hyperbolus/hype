@@ -47,7 +47,9 @@ const face = () => {
             <div class="pane overflow-hidden relative hover:shadow-lg transition-shadow text-ui-300 delay-0">
                 <div class="y md:flex-row relative z-10 items-center md:space-x-4">
                     <div class="x items-center grow">
-                        <img class="w-24 mr-4" :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                        <div class="x place-items-center w-24 aspect-square mr-4">
+                            <img :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                        </div>
                         <div class="[text-shadow:black_0_0_10px]">
                             <h2 class="text-2xl font-bold">{{ level.name }}</h2>
                             <p class="text-lg">{{ level.creator }}</p>
