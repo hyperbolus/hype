@@ -5,7 +5,7 @@ namespace App\Models\Game;
 use App\Models\Content\Review;
 use App\Models\Content\Tag;
 use App\Models\Content\Video;
-use App\Models\Games\Dash\IdeHelperLevel;
+use App\Models\Game\IdeHelperLevel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;

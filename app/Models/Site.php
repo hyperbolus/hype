@@ -7,6 +7,9 @@ use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
 
+/**
+ * @mixin IdeHelperSite
+ */
 class Site extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
