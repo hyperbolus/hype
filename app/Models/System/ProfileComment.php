@@ -15,6 +15,6 @@ class ProfileComment extends Model
 
     public function commenter(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'commenter_id')->select(['id', 'name']);
+        return $this->belongsTo(User::class, 'commenter_id')->select(['id', 'name', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url']);
     }
 }

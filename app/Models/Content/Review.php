@@ -26,7 +26,7 @@ class Review extends Model
 
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id')->select('id', 'name', 'avatar_url');
+        return $this->belongsTo(User::class, 'user_id')->select(['id', 'name', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url']);
     }
 
     public function level(): \Illuminate\Database\Eloquent\Relations\BelongsTo
