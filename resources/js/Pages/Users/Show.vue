@@ -162,8 +162,8 @@ const tab = ref(0);
                     <div v-else v-for="comment in comments.data" class="x gap-4 items-center justify-between p-4">
                         <Avatar class="w-8" :user="comment.commenter"/>
                         <div class="y w-full">
-                            <div class="x justify-between mb-1 text-xs">
-                                <Link :href="route('users.show', comment.commenter_id)">{{ comment.commenter.name }}</Link>
+                            <div class="x justify-between  text-xs">
+                                <Username class="font-bold" :user="comment.commenter"/>
                                 <span>{{ new Date(comment.created_at).toLocaleString([], {year: 'numeric', month:'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'}) }}</span>
                             </div>
                             <p class="text-sm">{{ comment.body }}</p>
