@@ -13,7 +13,7 @@ const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
 </script>
 <template>
-    <div class="flex items-center space-x-4">
+    <div v-if="$page.props.auth" class="flex items-center space-x-4">
         <SearchBar/>
         <Dropdown>
             <template #trigger>
@@ -79,5 +79,9 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                 <div @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white">Logout</div>
             </template>
         </Dropdown>
+    </div>
+    <div v-else class="x items-center space-x-4">
+        <Link :href="route('auth::login')">Login</Link>
+        <Link :href="route('auth::register')" class="bg-cyan-500 bg-ui-700 text-ui-200 rounded-md font-bold px-2 py-0.5">Register</Link>
     </div>
 </template>
