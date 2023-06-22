@@ -180,7 +180,7 @@ const face = (level) => {
                     <span class="font-bold">{{ review.level.name }}</span>
                     <span class="text-ui-500">by {{ review.level.creator }}</span>
                     <p class="italic">"{{ review.review.substring(0, 100) }}{{ review.review.length > 100 ? '...' : ''}}"</p>
-                    <span class="x space-x-1 justify-end w-full text-right"><span>&#8212;</span> <Username :user="review.author"/></span>
+                    <span class="text-right">&#8212; <Username :user="review.author"/></span>
                 </div>
             </div>
         </div>
