@@ -75,8 +75,9 @@ class LevelController extends Controller
                 ->appends($sorting),
             'filters' => $sorting,
             'recent_reviews' => Review::query()
-                ->where('review', 'IS NOT', null)
-                ->orderBy('created_at')
+                ->whereNotNull('review')
+                ->whereNot('review', '=', '')
+                ->orderBy('created_at', 'DESC')
                 ->limit(10)
                 ->with(['author', 'level'])
                 ->get()
