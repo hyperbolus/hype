@@ -23,11 +23,11 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                 </div>
                 <details class="pane" open>
                     <summary class="font-bold text-xl">What's Here</summary>
-                    <p>This site currently has a forum for discussion and a system for rating, tagging, and adding videos to levels. Also putting levels into playlists and playing level roulette.</p>
+                    <p>This site currently has a forum for discussion and a system for rating, tagging, and adding videos and screenshots to levels. Also putting levels into playlists and playing level roulette.</p>
                 </details>
                 <details class="pane" open>
                     <summary class="font-bold text-xl">How Do I...</summary>
-                    <p>Hopefully the UI is intuitive but if you are having trouble with anything and would like help or would like to suggest a feature or change, please join out Discord linked in the sidebar.</p>
+                    <p>You will need an account to make contributions or participate in discussion. If you need help with anything please visit our Discord.</p>
                 </details>
                 <details class="hidden md:flex flex-col pane">
                     <summary class="font-bold text-xl">Roadmap</summary>
@@ -123,6 +123,7 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                         <li>dogotrigger for providing a large cache of levels for research</li>
                         <li>Geometry Dash Programming Discord</li>
                         <li>Country flags by freakflags</li>
+                        <li>osu for having an oddly really good website that I could steal from</li>
                         <li>Durianhead for his amazing profile banner artwork (<a class="underline" href="https://twitter.com/real_durianhead/status/1462436726496890881?s=20">source</a>)</li>
                         <li>Users like you, thank you!</li>
                     </ul>
