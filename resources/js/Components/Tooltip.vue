@@ -13,13 +13,14 @@ const props = defineProps({
     containerClass: {
         type: String,
         default: ''
-    }
+    },
+    inline: Boolean
 })
-
+// TODO: fix username inline bug
 </script>
 <template>
-    <div ref="base" class="relative group">
-        <div class="static">
+    <div ref="base" class="relative group" :class="{'inline': inline}">
+        <div class="static" :class="{'inline': inline}">
             <slot/>
         </div>
 
