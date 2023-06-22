@@ -8,10 +8,12 @@ import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
 import {ref} from "vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
+import Username from "@/Components/Username.vue";
 
 const props = defineProps({
     levels: Object,
-    filters: Object
+    filters: Object,
+    recent_reviews: Object
 })
 
 const level_id = ref(null)
@@ -170,6 +172,16 @@ const face = (level) => {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <p class="relative">Levels must have at least 5 reviews before their average scores are calculated</p>
+            </div>
+            <h2 class="font-bold text-2xl">Recent Reviews</h2>
+            <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
+                <!-- TODO: truncate at word -->
+                <div class="y px-4 py-2 text-sm" v-for="review in recent_reviews">
+                    <span class="font-bold">{{ review.level.name }}</span>
+                    <span class="text-ui-500">by {{ review.level.creator }}</span>
+                    <p class="italic">"{{ review.review.substring(0, 100) }}{{ review.review.length > 100 ? '...' : ''}}"</p>
+                    <span class="x space-x-1 justify-end w-full text-right"><span>&#8212;</span> <Username :user="review.author"/></span>
+                </div>
             </div>
         </div>
     </app-layout>
