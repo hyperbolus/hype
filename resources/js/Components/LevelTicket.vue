@@ -35,6 +35,11 @@ const face = () => {
 
     return name;
 }
+
+const displayRating = (rating) => {
+    return rating ? rating.toFixed(1) : '-';
+}
+// TODO: Fucking disgusting, clean it up
 </script>
 <template>
     <Link :href="route('levels.show', level.id)">
@@ -44,38 +49,46 @@ const face = () => {
                     <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
                 </svg>
             </div>
-            <div class="pane overflow-hidden relative hover:shadow-lg transition-shadow text-ui-300 delay-0">
-                <div class="y md:flex-row relative z-10 items-center md:space-x-4">
-                    <div class="x items-center grow">
-                        <div class="x place-items-center w-24 aspect-square mr-4">
-                            <img :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+            <div class="pane z-0 !px-0 !py-0 overflow-hidden relative hover:shadow-lg transition-shadow text-ui-300 delay-0">
+                <div class="x relative z-10 items-center md:space-x-2">
+                    <div class="y w-full z-0">
+                        <div class="x items-center px-4 py-2 [text-shadow:black_0_0_10px]">
+                            <div class="hidden mr-4 sm:flex place-items-center w-16 aspect-square">
+                                <img :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                            </div>
+                            <div class="y">
+                                <div class="x z-10 items-center h-full space-x-1">
+                                    <h2 class="text-2xl font-bold mr-2">{{ level.name }}</h2>
+                                    <div class="rounded-full p-[.15rem] py-2 bg-yellow-400" :class="{'invisible': level.stars === 0}"></div>
+                                    <div class="rounded-full p-[.15rem] py-2 bg-amber-500" :class="{'invisible': !level.featured}"></div>
+                                    <div class="rounded-full p-[.15rem] py-2 bg-red-500" :class="{'invisible': !level.epic}"></div>
+                                </div>
+                                <p class="text-lg">{{ level.creator }}</p>
+                            </div>
                         </div>
-                        <div class="[text-shadow:black_0_0_10px]">
-                            <h2 class="text-2xl font-bold">{{ level.name }}</h2>
-                            <p class="text-lg">{{ level.creator }}</p>
-                        </div>
-                    </div>
-                    <div class="x justify-end space-x-4 py-4 transition-[text-shadow] [text-shadow:black_0_0_10px]">
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
-                            <span class="text-xs">DIFFICULTY</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_gameplay ? level.rating_gameplay : 'N/A' }}</span>
-                            <span class="text-xs">GAMEPLAY</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_visuals ? level.rating_visuals : 'N/A' }}</span>
-                            <span class="text-xs">VISUALS</span>
-                        </div>
-                        <div class="y items-center">
-                            <span class="text-2xl font-bold">{{ level.rating_overall ? level.rating_overall : 'N/A' }}</span>
-                            <span class="text-xs">OVERALL</span>
+                        <div class="x z-10 md:-translate-x-8 justify-center sm:w-fit sm:skew-x-12 sm:rounded-tr-lg bg-ui-800">
+                            <div class="grid sm:-skew-x-12 grid-cols-4 md:ml-8 gap-4 py-1.5 px-4 transition-[text-shadow] [text-shadow:black_0_0_10px]">
+                                <span class="y">
+                                    <span class="text-xs uppercase">Difficulty</span>
+                                    <span class="text-lg font-bold">{{ displayRating(level.rating_difficulty) }}</span>
+                                </span>
+                                <span class="y">
+                                    <span class="text-xs uppercase">Gameplay</span>
+                                    <span class="text-lg font-bold">{{ displayRating(level.rating_gameplay) }}</span>
+                                </span>
+                                <span class="y">
+                                    <span class="text-xs uppercase">Visuals</span>
+                                    <span class="text-lg font-bold">{{ displayRating(level.rating_visuals) }}</span>
+                                </span>
+                                <span class="y">
+                                    <span class="text-xs uppercase">Overall</span>
+                                    <span class="text-lg font-bold">{{ displayRating(level.rating_overall) }}</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <span v-if="level.reviews_count" class="z-10 absolute right-0 bottom-0 px-2 py-0.5 text-sm rounded-tl-lg bg-ui-700/80">{{ level.reviews_count }} reviews</span>
-                <div v-if="level.banner_url" class="absolute right-0 top-0 h-full w-full md:w-3/4 group-hover:scale-105 transition-transform bg-cover bg-center opacity-80 md:[mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.8)_75%);]" :style="`background-image:url('${level.banner_url}');`"></div>
+                <div v-if="level.banner_url" class="absolute right-0 top-0 h-full w-full -md:w-4/5 group-hover:scale-105 transition-transform bg-cover bg-center opacity-80 [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]" :style="`background-image:url('${level.banner_url}');`"></div>
             </div>
         </div>
     </Link>
