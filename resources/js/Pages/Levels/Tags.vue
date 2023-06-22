@@ -6,6 +6,7 @@ import Dropdown from '@/Jetstream/Dropdown.vue'
 import {onMounted, onUpdated, ref} from "vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import route from 'ziggy-js'
+import {isAdmin} from "@/util.js";
 
 const props = defineProps({
     level: Object,
@@ -23,11 +24,27 @@ const form = useForm({
     tag_id: null
 })
 
+const formVerify = useForm({
+    verify: true,
+    tag_id: null
+})
+
 const addTag = () => {
     form.post(route('levels.tags.store', props.level.id), {
         onSuccess: () => {
             tagname.value = ''
             form.reset()
+            calcVotes()
+        }
+    });
+}
+
+const verify = (tag_id, verify) => {
+    formVerify.verify = verify
+    formVerify.tag_id = tag_id
+    formVerify.post(route('levels.tags.store', props.level.id), {
+        onSuccess: () => {
+            formVerify.reset()
             calcVotes()
         }
     });
@@ -60,12 +77,12 @@ const selectTag = (tag) => {
 const votes = ref([]);
 
 const calcVotes = () => {
-    props.level.tags.forEach((t) => {
-        let vote = props.votes.find(o => o.votable_id === t.id)
+    props.level.tags.forEach((tag) => {
+        let vote = props.votes.find(o => o.votable_id === tag.id)
         if (vote) {
-            t.approved = vote.approved;
+            tag.approved = vote.approved;
         }
-        t.voted = !!vote;
+        tag.voted = !!vote;
     })
 }
 
@@ -90,7 +107,7 @@ onMounted(() => {
                     <Input @click="dropdown.open = true" @input="searchTag" v-model="tagname" class="mt-1" type="text" placeholder="Tag"/>
                     <Dropdown align="left" ref="dropdown">
                         <template #content>
-                            <ul>
+                            <ul class="max-h-[50vh] overflow-y-auto">
                                 <li class="px-4 py-1" v-if="tags.length === 0">No Results</li>
                                 <template v-else>
                                     <li class="text-sm italic bg-ui-800 px-2 border-b border-ui-700">You must click to select</li>
@@ -126,7 +143,7 @@ onMounted(() => {
                 <div class="pane" v-if="level.tags.length === 0">This level has no tags.</div>
                 <div v-for="tag in level.tags" class="x pane justify-between">
                     <div class="x items-center space-x-2">
-                        <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline rounded-full text-green-500 w-5 h-5">
+                        <svg @click="isAdmin() ? verify(tag.id, !tag.pivot.verified) : void(0)" v-if="tag.pivot.verified || isAdmin()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline rounded-full w-5 h-5" :class="{'text-green-500': tag.pivot.verified, 'cursor-pointer': isAdmin(), 'opacity-50': !tag.pivot.verified}">
                             <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                         </svg>
                         <h2>{{ tag.name }}</h2>

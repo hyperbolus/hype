@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\CrowdVote;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
+use App\Models\System\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -45,6 +46,23 @@ class LevelTagVoteController extends Controller
         ]);
 
         $tag = Tag::query()->find($request->integer('tag_id'));
+
+        if ($request->has('verify')) {
+            /**
+             * @type User $user
+             */
+            $user = auth()->user();
+            if (!$user->hasRole('admin')) {
+                abort(401);
+            } else {
+                $level->tags()->updateExistingPivot($request->integer('tag_id'), [
+                    // TODO: have ability to vote true false or null for verify. false means explicit reject
+                    'verified' => $request->boolean('verify') ? true : null
+                ]);
+            }
+
+            return back();
+        }
 
         // TODO: when making this poly I forgot to add the other columns to this check
         if (! $level->tags()->where('tag_id', '=', $request->integer('tag_id'))->first()) {
@@ -86,7 +104,7 @@ class LevelTagVoteController extends Controller
 
         $level->tags()->updateExistingPivot($request->integer('tag_id'), [
             'score' => $score,
-        ], 1);
+        ]);
 
         return back();
     }
