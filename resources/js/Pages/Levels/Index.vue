@@ -154,7 +154,9 @@ const face = (level) => {
                 </div>
             </div>
             <Pagination :list="levels"/>
-            <transition-group enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="y relative space-y-4">
+            <!-- TODO: Add more (helpful) messages for other filters -->
+            <div class="pane text-center italic text-ui-500" v-if="levels.data.length === 0 && levels.total > 0">"You just blow in from stupid town?"</div>
+            <transition-group v-else enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="y relative space-y-4">
                 <LevelTicket v-for="(level, index) in levels.data" :level="level" :key="level.id" :style="`transition-delay: ${index * 65}ms;`"/>
             </transition-group>
             <Pagination :list="levels"/>
