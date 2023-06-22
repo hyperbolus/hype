@@ -55,7 +55,7 @@ const position = (engage) => {
                 <div class="absolute y items-center w-full pt-2 transition ease-out transform" :class="open ? ['opacity-100', 'duration-200', 'scale-100'] : ['duration-75', 'opacity-0', 'scale-95']">
                     <div class="drop-shadow absolute border-[8px] border-t-0 top-0 border-transparent border-b-ui-700"></div>
                     <div class="z-10 absolute border-[8px] border-t-0 top-[1.5px] border-transparent border-b-ui-900"></div>
-                    <div class="relative shadow-lg rounded bg-ui-900 border border-ui-700 rounded overflow-clip">
+                    <div class="relative shadow-lg rounded bg-ui-900 border border-ui-700 rounded overflow-hidden">
                         <span v-if="message" class="block text-center text-xs select-none px-2 py-1">{{ message.toString().replaceAll(' ', '&nbsp;') }}</span>
                         <slot v-else name="content" />
                     </div>

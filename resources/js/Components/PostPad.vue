@@ -101,7 +101,7 @@ resumable.value.on('fileProgress', function(file, message){
                     </div>
                     <div class="x items-center gap-2">
                         <span class="text-xs">{{ Math.round(file.progress * 100) }}%</span>
-                        <div class="rounded-full overflow-clip border border-ui-700 w-64">
+                        <div class="rounded-full overflow-hidden border border-ui-700 w-64">
                             <div class="text-xs py-1 transition-[width] duration-500" :class="file.progress === 1 ? 'bg-green-500' : 'bg-blue-500'" :style="`width: ${file.progress * 100}%;`"></div>
                         </div>
                     </div>

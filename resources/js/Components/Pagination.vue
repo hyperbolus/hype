@@ -15,7 +15,7 @@ const promptPage = () => {
 </script>
 <template>
     <div class="x justify-center">
-        <div class="x items-center pane overflow-clip !py-0 !px-0 !rounded-md w-fit">
+        <div class="x items-center pane overflow-hidden !py-0 !px-0 !rounded-md w-fit">
             <template v-if="list.current_page !== 1">
                 <Link v-if="list.current_page - 1 !== 1" :href="list.first_page_url" class="px-1 hover:text-ui-500">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">

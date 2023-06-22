@@ -60,7 +60,7 @@ const tilt = (e) => {
                     leave-active-class="transition ease-in duration-75"
                     leave-from-class="transform opacity-100 scale-100"
                     leave-to-class="transform opacity-0 scale-50">
-                    <div v-show="open" class="card rounded overflow-clip relative" ref="card">
+                    <div v-show="open" class="card rounded overflow-hidden relative" ref="card">
                         <img v-if="image" :alt="alt" :src="image"/>
                         <slot v-if="open" name="content"/>
                         <div v-if="holo" ref="shine" class="_sparkle absolute inset-0 w-full h-full"></div>

@@ -100,7 +100,7 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     <img class="w-64" :src="hyper1"/>
                     <img class="absolute top-0 left-0 rotate-hue w-64" :src="hyper2"/>
                 </div>
-                <div class="hidden glass pt-2 overflow-clip">
+                <div class="hidden glass pt-2 overflow-hidden">
                     <h2 class="font-bold text-xl mx-4 mb-2">Shoutbox</h2>
                     <div class="y bg-ui-900 h-64 overflow-y-auto text-sm divide-y divide-ui-700">
                         <span class="px-2 py-1">Chatter 1: hello!</span>

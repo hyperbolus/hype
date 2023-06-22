@@ -29,7 +29,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
             </template>
             <template #content>
                 <div v-if="$page.props.user.notifications.length === 0" class="px-2 py-1">No new notifications.</div>
-                <div class="rounded overflow-clip">
+                <div class="rounded overflow-hidden">
                     <div v-for="notification in $page.props.user.notifications" class="px-2 py-1 cursor-pointer hover:bg-ui-800">
                         <Link :href="notification.data.link">{{ notification.data.message }}</Link>
                     </div>
