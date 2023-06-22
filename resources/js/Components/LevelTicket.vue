@@ -67,7 +67,7 @@ const displayRating = (rating) => {
                             </div>
                         </div>
                         <div class="x z-10 md:-translate-x-8 justify-center sm:w-fit sm:skew-x-12 sm:rounded-tr-lg bg-ui-800">
-                            <div class="grid sm:-skew-x-12 grid-cols-4 md:ml-8 gap-4 py-1.5 px-4 transition-[text-shadow] [text-shadow:black_0_0_10px]">
+                            <div class="grid sm:-skew-x-12 grid-cols-4 sm:grid-cols-5 md:ml-8 gap-4 py-1.5 px-4 transition-[text-shadow] [text-shadow:black_0_0_10px]">
                                 <span class="y">
                                     <span class="text-xs uppercase">Difficulty</span>
                                     <span class="text-lg font-bold">{{ displayRating(level.rating_difficulty) }}</span>
@@ -83,6 +83,10 @@ const displayRating = (rating) => {
                                 <span class="y">
                                     <span class="text-xs uppercase">Overall</span>
                                     <span class="text-lg font-bold">{{ displayRating(level.rating_overall) }}</span>
+                                </span>
+                                <span class="hidden sm:flex flex-col">
+                                    <span class="text-xs uppercase">Reviews</span>
+                                    <span class="text-lg font-bold">{{ level.reviews_count }}</span>
                                 </span>
                             </div>
                         </div>
