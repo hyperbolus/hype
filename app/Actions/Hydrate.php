@@ -11,6 +11,7 @@ class Hydrate
     {
         $level = Level::query()->find($id);
 
+        // TODO: Find some heuristic for updating levels, maybe more frequently if in mod queue
         if ($level === null) {
             $res = Http::get('https://gdbrowser.com/api/level/'.$id)->json();
 

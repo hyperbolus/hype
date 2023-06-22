@@ -34,12 +34,13 @@ class PostController extends Controller
         $post->body = $request->string('body');
         $post->save();
 
-        return back(); // TODO: use this, way shorter!!!
+        return back();
     }
 
     public function show(Post $post): RedirectResponse
     {
         $post->load('thread');
+        // TODO: Either highlighted or go to page (both prolly)
 
         return redirect()->route('threads.show', $post->thread->slug);
     }

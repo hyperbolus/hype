@@ -16,6 +16,7 @@ class MessageController extends Controller
 {
     public function index(Request $request): Response
     {
+        // TODO: Figure out how to get the latest message so the client knows which conversations have unread messages
         $conversations = Message::query()->from('messages AS t1')->whereRaw('(sender_id = '.$request->user()->id.' OR recipient_id = '.$request->user()->id.') AND created_at = ( SELECT MAX(created_at) FROM messages AS t2 WHERE t1.a = t2.a AND t1.b = t2.b LIMIT 1 )')->orderByDesc('created_at')->with(['sender', 'recipient'])->paginate(25);
 
         return Inertia::render('Inbox/Index', [
