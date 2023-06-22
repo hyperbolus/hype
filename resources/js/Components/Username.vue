@@ -10,11 +10,12 @@ const props = defineProps({
     flag: {
         type: Boolean,
         default: true
-    }
+    },
+    popUnder: Boolean
 })
 </script>
 <template>
-    <Tooltip :caret="false" :decoration="false" :inline="true" container-class="pb-1 bottom-full">
+    <Tooltip :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'}`">
         <Link :href="href ?? route('users.show', user.id)" class="transition-colors text-ui-200 break-all">{{ user.name }}</Link>
         <template #content>
             <div class="y box shadow-xl !p-0 overflow-hidden">

@@ -5,7 +5,7 @@ import Toggle from "@/Components/Toggle.vue";
 import {toggleDark, isDark} from '../util.js'
 </script>
 <template>
-    <div class="x z-10 transition-colors justify-center w-full mt-4">
+    <div class="x transition-colors justify-center w-full mt-4">
         <div class="x items-start gap-2 justify-between lg:max-w-5xl xl:max-w-6xl w-full text-xs px-2 border border-ui-800 bg-ui-900 md:rounded-lg">
             <div class="x space-x-2 py-2">
                 <Link :href="route('home')">GD Forums</Link>

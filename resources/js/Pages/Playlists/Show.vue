@@ -21,7 +21,7 @@ const props = defineProps({
             <div class="x items-center justify-between">
                 <div>
                     <h2 class="font-bold text-2xl">{{ playlist.title }}</h2>
-                    <span class="text-sm">Created by <Username :user="playlist.owner"/>, {{ new Date(playlist.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Playlist ID: {{ playlist.id }}</span>
+                    <span class="text-sm">Created by <Username :pop-under="true" :user="playlist.owner"/>, {{ new Date(playlist.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Playlist ID: {{ playlist.id }}</span>
                 </div>
                 <div class="x space-x-2">
                     <Link :href="route('roulette') + `?type=playlist&id=${playlist.id}&seed=${Math.floor(Math.random() * (99999 - 10000) + 99999)}`" class="button">Roulette</Link>

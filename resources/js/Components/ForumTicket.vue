@@ -9,7 +9,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <div class="x overflow-clip items-stretch items-center rounded-lg bg-opacity-60 bg-ui-900 shadow transition hover:shadow-lg hover:bg-opacity-75 gap-4 px-4">
+    <div class="x items-stretch items-center rounded-lg bg-opacity-60 bg-ui-900 shadow transition hover:shadow-lg hover:bg-opacity-75 gap-4 px-4">
         <div class="x space-x-4 grow">
             <div class="x items-center my-4">
                 <div class="transition-colors bg-ui-800 p-3 rounded-full">
