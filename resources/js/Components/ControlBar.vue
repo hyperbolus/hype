@@ -52,7 +52,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
         </Link>
         <Dropdown class="shrink-0">
             <template #trigger>
-                <div class="x transition-colors bg-ui-950 p-1 rounded-full items-center cursor-pointer">
+                <div class="x bg-ui-950 p-1 rounded-full items-center cursor-pointer">
                     <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                     <span>{{ $page.props.user.name }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="shrink-0 mx-1 w-5 h-5">
@@ -65,16 +65,16 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                 <Link :href="route('settings.home')" class="block px-2 py-1 hover:bg-ui-800">Settings</Link>
                 <Link v-if="$page.props.user.roles.includes('admin')" :href="route('system.home')" class="block px-2 py-1 hover:bg-ui-800">Admin Panel</Link>
                 <template v-if="false">
-                    <div class="transition-colors border-t border-t-ui-700"></div>
+                    <div class="border-t border-t-ui-700"></div>
                     <label @click.stop class="x items-center justify-between px-2 py-1">
                         <span>Dark Mode</span>
                         <Toggle class="pointer-events-none cursor-pointer" @click="toggleDark" v-model="isDark"/>
                     </label>
                 </template>
-                    <div class="transition-colors border-t border-t-ui-700"></div>
+                    <div class="border-t border-t-ui-700"></div>
                 <template v-if="$page.props.user.impersonating">
                     <Link :href="route('impersonate.leave')" class="block px-2 py-1 cursor-pointer hover:bg-ui-800">Stop Impersonating</Link>
-                    <div class="transition-colors border-t border-t-ui-700"></div>
+                    <div class="border-t border-t-ui-700"></div>
                 </template>
                 <div @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white">Logout</div>
             </template>

@@ -55,10 +55,10 @@ const tab = ref(0);
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl p-4">
                 <div class="x w-full gap-2" :class="{'justify-end': !$page.props.auth || profile.id === $page.props.user.id, 'justify-between': $page.props.auth && profile.id !== $page.props.user.id}">
                     <div v-if="$page.props.auth && profile.id !== $page.props.user.id" class="x gap-2">
-                        <Link :href="route('inbox.create') + '?to=' + profile.id" class="transition-colors cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
+                        <Link :href="route('inbox.create') + '?to=' + profile.id" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
                     </div>
                     <div class="x gap-2">
-                        <Link :href="route('reports.create') + `?type=user&id=${profile.id}`" class="hidden transition-colors cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Report</Link>
+                        <Link :href="route('reports.create') + `?type=user&id=${profile.id}`" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Report</Link>
                     </div>
                 </div>
                 <div class="x items-end justify-between">
@@ -140,14 +140,14 @@ const tab = ref(0);
             <div class="flex space-x-4 md:w-3/4">
                 <div data-tab-name="About" class="y gap-2 w-1/2">
                     <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                        <div class="transition-colors rounded-t-lg bg-ui-800 px-2 py-1">
+                        <div class="rounded-t-lg bg-ui-800 px-2 py-1">
                             Bio
                         </div>
                         <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
                         <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                     </div>
                     <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                        <div class="transition-colors rounded-t-lg bg-ui-800 px-2 py-1">
+                        <div class="rounded-t-lg bg-ui-800 px-2 py-1">
                             Signature
                         </div>
                         <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
@@ -155,7 +155,7 @@ const tab = ref(0);
                     </div>
                 </div>
                 <div data-tab-name="Comments" class="y pane !px-0 !py-0 w-1/2 divide-y divide-ui-700">
-                    <div class="transition-colors rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
+                    <div class="rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
                     <div v-if="comments.data.length === 0" class="px-4 py-2">
                         Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
                     </div>
@@ -179,7 +179,7 @@ const tab = ref(0);
                 </div>
                 <div class="!hidden" data-tab-name="Activity">
                     <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                        <div class="transition-colors rounded-t bg-ui-800 px-2 py-1">
+                        <div class="rounded-t bg-ui-800 px-2 py-1">
                             Recent Reviews
                         </div>
                         <div v-if="reviews.data.length === 0" class="px-4 py-2">

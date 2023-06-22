@@ -102,12 +102,12 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                 </div>
                 <div class="hidden glass pt-2 overflow-clip">
                     <h2 class="font-bold text-xl mx-4 mb-2">Shoutbox</h2>
-                    <div class="y transition-colors bg-ui-900 h-64 overflow-y-auto text-sm divide-y divide-ui-700">
+                    <div class="y bg-ui-900 h-64 overflow-y-auto text-sm divide-y divide-ui-700">
                         <span class="px-2 py-1">Chatter 1: hello!</span>
-                        <span class="px-2 py-1 transition-colors">Chatter 2: hi!</span>
-                        <span class="px-2 py-1 transition-colors">Chatter 192: hey!</span>
+                        <span class="px-2 py-1">Chatter 2: hi!</span>
+                        <span class="px-2 py-1">Chatter 192: hey!</span>
                     </div>
-                    <input class="w-full transition-colors bg-ui-900 outline-0 border-none focus:ring-0 placeholder-ui-600 " placeholder="Type your message..." type="text"/>
+                    <input class="w-full bg-ui-900 outline-0 border-none focus:ring-0 placeholder-ui-600 " placeholder="Type your message..." type="text"/>
                 </div>
                 <details class="pane">
                     <summary class="font-bold text-xl">About</summary>

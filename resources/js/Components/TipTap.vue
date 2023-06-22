@@ -139,7 +139,7 @@ watch(props.modelvalue, (old, current) => {
 </script>
 <template>
     <div class="y items-center">
-        <div v-if="editor && editable" class="x w-full flex-wrap transition-colors divide-x divide-ui-700 border-b border-ui-700">
+        <div v-if="editor && editable" class="x w-full flex-wrap divide-x divide-ui-700 border-b border-ui-700">
             <div class="x items-center text-xl p-1 space-x-1">
                 <button title="Bold" class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-ui-700': editor.isActive('bold') }">
                     <span class="block w-4">&#119809;</span>
@@ -156,7 +156,7 @@ watch(props.modelvalue, (old, current) => {
                     <span class="absolute rounded left-[25%] bottom-[0.5rem] border-y border-ui-300 px-2"></span>
                 </button>
             </div>
-            <div class="x items-center p-1 transition-colors">
+            <div class="x items-center p-1">
                 <button title="Blockquote" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-ui-700': editor.isActive('blockquote') }">
                     <span class="block px-1 scale-[1.8] translate-y-[.42rem]">&#128630;</span>
                 </button>
@@ -171,7 +171,7 @@ watch(props.modelvalue, (old, current) => {
                     </svg>
                 </button>
             </div>
-            <div class="x items-center p-1 transition-colors">
+            <div class="x items-center p-1">
                 <button title="Undo" class="px-2 py-1 rounded" @click="editor.chain().focus().undo().run()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                         <path fill-rule="evenodd" d="M7.793 2.232a.75.75 0 01-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 010 10.75H10.75a.75.75 0 010-1.5h2.875a3.875 3.875 0 000-7.75H3.622l4.146 3.957a.75.75 0 01-1.036 1.085l-5.5-5.25a.75.75 0 010-1.085l5.5-5.25a.75.75 0 011.06.025z" clip-rule="evenodd" />
@@ -188,7 +188,7 @@ watch(props.modelvalue, (old, current) => {
                     </svg>
                 </button>
             </div>
-            <div class="x items-center p-1 transition-colors">
+            <div class="x items-center p-1">
                 <Dropdown class="hidden" align="left" width="fit">
                     <template #trigger>
                         <button title="Insert Image" class="px-2 py-1 rounded" @click="editor.chain().focus().undo().run()">
@@ -225,7 +225,7 @@ watch(props.modelvalue, (old, current) => {
                 </Dropdown>
             </div>
         </div>
-        <editor-content class="transition-colors w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
+        <editor-content class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
         <pre v-if="source" class="p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</pre>
     </div>
 </template>

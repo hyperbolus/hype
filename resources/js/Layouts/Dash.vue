@@ -43,7 +43,7 @@ const setBG = () => {
 </script>
 <template>
     <!-- TODO: Figure out the nesting so scrollbar is inside and colored and overscroll has the header/footer colors extend as the bg color -->
-    <div ref="base" class="y relative transition-colors items-center text-ui-300 min-h-screen grow overflow-x-hidden">
+    <div ref="base" class="y relative items-center text-ui-300 min-h-screen grow overflow-x-hidden">
         <Head><title>{{ title }}</title></Head>
         <NetworkNav/>
         <SiteNav/>
@@ -52,7 +52,7 @@ const setBG = () => {
         </Breadcrumbs>
         <div class="absolute -z-10 h-full w-full bg-rainbow" style="mask-size: 8rem;" :style="`mask-image: url('${patternBG}?');`"></div>
         <div class="y relative grow items-center w-full ">
-            <div v-if="decorations" class="flex flex-col flex-grow transition-colors shadow-xl bg-ui-950 border border-ui-900/75 md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4 my-4 rounded-lg">
+            <div v-if="decorations" class="flex flex-col flex-grow shadow-xl bg-ui-950 border border-ui-900/75 md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4 my-4 rounded-lg">
                 <slot/>
             </div>
             <slot v-else/>

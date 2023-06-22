@@ -99,23 +99,23 @@ const face = () => {
                                 <img v-if="level.coins > 1" class="h-4 -ml-1.5" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                                 <img v-if="level.coins > 2" class="h-4 -ml-1.5" src="https://browser.gdps.io/assets/silvercoin.png" alt="coin"/>
                             </div>
-                            <div v-if="level.stars" class="x items-center px-2 py-0.5 text-sm transition-colors rounded bg-ui-800">
+                            <div v-if="level.stars" class="x items-center px-2 py-0.5 text-sm rounded bg-ui-800">
                                 <span class="font-bold text-xs mr-1">{{ level.stars }}</span>
                                 <img class="h-4" src="https://browser.gdps.io/assets/star.png" alt="star"/>
                             </div>
-                            <div v-if="level.difficulty" class="px-2 py-0.5 text-xs transition-colors rounded bg-ui-800">{{ difficulties[level.difficulty] }}</div>
-                            <div v-if="level.featured" class="px-2 py-0.5 text-xs transition-colors rounded bg-ui-800">Featured</div>
-                            <div v-if="level.epic" class="px-2 py-0.5 text-xs transition-colors rounded bg-ui-800">Epic</div>
+                            <div v-if="level.difficulty" class="px-2 py-0.5 text-xs rounded bg-ui-800">{{ difficulties[level.difficulty] }}</div>
+                            <div v-if="level.featured" class="px-2 py-0.5 text-xs rounded bg-ui-800">Featured</div>
+                            <div v-if="level.epic" class="px-2 py-0.5 text-xs rounded bg-ui-800">Epic</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="x transition-colors bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
+        <div class="x bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
             <div class="y items-center font-bold text-sm">
                 TOP TAGS
             </div>
-            <div class="py-2 select-none transition-colors border-r border-ui-400 border-ui-700"></div>
+            <div class="py-2 select-none border-r border-ui-400 border-ui-700"></div>
             <span v-if="level.tags.length === 0" class="opacity-50">No Tags</span>
             <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
                     <span title="Verified Tag">

@@ -16,7 +16,7 @@ const props = defineProps({
 </script>
 <template>
     <Tooltip :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'}`">
-        <Link :href="href ?? route('users.show', user.id)" class="transition-colors text-ui-200 break-all">{{ user.name }}</Link>
+        <Link :href="href ?? route('users.show', user.id)" class="text-ui-200 break-all">{{ user.name }}</Link>
         <template #content>
             <div class="y box shadow-xl !p-0 overflow-hidden">
                 <div class="bg-ui-600 py-12 bg-cover bg-center" :style="`background-image: url('${user.banner_url}');`"></div>

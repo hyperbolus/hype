@@ -62,7 +62,7 @@ const sendLike = () => {
 <template>
     <div class="y pane !p-0 border border-ui-700">
         <div class="flex flex-col md:flex-row">
-            <div v-if="postbit" class="relative rounded-tl-lg bg-ui-800 !bg-opacity-50 shrink-0 items-center transition-colors md:border-r border-r-ui-700">
+            <div v-if="postbit" class="relative rounded-tl-lg bg-ui-800 !bg-opacity-50 shrink-0 items-center md:border-r border-r-ui-700">
                 <div class="flex md:flex-col relative z-10 gap-4 p-4">
                     <div v-if="user.postbit_url" class="absolute rounded-tl-lg -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
@@ -181,7 +181,7 @@ const sendLike = () => {
                 </div>
             </div>
         </div>
-        <div v-if="!preview && post.reactions.length > 0" class="x items-center transition-colors border-t p-2 space-x-2 border-t-ui-700">
+        <div v-if="!preview && post.reactions.length > 0" class="x items-center border-t p-2 space-x-2 border-t-ui-700">
             <div class="x items-center space-x-1 text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                     <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />

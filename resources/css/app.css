@@ -4,10 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*body * {
-    @apply transition-colors duration-200;
-}*/
-
 .x {
     @apply flex flex-row;
 }
@@ -17,11 +13,11 @@
 }
 
 .box {
-    @apply rounded-lg px-4 py-2 shadow transition-colors bg-ui-900 border border-ui-700 overflow-hidden;
+    @apply rounded-lg px-4 py-2 shadow bg-ui-900 border border-ui-700 overflow-hidden;
 }
 
 .box-og {
-    @apply rounded-lg px-4 py-2 shadow transition-colors bg-ui-800 border border-ui-700;
+    @apply rounded-lg px-4 py-2 shadow bg-ui-800 border border-ui-700;
 }
 
 .pane {
@@ -29,11 +25,11 @@
 }
 
 .glass {
-    @apply rounded-lg shadow transition-colors bg-ui-900
+    @apply rounded-lg shadow bg-ui-900
 }
 
 .glass-og {
-    @apply rounded-lg shadow transition-colors bg-ui-900 bg-opacity-60
+    @apply rounded-lg shadow bg-ui-900 bg-opacity-60
 }
 
 .button {

@@ -16,7 +16,7 @@ const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
 </script>
 <template>
-    <div class="y group/nav items-center relative transition-colors w-full py-4 bg-ui-900">
+    <div class="y group/nav items-center relative w-full py-4 bg-ui-900">
         <div class="x z-10 transition-opacity opacity-0 group-hover/nav:opacity-100 absolute w-full h-48 pointer-events-none top-full bg-gradient-to-b from-ui-900 to-transparent">
 
         </div>
@@ -28,7 +28,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                     <template v-for="(node, key) in navigation">
                         <Tooltip v-if="node.hasOwnProperty('children')" :caret="false" :decoration="false">
                             <div class="x items-center">
-                                <Link :href="route(node.route)" class="hover:text-ui-500 transition transition-colors">{{ node.name }}</Link>
+                                <Link :href="route(node.route)" class="hover:text-ui-500 transition-colors">{{ node.name }}</Link>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                 </svg>
@@ -39,7 +39,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                                 </div>
                             </template>
                         </Tooltip>
-                        <Link v-else :href="route(node.route)" class="hover:text-ui-500 transition transition-colors">{{ node.name }}</Link>
+                        <Link v-else :href="route(node.route)" class="hover:text-ui-500 transition-colors">{{ node.name }}</Link>
                     </template>
                 </div>
             </div>
@@ -54,7 +54,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
     <div v-if="mobileNavOpen" class="y md:hidden relative z-20 bg-ui-900 w-full pb-1 space-y-2">
         <ControlBar v-if="$page.props.auth" class="justify-center bg-ui-900 py-1 border-y border-ui-700"/>
         <template v-for="(node, key) in navigation">
-            <Link :href="route(node.route)" class="hover:text-ui-500 transition transition-colors px-4">{{ node.name }}</Link>
+            <Link :href="route(node.route)" class="hover:text-ui-500 transition-colors px-4">{{ node.name }}</Link>
             <div v-if="node.hasOwnProperty('children')" class="y bg-ui-200">
                 <Link v-for="(child, key) in node.children" :key="key" class="px-8 py-1 bg-ui-800 hover:bg-ui-700" :href="route(child.route)">{{ child.name }}</Link>
             </div>
