@@ -53,15 +53,22 @@ const displayRating = (rating) => {
                 <div class="x relative z-10 items-center md:space-x-2">
                     <div class="y w-full z-0">
                         <div class="x items-center px-4 py-2 [text-shadow:black_0_0_10px]">
+                            <span class="y sm:hidden space-y-1 justify-center -ml-1 mr-3">
+                                <span class="rounded-full p-[.15rem] px-2 bg-yellow-400" :class="{'invisible': level.stars === 0}"></span>
+                                <span v-if="level.featured" class="rounded-full p-[.15rem] px-2 bg-amber-500"></span>
+                                <span v-if="level.epic" class="rounded-full p-[.15rem] px-2 bg-red-500"></span>
+                            </span>
                             <div class="hidden mr-4 sm:flex place-items-center w-16 aspect-square">
                                 <img :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
                             </div>
                             <div class="y">
-                                <div class="x z-10 items-center h-full space-x-1">
-                                    <h2 class="text-2xl font-bold mr-2">{{ level.name }}</h2>
-                                    <div class="rounded-full p-[.15rem] py-2 bg-yellow-400" :class="{'invisible': level.stars === 0}"></div>
-                                    <div class="rounded-full p-[.15rem] py-2 bg-amber-500" :class="{'invisible': !level.featured}"></div>
-                                    <div class="rounded-full p-[.15rem] py-2 bg-red-500" :class="{'invisible': !level.epic}"></div>
+                                <div class="x z-10 items-center h-full space-x-2">
+                                    <h2 class="text-2xl font-bold">{{ level.name }}</h2>
+                                    <span class="hidden sm:flex space-x-1">
+                                        <span class="rounded-full p-[.15rem] py-2 bg-yellow-400" :class="{'invisible': level.stars === 0}"></span>
+                                        <span class="rounded-full p-[.15rem] py-2 bg-amber-500" :class="{'invisible': !level.featured}"></span>
+                                        <span class="rounded-full p-[.15rem] py-2 bg-red-500" :class="{'invisible': !level.epic}"></span>
+                                    </span>
                                 </div>
                                 <p class="text-lg">{{ level.creator }}</p>
                             </div>
