@@ -71,7 +71,7 @@ const tab = ref(0);
                             <span class="text-sm">Junior Member</span>
                         </div>
                     </div>
-                    <div class="x text-ui-200 py-2 rounded-lg bg-ui-900">
+                    <div class="hidden md:flex text-ui-200 py-2 rounded-lg bg-ui-900">
                         <div class="x items-center gap-2 px-4">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z" clip-rule="evenodd" />
@@ -104,8 +104,8 @@ const tab = ref(0);
                 </div>
             </div>
         </div>
-        <div class="x justify-center pane !py-0 lg:max-w-5xl xl:max-w-6xl w-full w-full">
-            <div class="x w-full items-center justify-between px-4 py-2">
+        <div class="x justify-center md:px-4 lg:max-w-5xl xl:max-w-6xl w-full w-full">
+            <div class="x w-full md:rounded-lg bg-ui-900 items-center justify-between px-4 py-2">
                 <div class="mt-12 sm:mt-0 sm:ml-44 z-10">
                     <span class="text-sm font-bold mr-1 uppercase" :class="isOnline() ? 'text-green-500' : 'text-red-500'">{{ isOnline(profile.last_seen) ? 'ON' : 'OFF' }}LINE</span> Last seen <Timestamp :time="profile.last_seen"/>
                     <br/>
@@ -116,9 +116,9 @@ const tab = ref(0);
                 </div>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex flex-col space-y-4 md:w-1/4">
-                <div class="y pane text-sm !px-2">
+        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 py-4 md:px-4">
+            <div class="flex flex-col space-y-4 md:w-1/2 lg:w-1/4">
+                <div class="y bg-ui-900 px-4 py-2 md:rounded-lg text-sm !px-2">
                     <div class="x justify-between p-2">
                         <span>Reputation:</span>
                         <Link :href="route('reputation.show', profile.id)" class="text-white">{{ profile.reputation }}</Link>
@@ -137,25 +137,25 @@ const tab = ref(0);
                     </div>
                 </div>
             </div>
-            <div class="flex space-x-4 md:w-3/4">
-                <div data-tab-name="About" class="y gap-2 w-1/2">
-                    <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                        <div class="rounded-t-lg bg-ui-800 px-2 py-1">
+            <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 md:w-1/2 lg:w-3/4">
+                <div data-tab-name="About" class="y gap-2 lg:w-1/2">
+                    <div class="y md:rounded-b-lg bg-ui-900 divide-y divide-ui-700">
+                        <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">
                             Bio
                         </div>
                         <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
                         <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                     </div>
-                    <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                        <div class="rounded-t-lg bg-ui-800 px-2 py-1">
+                    <div class="y md:rounded-b-lg bg-ui-900 divide-y divide-ui-700">
+                        <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">
                             Signature
                         </div>
                         <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
                         <span v-else class="opacity-50 italic px-4 py-2">This user has no signature</span>
                     </div>
                 </div>
-                <div data-tab-name="Comments" class="y pane !px-0 !py-0 w-1/2 divide-y divide-ui-700">
-                    <div class="rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
+                <div data-tab-name="Comments" class="y md:rounded-b-lg bg-ui-900 lg:w-1/2 divide-y divide-ui-700">
+                    <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
                     <div v-if="comments.data.length === 0" class="px-4 py-2">
                         Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
                     </div>
