@@ -12,7 +12,7 @@ const patronsGoal = 20;
                 <span>Monthly Goal</span>
             </div>
             <div class="px-2 py-1 bg-ui-900">
-                <div class="bg-ui-800 text-center font-bold text-lg py-1 rounded-full w-full">
+                <div class="bg-ui-800 text-center font-bold text-lg py-1 px-1 rounded-full w-full">
                     <div :class="goal.patron_count >= patronsGoal ? 'bg-amber-50 shadow-[0_0px_6px_4px_rgba(200,120,40,0.75)]' : 'bg-cyan-400'" class="text-center font-bold text-lg py-1 px-1 rounded-full" :style="`width: ${Math.min(goal.patron_count / patronsGoal * 100, 100)}%;`"></div>
                 </div>
                 <div class="px-2 py-1 x text-xs justify-between">

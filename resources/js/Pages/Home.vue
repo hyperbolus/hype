@@ -5,8 +5,6 @@ import AppLayout from "@/Layouts/Dash.vue";
 import PatreonGoal from "@/Components/PatreonGoal.vue";
 import route from 'ziggy-js'
 import DiscordInvite from "@/Components/DiscordInvite.vue";
-import hyper1 from '@/../images/sd2_girl_base.png'
-import hyper2 from '@/../images/sd2_girl_mask.png'
 </script>
 <template>
     <app-layout title="Home">
@@ -29,77 +27,6 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                     <summary class="font-bold text-xl">How Do I...</summary>
                     <p>You will need an account to make contributions or participate in discussion. If you need help with anything please visit our Discord.</p>
                 </details>
-                <details class="hidden md:flex flex-col pane">
-                    <summary class="font-bold text-xl">Roadmap</summary>
-                    <div class="x space-x-4 h-[50vh]">
-                        <div class="y space-y-2 w-1/3 overflow-y-auto">
-                            <h2 class="font-bold">Planned</h2>
-                            <div class="y rounded-lg bg-ui-800 px-4 py-2">
-                                <p>GD Profiles</p>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Pages
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Account Linking
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Add Extra Customization
-                                </label>
-                            </div>
-                        </div>
-                        <div class="y space-y-2 w-1/3 overflow-y-auto">
-                            <h2 class="font-bold">In-Progress</h2>
-                            <div class="rounded-lg bg-ui-800 px-4 py-2">
-                                <p>Forums <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
-                            </div>
-                            <div class="y rounded-lg bg-ui-800 px-4 py-2">
-                                <p>Level Database <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent checked/> Reviews
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent checked/> Crowdsourced Tags
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Crowdsourced Screenshots
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Crowdsourced Replays
-                                </label>
-                            </div>
-                            <div class="rounded-lg bg-ui-800 px-4 py-2">
-                                <p>Profiles <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
-                            </div>
-                            <div class="y rounded-lg bg-ui-800 px-4 py-2">
-                                <p>Social Features <span class="bg-ui-600 px-2 rounded-full text-xs uppercase">functional</span></p>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent checked/> Messages
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Reputation
-                                </label>
-                                <label>
-                                    <input type="checkbox" class="rounded" @click.prevent/> Earned Credits / XP
-                                </label>
-                            </div>
-                            <div class="rounded-lg bg-ui-800 px-4 py-2">
-                                <p>Mods & texture pack marketplace</p>
-                            </div>
-                        </div>
-                        <div class="y space-y-2 w-1/3 overflow-y-auto">
-                            <h2 class="font-bold">Finished</h2>
-                            <div class="rounded-lg bg-ui-800 px-4 py-2">
-                                <p class="opacity-50">Nothing... ;v;</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="border-ui-700 mt-4 mb-1"/>
-                    <p>Current roadmap. The "Done" milestone is for v1 release. We are currently in beta!</p>
-                </details>
-                <div class="relative hidden">
-                    <img class="w-64" :src="hyper1"/>
-                    <img class="absolute top-0 left-0 rotate-hue w-64" :src="hyper2"/>
-                </div>
                 <div class="hidden glass pt-2 overflow-hidden">
                     <h2 class="font-bold text-xl mx-4 mb-2">Shoutbox</h2>
                     <div class="y bg-ui-900 h-64 overflow-y-auto text-sm divide-y divide-ui-700">
@@ -111,12 +38,21 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
                 </div>
                 <details class="pane">
                     <summary class="font-bold text-xl">About</summary>
-                    <p>GD Forums is a project that started ~2016 in my mind palace and it's current iteration is what you are using right now. This version (specifically the review system) was originally based on the work of Spellslave's Grimoire software. Though it has since been essentially rewritten.</p>
+                    <h2 class="font-bold">History</h2>
+                    <p>GD Forums is a project that started in my mind palace around ~2016. Some very poorly though out
+                        prototypes and a slightly better thought-out MyBB site later and here we are. Its current
+                        iteration is what you are using right now!</p>
+                    <h2 class="font-bold mt-2">Technology</h2>
+                    <p>The site is powered by the Laravel PHP framework + various services that sync from boomlings. The
+                        frontend is Vue + Tailwind. This version (specifically the review system) was originally based
+                        on the work of Spellslave's short-lived Grimoire software. Though it has since been essentially
+                        rewritten. The site or at least parts of it may be open sourced in the future.</p>
                 </details>
                 <details class="pane">
                     <summary class="font-bold text-xl">Special Thanks</summary>
                     <ul class="list-inside list-disc">
                         <li>Cvolton for help regarding interacting with gd servers</li>
+                        <li>Nora for her amazing work on MDL and being good at design in general</li>
                         <li>GD Colon for all of his awesome work with gd on web</li>
                         <li>matcool for replay conversion code</li>
                         <li>matcool again & npesta for inspiring roulette game</li>
@@ -136,11 +72,7 @@ import hyper2 from '@/../images/sd2_girl_mask.png'
             <PatreonGoal/>
             <h2 class="mx-2 font-bold text-2xl">Staff</h2>
             <div class="pane">
-                <ul class="list-inside list-disc">
-                    <li><Link :href="route('users.show', 14)">System</Link></li>
-                    <li><Link :href="route('users.show', 15)">Admin</Link></li>
-                    <li>You?</li>
-                </ul>
+                <p>Who knows? They're in the shadows...</p>
             </div>
             <StatsPanel/>
         </div>
