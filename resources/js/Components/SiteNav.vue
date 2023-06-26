@@ -16,17 +16,17 @@ const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
 </script>
 <template>
-    <div class="y group/nav items-center relative w-full py-4 bg-ui-900">
-        <div class="x z-10 transition-opacity opacity-0 group-hover/nav:opacity-100 absolute w-full h-48 pointer-events-none top-full bg-gradient-to-b from-ui-900 to-transparent">
+    <div class="y group/nav items-center relative w-full bg-ui-900">
+        <div class="hidden md:flex z-10 transition-opacity opacity-0 group-hover/nav:opacity-100 absolute w-full h-48 pointer-events-none top-full bg-gradient-to-b from-ui-900 to-transparent">
 
         </div>
         <div class="x px-2 gap-4 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
             <div class="x items-center space-x-4">
-                <SiteLogo/>
-                <div class="hidden md:flex items-center space-x-4 text-sm">
+                <SiteLogo class="py-4"/>
+                <div class="hidden md:flex h-full items-center space-x-4 text-sm">
                     <span v-if="navigation.length === 0" class="text-red-500">No key 'navigation' defined in site settings</span>
                     <template v-for="(node, key) in navigation">
-                        <Tooltip v-if="node.hasOwnProperty('children')" :caret="false" :decoration="false">
+                        <Tooltip v-if="node.hasOwnProperty('children')" container-class="top-full" class="h-full x items-center" :caret="false" :decoration="false">
                             <div class="x items-center">
                                 <Link :href="route(node.route)" class="hover:text-ui-500 transition-colors">{{ node.name }}</Link>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -34,7 +34,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                                 </svg>
                             </div>
                             <template #content>
-                                <div class="y -divide-y -divide-ui-700 min-w-[8rem] -ml-2">
+                                <div class="y -divide-y -divide-ui-700 min-w-[8rem] -ml-2 -mt-4">
                                     <Link v-for="(child, key) in node.children" :key="key" class="px-2 py-1 hover:bg-ui-800 rounded" :href="route(child.route)"><span class="bg-green-400 rounded-full px-[0.15rem] mr-2"></span> {{ child.name }}</Link>
                                 </div>
                             </template>
