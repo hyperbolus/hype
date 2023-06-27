@@ -22,18 +22,18 @@ class CalculateRatings
     }
 
     public static function level(Level $level): void {
-        $level->rating_difficulty = self::avgRating('difficulty');
-        $level->rating_gameplay = self::avgRating('gameplay');
-        $level->rating_visuals = self::avgRating('visuals');
-        $level->rating_overall = self::avgRating('overall');
+        $level->rating_difficulty = self::avgRating('difficulty', $level);
+        $level->rating_gameplay = self::avgRating('gameplay', $level);
+        $level->rating_visuals = self::avgRating('visuals', $level);
+        $level->rating_overall = self::avgRating('overall', $level);
         $level->save();
     }
 
-    private static function avgRating(string $type): float {
+    private static function avgRating(string $type, Level $level): float {
         if (!in_array($type, self::$validTypes)) return 0.0;
 
         return (float)\App\Models\Content\Review::query()
-            ->where('level_id', '=', 10565740)
+            ->where('level_id', '=', $level->id)
             ->whereNotNull('rating_' . $type)
             ->avg('rating_' . $type);
     }
