@@ -8,7 +8,7 @@ const focused = ref(true);
 
 const client = new MeiliSearch({
     host: 'https://search.gdps.io',
-    apiKey: 'Ywqrxd0V620a8702732c96928505a5689f8e7d117ad420bec4f765761470f909f9eaf060',
+    apiKey: 'Ywqrxd0V69ddf8b71ae31d5038ad9f387d2c5a22ec7414978602b9077ee312ac05380cf5',
 })
 const index = client.index('levels_index')
 
@@ -42,7 +42,7 @@ const handleFocus = () => {
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
         </svg>
         <!-- Changing this to v-show breaks because lastQuery (null) is undefined on searches cache -->
-        <div v-if="focused && searches[lastQuery]" class="absolute box shadow-xl top-12 min-w-full">
+        <div v-if="focused && searches[lastQuery]" class="absolute box shadow-xl top-12 z-10 min-w-full">
             <div v-show="searches[lastQuery].hits.length === 0">No results</div>
             <div v-for="(hit, index) in searches[lastQuery].hits" :key="index" class="hover:opacity-50">
                 <Link :href="route('levels.show', hit.level_id)">{{ hit.name }}</Link>
