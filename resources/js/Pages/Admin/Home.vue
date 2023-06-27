@@ -19,7 +19,7 @@ const announcementSend = (message, link) => {
 }
 
 const calcRatings = useForm({
-    action: 'recalculate rating'
+    action: 'recalculate ratings'
 })
 </script>
 <template>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Actions\CalculateRatings;
 use App\Models\System\User;
 use App\Notifications\Announcement;
 use Illuminate\Http\RedirectResponse;
@@ -22,6 +23,9 @@ class AdminController extends Controller
             case 'send announcement':
                 $users = User::all();
                 Notification::send($users, new Announcement($request->string('message'), $request->string('link')));
+                break;
+            case 'recalculate ratings':
+                CalculateRatings::all();
                 break;
         }
         return back();
