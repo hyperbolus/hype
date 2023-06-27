@@ -8,5 +8,5 @@ const props = defineProps({
 });
 </script>
 <template>
-    <span v-if="user.flag" class="fflag" :class="`ff-${size} fflag-${user.flag}`"></span>
+    <span v-if="user.flag" class="fflag rounded-sm" :class="`ff-${size} fflag-${user.flag}`"></span>
 </template>
