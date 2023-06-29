@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Intervention\Image\Facades\Image;
 
 class LevelController extends Controller
 {
@@ -156,14 +157,24 @@ class LevelController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $level->banner_url;
-                $level->banner_url = config('app.storage_url') . $disk->putFile('levels/banners/', $request->file('content'), 'public');
-                $level->save();
-                if (Level::whereBannerUrl($old)->count() === 0) {
-                    $disk->delete(substr($old, strlen(config('app.storage_url'))));
+
+                $image = Image::make($request->file('content')->getRealPath())
+                    ->fit(1920, 1080)
+                    ->stream('jpeg', 80);
+
+                $filename = explode('.', $request->file('content')->hashName());
+                $filename[count($filename) - 1] = 'jpg';
+                $filename = 'levels/banners/' . join('.', $filename);
+
+                if ($disk->put($filename, $image, 'public')) {
+                    $level->banner_url = config('app.storage_url') . $filename;
+                    $level->save();
+
+                    // Delete old if no more references
+                    if (Level::query()->where('banner_url', $old)->count() === 0) {
+                        $disk->delete(substr($old, strlen(config('app.storage_url'))));
+                    }
                 }
-                break;
-            case 'update tags':
-                //
                 break;
         }
 
