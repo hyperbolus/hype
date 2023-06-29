@@ -185,12 +185,17 @@ return [
     'migration_parameters' => [
         '--force' => true, // This needs to be true to run migrations in production.
         '--path' => (function () {
-            $dirs = glob(database_path('migrations/tenant').'/*', GLOB_ONLYDIR);
-            $sort = array_filter($dirs, function($p) {
-                $slices = explode('/', $p);
-                return !str_starts_with($slices[count($slices) - 1], '_');
-            });
-            return array_merge([database_path('migrations/tenant')], $sort);
+            $result = [];
+            $dir = database_path('migrations/tenant');
+            while($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
+                $dir .= '/*';
+                if(!$result) {
+                    $result = $dirs;
+                } else {
+                    $result = array_merge($result, $dirs);
+                }
+            }
+            return $result;
         })(),
         '--realpath' => true,
     ],
