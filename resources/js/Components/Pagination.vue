@@ -8,6 +8,7 @@ const props = defineProps({
 
 const promptPage = () => {
     let page = prompt('Jump to page number:')
+    if (!page) return;
     let first = props.list.first_page_url.toString();
     let url = first.substring(0, first.length - 1) + page;
     router.get(url);
