@@ -13,6 +13,8 @@ import Username from "@/Components/Username.vue";
 import UserFlag from "@/Components/UserFlag.vue";
 import {comment} from "postcss";
 import Textbox from "@/Components/Textbox.vue";
+import Lightbox from "@/Components/Lightbox.vue";
+import ReportModal from "@/Components/ReportModal.vue";
 
 const props = defineProps({
     profile: Object,
@@ -58,7 +60,12 @@ const tab = ref(0);
                         <Link :href="route('inbox.create') + '?to=' + profile.id" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
                     </div>
                     <div class="x gap-2">
-                        <Link :href="route('reports.create') + `?type=user&id=${profile.id}`" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Report</Link>
+                        <Lightbox>
+                            <span class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Report</span>
+                            <template #content>
+                                <ReportModal :reportable_id="profile.id" :reportable_type="1" @click.stop class="cursor-auto"/>
+                            </template>
+                        </Lightbox>
                     </div>
                 </div>
                 <div class="x items-end justify-between">

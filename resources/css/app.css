@@ -37,5 +37,5 @@
 }
 
 .textbox {
-    @apply resize-none resize-y w-full placeholder-ui-600 bg-ui-800 rounded-lg border-none;
+    @apply resize-none border-none focus:ring-0 focus:outline-none resize-y w-full placeholder-ui-600 bg-ui-800 rounded;
 }

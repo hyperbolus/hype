@@ -17,11 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('subject');
             $table->text('content');
+            $table->foreignId('reporter_id')->nullable();
             $table->text('action')->nullable();
-            $table->foreignId('reportable_id')->nullable();
-            $table->unsignedTinyInteger('reportable_type')->nullable();
-            $table->unsignedSmallInteger('reason')->nullable();
-            $table->unsignedSmallInteger('meta')->nullable();
+            $table->nullableIntMorphs('reportable');
+            $table->unsignedSmallInteger('reason_id')->nullable();
             $table->foreignId('closed_by')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();

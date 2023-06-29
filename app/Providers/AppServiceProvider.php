@@ -37,13 +37,6 @@ class AppServiceProvider extends ServiceProvider
 //        $paths = array_merge([database_path('migrations')], $sort);
 //        $this->loadMigrationsFrom($paths);
 
-        Relation::enforceMorphMap([
-            1 => User::class,
-            11 => Tag::class,
-            21 => Post::class,
-
-            40 => Level::class,
-            41 => LevelReplay::class,
-        ]);
+        Relation::enforceMorphMap(config('hyperbolus.morph_map'));
     }
 }

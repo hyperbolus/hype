@@ -168,7 +168,7 @@ Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.s
 
 Route::post('/reviews/create', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified']);
 
-Route::get('/reports/new', [ReportController::class, 'create'])->name('reports.create')->middleware(['auth', 'verified']);
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index')->middleware(['role:admin', 'auth', 'verified']);
 Route::post('/reports/new', [ReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
 
 Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette');

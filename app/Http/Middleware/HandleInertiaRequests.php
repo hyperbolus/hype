@@ -26,7 +26,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @see https://inertiajs.com/asset-versioning
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return string|null
      */
     public function version(Request $request): ?string
@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @see https://inertiajs.com/shared-data
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function share(Request $request): array
@@ -49,16 +49,22 @@ class HandleInertiaRequests extends Middleware
                 'counts' => Statistics::all(),
                 'patreon' => Statistics::patreon()
             ],
-            'settings' => Setting::query()->where('public', '=', true)->get()->map(function (Setting $setting) {
-                $setting->makeHidden(['key']);
-                if ($setting->type === 4) {
-                    $setting->value = json_decode($setting->value);
-                }
+            'settings' => (function () {
+                $settings = Setting::query()->where('public', '=', true)->get()->map(function (Setting $setting) {
+                    $setting->makeHidden(['key']);
+                    if ($setting->type === 4) {
+                        $setting->value = json_decode($setting->value);
+                    }
 
-                return $setting;
-            })->groupBy('site')->mapWithKeys(function ($group) {
-                return $group->keyBy('key');
-            }),
+                    return $setting;
+                })->groupBy('site')->mapWithKeys(function ($group) {
+                    return $group->keyBy('key');
+                });
+
+                $settings['_report_reasons'] = config('hyperbolus.report_reasons');
+
+                return clock($settings);
+            })(),
         ];
 
         return array_merge(parent::share($request), array_filter([
@@ -67,17 +73,18 @@ class HandleInertiaRequests extends Middleware
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
                     'csrf' => csrf_token(),
+                    'request_time' => microtime(true) - LARAVEL_START,
                     ...$firstLoad,
                 ];
             },
             'user' => function () use ($request) {
-                if (! $request->user()) {
+                if (!$request->user()) {
                     return null;
                 }
 
                 return array_merge($request->user()->toArray(), [
                     'impersonating' => app('impersonate')->isImpersonating(),
-                    'two_factor_enabled' => ! is_null($request->user()->two_factor_secret),
+                    'two_factor_enabled' => !is_null($request->user()->two_factor_secret),
                     //'linked_accounts' => $request->user()->accounts,
                     'roles' => $request->user()->roles->pluck('name'),
                     'notifications' => $request->user()->notifications,

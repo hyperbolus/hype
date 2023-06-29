@@ -9,6 +9,9 @@ import {computed, onBeforeMount, onUpdated, ref, watch} from "vue";
 import prettyBytes from "pretty-bytes";
 import bg from '@/../images/soundparty.jpg'
 import UserFlag from "@/Components/UserFlag.vue";
+import Lightbox from "@/Components/Lightbox.vue";
+import ReportModal from "@/Components/ReportModal.vue";
+import {isAuthenticated} from "@/util.js";
 
 const props = defineProps({
     post: {
@@ -159,11 +162,16 @@ const sendLike = () => {
                         <span>This post last modified <Timestamp :time="post.created_at"/>, by <Username :user="user"/></span>
                     </div>
                     <div v-if="!preview" class="x justify-between">
-                        <div onclick="alert('cry about it')" class="p-1.5 cursor-pointer bg-ui-800 text-ui-400 hover:text-white hover:bg-red-500 transition rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z" />
-                            </svg>
-                        </div>
+                        <Lightbox v-if="isAuthenticated()">
+                            <div class="p-1.5 cursor-pointer bg-ui-800 text-ui-400 hover:text-white hover:bg-red-500 transition rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z" />
+                                </svg>
+                            </div>
+                            <template #content>
+                                <ReportModal :reportable_id="post.id" :reportable_type="21" @click.stop class="cursor-auto"/>
+                            </template>
+                        </Lightbox>
                         <div class="x space-x-2">
                             <div @click="sendLike" class="p-1.5 cursor-pointer bg-ui-800 hover:bg-green-500 hover:text-white transition rounded" :class="liked ? 'text-red-500' : 'text-green-500'">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
