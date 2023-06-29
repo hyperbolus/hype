@@ -89,7 +89,9 @@ class LevelController extends Controller
      */
     public function show($id): Response
     {
-        $level = Hydrate::level($id)->load(['images', 'tags', 'videos']);
+        $level = Hydrate::level($id)->load(['images', 'tags', 'videos' => function ($q) {
+            $q->inRandomOrder()->limit(5);
+        }]);
 
         return Inertia::render('Levels/Show', [
             'level' => $level,
