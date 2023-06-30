@@ -35,7 +35,7 @@ const props = defineProps({
         </div>
         <div class="hidden md:block py-3 rounded border-r border-r-ui-300 self-center"></div>
         <div class="hidden md:flex justify-between space-x-2 mr-4 w-1/4 shrink-0">
-            <div v-if="forum.last_post" class="y justify-center">
+            <div v-if="forum.last_post" class="y w-full justify-center">
                 <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
                 <span class="text-xs"><Username :user="forum.last_post.author"/> &bull; <Timestamp :time="forum.last_post.created_at"/></span>
             </div>
