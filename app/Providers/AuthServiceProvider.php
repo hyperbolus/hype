@@ -19,8 +19,9 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         //\App\Models\Content\Review::class => \App\Policies\ReviewPolicy::class,
         //\App\Models\Content\Thread::class => \App\Policies\ReviewPolicy::class,
-        //\App\Models\Content\Post::class => \App\Policies\ReviewPolicy::class,
-        //\App\Models\Content\Playlist::class => \App\Policies\ReviewPolicy::class,
+        \App\Models\Content\Post::class => \App\Policies\PostPolicy::class,
+        \App\Models\Content\Playlist::class => \App\Policies\PlaylistPolicy::class,
+        \App\Models\Content\PlaylistSubmission::class, \App\Policies\PlaylistSubmissionPolicy::class
     ];
 
     /**

@@ -3,6 +3,8 @@ import {Link} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import AppLayout from "@/Layouts/Dash.vue";
 import Username from "@/Components/Username.vue";
+import LevelTicket from "@/Components/LevelTicket.vue";
+import {getUser, isAuthenticated} from "@/util.js";
 
 const props = defineProps({
     playlist: Object
@@ -25,22 +27,19 @@ const props = defineProps({
                 </div>
                 <div class="x space-x-2">
                     <Link :href="route('roulette') + `?type=playlist&id=${playlist.id}&seed=${Math.floor(Math.random() * (99999 - 10000) + 99999)}`" class="button">Roulette</Link>
-                    <Link :href="route('playlists.edit', playlist)" class="button">Edit</Link>
-                    <Link :href="route('submissions.create', playlist)" class="button">Submit Level</Link>
+                    <Link v-if="isAuthenticated() && playlist.owner_id === getUser().id" :href="route('playlists.edit', playlist.id)" class="button">Edit</Link>
+                    <Link v-if="playlist.collaboration === 'public' || (isAuthenticated() && playlist.owner_id === getUser().id)" :href="route('submissions.create', playlist.id)" class="button">Submit Level</Link>
                 </div>
             </div>
             <p class="pane">{{ playlist.description ?? 'This playlist has no description' }}</p>
             <div class="pane" v-if="playlist.submissions.length === 0">This playlist has no levels</div>
-            <Link v-for="submission in playlist.submissions" :href="route('levels.show', submission.level.id)" class="block y pane">
-                <div class="x justify-between">
-                    <h1 class="text-xl font-bold">{{ submission.level.name }}</h1>
-                    <div>
-                        <span>Submitted By: {{ submission.submitter ? submission.submitter.name : 'Anonymous'  }}</span>
-                    </div>
+
+            <div v-for="submission in playlist.submissions" class="bg-ui-800 rounded-lg">
+                <div class="px-2 py-1">
+                    <span>Submitted By: {{ submission.submitter ? submission.submitter.name : 'Anonymous'  }}</span>
                 </div>
-                <h6 class="text-sm">{{ submission.level.creator }}</h6>
-                <p>{{ submission.level.description }}</p>
-            </Link>
+                <LevelTicket :level="submission.level"/>
+            </div>
         </div>
     </app-layout>
 </template>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Playlist;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -13,7 +15,7 @@ class PlaylistController extends Controller
     public function index(): Response
     {
         return Inertia::render('Playlists/Index', [
-            'playlists' => Playlist::all(),
+            'playlists' => Playlist::query()->where('visibility', '=', 'public')->paginate(),
         ]);
     }
 
@@ -25,7 +27,7 @@ class PlaylistController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => 'required|max:64',
             //'description' => '',
         ]);
 
@@ -52,19 +54,43 @@ class PlaylistController extends Controller
 
         return Inertia::render('Playlists/Show', [
             'playlist' => $playlist,
-            '__meta_description' => $__meta_description,
-            '__meta_title' => $__meta_title,
+            ...meta($__meta_title, $__meta_description),
         ]);
     }
 
-    public function edit(Playlist $playlist)
+    /**
+     * @throws AuthorizationException
+     */
+    public function edit(Playlist $playlist): Response
     {
-        //
+        $this->authorize('edit', [$playlist]);
+
+        return Inertia::render('Playlists/Edit', [
+            'playlist' => $playlist,
+        ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(Request $request, Playlist $playlist)
     {
-        //
+        $this->authorize($playlist);
+
+        $request->validate([
+            'title' => 'required|max:64',
+            'description' => 'max:255',
+            'visibility' => [Rule::in(['public', 'unlisted', 'private'])],
+            'collaboration' => [Rule::in('public', 'invite', 'none')]
+        ]);
+
+        $playlist->title = $request->string('title');
+        $playlist->description = $request->string('description');
+        $playlist->visibility = $request->string('visibility');
+        $playlist->collaboration = $request->string('collaboration');
+        $playlist->save();
+
+        return back();
     }
 
     public function destroy(Playlist $playlist)
