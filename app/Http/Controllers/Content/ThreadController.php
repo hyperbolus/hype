@@ -35,6 +35,7 @@ class ThreadController extends Controller
 
         $forum = Forum::query()->find($request->integer('forum_id'));
 
+        // TODO: Move to policy
         if ($forum->group_id && $forum->group_id !== $request->user()->primary_group_id) {
             throw \Illuminate\Validation\ValidationException::withMessages(['forum' => 'You do not have permission to create threads in this forum']);
         }

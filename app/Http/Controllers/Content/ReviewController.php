@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Review;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ReviewController extends Controller
 {
@@ -55,7 +56,9 @@ class ReviewController extends Controller
 
     public function show(Review $review)
     {
-        //
+        return Inertia::render('Reviews/Show', [
+            'review' => $review->load(['level', 'author'])
+        ]);
     }
 
     public function edit(Review $review)

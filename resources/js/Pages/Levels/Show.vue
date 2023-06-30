@@ -10,6 +10,11 @@ import Dropdown from "@/Jetstream/Dropdown.vue";
 import PostPad from "@/Components/PostPad.vue";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
 import Pagination from "@/Components/Pagination.vue";
+import Lightbox from "@/Components/Lightbox.vue";
+import Checkbox from "@/Jetstream/Checkbox.vue";
+import Tooltip from "@/Components/Tooltip.vue";
+import Input from "@/Jetstream/Input.vue";
+import route from 'ziggy-js'
 
 const props = defineProps({
     level: Object,
@@ -137,7 +142,31 @@ const face = () => {
                 <Carousel v-else :images="level.images"/>
                 <h2 class="font-bold text-2xl">Reviews</h2>
                 <details v-if="$page.props.auth" class="pane" :open="!props.review">
-                    <summary class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</summary>
+                    <summary>
+                        <span class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
+                        <Lightbox @click.prevent class="float-right">
+                            <span class="underline">help</span>
+                            <template #content>
+                                <div @click.stop class="cursor-auto bg-ui-900 text-ui-200 p-4 shadow-xl w-full md:w-[32rem] lg:w-[48rem]">
+                                    <h1 class="font-bold text-2xl">Rating Help</h1>
+                                    <p>Rating levels helps the community by giving the creator feedback, and encouraging players to think critically and learn from levels. It is also a way to share your own interpretations of levels with others.</p>
+                                    <h2 class="font-bold text-lg mt-2">How to Rate</h2>
+                                    <p>Your rating is comprised of up to 4 scores and a review.</p>
+                                    <ul class="list-inside space-y-2 p-2 mt-2 rounded bg-ui-800">
+                                        <li><b>Overall Score</b> - The only mandatory score. Use your own criteria to rate the level overall.</li>
+                                        <li><b>Difficulty Score</b> - Rate the level's difficulty in your own opinion</li>
+                                        <li><b>Gameplay Score</b> - Use your own criteria to score the gameplay of a level. This could by it's sync or playability but it is up to you.</li>
+                                        <li><b>Visuals Score</b> - Use your own criteria to score the visual quality of the level.</li>
+                                        <li><b>Review</b> - While optional, you are highly encouraged to submit a text review</li>
+                                    </ul>
+                                    <p class="mt-2">While there are additional optional scores, you are <b>HIGHLY</b> encouraged to be as thorough as possible. Thank you for contributing!</p>
+                                </div>
+                                <div class="x justify-center p-4">
+                                    <Button>Close</Button>
+                                </div>
+                            </template>
+                        </Lightbox>
+                    </summary>
                     <form @submit.prevent="submit" class="y gap-4">
                         <div class="space-y-2 w-full">
                             <ul v-if="Object.keys($page.props.errors).length > 0" class="list-disc list-inside text-sm text-red-500">
@@ -174,6 +203,17 @@ const face = () => {
                     <div class="y w-full">
                         <div class="x justify-between items-center space-x-2">
                             <h2><Username :user="review.author"/></h2>
+                            <Tooltip :caret="false" container-class="!right-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-ui-500 w-4 h-4">
+                                    <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z" />
+                                </svg>
+                                <template #content>
+                                    <div class="p-2 w-fit">
+                                        Direct Link
+                                        <Input disabled type="text" input-style="!w-fit" :model-value="route('reviews.show', review.id)"/>
+                                    </div>
+                                </template>
+                            </Tooltip>
                         </div>
                         <p>{{ review.review }}</p>
                         <div class="x space-x-2 text-sm text-ui-400">
@@ -248,5 +288,9 @@ input[type=range] {
 
 input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
     @apply bg-ui-700 border-none cursor-pointer
+}
+
+input[type=range][disabled]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
+    @apply opacity-0
 }
 </style>

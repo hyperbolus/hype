@@ -7,6 +7,8 @@ defineProps({
     type: String,
     pattern: String,
     placeholder: String,
+    disabled: Boolean,
+    inputStyle: String
 });
 
 defineEmits(['update:modelValue']);
@@ -37,8 +39,9 @@ defineExpose({ focus: () => input.value.focus() });
         <span v-if="prefix" class="whitespace-nowrap select-none rounded-l pl-2 pr-1 py-1 bg-ui-800 text-ui-500 border-r border-r-ui-700">{{ prefix }}</span>
         <input
             ref="input" :pattern="pattern" :type="type" :placeholder="placeholder"
-            class="pr-2 py-1 w-full placeholder-ui-500 bg-transparent border-none focus:ring-0 focus:outline-none rounded-r shadow-sm" :class="{'rounded': !prefix, 'pl-1': prefix}"
+            class="pr-2 py-1 w-full placeholder-ui-500 bg-transparent border-none focus:ring-0 focus:outline-none rounded-r shadow-sm" :class="{'rounded': !prefix, 'pl-1': prefix, [inputStyle]: true}"
             :value="modelValue"
+            :disabled="disabled"
             @input="$emit('update:modelValue', $event.target.value)"
         >
     </div>

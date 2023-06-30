@@ -5,13 +5,14 @@ import route from "ziggy-js";
 import Avatar from "@/Components/Avatar.vue";
 import TipTap from "@/Components/TipTap.vue";
 import Timestamp from "@/Components/Timestamp.vue";
-import {computed, onBeforeMount, onUpdated, ref, watch} from "vue";
+import {onBeforeMount, onUpdated, ref} from "vue";
 import prettyBytes from "pretty-bytes";
-import bg from '@/../images/soundparty.jpg'
 import UserFlag from "@/Components/UserFlag.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import ReportModal from "@/Components/ReportModal.vue";
 import {isAuthenticated} from "@/util.js";
+import Tooltip from "@/Components/Tooltip.vue";
+import Input from "@/Jetstream/Input.vue";
 
 const props = defineProps({
     post: {
@@ -63,7 +64,7 @@ const sendLike = () => {
 
 </script>
 <template>
-    <div class="y pane !p-0 border border-ui-700">
+    <div :id="`~post/${post.id}`" class="y pane !p-0 border border-ui-700">
         <div class="flex flex-col md:flex-row">
             <div v-if="postbit" class="relative rounded-tl-lg bg-ui-800 !bg-opacity-50 shrink-0 items-center md:border-r border-r-ui-700">
                 <div class="flex md:flex-col relative z-10 gap-4 p-4">
@@ -113,7 +114,18 @@ const sendLike = () => {
                             <span v-if="!preview">{{ new Date(post.created_at).toLocaleString([], {day: '2-digit', month: '2-digit', year:'2-digit', hour: '2-digit', minute: '2-digit'}) }}</span>
                             <span v-else>THIS JUST A PREVIEW, YOU STILL NEED TO POST YOUR MESSAGE</span>
                         </div>
-                        <div v-if="!preview && postbit" class="x gap-1">
+                        <div v-if="!preview && postbit" class="x items-center space-x-1">
+                            <Tooltip :caret="false" container-class="!right-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-ui-500 w-4 h-4">
+                                    <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z" />
+                                </svg>
+                                <template #content>
+                                    <div class="p-2 w-fit">
+                                        Permalink
+                                        <Input disabled type="text" input-style="!w-fit" :model-value="route('posts.show', post)"/>
+                                    </div>
+                                </template>
+                            </Tooltip>
                             <span v-if="post.ip">(IP: {{ post.ip }})</span>
                             <span class="opacity-50">ID: {{ post.id }}</span>
                             <input v-if="$page.props.auth && $page.props.user.roles.includes('admin')" type="checkbox" class="rounded bg-ui-800"/>

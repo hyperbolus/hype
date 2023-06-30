@@ -118,6 +118,7 @@ Route::post('/post/{post}/edit', [PostController::class, 'update'])->name('posts
 Route::post('/post/{post}/like', [ReactionController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
 
 Route::get('/reviews', [LevelController::class, 'index'])->name('levels.index');
+Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('reviews.show');
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
 Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
 Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);

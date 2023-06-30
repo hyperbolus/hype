@@ -37,12 +37,13 @@ class PostController extends Controller
         return back();
     }
 
-    public function show(Post $post): RedirectResponse
+    public function show(Post $post)
     {
-        $post->load('thread');
+        $post->load(['thread', 'thread.forum', 'thread.author', 'author', 'media', 'reactions', 'reactions.reacter']);
         // TODO: Either highlighted or go to page (both prolly)
-
-        return redirect()->route('threads.show', $post->thread->slug);
+        return Inertia::render('Posts/Show', [
+            'post' => $post,
+        ]);
     }
 
     /**
