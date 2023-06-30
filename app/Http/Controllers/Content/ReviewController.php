@@ -48,9 +48,7 @@ class ReviewController extends Controller
 
         $level->loadCount('reviews');
 
-        if ($level->reviews_count >= 5) {
-            CalculateRatings::level($level);
-        }
+        CalculateRatings::level($level);
 
         return redirect()->back();
     }
