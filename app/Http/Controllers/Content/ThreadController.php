@@ -68,7 +68,7 @@ class ThreadController extends Controller
 
         dispatch(function () use ($thread) {
             $thread->views++;
-            $thread->save();
+            $thread->save(['timestamps' => false]);
         })->afterResponse();
 
         if (!!$user = auth()->user()) {
@@ -94,6 +94,7 @@ class ThreadController extends Controller
 
     public function update(Request $request, Thread $thread): RedirectResponse
     {
+        //TODO: thread bump without manual post?
         $request->validate([
             'title' => 'required|min:5',
         ]);

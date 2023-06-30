@@ -58,20 +58,22 @@ class ForumController extends Controller
 
     public function show(Forum $forum): Response
     {
-        $forum->load('children')->load(['threads', 'threads.author']);
-        $forum->threads->map(function (Thread $thread) {
-            $key = 'threads:'.$thread->id.':posts_count';
-            $data = Cache::get($key);
-            if ($data === null) {
-                $thread->loadCount('posts');
-                Cache::put($key, $thread->posts_count, now()->addHour());
-            } else {
-                $thread['posts_count'] = $data;
-            }
-        });
+        $forum->load('children');
+        $threads = $forum->threads()->with('author')->withCount('posts')->paginate(20);
+//        $forum->threads->map(function (Thread $thread) {
+//            $key = 'threads:'.$thread->id.':posts_count';
+//            $data = Cache::get($key);
+//            if ($data === null) {
+//                $thread->loadCount('posts');
+//                Cache::put($key, $thread->posts_count, now()->addHour());
+//            } else {
+//                $thread['posts_count'] = $data;
+//            }
+//        });
 
         return Inertia::render('Forums/Show', [
             'forum' => $forum,
+            'threads' => $threads
         ]);
     }
 

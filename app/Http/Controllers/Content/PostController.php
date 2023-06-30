@@ -34,6 +34,9 @@ class PostController extends Controller
         $post->body = $request->string('body');
         $post->save();
 
+        $thread->last_activity_at = now();
+        $thread->save(['timestamps' => false]);
+
         return back();
     }
 

@@ -4,9 +4,11 @@ import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Avatar from "@/Components/Avatar.vue";
 import AppLayout from "@/Layouts/Dash.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 defineProps({
     forum: Object,
+    threads: Object
 })
 
 </script>
@@ -33,10 +35,12 @@ defineProps({
             <div v-for="subforum in forum.children" class="flex-col space-y-2">
                 <h2 class="font-bold text-2xl">{{ subforum.name }}</h2>
             </div>
-            <div v-if="forum.threads.length === 0">
+            <div v-if="threads.data.length === 0">
                 <span>no threads ;(</span>
             </div>
-            <div v-for="thread in forum.threads" class="x items-center justify-between pane">
+            <Pagination :list="threads"/>
+            <div class="pane text-center italic text-ui-500" v-if="threads.data.length === 0 && threads.total > 0">"You just blow in from stupid town?"</div>
+            <div v-for="thread in threads.data" class="x items-center justify-between pane">
                 <div class="x items-center gap-4">
                     <Avatar class="w-8" :user="thread.author"/>
                     <div class="y">
@@ -55,6 +59,7 @@ defineProps({
                     </div>
                 </div>
             </div>
+            <Pagination :list="threads"/>
         </div>
     </app-layout>
 </template>

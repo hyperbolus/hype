@@ -55,7 +55,7 @@ class Forum extends Model
 
     public function threads(): HasMany
     {
-        return $this->hasMany(Thread::class, 'forum_id');
+        return $this->hasMany(Thread::class, 'forum_id')->orderByDesc('last_activity_at');
     }
 
     public function posts(): HasMany
