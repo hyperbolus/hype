@@ -9,6 +9,7 @@ import Resumable from "resumablejs";
 import route from 'ziggy-js'
 import prettyBytes from "pretty-bytes";
 import {usePage} from "@inertiajs/vue3";
+import {getUser} from "../util.js";
 
 const props = defineProps({
     modelValue: {
@@ -109,10 +110,14 @@ resumable.value.on('fileProgress', function(file, message){
             </div>
         </div>
         <div class="flex p-2 items-center space-x-2 border-t border-ui-700">
-            <Tooltip :message="!$page.props.user.signature ? 'You have not specified a post signature in your profile settings' : ''">
-                <div class="flex items-center space-x-2">
-                    <Toggle :disabled="!$page.props.user.signature" v-model="value.signature"/>
-                    <span :class="{'opacity-50': !$page.props.user.signature}">Show Signature</span>
+            <Tooltip class="w-full" :message="!$page.props.user.signature ? 'You have not specified a post signature in your profile settings' : ''">
+                <div class="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                    <span class="shrink-0">Signature Visibility</span>
+                    <select v-model="value.signature" class="block py-1 px-3 w-full border-none focus:ring-0 focus:outline-none rounded bg-ui-950">
+                        <option :value="true">Always show</option>
+                        <option :value="false">Always hide</option>
+                        <option :value="null">Use my default ({{ getUser().signature_visibility ? 'show' : 'hide' }})</option>
+                    </select>
                 </div>
             </Tooltip>
             <!-- TODO: this preview when rendered with a readonly tiptap doesnt update from the other tiptap editor -->

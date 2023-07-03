@@ -89,6 +89,7 @@ class DashboardController extends Controller
                 break;
             case 'update signature':
                 $user->signature = request('content');
+                $user->signature_visibility = $request->boolean('default_visibility');
                 $user->save();
                 break;
             case 'update flag':

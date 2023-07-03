@@ -196,7 +196,7 @@ const sendLike = () => {
                         </div>
                     </div>
                 </div>
-                <div v-if="post.signature && user.signature" class="px-4 py-2 border-t border-t-ui-700">
+                <div v-if="user.signature ? post.signature ?? user.signature_visibility : false" class="px-4 py-2 border-t border-t-ui-700">
                     <p class="whitespace-pre-wrap">{{ user.signature }}</p>
                 </div>
             </div>

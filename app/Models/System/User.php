@@ -53,6 +53,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_seen' => 'datetime',
         'time_online' => 'integer',
+        'signature_visibility' => 'boolean'
     ];
 
     public function canImpersonate(): bool

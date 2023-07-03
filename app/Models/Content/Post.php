@@ -18,6 +18,7 @@ class Post extends Model
 
     protected $casts = [
         'rich' => 'boolean',
+        'signature' => 'boolean',
     ];
 
     /**
@@ -29,7 +30,9 @@ class Post extends Model
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class, 'author_id')
+            ->select(['id', 'name', 'signature_visibility', 'created_at', 'reputation', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'signature'])
+            ->withCount('posts');
     }
 
     public function thread(): BelongsTo
