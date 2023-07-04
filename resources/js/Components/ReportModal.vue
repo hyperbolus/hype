@@ -74,7 +74,7 @@ onMounted(() => {
                     {{ error }}
                 </li>
             </ul>
-            <Button @click="report.post(route('reports.store'))" class="w-fit" type="submit" :class="{ 'opacity-25': report.processing }" :disabled="report.processing">{{ report.processing ? 'Submitting...' : 'Submit Report' }}</Button>
+            <Button @click="report.post(route('reports.store'), {preserveScroll: true})" class="w-fit" type="submit" :class="{ 'opacity-25': report.processing }" :disabled="report.processing">{{ report.processing ? 'Submitting...' : 'Submit Report' }}</Button>
         </div>
     </div>
 </template>
