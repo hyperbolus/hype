@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Actions\Statistics;
 use App\Models\System\Message;
 use App\Models\System\Setting;
+use App\Models\System\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
@@ -87,7 +88,13 @@ class HandleInertiaRequests extends Middleware
                     'two_factor_enabled' => !is_null($request->user()->two_factor_secret),
                     //'linked_accounts' => $request->user()->accounts,
                     'roles' => $request->user()->roles->pluck('name'),
-                    'notifications' => $request->user()->notifications,
+                    'notifications' => (function () use ($request) {
+                        $user = $request->user();
+                        /**
+                         * @type User $user
+                         */
+                        return $user->unreadNotifications()->get();
+                    })(),
                     'messages' => Message::query()->where('recipient_id', '=', $request->user()->id)->where('read_at', '=', null)->count(),
                 ]);
             },

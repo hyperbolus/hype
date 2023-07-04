@@ -18,8 +18,9 @@ const form = useForm({
 
 const postData = ref({
     body: '<p></p>',
-    signature: !(!usePage().props.auth || !usePage().props.user.signature),
-    rich: false,
+    signature: null,
+    watch: false,
+    watch_email: false
 })
 
 const submit = () => {
@@ -45,7 +46,7 @@ const submit = () => {
                 </li>
             </ul>
             <h2 class="mx-2 font-bold text-2xl">Create a New Thread</h2>
-            <Input class="p-2" type="text" v-model="form.title" placeholder="Title (Required)"/>
+            <Input class="py-1 !bg-ui-800" type="text" v-model="form.title" placeholder="Title (Required)"/>
             <PostPad v-model="postData"/>
             <div class="x justify-center gap-2">
                 <Button onclick="alert('wip feature')">Save Draft</Button>

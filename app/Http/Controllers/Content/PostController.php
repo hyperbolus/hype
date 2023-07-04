@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Post;
 use App\Models\Content\Thread;
+use App\Models\System\Subscription;
+use App\Notifications\ThreadReplied;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Notification;
 
 class PostController extends Controller
 {
@@ -36,6 +39,37 @@ class PostController extends Controller
 
         $thread->last_activity_at = now();
         $thread->save(['timestamps' => false]);
+
+        // Make sure notification is sent BEFORE the new subscription is created
+        // TODO: Find a way to do this without separate collections
+        $subscribers = $thread->subscribers()
+            ->whereNot('subscriber_id', '=', $request->user()->id)
+            ->where('subscriptions.email', '=', false)
+            ->get();
+        Notification::send($subscribers, new ThreadReplied($thread, $post, $request->user(), false));
+
+        $subscribers = $thread->subscribers()
+            ->whereNot('subscriber_id', '=', $request->user()->id)
+            ->where('subscriptions.email', '=', true)
+            ->get();
+        Notification::send($subscribers, new ThreadReplied($thread, $post, $request->user(), true));
+
+        // TODO: (partial) duplicate from ThreadController, maybe move somewhere else?
+        if ($request->boolean('watch')) {
+            Subscription::updateOrCreate([
+                'subscriber_id' => $request->user()->id,
+                'subscribable_id' => $thread->id,
+                'subscribable_type' => $thread->getMorphClass(),
+            ], [
+                'email' => $request->has('watch_email') ? $request->boolean('watch_email') : null,
+            ]);
+        } else {
+            Subscription::query()->where([
+                ['subscriber_id', '=', $request->user()->id],
+                ['subscribable_id', '=', $thread->id],
+                ['subscribable_type', '=', $thread->getMorphClass()],
+            ])->delete();
+        }
 
         return back();
     }

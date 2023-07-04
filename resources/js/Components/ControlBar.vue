@@ -15,7 +15,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
 <template>
     <div v-if="$page.props.auth" class="flex items-center space-x-4">
         <SearchBar/>
-        <Dropdown>
+        <Dropdown container-classes="min-w-[20rem]">
             <template #trigger>
                 <div class="relative">
                     <span v-show="$page.props.user.notifications.length > 0" class="absolute flex -top-0.5 -right-0.5 h-3 w-3">
@@ -28,10 +28,18 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                 </div>
             </template>
             <template #content>
-                <div v-if="$page.props.user.notifications.length === 0" class="px-2 py-1">No new notifications.</div>
-                <div class="rounded overflow-hidden">
-                    <div v-for="notification in $page.props.user.notifications" class="px-2 py-1 cursor-pointer hover:bg-ui-800">
-                        <Link :href="notification.data.link">{{ notification.data.message }}</Link>
+                <div @click.stop class="y rounded overflow-hidden text-sm cursor-auto">
+                    <div class="bg-ui-700 px-4 py-2 font-bold">{{ $page.props.user.notifications.length }} Unread Notifications</div>
+                    <Link v-for="notification in $page.props.user.notifications" :href="route('notifications.read', notification.id)" class="x items-center space-x-2 px-2 py-2 cursor-pointer hover:bg-ui-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="shrink-0 w-4 h-4">
+                            <path fill="currentColor" d="M205 34.8c11.5 5.1 19 16.6 19 29.2v64h112c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96h-96v64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4z"/>
+                        </svg>
+                        <span>{{ notification.data.message }}</span>
+                    </Link>
+                    <div v-if="$page.props.user.notifications.length === 0" class="text-center text-ui-500 px-2 py-2">All caught up! :)</div>
+                    <div class="x justify-center space-x-2 bg-ui-700 px-4 py-2">
+                        <span class="!hidden rounded bg-ui-800 px-2 py-1">View All</span>
+                        <Link :href="route('notifications.clear')" class="rounded bg-ui-800 px-2 py-1">Mark All Read</Link>
                     </div>
                 </div>
             </template>

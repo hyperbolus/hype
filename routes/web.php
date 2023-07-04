@@ -179,8 +179,9 @@ Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
 Route::post('/media/upload', [\App\Http\Controllers\System\UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
-Route::get('/notifications')->middleware(['auth', 'verified'])->name('notifications.index');
-Route::get('/notifications/read')->middleware(['auth', 'verified'])->name('notifications.read');
+//Route::get('/notifications')->middleware(['auth'])->name('notifications.index');
+Route::get('/notification/{id}', [\App\Http\Controllers\System\NotificationController::class, 'show'])->middleware(['auth'])->name('notifications.read');
+Route::get('/notifications/clear', [\App\Http\Controllers\System\NotificationController::class, 'update'])->middleware(['auth'])->name('notifications.clear');
 
 Route::impersonate();
 

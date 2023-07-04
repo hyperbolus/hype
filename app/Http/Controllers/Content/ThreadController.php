@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Forum;
 use App\Models\Content\Post;
 use App\Models\Content\Thread;
+use App\Models\System\Subscription;
 use App\Models\System\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -55,33 +58,47 @@ class ThreadController extends Controller
         $post->body = $request->string('post.body');
         $post->save();
 
+        Subscription::create([
+            'subscriber_id' => $request->user()->id,
+            'subscribable_id' => $thread->getMorphClass(),
+            'subscribable_type' => $thread->id,
+            'email' => $request->has('watch_email') ? $request->boolean('watch_email') : null,
+        ]);
+
         return redirect()->route('threads.show', $thread);
     }
 
-    public function show(Thread $thread): Response
+    public function show(Request $request, Thread $thread): Response
     {
-        $thread->load(['author', 'forum', 'posts', 'posts.author', 'posts.media', 'posts.reactions', 'posts.reactions.reacter']);
-
-        foreach ($thread->posts as $post) {
-            $post->author->loadCount('posts');
-        }
+        $thread->load(['author', 'forum']);
 
         dispatch(function () use ($thread) {
             $thread->views++;
             $thread->save(['timestamps' => false]);
         })->afterResponse();
 
-        if (!!$user = auth()->user()) {
-            /** @var User $user */
-            if ($user->hasRole('admin')) {
-                $thread->posts->each(function (Post $post) {
-                    $post->makeVisible('ip');
-                });
-            }
-        }
+        // TODO: Re-add this later also make it work with pagination
+//        if (!!$user = auth()->user()) {
+//            /** @var User $user */
+//            if ($user->hasRole('admin')) {
+//                $thread->posts->each(function (Post $post) {
+//                    $post->makeVisible('ip');
+//                });
+//            }
+//        }
 
         return Inertia::render('Threads/Show', [
             'thread' => $thread,
+            'posts' => $thread->posts()
+                ->with(['media', 'reactions', 'reactions.reacter', 'author' => function(BelongsTo $q) {
+                    $q->withCount('posts');
+                }])
+                ->paginate(10),
+            'subscription' => auth()->check() ? Subscription::query()->where([
+                ['subscriber_id', '=', $request->user()->id],
+                ['subscribable_id', '=', $thread->id],
+                ['subscribable_type', '=', $thread->getMorphClass()],
+            ])->first() : null
         ]);
     }
 

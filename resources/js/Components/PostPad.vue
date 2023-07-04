@@ -10,6 +10,7 @@ import route from 'ziggy-js'
 import prettyBytes from "pretty-bytes";
 import {usePage} from "@inertiajs/vue3";
 import {getUser} from "../util.js";
+import Checkbox from "@/Jetstream/Checkbox.vue";
 
 const props = defineProps({
     modelValue: {
@@ -109,7 +110,7 @@ resumable.value.on('fileProgress', function(file, message){
                 </div>
             </div>
         </div>
-        <div class="flex p-2 items-center space-x-2 border-t border-ui-700">
+        <div class="y p-2 items-center space-y-2 border-t border-ui-700">
             <Tooltip class="w-full" :message="!$page.props.user.signature ? 'You have not specified a post signature in your profile settings' : ''">
                 <div class="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-2">
                     <span class="shrink-0">Signature Visibility</span>
@@ -125,6 +126,18 @@ resumable.value.on('fileProgress', function(file, message){
 <!--                <Toggle v-model="showingPreview"/>-->
 <!--                <span>Show Preview</span>-->
 <!--            </div>-->
+        </div>
+    </div>
+    <div class="x justify-center">
+        <div class="y space-y-2">
+            <label class="x items-center space-x-2">
+                <Checkbox v-model="value.watch" :checked="value.watch"/>
+                <span>Watch this thread</span>
+            </label>
+            <label class="x items-center space-x-2 ml-8">
+                <Checkbox :disabled="!value.watch" :class="{'cursor-not-allowed opacity-50': !value.watch}" v-model="value.watch_email"  :checked="value.watch_email"/>
+                <span>And email me notifications</span>
+            </label>
         </div>
     </div>
     <form v-if="submit" class="flex justify-center space-x-2" @submit.prevent="submit">

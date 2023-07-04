@@ -11,4 +11,15 @@ use Illuminate\Database\Eloquent\Model;
 class Subscription extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'subscriber_id',
+        'subscribable_id',
+        'subscribable_type',
+        'email'
+    ];
+
+    protected $casts = [
+      'email' => 'boolean'
+    ];
 }
