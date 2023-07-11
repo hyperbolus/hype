@@ -58,36 +58,6 @@ const search = () => {
         filter: filter,
     }).toString())
 }
-const difficulties = [
-    "Unrated",
-    "Auto",
-    "Easy",
-    "Normal",
-    "Hard",
-    "Harder",
-    "Insane",
-    "Easy Demon",
-    "Medium Demon",
-    "Hard Demon",
-    "Insane Demon",
-    "Extreme Demon",
-]
-
-const face = (level) => {
-    if (!level.difficulty) {
-        return difficulties[0].toLowerCase()
-    }
-
-    let name = difficulties[level.difficulty].toLowerCase().split(' ').reverse().join('-')
-
-    if(level.epic) {
-        name += '-epic'
-    } else if (level.featured) {
-        name += '-featured'
-    }
-
-    return name;
-}
 </script>
 <template>
     <app-layout title="Levels">
