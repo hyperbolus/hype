@@ -33,4 +33,8 @@ export const getUser = () => {
     return usePage().props.user;
 }
 
+export const displayRating = (rating) => {
+    return rating ? rating.toFixed(1) : '-';
+}
+
 export const invisiblePixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=';

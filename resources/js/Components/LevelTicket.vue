@@ -1,5 +1,6 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
+import {displayRating} from "@/util.js";
 
 const props = defineProps({
     level: Object
@@ -36,9 +37,6 @@ const face = () => {
     return name;
 }
 
-const displayRating = (rating) => {
-    return rating ? rating.toFixed(1) : '-';
-}
 // TODO: Fucking disgusting, clean it up
 // border-2 border-red-50 rounded-lg shadow-[0_0_5px_3px_rgba(240,240,100,1)]
 </script>

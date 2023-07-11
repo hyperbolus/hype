@@ -80,12 +80,12 @@ const face = () => {
         <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-ui-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
             <div class="x justify-between items-start">
                 <div class="x space-x-2">
-                    <span>D: {{ level.rating_difficulty ? level.rating_difficulty : 'N/A' }}</span>
-                    <span>G: {{ level.rating_gameplay ? level.rating_gameplay : 'N/A' }}</span>
-                    <span>V: {{ level.rating_visuals ? level.rating_visuals : 'N/A' }}</span>
-                    <span>O: {{ level.rating_overall ? level.rating_overall : 'N/A' }}</span>
+                    <span>D: {{ displayRating(level.rating_difficulty) }}</span>
+                    <span>G: {{ displayRating(level.rating_difficulty) }}</span>
+                    <span>V: {{ displayRating(level.rating_visuals) }}</span>
+                    <span>O: {{ displayRating(level.rating_overall) }}</span>
                 </div>
-                <Link v-show="$page.props.auth && $page.props.user.roles.includes('admin')" :href="route('levels.edit', level)" class="button">Edit</Link>
+                <Link v-show="isAdmin()" :href="route('levels.edit', level)" class="button">Edit</Link>
             </div>
             <div class="x justify-between items-end">
                 <div class="x items-end">
