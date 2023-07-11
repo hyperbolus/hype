@@ -3,20 +3,24 @@ import route from 'ziggy-js'
 import {Link} from '@inertiajs/vue3';
 import Tooltip from "@/Components/Tooltip.vue";
 import Avatar from "@/Components/Avatar.vue";
+import UserFlag from "@/Components/UserFlag.vue";
 
 const props = defineProps({
     user: Object,
     href: String,
     flag: {
         type: Boolean,
-        default: true
+        default: false
     },
     popUnder: Boolean
 })
 </script>
 <template>
     <Tooltip :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'}`">
-        <Link :href="href ?? route('users.show', user.id)" class="text-ui-200 break-all">{{ user.name }}</Link>
+        <Link :href="href ?? route('users.show', user.id)" class="inline-flex items-center text-ui-200 break-all">
+            <UserFlag v-if="flag"/>
+            <span>{{ user.name }}</span>
+        </Link>
         <template #content>
             <div class="y box shadow-xl !p-0 overflow-hidden">
                 <div class="bg-ui-600 py-12 bg-cover bg-center" :style="`background-image: url('${user.banner_url}');`"></div>

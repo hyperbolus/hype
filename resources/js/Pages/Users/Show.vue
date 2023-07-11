@@ -74,7 +74,7 @@ const tab = ref(0);
                             <Avatar :user="profile"/>
                         </div>
                         <div class="leading-none text-ui-200">
-                            <h1 class="font-bold text-2xl x items-center space-x-1"><UserFlag size="md" :user="profile"/><span>{{ profile.name }}</span></h1>
+                            <h1 class="font-bold text-2xl x items-center"><UserFlag size="md" :user="profile"/><span>{{ profile.name }}</span></h1>
                             <span class="text-sm">Junior Member</span>
                         </div>
                     </div>
