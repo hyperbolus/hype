@@ -9,7 +9,8 @@ import Toggle from "@/Components/Toggle.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
 
 const props = defineProps({
-    profile: Object
+    profile: Object,
+    flags: Object
 })
 
 const previewImage = (e, form, ref) => {
@@ -91,6 +92,34 @@ const changeFlag = () => {
         preserveScroll: true,
     })
 }
+
+const intlDisplay = new Intl.DisplayNames(['en'], { type: 'region' });
+const intlCountry = (flag) => {
+    switch (flag) {
+        case "JR":
+            return "Jolly Roger"
+        default:
+            return intlDisplay.of(flag);
+    }
+};
+const intlGroup = (index) => {
+    switch (index) {
+        case 0:
+            return "Africa";
+        case 1:
+            return "America";
+        case 2:
+            return "Asia";
+        case 3:
+            return "Europe";
+        case 4:
+            return "Middle East";
+        case 5:
+            return "Oceania";
+        case 6:
+            return "Other";
+    }
+}
 </script>
 <template>
     <dashboard-layout title="Home">
@@ -131,37 +160,8 @@ const changeFlag = () => {
             <h2 class="font-bold text-xl">Country Flag <span class="fflag ff-sm" :class="`fflag-${flag.content}`"></span></h2>
             <select v-model="flag.content" class="border-0 rounded-lg bg-ui-800">
                 <option :value="null">None</option>
-                <optgroup label="Americas">
-                    <option value="US">United States of America</option>
-                    <option value="CA">Canada</option>
-                    <option value="MX">Mexico</option>
-                    <option value="BR">Brazil</option>
-                    <option value="CO">Columbia</option>
-                    <option value="AR">Argentina</option>
-                    <option value="VE">Venezuela</option>
-                    <option value="CL">Chile</option>
-                </optgroup>
-                <optgroup label="Europe-ish">
-                    <option value="LU">Luxemburg</option>
-                    <option value="UK">United Kingdom</option>
-                    <option value="ES">Spain</option>
-                    <option value="IT">Italy</option>
-                    <option value="IE">Ireland</option>
-                    <option value="SE">Sweden</option>
-                    <option value="BE">Belgium</option>
-                    <option value="RS">Serbia</option>
-                    <option value="PT">Portugal</option>
-                    <option value="PL">Poland</option>
-                    <option value="NO">Norway</option>
-                    <option value="XL">Kosovo</option>
-                    <option value="LT">Lithuania</option>
-                    <option value="AL">Albania</option>
-                    <option value="UA">Ukraine</option>
-                    <option value="RU">Russian Federation</option>
-                </optgroup>
-                <optgroup label="I'll add more when I have time I am very sorry if I missed your country but I need to type these up manually."></optgroup>
-                <optgroup label="I hope this flag will make it up to you in the meantime <3">
-                    <option value="JR">Jolly Roger</option>
+                <optgroup v-for="(group, index) in flags" :label="intlGroup(index)">
+                    <option v-for="flag in group" :value="flag">{{ intlCountry(flag) }}</option>
                 </optgroup>
             </select>
             <Button class="w-fit">Change Flag</Button>

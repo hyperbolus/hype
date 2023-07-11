@@ -8,12 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Intervention\Image\Facades\Image;
 
 class DashboardController extends Controller
 {
+    private array $flags = [
+        ["DZ", "AO", "BJ", "BW", "BF", "BI", "CM", "CV", "CF", "TD", "CD", "DJ", "EG", "GQ", "ER", "ET", "GA", "GM", "GH", "GN", "GW", "CI", "KE", "LS", "LR", "LY", "MG", "MW", "ML", "MR", "MU", "YT", "MA", "MZ", "NA", "NE", "NG", "CG", "RE", "RW", "SH", "ST", "SN", "SC", "SL", "SO", "ZA", "SS", "SD", "SR", "SZ", "TG", "TN", "UG", "TZ", "EH", "YE", "ZM", "ZW"],
+        ["AI", "AG", "AR", "AW", "BS", "BB", "BQ", "BZ", "BM", "BO", "VG", "BR", "CA", "KY", "CL", "CO", "KM", "CR", "CU", "CW", "DM", "DO", "EC", "SV", "FK", "GF", "GL", "GD", "GP", "GT", "GY", "HT", "HN", "JM", "MQ", "MX", "MS", "NI", "PA", "PY", "PE", "PR", "BL", "KN", "LC", "PM", "VC", "SX", "TT", "TC", "US", "VI", "UY", "VE"],
+        ["AB", "AF", "AZ", "BD", "BT", "BN", "KH", "CN", "GE", "HK", "IN", "ID", "JP", "KZ", "LA", "MO", "MY", "MV", "MN", "MM", "NP", "KP", "MP", "PW", "PG", "PH", "SG", "KR", "LK", "TW", "TJ", "TH", "TL", "TM", "VN"],
+        ["AX", "AL", "AD", "AM", "AT", "BY", "BE", "BA", "BG", "HR", "CY", "CZ", "DK", "EE", "FO", "FI", "FR", "DE", "GI", "GR", "GG", "HU", "IS", "IE", "IM", "IT", "JE", "XK", "LV", "LI", "LT", "LU", "MT", "MD", "MC", "ME", "NL", "MK", "NO", "PL", "PT", "RO", "RU", "SM", "RS", "SK", "SI", "ES", "SE", "CH", "TR", "UA", "GB", "VA"],
+        ["BH", "IR", "IQ", "IL", "KW", "JO", "KG", "LB", "OM", "PK", "PS", "QA", "SA", "SY", "AE", "UZ"],
+        ["AS", "AU", "CX", "CC", "CK", "FJ", "PF", "GU", "KI", "MH", "FM", "NC", "NZ", "NR", "NU", "NF", "WS", "SB", "TK", "TO", "TV", "VU", "WF"],
+        ["EU", "JR"]
+    ];
+
     public function __invoke(Request $request): RedirectResponse
     {
         /**
@@ -93,7 +104,19 @@ class DashboardController extends Controller
                 $user->save();
                 break;
             case 'update flag':
-                $user->flag = request('content');
+                $request->validate([
+                    // TODO: better way?
+                   'content' => Rule::in([
+                       ...$this->flags[0],
+                       ...$this->flags[1],
+                       ...$this->flags[2],
+                       ...$this->flags[3],
+                       ...$this->flags[4],
+                       ...$this->flags[5],
+                       ...$this->flags[6]
+                   ])
+                ]);
+                $user->flag = $request->string('content');
                 $user->save();
                 break;
         }
@@ -124,6 +147,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard/Profile', [
             'profile' => $user,
+            'flags' => $this->flags,
         ]);
     }
 }
