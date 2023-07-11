@@ -37,4 +37,19 @@ export const displayRating = (rating) => {
     return rating ? rating.toFixed(1) : '-';
 }
 
+export const trimAtWord = (string, max) => {
+    if (string.length <= max) return string;
+
+    let trimmed = string.substring(0, max);
+    let lastSpace = trimmed.lastIndexOf(" ");
+
+    // If the word cut isn't less than 2/3 of the text,
+    // then forget about it and just split the word
+    if (lastSpace > (trimmed.length / 3) * 2) {
+        trimmed = trimmed.substring(0, Math.min(trimmed.length, lastSpace));
+    }
+
+    return trimmed + '...';
+}
+
 export const invisiblePixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=';

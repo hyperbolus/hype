@@ -9,6 +9,7 @@ import route from 'ziggy-js'
 import {ref} from "vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
 import Username from "@/Components/Username.vue";
+import {trimAtWord} from "@/util.js";
 
 const props = defineProps({
     levels: Object,
@@ -150,9 +151,9 @@ const search = () => {
             <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
                 <!-- TODO: truncate at word -->
                 <div class="y px-4 py-2 text-sm" v-for="review in recent_reviews">
-                    <span class="font-bold">{{ review.level.name }}</span>
+                    <Link :href="route('levels.show', review.level.id)" class="font-bold">{{ review.level.name }}</Link>
                     <span class="text-ui-500">by {{ review.level.creator }}</span>
-                    <p class="italic">"{{ review.review.substring(0, 100) }}{{ review.review.length > 100 ? '...' : ''}}"</p>
+                    <Link :href="route('reviews.show', review.id)" class="italic">"{{ trimAtWord(review.review, 100) }}"</Link>
                     <span class="text-right">&#8212; <Username :user="review.author"/></span>
                 </div>
             </div>
