@@ -22,6 +22,7 @@ import DiscordInvite from "@/Components/DiscordInvite.vue";
                 <details class="pane" open>
                     <summary class="font-bold text-xl">What's Here</summary>
                     <p>This site currently has a forum for discussion and a system for rating, tagging, and adding videos and screenshots to levels. Also putting levels into playlists and playing level roulette.</p>
+                    <p class="mt-2 font-bold text-red-400">NOTE: Mobile support is still in progress! If you notice any bugs they have probably been noticed already. Please only report bugs that are detrimental to your use of the site</p>
                 </details>
                 <details class="pane" open>
                     <summary class="font-bold text-xl">How Do I...</summary>
