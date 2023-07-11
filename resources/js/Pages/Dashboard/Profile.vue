@@ -84,7 +84,7 @@ const changePostbit = () => {
 
 const flag = useForm({
     action: 'update flag',
-    content: null
+    content: props.profile.flag ?? null
 })
 const changeFlag = () => {
     flag.post(route('settings.update'), {
