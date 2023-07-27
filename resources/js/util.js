@@ -34,7 +34,7 @@ export const getUser = () => {
 }
 
 export const displayRating = (rating) => {
-    return rating ? rating.toFixed(1) : '-';
+    return parseInt(rating) ? rating.toFixed(1) : '-';
 }
 
 export const trimAtWord = (string, max) => {
