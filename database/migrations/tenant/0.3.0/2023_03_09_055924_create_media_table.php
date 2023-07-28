@@ -18,7 +18,8 @@ return new class extends Migration
             $table->nullableIntMorphs('owner');
             $table->string('mime')->nullable();
             $table->string('collection')->nullable();
-            $table->unsignedTinyInteger('type')->nullable();
+            $table->boolean('sensitive')->nullable();
+            $table->unsignedInteger('version')->nullable();
             $table->unsignedInteger('downloads')->default(0);
             $table->unsignedInteger('bytes')->default(0);
             $table->timestamps();
