@@ -71,6 +71,7 @@ class LevelController extends Controller
         return Inertia::render('Levels/Index', [
             'levels' => $levels
                 ->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']])
+                ->orderBy('id') // Break ties so it's not random (which for some reason it is? maybe study)
                 ->withCount('reviews')
                 ->paginate(10)
                 ->appends($sorting),
