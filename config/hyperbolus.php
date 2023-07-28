@@ -9,6 +9,7 @@ return [
 
         40 => \App\Models\Game\Level::class,
         41 => \App\Models\Game\LevelReplay::class,
+        42 => \App\Models\Content\Review::class,
     ],
     'named_morph_map' => [
         'user' => 1,
@@ -18,9 +19,13 @@ return [
 
         'level' => 40,
         'replay' => 41,
+        'review' => 42,
     ],
 
     'patreon_token' => env('PATREON_TOKEN'),
+    'gd_username' => env('GD_USERNAME'),
+    'gd_password' => env('GD_PASSWORD'),
+    'gd_account_id' => env('GD_ACCOUNT_ID'),
 
     'report_reasons' => [
         0 => [
