@@ -204,18 +204,12 @@ const face = () => {
                         <div class="x justify-between items-center space-x-2">
                             <h2><Username :user="review.author"/></h2>
                             <div class="x space-x-2">
-                                <Tooltip :caret="false" container-class="!right-0">
+                                <Link title="Direct Link" :href="route('reviews.show', review.id)">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-ui-500 w-4 h-4">
                                         <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z" />
                                     </svg>
-                                    <template #content>
-                                        <div class="p-2 w-fit">
-                                            Direct Link
-                                            <Input disabled type="text" input-style="!w-fit" :model-value="route('reviews.show', review.id)"/>
-                                        </div>
-                                    </template>
-                                </Tooltip>
-                                <Lightbox v-if="isAuthenticated()">
+                                </Link>
+                                <Lightbox title="Report This" v-if="isAuthenticated()">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-ui-500 w-4 h-4">
                                         <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z" />
                                     </svg>
