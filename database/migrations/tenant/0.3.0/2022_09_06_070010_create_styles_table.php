@@ -16,9 +16,17 @@ return new class extends Migration
         Schema::create('styles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->text('content');
+            $table->foreignId('author_id');
+            $table->string('blurb')->nullable();
+            $table->text('description');
             $table->string('slug')->nullable();
+
+            $table->string('license')->nullable();
+            $table->unsignedSmallInteger('binaryVersion')->nullable();
+
+            $table->unsignedBigInteger('views')->default(0);
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
