@@ -79,6 +79,12 @@ return [
             'category' => 'incorrect',
             'priority' => 0
         ],
+        22 => [
+            'title' => 'Duplicate',
+            'description' => 'This content is an exact duplicate of another',
+            'category' => 'incorrect',
+            'priority' => 0
+        ],
         // Behavior
         30 => [
             'title' => 'Toxic Language or Behavior',
