@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/Dash.vue'
-import {Link, useForm} from '@inertiajs/vue3';
+import {Link, useForm, usePage} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
 import Username from "@/Components/Username.vue";
 import Avatar from "@/Components/Avatar.vue";
@@ -15,6 +15,7 @@ import Checkbox from "@/Jetstream/Checkbox.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
+import {displayRating, isAdmin, isAuthenticated} from "@/util.js";
 
 const props = defineProps({
     level: Object,
@@ -117,31 +118,29 @@ const face = () => {
             </div>
         </div>
         <div class="x bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
-            <div class="y items-center font-bold text-sm">
-                TOP TAGS
-            </div>
+            <span class="y items-center font-bold text-sm uppercase">Top Tags</span>
             <div class="py-2 select-none border-r border-ui-400 border-ui-700"></div>
             <span v-if="level.tags.length === 0" class="opacity-50">No Tags</span>
-            <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
-                    <span title="Verified Tag">
-                        <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline mr-1 rounded-full text-green-500 w-5 h-5">
-                            <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
+            <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" :title="`${tag.pivot.verified ? 'Verified' : 'Unverified'} tag`" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
+                <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline mr-1 rounded-full text-green-500 w-5 h-5">
+                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
                 {{tag.name}}
             </Link>
             <Link :href="route('levels.tags.show', level)" class="text-sm rounded hover:underline cursor-pointer">{{ level.tags.length === 0 ? 'Submit' : 'More'  }}...</Link>
         </div>
         <div class="flex flex-col md:flex-row bg-ui-950 border border-ui-900 rounded-lg p-4 lg:max-w-5xl xl:max-w-6xl w-full gap-4 my-4">
             <div class="y space-y-2 md:w-3/4">
-                <div class="x items-center justify-between">
-                    <h2 class="font-bold text-2xl">Images</h2>
-                    <Link :href="route('levels.images.show', level.id)" class="pane !py-1">Submit</Link>
-                </div>
-                <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
-                <Carousel v-else :images="level.images"/>
+                <template v-if="false">
+                    <div class="x items-center justify-between">
+                        <h2 class="font-bold text-2xl">Images</h2>
+                        <Link :href="route('levels.images.show', level.id)" class="pane !py-1">Submit</Link>
+                    </div>
+                    <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
+                    <Carousel v-else :images="level.images"/>
+                </template>
                 <h2 class="font-bold text-2xl">Reviews</h2>
-                <details v-if="$page.props.auth" class="pane" :open="!props.review">
+                <details v-if="isAuthenticated()" class="pane" :open="!props.review">
                     <summary>
                         <span class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
                         <Lightbox @click.prevent class="float-right">
@@ -217,10 +216,10 @@ const face = () => {
                         </div>
                         <p>{{ review.review }}</p>
                         <div class="x space-x-2 text-sm text-ui-400">
-                            <span>DIFF: {{ review.rating_difficulty ? review.rating_difficulty : 'N/A' }}</span>
-                            <span>GAME: {{ review.rating_gameplay ? review.rating_gameplay : 'N/A' }}</span>
-                            <span>VIS: {{ review.rating_visuals ? review.rating_visuals : 'N/A' }}</span>
-                            <span>ALL: {{ review.rating_overall ? review.rating_overall : 'N/A' }}</span>
+                            <span>DIFF: {{ displayRating(review.rating_difficulty) }}</span>
+                            <span>GAME: {{ displayRating(review.rating_gameplay) }}</span>
+                            <span>VIS: {{ displayRating(review.rating_visuals) }}</span>
+                            <span>ALL: {{ displayRating(review.rating_overall) }}</span>
                         </div>
                     </div>
                 </div>
