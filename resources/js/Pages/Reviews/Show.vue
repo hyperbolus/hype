@@ -5,6 +5,7 @@ import Post from "@/Components/Post.vue";
 import PostPad from "@/Components/PostPad.vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import {ref} from "vue"
+import Username from "@/Components/Username.vue";
 
 const props = defineProps({
     review: Object
@@ -31,7 +32,7 @@ const displayRating = (rating) => {
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-2xl">Review of {{ review.level.name }}</h2>
-                    <span class="text-sm">by {{ review.author.name }}, {{ new Date(review.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Level ID: {{ review.level_id }}</span>
+                    <span class="text-sm">by <Username :pop-under="true" :user="review.author"/>, {{ new Date(review.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Level ID: {{ review.level_id }}</span>
                 </div>
                 <div class="space-x-2">
                     <Link class="button" :href="route('levels.show', review.level_id)">Back to Level</Link>
