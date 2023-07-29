@@ -17,6 +17,7 @@ import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
 import {displayRating, isAdmin, isAuthenticated} from "@/util.js";
 import ReportModal from "@/Components/ReportModal.vue";
+import {ref} from "vue";
 
 const props = defineProps({
     level: Object,
