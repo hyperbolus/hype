@@ -33,8 +33,21 @@ const form = useForm({
     level_id: props.level.id
 });
 
+const blanks = ref({
+    difficulty: false,
+    gameplay: false,
+    visuals: false
+});
+
 const submit = () => {
-    form.post(route('reviews.store'), {
+    form.transform((data) => {
+        let final = {...data}; // Copy
+        final.rating_difficulty = blanks.value.difficulty ? null : final.rating_difficulty;
+        final.rating_gameplay = blanks.value.gameplay ? null : final.rating_gameplay;
+        final.rating_visuals = blanks.value.visuals ? null : final.rating_visuals;
+
+        return final;
+    }).post(route('reviews.store'), {
         preserveScroll: true,
     });
 };
@@ -143,7 +156,7 @@ const face = () => {
                 <h2 class="font-bold text-2xl">Reviews</h2>
                 <details v-if="isAuthenticated()" class="pane" :open="!props.review">
                     <summary>
-                        <span class="text-xl">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
+                        <span class="text-xl cursor-pointer">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
                         <Lightbox @click.prevent class="float-right">
                             <span class="underline">help</span>
                             <template #content>
@@ -179,14 +192,28 @@ const face = () => {
                             <PostPad v-if="false" v-model="form"/>
                         </div>
                         <div class="w-full">
-                            <h2>Gameplay Rating: {{ form.rating_gameplay }}<span class="opacity-50 text-xs">/10</span></h2>
-                            <input class="w-full" v-model.number="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
-                            <h2>Difficulty Rating: {{ form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></h2>
-                            <input class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
-                            <h2>Visuals Rating: {{ form.rating_visuals }}<span class="opacity-50 text-xs">/10</span></h2>
-                            <input class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
+                            <h1 class="text-lg font-bold">Main Scores</h1>
                             <h2>Overall Rating: {{ form.rating_overall }}<span class="opacity-50 text-xs">/10</span></h2>
                             <input class="w-full" v-model.number="form.rating_overall" type="range" min="0" max="10" step="1"/>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                                <span>Difficulty Rating: {{ blanks.difficulty ? '-' : form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></span>
+                                <span class="x items-center"><Checkbox v-model="blanks.difficulty" class="mr-2"/>Leave Empty</span>
+                            </div>
+                            <input :disabled="blanks.difficulty" class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
+
+                            <h1 class="text-lg font-bold mt-2">Additional Scores (optional)</h1>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                                <span>Gameplay Rating: {{ blanks.gameplay ? '-' : form.rating_gameplay }}<span class="opacity-50 text-xs">/10</span></span>
+                                <span class="x items-center"><Checkbox v-model="blanks.gameplay" class="mr-2"/>Leave Empty</span>
+                            </div>
+                            <input :disabled="blanks.gameplay" class="w-full" v-model.number="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                                <span>Visuals Rating: {{ blanks.visuals ? '-' : form.rating_visuals }}<span class="opacity-50 text-xs">/10</span></span>
+                                <span class="x items-center"><Checkbox v-model="blanks.visuals" class="mr-2"/>Leave Empty</span>
+                            </div>
+                            <input :disabled="blanks.visuals" class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
                         </div>
                         <Button class="w-fit" @click="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : (props.review ? 'Edit Your' : 'Submit') + ' Rating' }}</Button>
                     </form>
