@@ -40,7 +40,8 @@ class LevelTagController extends Controller
     public function show(Tag $tag): Response
     {
         return Inertia::render('Tags/Show', [
-            'levels' => $tag->levels()->paginate(10),
+            // TODO: Add filters
+            'levels' => $tag->levels()->withCount('reviews')->paginate(10),
             'tag' => $tag,
         ]);
     }
