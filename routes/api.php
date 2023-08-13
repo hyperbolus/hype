@@ -67,3 +67,32 @@ SVG;
     return response($svg)->header('Content-Type', 'image/svg+xml');
 
 });
+
+
+Route::get('/styles', function () {
+    $styles = \App\Models\Forge\Style::query()
+        ->with('files')
+        ->paginate(10);
+
+    $styles->through(function (\App\Models\Forge\Style $style) {
+        $sizes = [
+            'sd' => null,
+            'hd' => null,
+            'uhd' => null
+        ];
+        $files = $style->files->transform(function (\App\Models\Media $file, int $key) use (&$sizes) {
+            $sizes[$file->collection] = $key;
+            $file->makeHidden(['owner_id', 'owner_type']);
+            $file->setAttribute('url', Storage::disk('contabo')->temporaryUrl($file->path, now()->addHour()));
+            return $file;
+        });
+        $style->setAttribute('sizes', $sizes);
+        return $style;
+    });
+
+    return $styles;
+});
+Route::get('/style/{id}', function ($id) {
+    $style = \App\Models\Forge\Style::query()->with('files')->findOrFail($id);
+    return $style;
+});

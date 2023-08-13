@@ -2,33 +2,27 @@
 
 namespace App\Models\Forge;
 
+use App\Models\Content\Tag;
+use App\Models\Media;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * App\Models\Forge\Style
- *
- * @property int $id
- * @property string $name
- * @property string $description
- * @property string $content
- * @property string|null $slug
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Database\Factories\Forge\StyleFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Style newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Style newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Style query()
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Style whereUpdatedAt($value)
  * @mixin IdeHelperStyle
  */
 class Style extends Model
 {
     use HasFactory;
+
+    public function files(): MorphMany {
+        return $this->morphMany(Media::class, 'owner');
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable')->withPivot(['verified', 'score'])->orderByPivot('verified', 'DESC')->orderByPivot('score', 'DESC')->withTimestamps();
+    }
 }
