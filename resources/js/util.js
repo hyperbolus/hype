@@ -38,9 +38,13 @@ export const displayRating = (rating) => {
 }
 
 export const trimAtWord = (string, max) => {
+    // No need to trim
     if (string.length <= max) return string;
 
+    // We hard trim at length, then trim further
     let trimmed = string.substring(0, max);
+    // Heuristics are based on position of the last
+    // space vs position of last character in string
     let lastSpace = trimmed.lastIndexOf(" ");
 
     // If the word cut isn't less than 2/3 of the text,
