@@ -10,6 +10,8 @@ return [
         40 => \App\Models\Game\Level::class,
         41 => \App\Models\Game\LevelReplay::class,
         42 => \App\Models\Content\Review::class,
+
+        61 => \App\Models\Forge\Style::class,
     ],
     'named_morph_map' => [
         'user' => 1,
@@ -20,6 +22,8 @@ return [
         'level' => 40,
         'replay' => 41,
         'review' => 42,
+
+        'style' => 61,
     ],
 
     'patreon_token' => env('PATREON_TOKEN'),

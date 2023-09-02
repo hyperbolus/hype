@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface Bannable
+interface Breadcrumbs
 {
 
 }

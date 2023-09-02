@@ -32,6 +32,6 @@ class Review extends Model
 
     public function level(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Level::class, 'level_id');
+        return $this->belongsTo(Level::class, 'level_id')->withCount(['reviews']);
     }
 }

@@ -93,7 +93,7 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
 });
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/user/{id}', [UserController::class, 'show'])->name('users.show');
+Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
 Route::get('/user/{id}/reputation', [ReputationLogController::class, 'index'])->name('reputation.show');
 Route::post('/user/{id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);

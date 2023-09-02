@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Review;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ReviewController extends Controller
@@ -55,9 +56,9 @@ class ReviewController extends Controller
 
     public function show(Review $review)
     {
-        return Inertia::render('Reviews/Show', [
+        return page('Reviews/Show', [
             'review' => $review->load(['level', 'author'])
-        ]);
+        ])->meta($review->author->name . '\'s Review of ' . $review->level->title, Str::trimAtWord($review->review, 150));
     }
 
     public function edit(Review $review)

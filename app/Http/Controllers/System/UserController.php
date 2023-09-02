@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Review;
 use App\Models\System\User;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -48,20 +49,23 @@ class UserController extends Controller
         ]);
     }
 
-    public function show($id): Response
+    public function show(User $user): Responsable
     {
-        /**
-         * @var User $user
-         */
-        $user = User::query()->find($id);
-        if ($user === null) {
-            abort(404);
-        }
-
-        return Inertia::render('Users/Show', [
+        // TODO: appends
+        return page('Users/Show', [
             'profile' => $user->loadCount(['threads', 'posts', 'names']),
             'comments' => $user->comments()->paginate(10, ['*'], 'comments'),
-            'reviews' => Review::query()->where('user_id', $id)->with('level')->paginate(5, ['*'], 'reviews'),
-        ]);
+            'reviews' => Review::query()->where('user_id', $user->id)->with('level')->paginate(5, ['*'], 'reviews'),
+        ])->meta('Profile of ' . $user->name, $user->bio ?? 'This user has no bio.')
+            ->breadcrumbs([
+                [
+                    'text' => 'Users',
+                    'url' => route('users.index'),
+                ],
+                [
+                    'text' => $user->name . '\'s Profile',
+                    'url' => route('users.show', $user->id),
+                ]
+            ]);
     }
 }
