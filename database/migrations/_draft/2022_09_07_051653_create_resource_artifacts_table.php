@@ -13,15 +13,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mod_artifacts', function (Blueprint $table) {
+        Schema::create('resource_artifacts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mod_version_id');
+            $table->intMorphs('resource_version');
             $table->string('game_version')->nullable();
-            $table->enum('sdk', ['geode', 'megahack', 'hackermode'])->nullable();
+
+            $table->string('sdk')->nullable();
             $table->string('sdk_version')->nullable();
-            $table->unique(['mod_version_id', 'game_version', 'sdk', 'sdk_version']);
+
+            $table->unique(['resource_version_id', 'resource_version_type', 'game_version', 'sdk', 'sdk_version'], 'resource_versions');
+
             $table->string('file');
             $table->unsignedBigInteger('downloads')->default(0);
+
             $table->softDeletes();
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('slug')->nullable();
 
             $table->string('license')->nullable();
-            $table->unsignedSmallInteger('binaryVersion')->nullable();
+            $table->unsignedSmallInteger('binary_version')->nullable();
 
             $table->unsignedBigInteger('views')->default(0);
 

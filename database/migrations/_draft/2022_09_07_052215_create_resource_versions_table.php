@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mod_versions', function (Blueprint $table) {
+        Schema::create('resource_versions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mod_id');
+            $table->intMorphs('resource');
             $table->string('version');
             $table->string('metadata')->nullable();
-            $table->unique(['mod_id', 'version', 'metadata']);
+            $table->unique(['resource_id', 'resource_type', 'version', 'metadata']);
             $table->string('release_notes')->nullable();
             $table->timestamp('published')->nullable();
             $table->softDeletes();
