@@ -39,3 +39,12 @@
 .textbox {
     @apply resize-none border-none focus:ring-0 focus:outline-none resize-y w-full placeholder-ui-600 bg-ui-800 rounded;
 }
+
+.grid-lines {
+    background-size: 30px 30px;
+    background-position: -15px -15px;
+    background-color: #0F141C;
+    background-image:
+        linear-gradient(to right, #1A212D 1px, transparent 1px),
+        linear-gradient(to bottom, #1A212D 1px, transparent 1px);
+}

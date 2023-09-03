@@ -8,7 +8,7 @@ import {ref} from "vue";
 import ResourceTicket from "@/Components/ResourceTicket.vue";
 
 const props = defineProps({
-    mods: Object,
+    styles: Object,
     filters: Object
 })
 
@@ -46,7 +46,7 @@ function setFilter(value) {
 }
 
 const search = () => {
-    router.get(route('mods.index') + '?' + new URLSearchParams({
+    router.get(route('styles.index') + '?' + new URLSearchParams({
         sortBy: sortBy,
         sortDir: sortDir,
         filter: filter,
@@ -54,13 +54,13 @@ const search = () => {
 }
 </script>
 <template>
-    <app-layout title="Mods">
+    <app-layout title="Texture Packs">
         <template #breadcrumbs>
-            <Link :href="route('mods.index')">Mods</Link>
+            <Link :href="route('styles.index')">Texture Packs</Link>
         </template>
         <div class="y space-y-4 w-full">
             <div class="x justify-between items-center">
-                <h2 class="font-bold text-2xl">Mods</h2>
+                <h2 class="font-bold text-2xl">Texture Packs</h2>
                 <div class="x space-x-4 items-center">
                     <div class="x space-x-2 items-center">
                         <Dropdown align="left">
@@ -115,12 +115,17 @@ const search = () => {
                     </div>
                 </div>
             </div>
-            <Pagination :list="mods"/>
-            <div class="pane italic" v-if="mods.total === 0"><span class="opacity-50">No mods here, chief.</span></div>
+            <Link :href="route('styles.create')" class="w-fit button">Submit Texture Pack</Link>
+            <Pagination :list="styles"/>
+            <div class="pane italic" v-if="styles.total === 0"><span class="opacity-50">No packs here, chief.</span></div>
             <transition-group enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <ResourceTicket v-for="(mod, index) in mods.data" :resource="mod" class="col-span-1" :key="mod.id" :style="`transition-delay: ${index * 65}ms;`"/>
+                <ResourceTicket :link="route('styles.show', style.id)" v-for="(style, index) in styles.data" :resource="{...style, banner_url: ''}" class="col-span-1" :key="style.id" :style="`transition-delay: ${index * 65}ms;`">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-16 h-16">
+                        <path d="M15.993 1.385a1.87 1.87 0 012.623 2.622l-4.03 5.27a12.749 12.749 0 01-4.237 3.562 4.508 4.508 0 00-3.188-3.188 12.75 12.75 0 013.562-4.236l5.27-4.03zM6 11a3 3 0 00-3 3 .5.5 0 01-.72.45.75.75 0 00-1.035.931A4.001 4.001 0 009 14.004V14a3.01 3.01 0 00-1.66-2.685A2.99 2.99 0 006 11z" />
+                    </svg>
+                </ResourceTicket>
             </transition-group>
-            <Pagination :list="mods"/>
+            <Pagination :list="styles"/>
         </div>
     </app-layout>
 </template>

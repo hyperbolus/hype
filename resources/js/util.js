@@ -33,8 +33,8 @@ export const getUser = () => {
     return usePage().props.user;
 }
 
-export const displayRating = (rating) => {
-    return parseInt(rating) ? rating.toFixed(1) : '-';
+export const displayRating = (rating, fixed = true) => {
+    return rating === null ? '-' : (fixed ? rating.toFixed(1) : rating);
 }
 
 export const trimAtWord = (string, max) => {
@@ -56,4 +56,8 @@ export const trimAtWord = (string, max) => {
     return trimmed + '...';
 }
 
-export const invisiblePixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=';
+export const readonly = (e, reset) => {
+    e.currentTarget.value = reset;
+    return true;
+}
+export const invisiblePixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';

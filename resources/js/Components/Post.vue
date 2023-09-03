@@ -10,9 +10,10 @@ import prettyBytes from "pretty-bytes";
 import UserFlag from "@/Components/UserFlag.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import ReportModal from "@/Components/ReportModal.vue";
-import {isAuthenticated} from "@/util.js";
+import {isAuthenticated, readonly} from "@/util.js";
 import Tooltip from "@/Components/Tooltip.vue";
 import Input from "@/Jetstream/Input.vue";
+import UserTitle from "@/Components/UserTitle.vue";
 
 const props = defineProps({
     post: {
@@ -71,15 +72,15 @@ const sendLike = () => {
                     <div v-if="user.postbit_url" class="absolute rounded-tl-lg -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
                         <span class="x items-center gap-2"><UserFlag :user="user"/><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
-                        <span class="text-xs" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}">Junior Member</span>
+                        <UserTitle class="text-sm" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}" :user="user"/>
                     </div>
                     <div class="flex place-center px-2">
-                        <Avatar class="w-32 md:w-40" :user="user"/>
+                        <Avatar width="w-32 md:w-40" :user="user"/>
                     </div>
                     <div class="y grow gap-4 items-start">
                         <div class="flex flex-col md:hidden gap-1 text-center items-center py-1">
-                            <span class="x items-center gap-2"><span class="fflag ff-sm fflag-US"></span><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
-                            <span class="text-xs" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}">Junior Member</span>
+                            <span class="x items-center gap-2"><UserFlag :user="user"/><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
+                            <UserTitle class="text-sm" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}" :user="user"/>
                         </div>
                         <div class="pane !px-3 space-y-1 w-full h-fit text-xs backdrop-blur-sm">
                             <div class="flex justify-between">
@@ -122,7 +123,7 @@ const sendLike = () => {
                                 <template #content>
                                     <div class="p-2 w-fit">
                                         Permalink
-                                        <Input disabled type="text" input-style="!w-fit" :model-value="route('posts.show', post)"/>
+                                        <input @input="e => readonly(e, route('posts.show', post))" type="text" class="bg-ui-800 rounded !py-1 !px-2 border-0" :value="route('posts.show', post)"/>
                                     </div>
                                 </template>
                             </Tooltip>

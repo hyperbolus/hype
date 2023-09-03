@@ -30,7 +30,13 @@ const other = (obj) => {
             <div class="y space-y-2">
                 <div class="x pane justify-between items-center px-4 py-2" v-for="conversation in conversations.data">
                     <div class="x items-center space-x-2">
-                        <Avatar class="w-8" :user="other(conversation)"/>
+                        <span class="relative">
+                            <span v-show="$page.props.user.messages > 0 && false" class="!hidden z-10 absolute flex -top-0.5 -right-0.5 h-3 w-3">
+                                <span class="animate-ping absolute inline-flex bg-blue-500 rounded-full h-full w-full opacity-75"></span>
+                                <span class="inline-flex bg-blue-500 rounded-full h-3 w-3"></span>
+                            </span>
+                            <Avatar width="w-8" :user="other(conversation)"/>
+                        </span>
                         <Username :href="route('inbox.show', other(conversation).id)" :user="other(conversation)"/>
                     </div>
                     <Timestamp :time="conversation.created_at"/>

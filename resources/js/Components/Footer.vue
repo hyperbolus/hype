@@ -1,20 +1,27 @@
 <script setup>
 import {Link} from '@inertiajs/vue3'
-// TODO: Complete rework
+import route from "ziggy-js";
 </script>
 <template>
-    <div class="y p-4 z-10 items-center w-full bg-ui-900">
-        <div class="px-4 lg:max-w-5xl xl:max-w-6xl w-full">
-            <div class="flex justify-between items-center w-full text-ui-500">
-                <div>
-                    <a href="#">&copy; Hyperbolus 2022</a>
+    <div class="y z-10 items-center w-full bg-ui-1000">
+        <div class="x justify-center bg-ui-900 p-2 w-full">
+            <div class="x items-center justify-between lg:max-w-5xl xl:max-w-6xl w-full text-ui-600">
+                <span class="text-sm">GDForums is not affiliated with RobTopGames AP or Geometry Dash</span>
+                <div class="space-x-4">
+                    <Link :href="route('legal.terms')">Terms of Service</Link>
+                    <Link :href="route('legal.privacy')">Privacy</Link>
                 </div>
-                <div class="hidden md:flex bg-ui-800 py-0.5 px-2 rounded text-sm">
-                    <span>Geometry Dash is owned by RobTopGames (not affiliated)</span>
-                </div>
-                <div class="y md:flex-row md:space-x-6">
-                    <Link href="/docs/terms">Terms of Service</Link>
-                    <Link href="/docs/privacy">Privacy Policy</Link>
+            </div>
+        </div>
+        <div class="x justify-center bg-ui-950 p-2 w-full text-sm text-ui-600">
+            <div class="x justify-between lg:max-w-5xl xl:max-w-6xl w-full">
+                <span>Hyperbolus &copy; 2023</span>
+                <div class="x items-center space-x-2">
+                    <span class="relative inline-flex h-2 w-2">
+                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                         <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span>Connected via Alakazam</span>
                 </div>
             </div>
         </div>

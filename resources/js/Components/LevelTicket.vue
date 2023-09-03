@@ -1,9 +1,14 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
 import {displayRating} from "@/util.js";
+import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
 
 const props = defineProps({
-    level: Object
+    level: Object,
+    showRatings: {
+        type: Boolean,
+        default: true
+    }
 })
 
 const difficulties = [
@@ -43,7 +48,7 @@ const face = () => {
 <template>
     <Link :href="route('levels.show', level.id)">
         <div class="relative group">
-            <div v-if="level.reviews && level.reviews.length" class="z-10 absolute -top-2 -right-2 p-2 bg-ui-700 rounded-full" :title="`Your Review:\n\nDifficulty:\t${level.reviews[0].rating_difficulty}\nGameplay:\t${level.reviews[0].rating_gameplay}\nVisuals:\t\t${level.reviews[0].rating_visuals}\nOverall:\t\t${level.reviews[0].rating_overall}`">
+            <div v-if="level.reviews && level.reviews.length" class="z-10 absolute -top-2 -right-2 p-2 bg-ui-700 rounded-full" :title="`Your Review:\n\nDifficulty:\t${level.reviews[0].rating_difficulty ?? '-'}\nGameplay:\t${level.reviews[0].rating_gameplay ?? '-'}\nVisuals:\t\t${level.reviews[0].rating_visuals ?? '-'}\nOverall:\t\t${level.reviews[0].rating_overall}`">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" :class="{'text-amber-500': !!level.reviews[0].rating_difficulty + !!level.reviews[0].rating_gameplay + !!level.reviews[0].rating_visuals + !!level.reviews[0].rating_overall < 4}">
                     <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
                 </svg>
@@ -72,30 +77,7 @@ const face = () => {
                                 <p class="text-lg">{{ level.creator }}</p>
                             </div>
                         </div>
-                        <div class="x z-10 md:-translate-x-8 justify-center sm:w-fit sm:skew-x-12 sm:rounded-tr-lg bg-ui-800">
-                            <div class="grid items-end sm:-skew-x-12 grid-cols-4 sm:grid-cols-5 md:ml-8 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
-                                <span class="hidden sm:flex flex-col">
-                                    <span class="text-xs uppercase">Reviews</span>
-                                    <span class="text-lg font-bold">{{ level.reviews_count }}</span>
-                                </span>
-                                <span class="y">
-                                    <span class="text-xs uppercase">Difficulty</span>
-                                    <span class="text-lg font-bold">{{ displayRating(level.rating_difficulty) }}<span class="text-xs text-ui-600">/100</span></span>
-                                </span>
-                                <span class="y">
-                                    <span class="text-xs uppercase">Overall</span>
-                                    <span class="text-lg font-bold">{{ displayRating(level.rating_overall) }}<span class="text-xs text-ui-600">/10</span></span>
-                                </span>
-                                <span class="y">
-                                    <span class="text-xs uppercase">Gameplay</span>
-                                    <span class="text-lg font-bold">{{ displayRating(level.rating_gameplay) }}<span class="text-xs text-ui-600">/10</span></span>
-                                </span>
-                                <span class="y">
-                                    <span class="text-xs uppercase">Visuals</span>
-                                    <span class="text-lg font-bold">{{ displayRating(level.rating_visuals) }}<span class="text-xs text-ui-600">/10</span></span>
-                                </span>
-                            </div>
-                        </div>
+                        <LevelRatingStamp v-if="showRatings" :level="level"/>
                     </div>
                 </div>
                 <div v-if="level.banner_url" class="absolute right-0 top-0 h-full w-full -md:w-4/5 group-hover:scale-105 transition-transform bg-cover bg-center opacity-80 [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]" :style="`background-image:url('${level.banner_url}');`"></div>

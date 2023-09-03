@@ -1,11 +1,12 @@
 <script setup>
 const props = defineProps({
-    user: Object
+    user: Object,
+    width: String
 })
 </script>
 <template>
-    <span class="relative aspect-square rounded-full overflow-hidden">
-        <span class="absolute -z-10 bg-ui-700 animate-pulse inset-0"></span>
-        <img :src="user.avatar_url ?? '/api/avatar?name=' + user.name" alt="avatar"/>
+    <span class="relative">
+        <span class="absolute z-0 rounded-full bg-ui-700 animate-pulse inset-0"></span>
+        <img class="relative z-10 rounded-full" :src="user.avatar_url ?? '/api/avatar?name=' + user.name" alt="avatar" :class="width ?? 'w-8'"/>
     </span>
 </template>

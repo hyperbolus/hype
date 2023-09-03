@@ -46,7 +46,9 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                     </template>
                 </div>
             </div>
-            <ControlBar class="hidden md:flex"/>
+            <div class="hidden md:flex items-center">
+                <ControlBar/>
+            </div>
             <div class="x md:hidden items-center cursor-pointer">
                 <svg @click="mobileNavOpen = !mobileNavOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />

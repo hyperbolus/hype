@@ -1,6 +1,7 @@
 <script setup>
 import {Link, useForm} from '@inertiajs/vue3';
 import AppLayout from "@/Layouts/Dash.vue";
+import route from 'ziggy-js'
 
 const props = defineProps({
     level: Object,
@@ -28,7 +29,7 @@ const vote = (tag_id, approve) => {
 }
 </script>
 <template>
-    <app-layout title="Home">
+    <app-layout title="Images">
         <template #breadcrumbs>
             <Link :href="route('levels.show', level.id)">{{ level.id }}</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">

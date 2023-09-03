@@ -185,5 +185,4 @@ Route::get('/notifications/clear', [\App\Http\Controllers\System\NotificationCon
 
 Route::impersonate();
 
-
 require_once 'auth.php';

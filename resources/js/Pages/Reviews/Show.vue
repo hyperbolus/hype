@@ -1,19 +1,15 @@
 <script setup>
-import {Link, useForm, usePage} from '@inertiajs/vue3';
+import {Link} from '@inertiajs/vue3';
 import route from "ziggy-js";
-import Post from "@/Components/Post.vue";
-import PostPad from "@/Components/PostPad.vue";
 import AppLayout from "@/Layouts/Dash.vue";
-import {ref} from "vue"
 import Username from "@/Components/Username.vue";
+import {displayRating} from "@/util.js";
+import Avatar from "@/Components/Avatar.vue";
+import LevelTicket from "@/Components/LevelTicket.vue";
 
 const props = defineProps({
     review: Object
 })
-
-const displayRating = (rating) => {
-    return rating ? rating.toFixed(1) : '-';
-}
 </script>
 <template>
     <app-layout :title="review.id">
@@ -29,35 +25,42 @@ const displayRating = (rating) => {
             <Link :href="$page.props.url">Review by {{ review.author.name }}</Link>
         </template>
         <div class="y w-full space-y-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="font-bold text-2xl">Review of {{ review.level.name }}</h2>
-                    <span class="text-sm">by <Username :pop-under="true" :user="review.author"/>, {{ new Date(review.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Level ID: {{ review.level_id }}</span>
+            <div>
+                <h2 class="font-bold text-2xl">Review of {{ review.level.name }}</h2>
+                <span class="text-sm">by <Username :pop-under="true" :user="review.author"/>, {{ new Date(review.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Level ID: {{ review.level_id }}</span>
+            </div>
+            <LevelTicket :level="review.level" :show-ratings="false"/>
+            <div class="x gap-2">
+                <div class="y w-2/3 h-full">
+                    <div class="x items-center space-x-2 bg-ui-800 rounded-t w-fit p-2 ml-2">
+                        <Avatar class="w-6" :user="review.author"/>
+                        <span><Username :user="review.author"/> says...</span>
+                    </div>
+                    <p class="pane border border-ui-700 grow" :class="{'italic text-ui-600 text-center': !review.review}">{{ review.review ? review.review : 'User has not left a written review' }}</p>
                 </div>
-                <div class="space-x-2">
-                    <Link class="button" :href="route('levels.show', review.level_id)">Back to Level</Link>
+                <div class="y space-y-4 pane grow border border-ui-700">
+                    <div class="y">
+                        <span class="font-bold text-sm">OVERALL</span>
+                        <span class="font-bold text-3xl">{{ displayRating(review.rating_overall) }}<span class="text-base text-ui-600">/10</span></span>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :style="`width: ${review.rating_overall * 10}%;`"></div></div>
+                    </div>
+                    <div class="y">
+                        <span class="font-bold text-sm">GAMEPLAY</span>
+                        <span class="font-bold text-3xl">{{ displayRating(review.rating_gameplay) }}<span class="text-base text-ui-600">/10</span></span>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :style="`width: ${review.rating_gameplay * 10}%;`"></div></div>
+                    </div>
+                    <div class="y">
+                        <span class="font-bold text-sm">VISUALS</span>
+                        <span class="font-bold text-3xl">{{ displayRating(review.rating_visuals) }}<span class="text-base text-ui-600">/10</span></span>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :style="`width: ${review.rating_visuals * 10}%;`"></div></div>
+                    </div>
+                    <div class="y">
+                        <span class="font-bold text-sm">DIFFICULTY</span>
+                        <span class="font-bold text-3xl">{{ displayRating(review.rating_difficulty) }}<span class="text-base text-ui-600">/100</span></span>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :style="`width: ${review.rating_difficulty}%;`"></div></div>
+                    </div>
                 </div>
             </div>
-            <div class="px-4 grid grid-cols-4">
-                <div class="y">
-                    <span class="font-bold">OVERALL</span>
-                    <span class="font-bold text-4xl">{{ displayRating(review.rating_overall) }}<span class="text-base text-ui-600">/10</span></span>
-                </div>
-                <div class="y">
-                    <span class="font-bold">GAMEPLAY</span>
-                    <span class="font-bold text-4xl">{{ displayRating(review.rating_gameplay) }}<span class="text-base text-ui-600">/10</span></span>
-                </div>
-                <div class="y">
-                    <span class="font-bold">VISUALS</span>
-                    <span class="font-bold text-4xl">{{ displayRating(review.rating_visuals) }}<span class="text-base text-ui-600">/10</span></span>
-                </div>
-                <div class="y">
-                    <span class="font-bold">DIFFICULTY</span>
-                    <span class="font-bold text-4xl">{{ displayRating(review.rating_difficulty) }}<span class="text-base text-ui-600">/100</span></span>
-                </div>
-
-            </div>
-            <p class="pane" :class="{'italic text-ui-600 text-center': !review.review}">{{ review.review ? review.review : 'User has not left a written review' }}</p>
         </div>
     </app-layout>
 </template>

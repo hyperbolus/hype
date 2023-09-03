@@ -86,13 +86,6 @@ const face = () => {
 </script>
 <template>
     <app-layout title="Home" :decorations="false">
-        <template #breadcrumbs>
-            <Link :href="route('levels.index')">Levels</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <span>{{ level.id }}</span>
-        </template>
         <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-ui-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
             <div class="x justify-between items-start">
                 <div class="x space-x-2">
@@ -249,10 +242,10 @@ const face = () => {
                         </div>
                         <p>{{ review.review }}</p>
                         <div class="x space-x-2 text-sm text-ui-400">
-                            <span>DIFF: {{ displayRating(review.rating_difficulty) }}</span>
-                            <span>GAME: {{ displayRating(review.rating_gameplay) }}</span>
-                            <span>VIS: {{ displayRating(review.rating_visuals) }}</span>
-                            <span>ALL: {{ displayRating(review.rating_overall) }}</span>
+                            <span>DIFF: {{ displayRating(review.rating_difficulty, false) }}</span>
+                            <span>GAME: {{ displayRating(review.rating_gameplay, false) }}</span>
+                            <span>VIS: {{ displayRating(review.rating_visuals, false) }}</span>
+                            <span>ALL: {{ displayRating(review.rating_overall, false) }}</span>
                         </div>
                     </div>
                 </div>

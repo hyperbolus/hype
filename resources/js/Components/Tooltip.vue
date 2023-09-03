@@ -24,19 +24,16 @@ const props = defineProps({
             <slot/>
         </div>
 
-        <div v-if="$slots.content || message" class="z-10 absolute left-0 transition-[visibility] duration-0 invisible group-hover:visible" :class="`${containerClass}`">
-            <div class="y items-center w-full pt-2 transition ease-out transform duration-75 opacity-0 scale-95 group-hover:opacity-100 group-hover:duration-200 group-hover:scale-100">
-                <template v-if="caret">
-                    <div class="drop-shadow absolute border-[8px] border-t-0 top-0 border-transparent border-b-ui-700"></div>
-                    <div class="z-10 absolute border-[8px] border-t-0 top-[1.5px] border-transparent border-b-ui-900"></div>
-                </template>
-                <div v-if="decoration" class="shadow-lg box !py-0 !px-0">
-                    <div v-if="message" class="px-2">
-                        <span class="text-center text-xs select-none whitespace-nowrap">{{ message }}</span>
-                    </div>
+        <div v-if="$slots.content || message" class="z-10 absolute bottom-full -left-1/2 transition-[visibility] duration-0 invisible group-hover:visible" :class="`${containerClass}`">
+            <div class="y items-center w-full pb-2 transition ease-out transform duration-75 opacity-0 scale-95 group-hover:opacity-100 group-hover:duration-200 group-hover:scale-100">
+                <div v-if="decoration" class="shadow-lg rounded py-1 px-2 bg-ui-1000">
+                    <span v-if="message" class="text-center text-sm select-none whitespace-nowrap">{{ message }}</span>
                     <slot v-else name="content"/>
                 </div>
                 <slot v-else name="content"/>
+                <template v-if="caret">
+                    <div class="z-10 absolute border-[8px] border-b-0 -bottom-0 border-transparent border-t-ui-1000"></div>
+                </template>
             </div>
         </div>
     </div>
