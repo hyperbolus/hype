@@ -9,9 +9,9 @@ class PageBuilder implements Responsable
 {
     protected string $component = '';
 
-    protected ?string $title;
+    protected ?string $title = null;
 
-    protected ?string $description;
+    protected ?string $description = null;
 
     protected array $props = [];
     protected array $breadcrumbs = [];
