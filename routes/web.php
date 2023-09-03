@@ -92,6 +92,10 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
     Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile');
 });
 
+Route::get('/groups', function () {
+    return page('Groups/Index');
+});
+
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
