@@ -16,8 +16,7 @@ class LevelReplayController extends Controller
 {
     public function index(): Responsable
     {
-        $query = User::query()->withCount(['replays'])->has('replays', '>', 0)
-            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url']);
+        $query = User::query()->withCount(['replays'])->has('replays', '>', 0);
 
         return page('Replays/Index', [
             'leaderboard' => $query->orderBy('replays_count', 'DESC')->limit(25)->get(),
