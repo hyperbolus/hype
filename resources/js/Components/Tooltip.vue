@@ -24,9 +24,9 @@ const props = defineProps({
             <slot/>
         </div>
 
-        <div v-if="$slots.content || message" class="z-10 absolute bottom-full -left-1/2 transition-[visibility] duration-0 invisible group-hover:visible" :class="`${containerClass}`">
+        <div v-if="$slots.content || message" class="z-10 absolute bottom-full left-[50%] -translate-x-[50%] transition-[visibility] duration-0 invisible group-hover:visible" :class="`${containerClass}`">
             <div class="y items-center w-full pb-2 transition ease-out transform duration-75 opacity-0 scale-95 group-hover:opacity-100 group-hover:duration-200 group-hover:scale-100">
-                <div v-if="decoration" class="shadow-lg rounded py-1 px-2 bg-ui-1000">
+                <div v-if="decoration" class="translate-x-[0%] shadow-lg rounded py-1 px-2 bg-ui-1000">
                     <span v-if="message" class="text-center text-sm select-none whitespace-nowrap">{{ message }}</span>
                     <slot v-else name="content"/>
                 </div>
