@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('level_replays', function (Blueprint $table) {
             $table->id();
             $table->foreignId('submitter_id');
+            $table->string('source')->nullable();
             $table->foreignId('level_id');
-            $table->unsignedTinyInteger('type');
-            $table->unsignedTinyInteger('route')->nullable();
-            $table->unsignedTinyInteger('coins')->default(0);
+            $table->string('format');
+            $table->string('route')->nullable();
+            $table->unsignedTinyInteger('coins')->nullable();
             $table->timestamp('approved_at')->nullable();
-            $table->foreignId('approved_by_id');
+            $table->foreignId('approved_by_id')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

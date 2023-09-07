@@ -92,6 +92,9 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
     Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile');
 });
 
+Route::get('/replays', [\App\Http\Controllers\Game\LevelReplayController::class, 'index'])->name('replays.index');
+Route::post('/replays/create', [\App\Http\Controllers\Game\LevelReplayController::class, 'store'])->name('replays.store')->middleware(['auth', 'verified']);
+
 Route::get('/groups', function () {
     return page('Groups/Index');
 });

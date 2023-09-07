@@ -8,7 +8,10 @@ use App\Models\Content\CrowdVote;
 use App\Models\Content\Review;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
+use App\Models\Game\LevelReplay;
+use App\Models\Media;
 use App\Models\System\User;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -89,13 +92,32 @@ class LevelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): Response
+    public function show($id): Responsable
     {
-        $level = Hydrate::level($id)->load(['images', 'tags', 'videos' => function ($q) {
-            $q->inRandomOrder()->limit(5);
-        }]);
+        $level = Hydrate::level($id)->load([
+            'images',
+            'tags',
+            'videos' => function ($q) {
+                $q->inRandomOrder()->limit(5);
+            },
+            'replays' => function ($q) {
+                $q->inRandomOrder();
+            },
+            'replays.author',
+            'replays.files',
+        ]);
 
-        return Inertia::render('Levels/Show', [
+        $level->replays->transform(function (LevelReplay $replay) {
+            $replay->files->transform(function (Media $media) {
+                $media->setAttribute('url', Storage::disk('contabo')->temporaryUrl($media->path, now()->addHour()));
+                return $media;
+            });
+            return $replay;
+        });
+
+        clock($level);
+
+        return page('Levels/Show', [
             'level' => $level,
             'reviews' => $level->reviews()
                 ->with('author')
@@ -104,7 +126,17 @@ class LevelController extends Controller
                 ->where('level_id', $id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
-        ]);
+        ])->meta($level->name, $level->description)
+            ->breadcrumbs([
+                [
+                    'text' => 'Levels',
+                    'url' => route('levels.index'),
+                ],
+                [
+                    'text' => $level->name,
+                    'url' => route('levels.show', $level->id),
+                ]
+            ]);
     }
 
     /**

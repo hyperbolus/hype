@@ -28,6 +28,12 @@ class Level extends Model
         return $this->hasMany(Video::class, 'level_id');
     }
 
+    public function replays(): HasMany
+    {
+        return $this->hasMany(LevelReplay::class, 'level_id')->orderBy('approved_at', 'DESC');
+            //->whereNotNull('approved_at');
+    }
+
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable')->withPivot(['verified', 'score'])->orderByPivot('verified', 'DESC')->orderByPivot('score', 'DESC')->withTimestamps();

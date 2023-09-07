@@ -7,6 +7,7 @@ use App\Models\Content\Review;
 use App\Models\Content\Thread;
 use App\Models\Forge\Mod;
 use App\Models\Game\Level;
+use App\Models\Game\LevelReplay;
 use App\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -76,6 +77,11 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(ProfileComment::class, 'user_id')->with('commenter');
+    }
+
+    public function replays(): HasMany
+    {
+        return $this->hasMany(LevelReplay::class, 'submitter_id');
     }
 
     public function messages(): HasMany
