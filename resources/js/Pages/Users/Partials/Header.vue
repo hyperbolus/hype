@@ -10,6 +10,7 @@ import route from "ziggy-js"
 import Avatar from "@/Components/Avatar.vue";
 import UserFlag from "@/Components/UserFlag.vue";
 import {invisiblePixel} from "@/util.js";
+import UserTitle from "@/Components/UserTitle.vue";
 
 const props = defineProps({
     profile: Object,
@@ -49,7 +50,7 @@ const isOnline = (time) => {
                                 <UserFlag size="md" :user="profile"/>
                                 <span class="bg-cover bg-center" :style="profile.primary_group_id === 1 ? `background-image: url('${sparkle}');text-shadow: black 0 1px 3px;color:rgb(255,75,75);` : ''">{{ profile.name }}</span>
                             </div>
-                            <span class="text-sm">Junior Member</span>
+                            <UserTitle :user="profile"/>
                         </div>
                     </div>
                     <Stats :profile="profile" :reviews="reviews"/>
