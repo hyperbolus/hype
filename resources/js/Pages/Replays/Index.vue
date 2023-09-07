@@ -10,6 +10,7 @@ import {computed, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import {useDropZone} from "@vueuse/core";
+import Username from "@/Components/Username.vue";
 
 const props = defineProps({
     leaderboard: Object,
@@ -197,7 +198,7 @@ const formFinished = computed(() => {
             <h2 class="font-bold text-xl">Leaderboard</h2>
             <div class="y space-y-2">
                 <div v-for="user in leaderboard" class="x justify-between pane">
-                    <div>{{ user.name }}</div>
+                    <Username :user="user"/>
                     <div>{{ user.replays_count }} Submissions</div>
                 </div>
                 <p v-if="leaderboard.length === 0" class="text-center text-ui-600 pane">Nobody :(</p>
