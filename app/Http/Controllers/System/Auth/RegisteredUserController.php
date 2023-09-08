@@ -47,7 +47,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'invite' => request('invite')
+        ]);
     }
 
     /**
@@ -65,6 +67,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'min:3', 'max:32', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/'],
             'password' => Yggdrasil::passwordRules(),
             'terms' => ['required', 'accepted'],
+            'agecheck' => ['required', 'accepted'],
         ],
             [
                 'name.regex' => 'Usernames must be alphanumeric (no spaces or symbols except underscores)',
@@ -74,10 +77,11 @@ class RegisteredUserController extends Controller
             'email' => request('email'),
             'name' => request('name'),
             'password' => Hash::make(request('password')),
+            'referrer_id' => request('invite'),
         ]);
 
         $banned_ids = [
-            42, 69, 420, 666, 777, 1312, 1488, 1337, 2865,
+            42, 44, 50, 69, 314, 420, 666, 777, 1312, 1488, 1337, 2865,
         ];
 
         while (in_array($user->id, $banned_ids, false)) {

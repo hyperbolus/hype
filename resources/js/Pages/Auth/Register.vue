@@ -9,11 +9,16 @@ import JetLabel from '@/Jetstream/Label.vue';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
 
+const props = defineProps({
+    invite: String
+})
+
 const form = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
+    invite: props.invite ?? null,
     terms: false,
     agecheck: false,
 });
@@ -36,7 +41,7 @@ const submit = () => {
         </template>
 
         <JetValidationErrors class="mb-4" />
-
+        {{form}}
         <form @submit.prevent="submit">
             <div>
                 <JetLabel for="name" value="Username" />

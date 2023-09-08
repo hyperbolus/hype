@@ -36,6 +36,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'referrer_id',
     ];
 
     /**
@@ -45,6 +46,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'email',
+        'referrer_id',
+        'location',
+        'birthday',
     ];
 
     /**
