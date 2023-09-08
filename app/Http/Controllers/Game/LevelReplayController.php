@@ -84,6 +84,7 @@ class LevelReplayController extends Controller
         $replay->level_id = $level->id;
         $replay->format = $request->string('format');
         $replay->notes = $request->string('notes');
+        $replay->coins = $request->integer('coins');
         $replay->save();
 
         $file = new Media();
