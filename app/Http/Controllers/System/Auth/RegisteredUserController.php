@@ -49,12 +49,17 @@ class RegisteredUserController extends Controller
     public function create(): Responsable
     {
         $invite = '';
+        $user = null;
         if (request()->has('invite')) {
-            $invite = ' You\'ve been invited to join!';
+            $user = User::find(request()->integer('invite'));
+            if ($user !== null) {
+                $invite = "\n\nYou've been invited by " . $user->name;
+            }
         }
 
         return page('Auth/Register', [
-            'invite' => request('invite')
+            'invite' => request('invite'),
+            'referrer' => $user
         ])->meta('GD Forums | Sign Up', 'Sign up for GD Forums, your source for everything Geometry Dash!' . $invite);
     }
 

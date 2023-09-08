@@ -8,9 +8,12 @@ import JetCheckbox from '@/Jetstream/Checkbox.vue';
 import JetLabel from '@/Jetstream/Label.vue';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
+import Username from "@/Components/Username.vue";
+import Avatar from "@/Components/Avatar.vue";
 
 const props = defineProps({
-    invite: String
+    invite: String,
+    referrer: Object
 })
 
 const form = useForm({
@@ -41,7 +44,15 @@ const submit = () => {
         </template>
 
         <JetValidationErrors class="mb-4" />
-        {{form}}
+
+        <div class="y space-y-2 pane mb-2" v-if="referrer">
+            <span class="font-bold text-xs">You've been invited by:</span>
+            <div class="x space-x-2 items-center">
+                <Avatar :user="referrer"/>
+                <Username :user="referrer"/>
+            </div>
+        </div>
+
         <form @submit.prevent="submit">
             <div>
                 <JetLabel for="name" value="Username" />
