@@ -12,6 +12,11 @@ class LevelReplay extends Model
 {
     use HasFactory;
 
+    public function level(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Level::class, 'level_id');
+    }
+
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'submitter_id')

@@ -14,15 +14,44 @@ use Illuminate\Support\Facades\Storage;
 
 class LevelReplayController extends Controller
 {
-    public function index(): Responsable
+    public function index(Request $request): Responsable
     {
         $query = User::query()->withCount(['replays'])->has('replays', '>', 0);
+
+        $replays = LevelReplay::query()
+            ->with(['level', 'author', 'files']);
+
+        $replays->whereNotNull('created_at');
+
+        if ($request->has('format') && $request->string('format')->isNotEmpty()) {
+            $replays->whereIn('format', explode(',', $request->string('format', 'mhr')));
+        }
+
+        if ($request->has('user_id') && $request->string('user_id')->isNotEmpty()) {
+            $replays->where('submitter_id', '=', $request->integer('user_id'));
+        }
+
+        if ($request->has('level_id') && $request->string('level_id')->isNotEmpty()) {
+            $replays->where('level_id', '=', $request->integer('level_id'));
+        }
+
+        $replays = $replays->orderBy('created_at', 'DESC')
+            ->paginate()
+            ->through(function (LevelReplay $replay) {
+                $replay->files->transform(function (Media $media) {
+                    $media->setAttribute('url', Storage::disk('contabo')->temporaryUrl($media->path, now()->addHour()));
+                    return $media;
+                });
+                return $replay;
+            })
+            ->appends(['format', 'user_id', 'level_id']);
 
         return page('Replays/Index', [
             'leaderboard' => $query->orderBy('replays_count', 'DESC')->limit(25)->get(),
             'participants' => $query->count(),
             'approved' => LevelReplay::query()->whereNotNull('approved_at')->count(),
             'unapproved' => LevelReplay::query()->whereNull('approved_at')->count(),
+            'replays' => $replays
         ])->meta('Replay Archive (WIP)', 'Work in progress, attempt at building a public database of level replays')
             ->breadcrumbs([
                 [
@@ -54,6 +83,7 @@ class LevelReplayController extends Controller
         $replay->submitter_id = $request->user()->id;
         $replay->level_id = $level->id;
         $replay->format = $request->string('format');
+        $replay->notes = $request->string('notes');
         $replay->save();
 
         $file = new Media();

@@ -6,17 +6,19 @@ import Lightbox from "@/Components/Lightbox.vue";
 import Input from "@/Jetstream/Input.vue";
 import Label from "@/Jetstream/Label.vue";
 import Tooltip from "@/Components/Tooltip.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import {useDropZone} from "@vueuse/core";
 import Username from "@/Components/Username.vue";
+import Dropdown from "@/Jetstream/Dropdown.vue";
 
 const props = defineProps({
     leaderboard: Object,
     participants: Number,
     approved: Number,
     unapproved: Number,
+    replays: Object
 });
 
 const updateFile = (e) => {
@@ -26,7 +28,9 @@ const updateFile = (e) => {
 const submission = useForm({
     file: null,
     level_id: null,
+    coins: null,
     format: null,
+    notes: null,
     terms: {
         original: false,
         functional: false,
@@ -51,6 +55,92 @@ const submit = () => {
 const formFinished = computed(() => {
     return submission.terms.original && submission.terms.functional && submission.terms.grant && submission.level_id !== null && submission.format !== null && submission.file !== null
 });
+
+const filters = ref({
+    'tasbot': false,
+    'mhr': false,
+    'mhr_json': false,
+    'zbot': false,
+    'zbot_frame': false,
+    'replaybot': false,
+    'replaybot_frame': false,
+    'echo': false,
+    'rush': false,
+    'ur': false,
+    'ur_replay': false,
+    'ddhor': false,
+    'xbot': false,
+    'xbot_frame': false,
+    'ybot': false,
+    'ybot_frame': false,
+});
+
+const formats = {
+    'tasbot': 'TASBOT',
+    'mhr': 'MegaHack Replay',
+    'mhr_json': 'MegaHack Replay (JSON)',
+    'zbot': 'zBot',
+    'zbot_frame': 'zBot Frame',
+    'replaybot': 'ReplayBot',
+    'replaybot_frame': 'ReplayBot Frame',
+    'echo': 'Echo',
+    'rush': 'Rush',
+    'ur': 'Universal Replay',
+    'ur_replay': 'Universal Replay Frame',
+    'ddhor': 'DDHOR',
+    'xbot': 'xBot',
+    'xbot_frame': 'xBot Frame',
+    'ybot': 'yBot',
+    'ybot_frame': 'yBot Frame',
+}
+
+const query = useForm({
+    format: '',
+    level_id: '',
+    user_id: ''
+})
+
+onMounted(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has('format')) {
+        const list = params.get('format').split(',');
+        for (const format in list) {
+            if (filters.value.hasOwnProperty(list[format])) {
+                filters.value[list[format]] = true
+            }
+        }
+    }
+
+    if (params.has('user_id')) {
+        query.user_id = params.get('user_id')
+    }
+
+    if (params.has('level_id')) {
+        query.level_id = params.get('level_id')
+    }
+})
+
+const search = () => {
+    let q = [];
+
+    for (const key in filters.value) {
+
+        if (filters.value[key] === true) {
+            q.push(key);
+        }
+    }
+
+    query.format = q.join(',');
+
+    query.transform((data) => {
+        let q = {};
+        if (data.format !== '') q.format = data.format;
+        if (data.level_id !== '') q.level_id = data.level_id;
+        if (data.user_id !== '') q.user_id = data.user_id;
+        return q;
+    }).get(route('replays.index'))
+};
 </script>
 <template>
     <app-layout title="Replays">
@@ -96,6 +186,11 @@ const formFinished = computed(() => {
                             <Input v-model="submission.level_id" type="number" />
                         </Label>
 
+                        <Label>
+                            Coins Collected
+                            <Input v-model="submission.coins" type="number" />
+                        </Label>
+
                         <Label ref="dropzone">
                             Macro File
                             <input @change="updateFile" class="hidden" type="file" accept=".replay,.zbot,.dat,.ddhor,.xbot,.kd,.zbf,.xbot,.rsh,.json,.mhr"/>
@@ -121,7 +216,7 @@ const formFinished = computed(() => {
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
                             </svg>
-                            <span>MegaHack and zBot are preferred</span>
+                            <span>MegaHack, TASBOT, and zBot are preferred</span>
                         </div>
 
                         <Label>
@@ -154,6 +249,11 @@ const formFinished = computed(() => {
                             </svg>
                             <span>If your format is not listed here please contact us so we can add it before you submit</span>
                         </div>
+
+                        <Label>
+                            Additional Notes (optional)
+                            <textarea class="block bg-ui-950 rounded-md border-none w-full placeholder-ui-600" v-model="submission.notes" placeholder="This macro has all the swag jumps"></textarea>
+                        </Label>
 
                         <label class="x items-center space-x-2 text-sm">
                             <input v-model="submission.terms.original" type="checkbox" class="rounded bg-ui-800"/>
@@ -195,13 +295,64 @@ const formFinished = computed(() => {
                     <span class="font-bold text-4xl">{{ participants }}</span>
                 </div>
             </div>
-            <h2 class="font-bold text-xl">Leaderboard</h2>
-            <div class="y space-y-2">
-                <div v-for="user in leaderboard" class="x justify-between pane">
-                    <Username :user="user"/>
-                    <div>{{ user.replays_count }} Submissions</div>
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+                <div class="y space-y-2 w-1/2">
+                    <h2 class="font-bold text-xl">Leaderboard</h2>
+                    <div class="y space-y-2">
+                        <div v-for="user in leaderboard" class="x justify-between pane">
+                            <Username :user="user"/>
+                            <div>{{ user.replays_count }} Submissions</div>
+                        </div>
+                        <p v-if="leaderboard.length === 0" class="text-center text-ui-600 pane">Nobody :(</p>
+                    </div>
                 </div>
-                <p v-if="leaderboard.length === 0" class="text-center text-ui-600 pane">Nobody :(</p>
+                <div class="y space-y-2 w-1/2">
+                    <div class="x items-center justify-between">
+                        <h2 class="font-bold text-xl">Macro Search</h2>
+                        <Dropdown content-classes="mt-2 w-64">
+                            <template #trigger>
+                                <div class="x items-center rounded bg-ui-800 px-2 py-1">
+                                    <span class="text-sm mr-2">Search</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 018 18.25v-5.757a2.25 2.25 0 00-.659-1.591L2.659 6.22A2.25 2.25 0 012 4.629V2.34a.75.75 0 01.628-.74z" clip-rule="evenodd" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </template>
+                            <template #content>
+                                <div @click.stop class="y space-y-2 p-2 text-sm">
+                                    <button @click="search" class="bg-ui-800 rounded text-sm px-2 py-1">Search</button>
+                                    <Label>
+                                        Level ID
+                                        <Input v-model="query.level_id" type="number" />
+                                    </Label>
+                                    <Label>
+                                        User ID
+                                        <Input v-model="query.user_id" type="number" />
+                                    </Label>
+                                    <div class="y space-y-1 h-64 overflow-y-auto bg-ui-950 p-1">
+                                        <label v-for="(name, key) in formats" class="x items-center space-x-2">
+                                            <input v-model="filters[key]" type="checkbox" class="rounded bg-ui-800"/>
+                                            <span>{{ name }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+                        </Dropdown>
+                    </div>
+                    <div class="y space-y-2">
+                        <div v-for="macro in replays.data" class="x items-center justify-between pane">
+                            <div class="y">
+                                <span>{{macro.level.name}} by {{macro.level.creator}}</span>
+                                <span class="text-xs">Recorded by <Username :user="macro.author"/></span>
+                            </div>
+                            <a :href="macro.files[0].url"><span class="text-sm underline text-white">Download</span> {{ macro.format }}</a>
+                        </div>
+                        <p v-if="replays.data.length === 0" class="text-center text-ui-600 pane">None :(</p>
+                    </div>
+                </div>
             </div>
         </div>
     </app-layout>
