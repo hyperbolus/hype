@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System\Auth;
 use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
 use App\Yggdrasil;
+use Illuminate\Contracts\Support\Responsable;
 use function event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -43,13 +44,18 @@ class RegisteredUserController extends Controller
     /**
      * Show the registration view.
      *
-     * @return Response
+     * @return Responsable
      */
-    public function create(): Response
+    public function create(): Responsable
     {
-        return Inertia::render('Auth/Register', [
+        $invite = '';
+        if (request()->has('invite')) {
+            $invite = ' You\'ve been invited to join!';
+        }
+
+        return page('Auth/Register', [
             'invite' => request('invite')
-        ]);
+        ])->meta('GD Forums | Sign Up', 'Sign up for GD Forums, your source for everything Geometry Dash!' . $invite);
     }
 
     /**
