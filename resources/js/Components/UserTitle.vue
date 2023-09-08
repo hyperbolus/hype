@@ -4,5 +4,5 @@ const props = defineProps({
 })
 </script>
 <template>
-    <span>{{ user.primary_group_id === 1 ? 'Administrator' : 'Junior Member' }}</span>
+    <span class="text-base font-normal">{{ user.primary_group_id === 1 ? 'Administrator' : 'Junior Member' }}</span>
 </template>
