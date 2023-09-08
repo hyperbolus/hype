@@ -19,3 +19,4 @@ _ide_helper.php
 _ide_helper_models.php
 .pnpm-debug.log
 /bootstrap/ssr/app.mjs
+.rnd
