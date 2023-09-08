@@ -15,7 +15,7 @@ import Checkbox from "@/Jetstream/Checkbox.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
-import {displayRating, isAdmin, isAuthenticated} from "@/util.js";
+import {displayRating, isAdmin, isAuthenticated, face, difficulties} from "@/util.js";
 import ReportModal from "@/Components/ReportModal.vue";
 import {ref} from "vue";
 
@@ -52,37 +52,6 @@ const submit = () => {
         preserveScroll: true,
     });
 };
-
-const difficulties = [
-    "Unrated",
-    "Auto",
-    "Easy",
-    "Normal",
-    "Hard",
-    "Harder",
-    "Insane",
-    "Easy Demon",
-    "Medium Demon",
-    "Hard Demon",
-    "Insane Demon",
-    "Extreme Demon",
-]
-
-const face = () => {
-    if (!props.level.difficulty) {
-        return difficulties[0].toLowerCase()
-    }
-
-    let name = difficulties[props.level.difficulty].toLowerCase().split(' ').reverse().join('-')
-
-    if(props.level.epic) {
-        name += '-epic'
-    } else if (props.level.featured) {
-        name += '-featured'
-    }
-
-    return name;
-}
 </script>
 <template>
     <app-layout :title="level.name" :decorations="false">
@@ -99,7 +68,7 @@ const face = () => {
             <div class="x justify-between items-end">
                 <div class="x items-end">
                     <div class="y items-center shrink-0">
-                        <img class="h-24 mr-2" :src="'https://browser.gdps.io/assets/difficulties/' + face() + '.png'" alt="difficulty"/>
+                        <img class="h-24 mr-2" :src="face(level)" alt="difficulty"/>
                     </div>
                     <div class="leading-none">
                         <div class="x items-center text-ui-200">

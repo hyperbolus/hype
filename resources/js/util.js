@@ -37,6 +37,52 @@ export const displayRating = (rating, fixed = true) => {
     return rating === null ? '-' : (fixed ? rating.toFixed(1) : rating);
 }
 
+export const xor = (str, key) => {
+    return str.split('').map((char, index) => {
+        String.fromCharCode(str.charCodeAt(index) ^ key.charCodeAt(index % key.toString().length))
+    }).join()
+}
+
+export const saveDecrypt = () => {
+
+}
+
+export const saveEncrypt = () => {
+
+}
+
+export const difficulties = [
+    "Unrated",
+    "Auto",
+    "Easy",
+    "Normal",
+    "Hard",
+    "Harder",
+    "Insane",
+    "Easy Demon",
+    "Medium Demon",
+    "Hard Demon",
+    "Insane Demon",
+    "Extreme Demon",
+];
+
+export const face = (level) => {
+    console.log(level.difficulty);
+    if (!level.difficulty) {
+        return `https://browser.gdps.io/assets/difficulties/${difficulties[0].toLowerCase()}.png`
+    }
+
+    let name = difficulties[level.difficulty].toLowerCase().split(' ').reverse().join('-')
+
+    if(level.epic) {
+        name += '-epic'
+    } else if (level.featured) {
+        name += '-featured'
+    }
+
+    return `https://browser.gdps.io/assets/difficulties/${name}.png`;
+};
+
 export const trimAtWord = (string, max) => {
     // No need to trim
     if (string.length <= max) return string;

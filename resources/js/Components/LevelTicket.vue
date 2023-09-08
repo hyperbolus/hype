@@ -1,6 +1,6 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
-import {displayRating} from "@/util.js";
+import {displayRating, face} from "@/util.js";
 import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
 
 const props = defineProps({
@@ -10,37 +10,6 @@ const props = defineProps({
         default: true
     }
 })
-
-const difficulties = [
-    "Unrated",
-    "Auto",
-    "Easy",
-    "Normal",
-    "Hard",
-    "Harder",
-    "Insane",
-    "Easy Demon",
-    "Medium Demon",
-    "Hard Demon",
-    "Insane Demon",
-    "Extreme Demon",
-]
-
-const face = () => {
-    if (!props.level.difficulty) {
-        return difficulties[0].toLowerCase()
-    }
-
-    let name = difficulties[props.level.difficulty].toLowerCase().split(' ').reverse().join('-')
-
-    if(props.level.epic) {
-        name += '-epic'
-    } else if (props.level.featured) {
-        name += '-featured'
-    }
-
-    return name;
-}
 
 // TODO: Fucking disgusting, clean it up
 // border-2 border-red-50 rounded-lg shadow-[0_0_5px_3px_rgba(240,240,100,1)]
@@ -63,7 +32,7 @@ const face = () => {
                                 <span v-if="level.epic" class="rounded-full p-[.15rem] px-2 bg-red-500"></span>
                             </span>
                             <div class="hidden mr-4 sm:flex place-items-center w-16 aspect-square">
-                                <img :src="'https://browser.gdps.io/assets/difficulties/' + face(level) + '.png'" alt="difficulty"/>
+                                <img :src="face(level)" alt="difficulty"/>
                             </div>
                             <div class="y">
                                 <div class="x z-10 items-center h-full space-x-2">
