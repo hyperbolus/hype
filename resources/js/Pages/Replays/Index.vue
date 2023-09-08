@@ -296,7 +296,7 @@ const search = () => {
                 </div>
             </div>
             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-                <div class="y space-y-2 w-1/2">
+                <div class="y space-y-2 md:w-1/2">
                     <h2 class="font-bold text-xl">Leaderboard</h2>
                     <div class="y space-y-2">
                         <div v-for="user in leaderboard" class="x justify-between pane">
@@ -306,10 +306,10 @@ const search = () => {
                         <p v-if="leaderboard.length === 0" class="text-center text-ui-600 pane">Nobody :(</p>
                     </div>
                 </div>
-                <div class="y space-y-2 w-1/2">
+                <div class="y space-y-2 md:w-1/2">
                     <div class="x items-center justify-between">
                         <h2 class="font-bold text-xl">Macro Search</h2>
-                        <Dropdown content-classes="mt-2 w-64">
+                        <Dropdown container-classes="bottom-full md:bottom-0 md:top-full right-full" content-classes="mb-2 md:mb-0 md:mt-2 w-64">
                             <template #trigger>
                                 <div class="x items-center rounded bg-ui-800 px-2 py-1">
                                     <span class="text-sm mr-2">Search</span>
