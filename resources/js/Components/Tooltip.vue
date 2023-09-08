@@ -52,7 +52,7 @@ const positioning = () => {
             <slot/>
         </div>
 
-        <div v-if="$slots.content || message" class="z-10 h-fit absolute p-1 transition-[visibility] duration-0 invisible group-hover/tooltip:visible" :class="`${containerClass} ${positioning()}`">
+        <div v-if="$slots.content || message" class="z-10 font-normal h-fit absolute p-1 transition-[visibility] duration-0 invisible group-hover/tooltip:visible" :class="`${containerClass} ${positioning()}`">
             <div class="y items-center justify-center w-full p-2 transition ease-out transform duration-75 opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:duration-200 group-hover/tooltip:scale-100">
                 <div v-if="decoration" class="translate-x-[0%] shadow-lg rounded py-1 px-2 bg-ui-1000">
                     <span v-if="message" class="text-center text-sm select-none whitespace-nowrap">{{ message }}</span>
