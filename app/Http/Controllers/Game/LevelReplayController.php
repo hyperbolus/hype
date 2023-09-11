@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Game\LevelReplay;
 use App\Models\Media;
 use App\Models\System\User;
+use Hashids\Hashids;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class LevelReplayController extends Controller
@@ -39,7 +41,9 @@ class LevelReplayController extends Controller
             ->paginate()
             ->through(function (LevelReplay $replay) {
                 $replay->files->transform(function (Media $media) {
-                    $media->setAttribute('url', Storage::disk('contabo')->temporaryUrl($media->path, now()->addHour()));
+                    $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
+                    $result = $hashids->encode([$media->id, 0]);
+                    $media->setAttribute('url', route('download', $result));
                     return $media;
                 });
                 return $replay;

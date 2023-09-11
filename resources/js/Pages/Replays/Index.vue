@@ -12,6 +12,7 @@ import route from "ziggy-js";
 import {useDropZone} from "@vueuse/core";
 import Username from "@/Components/Username.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     leaderboard: Object,
@@ -348,10 +349,11 @@ const search = () => {
                                 <span>{{macro.level.name}} by {{macro.level.creator}}</span>
                                 <span class="text-xs">Recorded by <Username :user="macro.author"/></span>
                             </div>
-                            <a :href="macro.files[0].url"><span class="text-sm underline text-white">Download</span> {{ macro.format }}</a>
+                            <a :download="macro.files[0].filename" :href="macro.files[0].url"><span class="text-sm underline text-white">Download</span> {{ macro.format }}</a>
                         </div>
                         <p v-if="replays.data.length === 0" class="text-center text-ui-600 pane">None :(</p>
                     </div>
+                    <Pagination :list="replays"/>
                 </div>
             </div>
         </div>

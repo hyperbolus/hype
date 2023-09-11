@@ -56,7 +56,7 @@ Route::get('/client', [HomeController::class, 'client'])->name('client');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
 
-Route::get('/download/{id}', [\App\Http\Controllers\DownloadController::class, '__invoke'])->middleware(['auth']);
+Route::get('/download/{id}', [\App\Http\Controllers\DownloadController::class, '__invoke'])->name('download');
 Route::get('/upload', function (Request $request) {
 
 })->middleware(['auth']);
@@ -89,7 +89,11 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'home'])->name('settings.home');
     Route::post('/', DashboardController::class)->name('settings.update');
     Route::get('/account', [DashboardController::class, 'account'])->name('settings.account');
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile');
+
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile')->middleware(['verified']);
+
+    Route::get('/connections', [\App\Http\Controllers\Dashboard\DashboardConnectionsController::class, 'show'])->name('settings.connections')->middleware(['verified']);
+    Route::post('/connections', [\App\Http\Controllers\Dashboard\DashboardConnectionsController::class, 'update'])->middleware(['verified']);
 });
 
 Route::get('/replays', [\App\Http\Controllers\Game\LevelReplayController::class, 'index'])->name('replays.index');
@@ -99,6 +103,9 @@ Route::get('/groups', function () {
     return page('Groups/Index');
 });
 
+Route::get('/profiles', [ProfileController::class, 'index'])->name('users.index');
+Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('users.show');
+
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
@@ -106,6 +113,15 @@ Route::get('/user/{id}/reputation', [ReputationLogController::class, 'index'])->
 Route::post('/user/{id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
+
+Route::inertia('/tools/inspector', 'Tools/Inspector', [
+    '__meta_breadcrumbs' => [
+        [
+            'text' => 'Save Inspector',
+            'url' => '/tools/inspector'
+        ]
+    ]
+])->name('tools.inspector');
 
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
@@ -168,8 +184,9 @@ Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox
 Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
 Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');
 
-
 Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
+Route::get('/styles/{style:id}', [StyleController::class, 'show'])->name('styles.show');
+Route::get('/styles/create', [StyleController::class, 'create'])->name('styles.create');
 
 Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified']);
