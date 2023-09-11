@@ -57,9 +57,7 @@ Route::get('/client', [HomeController::class, 'client'])->name('client');
 Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
 
 Route::get('/download/{id}', [\App\Http\Controllers\DownloadController::class, '__invoke'])->name('download');
-Route::get('/upload', function (Request $request) {
-
-})->middleware(['auth']);
+//Route::get('/upload', function (Request $request) {})->middleware(['auth']);
 
 Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:admin']], function () {
     Route::get('/', [AdminController::class, 'show'])->name('system.home');
@@ -103,8 +101,8 @@ Route::get('/groups', function () {
     return page('Groups/Index');
 });
 
-Route::get('/profiles', [ProfileController::class, 'index'])->name('users.index');
-Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('users.show');
+//Route::get('/profiles', [ProfileController::class, 'index'])->name('users.index');
+//Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('users.show');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');
@@ -114,14 +112,14 @@ Route::post('/user/{id}/reputation', [ReputationLogController::class, 'store'])-
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
 
-Route::inertia('/tools/inspector', 'Tools/Inspector', [
-    '__meta_breadcrumbs' => [
-        [
-            'text' => 'Save Inspector',
-            'url' => '/tools/inspector'
-        ]
-    ]
-])->name('tools.inspector');
+//Route::inertia('/tools/inspector', 'Tools/Inspector', [
+//    '__meta_breadcrumbs' => [
+//        [
+//            'text' => 'Save Inspector',
+//            'url' => '/tools/inspector'
+//        ]
+//    ]
+//])->name('tools.inspector');
 
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
