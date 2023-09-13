@@ -143,7 +143,10 @@ Route::get('/macros', function (Request $request) {
         $macros->where('level_id', '=', $request->integer('level_id'));
     }
 
-    return $macros->with(['files', 'level', 'author'])->paginate()->through(function (LevelReplay $replay) {
+    return $macros->with(['files', 'level', 'author'])
+        ->paginate()
+        ->withQueryString()
+        ->through(function (LevelReplay $replay) {
         $replay->files->transform(function (Media $media) {
             $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
             $result = $hashids->encode([$media->id, 0]);
