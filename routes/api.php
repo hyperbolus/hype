@@ -68,6 +68,23 @@ SVG;
 
 });
 
+Route::get('/macros', function (Request $request) {
+    $macros = \App\Models\Game\LevelReplay::query()->whereNotNull('created_at');
+
+    if ($request->has('format') && $request->string('format')->isNotEmpty()) {
+        $macros->whereIn('format', explode(',', $request->string('format')));
+    }
+
+    return $macros->with(['files', 'author'])->paginate()->through(function (LevelReplay $replay) {
+        $replay->files->transform(function (Media $media) {
+            $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
+            $result = $hashids->encode([$media->id, 0]);
+            $media->setAttribute('url', route('download', $result));
+            return $media;
+        });
+        return $replay;
+    });
+});
 
 Route::get('/styles', function () {
     $styles = \App\Models\Forge\Style::query()
