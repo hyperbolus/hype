@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Game\LevelReplay;
+use App\Models\Media;
+use Hashids\Hashids;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
