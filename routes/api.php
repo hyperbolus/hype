@@ -21,6 +21,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/mention', [\App\Http\Controllers\System\SearchController::class, 'username']);
 Route::get('/search', [\App\Http\Controllers\System\SearchController::class, 'tagname']);
+Route::get('/channel-videos/{id}', function (Request $request, string $id) {
+    $apiKey = config('hyperbolus.youtube_token');
+    $api = 'https://youtube.googleapis.com/youtube/v3';
+    $channel = Http::get("${api}/channels?part=contentDetails&part=snippet&id=${id}&key=${apiKey}")->json();
+
+    $playlistId = $channel['items'][0]['contentDetails']['relatedPlaylists']['uploads'];
+
+    $playlist = Http::get("${api}/playlistItems?part=snippet&playlistId=${playlistId}&key=${apiKey}")->json();
+
+    return $playlist;
+});
 Route::get('/level/{id}', function ($id) {
     $level = \App\Models\Game\Level::query()->with(['tags'])->withCount(['reviews'])->find($id);
     $level->tags->map(function (\App\Models\Content\Tag $tag) {
@@ -31,6 +42,51 @@ Route::get('/level/{id}', function ($id) {
     $level->setAttribute('reviews_url', \request()->url() . '/reviews');
 
     return $level;
+});
+
+Route::get('/test/lvls', function () {
+    $lvls = \App\Models\Game\Level::query()->limit(100)->orderBy('id', 'DESC')->get()->pluck('id')->toArray();
+    return join(',', $lvls);
+});
+
+Route::get('/test/type26', function () {
+    $req = Http::asForm()->withHeaders([
+        'User-Agent' => ''
+    ])->post('http://www.boomlings.com/database/getGJLevels21.php', [
+        'secret' => 'Wmfd2893gb7',
+        'gameVersion' => '22',
+        'type' => '26',
+        'str' => '189628'
+    ])->body();
+
+    $levels = collect(explode('|', explode('#', $req)[0]))->mapWithKeys(function ($item) {
+        $mapped = gj_map($item, ':');
+        return [$mapped[1] => collect($mapped)->mapWithKeys(function ($value, $key) {
+            return [\App\Libraries\GJSchema::$level[$key] => $value];
+        })];
+    });
+    return $levels;
+});
+
+Route::get('messages', function () {
+    $gjp = base64_urlencode(xor_key(config('hyperbolus.gd_password'), '37526'));
+
+    $res = Http::asForm()
+        ->withUserAgent('')
+        ->post('https://www.boomlings.com/database/getGJMessages20.php', [
+            'page' => 0,
+            'total' => 0,
+            'secret' => 'Wmfd2893gb7',
+            'accountID' => config('hyperbolus.gd_account_id'),
+            'gjp' => $gjp,
+        ])
+        ->body();
+
+    $messages = collect(explode('|', $res))->map(function (string $string) {
+        return gj_map($string, ':');
+    });
+
+    return $messages;
 });
 
 Route::get('/level/{id}/reviews', function ($id) {
@@ -79,7 +135,15 @@ Route::get('/macros', function (Request $request) {
         $macros->whereIn('format', explode(',', $request->string('format')));
     }
 
-    return $macros->with(['files', 'author'])->paginate()->through(function (LevelReplay $replay) {
+    if ($request->has('user_id') && $request->string('user_id')->isNotEmpty()) {
+        $macros->where('submitter_id', '=', $request->integer('user_id'));
+    }
+
+    if ($request->has('level_id') && $request->string('level_id')->isNotEmpty()) {
+        $macros->where('level_id', '=', $request->integer('level_id'));
+    }
+
+    return $macros->with(['files', 'level', 'author'])->paginate()->through(function (LevelReplay $replay) {
         $replay->files->transform(function (Media $media) {
             $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
             $result = $hashids->encode([$media->id, 0]);
