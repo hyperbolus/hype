@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Game\Level;
+use App\Models\Game\Profile;
 use Illuminate\Support\Facades\Http;
 
 class Hydrate
@@ -70,8 +71,32 @@ class Hydrate
             $level->length = $lengths[strtolower($res['length'])];
 
             $level->save();
+
+            // Get defaults from database
+            $level = Level::find($level->id);
         }
 
         return $level;
+    }
+
+    public static function profile(string $name, bool $abort = true): ?Profile {
+        $profile = Profile::query()->where('username', '=', $name)->first();
+
+        if ($profile === null) {
+            $res = Http::get('https://gdbrowser.com/api/profile/' . $name)->json();
+
+            if ($res == -1) {
+                if ($abort) {
+                    abort(400, 'Invalid User');
+                }
+
+                return null;
+            }
+
+            $profile = new Profile();
+            dd($res);
+        }
+
+        return $profile;
     }
 }
