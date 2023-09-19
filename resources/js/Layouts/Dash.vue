@@ -46,7 +46,7 @@ onBeforeMount(() => {
             <Breadcrumbs :fullwidth="fullwidth"><slot name="breadcrumbs"/></Breadcrumbs>
             <div v-if="background" class="absolute -z-10 h-full w-full bg-rainbow" style="mask-size: 8rem;" :style="`mask-image: url('${patternBG}?');`"></div>
             <div class="absolute -z-20 h-full w-full bg-ui-1000"></div>
-            <div v-if="decorations" class="flex flex-col flex-grow shadow-xl bg-ui-950 border border-ui-900/75 md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4 my-4 rounded-lg">
+            <div v-if="decorations" class="flex flex-col flex-grow shadow-xl bg-ui-950 border border-ui-900/75 md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 p-4 my-4 rounded-lg">
                 <slot/>
             </div>
             <slot v-else/>

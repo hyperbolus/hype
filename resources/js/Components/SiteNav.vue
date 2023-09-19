@@ -20,7 +20,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
         <div class="hidden md:flex z-10 transition-opacity opacity-0 group-hover/nav:opacity-100 absolute w-full h-48 pointer-events-none top-full bg-gradient-to-b from-ui-900 via-ui-900/75 to-ui-900/75 border-b-2 border-ui-600">
 
         </div>
-        <div class="x px-2 gap-4 justify-between lg:max-w-5xl xl:max-w-6xl w-full">
+        <div class="x px-2 gap-4 justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full">
             <div class="x items-center space-x-4">
                 <SiteLogo class="py-4"/>
                 <div class="hidden md:flex group/nav h-full items-center text-sm">

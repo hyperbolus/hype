@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 <template>
     <div class="x justify-center w-full" :class="{'mt-4': !fullwidth}">
-        <div class="x items-start gap-2 justify-center w-full text-xs border-y border-ui-800 bg-ui-900 px-2" :class="fullwidth ? '' : 'lg:max-w-5xl xl:max-w-6xl md:mx-4 md:rounded-lg md:border-x'">
+        <div class="x items-start gap-2 justify-center w-full text-xs border-y border-ui-800 bg-ui-900 px-2" :class="fullwidth ? '' : 'lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl md:mx-4 md:rounded-lg md:border-x'">
             <div class="x w-full" :class="fullwidth ? 'lg:max-w-5xl xl:max-w-6xl justify-between' : ''">
                 <div class="x space-x-2 py-2">
                     <Link :href="route('home')">GD Forums</Link>
