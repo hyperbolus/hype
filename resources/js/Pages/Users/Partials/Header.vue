@@ -24,7 +24,7 @@ const isOnline = (time) => {
 }
 </script>
 <template>
-    <div class="y w-full items-center bg-center" :style="`background-image: url('${profile.banner_url ?? soundparty}');`" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 55px -25px inset;">
+    <div class="y w-full items-center bg-center bg-cover" :style="`background-image: url('${profile.banner_url ?? soundparty}');`" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 55px -25px inset;">
         <div class="x h-64 justify-center lg:max-w-5xl xl:max-w-6xl w-full w-full bg-cover bg-center">
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl p-4">
                 <div class="x w-full gap-2" :class="{'justify-end': !$page.props.auth || profile.id === $page.props.user.id, 'justify-between': $page.props.auth && profile.id !== $page.props.user.id}">
