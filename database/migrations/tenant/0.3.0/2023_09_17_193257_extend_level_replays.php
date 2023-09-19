@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('level_replays', function (Blueprint $table) {
             $table->unsignedTinyInteger('coins_collected')->nullable()->after('coins');
-            $table->decimal('fps');
-            $table->tinyInteger('rating');
+            $table->decimal('fps')->nullable()->after('notes');
+            $table->tinyInteger('rating')->nullable()->after('notes');
         });
     }
 
