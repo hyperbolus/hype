@@ -12,6 +12,7 @@ import {useDropZone} from "@vueuse/core";
 import Username from "@/Components/Username.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Pagination from "@/Components/Pagination.vue";
+import {Link} from "@inertiajs/vue3";
 
 const props = defineProps({
     leaderboard: Object,
@@ -351,10 +352,18 @@ const search = () => {
                     <div class="y space-y-2">
                         <div v-for="macro in replays.data" class="x items-center justify-between pane">
                             <div class="y">
-                                <span>{{macro.level.name}} by {{macro.level.creator}}</span>
-                                <span class="text-xs">Recorded by <Username :user="macro.author"/></span>
+                                <span><Link class="text-white" :href="route('levels.show', macro.level.id)">{{macro.level.name}}</Link> by {{macro.level.creator}}</span>
+                                <div class="x items-center space-x-1">
+                                    <span class="text-xs">Recorded by</span>
+                                    <Username class="text-xs" :user="macro.author"/>
+                                </div>
                             </div>
-                            <a :download="macro.files[0].filename" :href="macro.files[0].url"><span class="text-sm underline text-white">Download</span> {{ macro.format }}</a>
+                            <div class="y items-end">
+                                <span>{{ macro.format }} | FPS: {{ macro.fps ?? 'Unknown' }}</span>
+                                <Tooltip :message="macro.files[0].filename">
+                                    <a :download="macro.files[0].filename" :href="macro.files[0].url"><span class="text-sm underline text-white">Download</span></a>
+                                </Tooltip>
+                            </div>
                         </div>
                         <p v-if="replays.data.length === 0" class="text-center text-ui-600 pane">None :(</p>
                     </div>

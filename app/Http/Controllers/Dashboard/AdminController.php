@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Actions\CalculateRatings;
+use App\Actions\MacroMetadata;
 use App\Models\System\User;
 use App\Notifications\Announcement;
 use Illuminate\Http\RedirectResponse;
@@ -26,6 +27,9 @@ class AdminController extends Controller
                 break;
             case 'recalculate ratings':
                 CalculateRatings::all();
+                break;
+            case 'update macros':
+                MacroMetadata::all();
                 break;
         }
         return back();
