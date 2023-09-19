@@ -16,6 +16,13 @@ if (! function_exists('page')) {
     }
 }
 
+if (! function_exists('crumb')) {
+    function crumb(string $text, ?string $url = null): array
+    {
+        return ['text' => $text, 'url' => $url];
+    }
+}
+
 if (! function_exists('xor_key')) {
     function xor_key(string $str, string $key)
     {
