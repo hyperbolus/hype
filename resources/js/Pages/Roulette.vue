@@ -19,6 +19,13 @@ const newSeed = () => {
     params.set('seed', Math.floor(Math.random() * (99999 - 10000) + 99999).toString())
     return params.toString().substring(3).replace('%3F', '?')
 }
+
+const next = () => {
+    if (++progress.value === props.levels.length) {
+        finished.value = true;
+        won.value = true;
+    }
+}
 </script>
 <template>
     <app-layout title="Roulette">
@@ -29,11 +36,12 @@ const newSeed = () => {
             <h1 class="mx-2 text-center font-bold text-4xl">{{ finished ? 'Results' : 'Level Roulette'}}</h1>
             <div class="x self-center space-x-2">
                 <span class="pane !py-1"><Link :href="route('playlists.show', playlist.id)">{{ playlist.title }}</Link> by <Username :user="playlist.owner"/></span>
-                <span class="pane !py-1" v-show="!finished">Current Progress: {{progress }}</span>
+                <span class="pane !py-1" v-show="!finished">Current Progress: {{progress }} {{ levels.length }}</span>
             </div>
             <template v-if="finished">
                 <div class="y space-y-2 text-center">
                     <span class="pane !py-1 self-center">{{ progress }} Level{{ progress === 1 ? '' : 's'}} Passed</span>
+                    <span class="font-bold text-xl" :class="won ? 'text-green-500' : 'text-red-500'">YOU {{ won ? 'WIN!' : 'LOSE...' }}</span>
                     <div class="x justify-center space-x-2">
                         <span class="pane !py-1 cursor-pointer" @click="progress = 0; finished = false; won = false">Reset</span>
                         <Link :href="newSeed()" class="pane !py-1 cursor-pointer">New Seed</Link>
@@ -48,8 +56,8 @@ const newSeed = () => {
                     </div>
                     <div class="x space-x-2 items-center" v-show="index === progress">
                         <span>At least {{ index+1 }}%</span>
-                        <span class="pane !py-1 cursor-pointer" @click="progress++">Done</span>
-                        <span class="pane !py-1 cursor-pointer" @click="finished = true">Give Up</span>
+                        <button class="bg-ui-800 px-2 py-1 rounded" @click="next">Done</button>
+                        <button class="bg-ui-800 px-2 py-1 rounded" @click="finished = true">Give Up</button>
                     </div>
                 </div>
             </template>
