@@ -75,7 +75,7 @@ class PlaylistController extends Controller
      */
     public function update(Request $request, Playlist $playlist)
     {
-        $this->authorize($playlist);
+        $this->authorize('edit', $playlist);
 
         $request->validate([
             'title' => 'required|max:64',
