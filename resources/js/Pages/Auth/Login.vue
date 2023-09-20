@@ -70,11 +70,12 @@ const submit = () => {
                 />
             </div>
 
-            <div class="block mt-4">
+            <div class="x space-x-2 justify-between mt-4">
                 <label class="flex items-center">
                     <JetCheckbox v-model:checked="form.remember" name="remember" />
                     <span class="ml-2 text-sm text-ui-200">Remember me</span>
                 </label>
+                <Link :href="route('auth::register')" class="text-sm underline">Don't have an account?</Link>
             </div>
 
             <div class="flex items-center justify-end mt-4">
