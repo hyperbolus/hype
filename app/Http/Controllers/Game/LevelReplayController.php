@@ -67,14 +67,15 @@ class LevelReplayController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): RedirectResponse
     {
-        //
+        return redirect()->route('replays.index');
+
+//        return page('Replays/Create', [])
+//            ->meta('Upload Macro', 'Upload a new macro')
+//            ->breadcrumbs([
+//                crumb('New Replay', \request()->fullUrl())
+//            ]);
     }
 
     public function store(Request $request): RedirectResponse

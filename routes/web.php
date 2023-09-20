@@ -95,7 +95,8 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
 });
 
 Route::get('/replays', [\App\Http\Controllers\Game\LevelReplayController::class, 'index'])->name('replays.index');
-Route::post('/replays/create', [\App\Http\Controllers\Game\LevelReplayController::class, 'store'])->name('replays.store')->middleware(['auth', 'verified']);
+Route::get('/replays/new', [\App\Http\Controllers\Game\LevelReplayController::class, 'create'])->name('replays.create')->middleware(['auth', 'verified']);
+Route::post('/replays/new', [\App\Http\Controllers\Game\LevelReplayController::class, 'store'])->name('replays.store')->middleware(['auth', 'verified']);
 
 Route::get('/groups', function () {
     return page('Groups/Index');
