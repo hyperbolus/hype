@@ -245,19 +245,32 @@ const submit = () => {
                     </div>
                     <div v-if="level.replays?.length === 0" class="pane">No replays available</div>
                     <div v-else class="pane !py-0 !px-0 divide-y divide-ui-800">
-                        <div class="x items-center justify-between space-x-2 p-2" v-for="macro in level.replays">
-                            <div class="x items-center space-x-1">
-                                <Tooltip position="left" :message="macro.approved_at === null ? 'Unverified Macro' : 'Verified Macro'">
-                                    <svg v-if="macro.approved_at === null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-yellow-500 w-5 h-5">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                                    </svg>
-                                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-green-500 w-5 h-5">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                                    </svg>
+                        <div class="y space-y-2 p-2" v-for="macro in level.replays">
+                            <div class="x items-center space-x-2 justify-between w-full">
+                                <div class="x items-center space-x-1">
+                                    <Tooltip position="left" :message="macro.approved_at === null ? 'Unverified Macro' : 'Verified Macro'">
+                                        <svg v-if="macro.approved_at === null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-yellow-500 w-5 h-5">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                        </svg>
+                                        <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-green-500 w-5 h-5">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                                        </svg>
+                                    </Tooltip>
+                                    <Username :user="macro.author"/>
+                                </div>
+                                <Tooltip class="block" :message="macro.files[0].filename">
+                                    <a :href="macro.files[0].url" class="block rounded bg-ui-800 p-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                            <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
+                                            <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+                                        </svg>
+                                    </a>
                                 </Tooltip>
-                                <Username :user="macro.author"/>
                             </div>
-                            <a :href="macro.files[0].url" class="x items-center space-x-1 text-sm underline text-white">{{ macro.files[0].filename }}</a>
+                            <div class="x items-center justify-between space-x-2 text-sm">
+                                <span class="rounded px-2 bg-ui-800">{{ macro.format }}</span>
+                                <span class="rounded px-2 bg-ui-800">FPS: {{ macro.fps ?? 'Unknown' }}</span>
+                            </div>
                         </div>
                         <div class="!hidden x px-4 py-2 space-x-2 items-center justify-between">
                             <Dropdown width="fit" class="pane !px-2 w-full">
