@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Game;
 
 use App\Actions\Hydrate;
+use App\Actions\MacroMetadata;
 use App\Http\Controllers\Controller;
 use App\Models\Game\LevelReplay;
 use App\Models\Media;
 use App\Models\System\User;
+use Carbon\PHPStan\Macro;
 use Hashids\Hashids;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
@@ -98,6 +100,8 @@ class LevelReplayController extends Controller
         $file->owner_id = $replay->id;
         $file->owner_type = 41;
         $file->save();
+
+        MacroMetadata::all();
 
         return redirect()->route('levels.show', $level->id);
     }
