@@ -67,7 +67,6 @@ export const difficulties = [
 ];
 
 export const face = (level) => {
-    console.log(level.difficulty);
     if (!level.difficulty) {
         return `https://browser.gdps.io/assets/difficulties/${difficulties[0].toLowerCase()}.png`
     }

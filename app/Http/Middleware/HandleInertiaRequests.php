@@ -64,7 +64,7 @@ class HandleInertiaRequests extends Middleware
 
                 $settings['_report_reasons'] = config('hyperbolus.report_reasons');
 
-                return clock($settings);
+                return $settings;
             })(),
         ];
 
