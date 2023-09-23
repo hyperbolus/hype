@@ -158,6 +158,12 @@ class LevelController extends Controller
         ]);
     }
 
+    public function view(Level $level) {
+        return page('Levels/Viewer', [
+            'level_info' => $level
+        ])->meta('Level Viewer', 'Guess');
+    }
+
     public function images(Level $level): Response
     {
         return Inertia::render('Levels/Images', [

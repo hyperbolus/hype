@@ -17,18 +17,24 @@ use App\Http\Controllers\Dashboard\AdminForumController;
 use App\Http\Controllers\Dashboard\AdminPermissionController;
 use App\Http\Controllers\Dashboard\AdminSettingController;
 use App\Http\Controllers\Dashboard\AdminUserController;
+use App\Http\Controllers\Dashboard\DashboardConnectionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Forge\ModController;
 use App\Http\Controllers\Game\LevelController;
+use App\Http\Controllers\Game\LevelReplayController;
 use App\Http\Controllers\Game\ProfileController;
 use App\Http\Controllers\Game\RouletteController;
+use App\Http\Controllers\Game\StencilController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\System\MessageController;
 use App\Http\Controllers\System\NameChangeController;
+use App\Http\Controllers\System\NotificationController;
 use App\Http\Controllers\System\ProfileCommentController;
 use App\Http\Controllers\System\ReportController;
 use App\Http\Controllers\System\ReputationLogController;
 use App\Http\Controllers\System\SearchController;
+use App\Http\Controllers\System\UploadController;
 use App\Http\Controllers\System\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +62,7 @@ Route::get('/client', [HomeController::class, 'client'])->name('client');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
 
-Route::get('/download/{id}', [\App\Http\Controllers\DownloadController::class, '__invoke'])->name('download');
+Route::get('/download/{id}', [DownloadController::class, '__invoke'])->name('download');
 //Route::get('/upload', function (Request $request) {})->middleware(['auth']);
 
 Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:admin']], function () {
@@ -90,13 +96,13 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile')->middleware(['verified']);
 
-    Route::get('/connections', [\App\Http\Controllers\Dashboard\DashboardConnectionsController::class, 'show'])->name('settings.connections')->middleware(['verified']);
-    Route::post('/connections', [\App\Http\Controllers\Dashboard\DashboardConnectionsController::class, 'update'])->middleware(['verified']);
+    Route::get('/connections', [DashboardConnectionsController::class, 'show'])->name('settings.connections')->middleware(['verified']);
+    Route::post('/connections', [DashboardConnectionsController::class, 'update'])->middleware(['verified']);
 });
 
-Route::get('/replays', [\App\Http\Controllers\Game\LevelReplayController::class, 'index'])->name('replays.index');
-Route::get('/replays/new', [\App\Http\Controllers\Game\LevelReplayController::class, 'create'])->name('replays.create')->middleware(['auth', 'verified']);
-Route::post('/replays/new', [\App\Http\Controllers\Game\LevelReplayController::class, 'store'])->name('replays.store')->middleware(['auth', 'verified']);
+Route::get('/replays', [LevelReplayController::class, 'index'])->name('replays.index');
+Route::get('/replays/new', [LevelReplayController::class, 'create'])->name('replays.create')->middleware(['auth', 'verified']);
+Route::post('/replays/new', [LevelReplayController::class, 'store'])->name('replays.store')->middleware(['auth', 'verified']);
 
 Route::get('/groups', function () {
     return page('Groups/Index');
@@ -142,6 +148,7 @@ Route::post('/post/{post}/like', [ReactionController::class, 'store'])->name('li
 Route::get('/reviews', [LevelController::class, 'index'])->name('levels.index');
 Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('reviews.show');
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
+//Route::get('/level/{level:id}/view', [LevelController::class, 'view'])->name('levels.view');
 Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
 Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
 Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('levels.images.show');
@@ -200,11 +207,15 @@ Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-Route::post('/media/upload', [\App\Http\Controllers\System\UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+
+Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
+Route::get('/stencils/new', [StencilController::class, 'create'])->name('stencils.create');
+Route::get('/stencil/{stencil}', [StencilController::class, 'show'])->name('stencils.show');
 
 //Route::get('/notifications')->middleware(['auth'])->name('notifications.index');
-Route::get('/notification/{id}', [\App\Http\Controllers\System\NotificationController::class, 'show'])->middleware(['auth'])->name('notifications.read');
-Route::get('/notifications/clear', [\App\Http\Controllers\System\NotificationController::class, 'update'])->middleware(['auth'])->name('notifications.clear');
+Route::get('/notification/{id}', [NotificationController::class, 'show'])->middleware(['auth'])->name('notifications.read');
+Route::get('/notifications/clear', [NotificationController::class, 'update'])->middleware(['auth'])->name('notifications.clear');
 
 Route::impersonate();
 

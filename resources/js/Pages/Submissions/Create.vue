@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/Dash.vue'
 import {Link, useForm} from '@inertiajs/vue3';
 import Input from "@/Jetstream/Input.vue";
 import {ref} from "vue";
+import route from "ziggy-js";
 
 const props = defineProps({
     playlist: Object,

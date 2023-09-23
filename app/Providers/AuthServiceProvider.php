@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         Route::group([
             'as' => 'oauth2::',
             'middleware' => [
-                InitializeTenancyByDomain::class, // Use tenancy initialization middleware of your choice
+                InitializeTenancyByDomain::class,
                 PreventAccessFromCentralDomains::class,
             ],
             'prefix' => 'api/oauth2',
