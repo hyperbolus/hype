@@ -75,7 +75,7 @@ class DashboardController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $user->banner_url;
-                $user->banner_url = config('app.storage_url').$disk->putFile('banners/', $request->file('content'), 'public');
+                $user->banner_url = config('app.storage_url').$disk->putFile('banners', $request->file('content'), 'public');
                 $user->save();
                 if (User::whereBannerUrl($old)->count() === 0) {
                     $disk->delete(substr($old, strlen(config('app.storage_url'))));
@@ -88,7 +88,7 @@ class DashboardController extends Controller
                 ]);
                 $disk = Storage::disk('contabo');
                 $old = $user->postbit_url;
-                $user->postbit_url = config('app.storage_url').$disk->putFile('postbits/', $request->file('content'), 'public');
+                $user->postbit_url = config('app.storage_url').$disk->putFile('postbits', $request->file('content'), 'public');
                 $user->save();
                 if (User::wherePostbitUrl($old)->count() === 0) {
                     $disk->delete(substr($old, strlen(config('app.storage_url'))));
