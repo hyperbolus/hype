@@ -6,5 +6,6 @@ return [
         'debug' => ['ignition.*'],
         'oauth2' => ['oauth2::*'],
         'admin' => ['admin::*'],
+        'auth' => ['auth::*'],
     ],
 ];
