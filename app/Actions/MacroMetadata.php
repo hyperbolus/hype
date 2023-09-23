@@ -13,35 +13,37 @@ class MacroMetadata
     {
         $macros = LevelReplay::query()
             ->whereNull('fps')
-            ->where('format', '=', 'zbot_frame')
             ->with(['files'])
             ->get();
 
         $macros->each(function (LevelReplay $macro) {
-            $macro->fps = self::zbot($macro->files);
-            $macro->save();
+            if (count($macro->files) > 0) self::only($macro, $macro->files[0]);
         });
     }
 
-    public static function only(LevelReplay $macro): void
+    public static function only(LevelReplay $macro, Media|string $file, bool $save = true): ?float
     {
-        if (!$macro->relationLoaded('files')) {
-            $macro->load(['files']);
+        $data = $file instanceof Media ? Storage::disk('contabo')->get($file->path) : $file;
+
+        $fps = match ($macro->format->toString()) { // someone needs to die for this Illuminate Stringable shit
+            'zbot_frame' => self::zbot($data),
+            'mhr' => self::mhr($data),
+            default => null,
+        };
+        if ($save) {
+            $macro->fps = $fps;
+            $macro->save();
         }
-        $macro->fps = self::zbot($macro->files);
-        $macro->save();
+        return $fps;
     }
 
-    private static function zbot(array|Collection $files): ?float
+    public static function zbot(string $data): ?float
     {
-        if (count($files) === 0) return null;
-        /**
-         * @type Media $file
-         */
-        $file = $files[0];
-
-        $data = Storage::disk('contabo')->get($file->path);
-
         return (1.0 / unpack('gfps', hex2bin(substr(bin2hex($data), 0, 8)))['fps']);
+    }
+
+    public static function mhr(string $data): ?float
+    {
+        return unpack('Vfps', hex2bin(substr(bin2hex($data), 24, 8)))['fps'];
     }
 }

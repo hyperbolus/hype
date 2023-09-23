@@ -8,11 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Game\LevelReplay;
 use App\Models\Media;
 use App\Models\System\User;
-use Carbon\PHPStan\Macro;
+use Closure;
 use Hashids\Hashids;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,6 +42,7 @@ class LevelReplayController extends Controller
 
         $replays = $replays->orderBy('created_at', 'DESC')
             ->paginate()
+            ->withQueryString()
             ->through(function (LevelReplay $replay) {
                 $replay->files->transform(function (Media $media) {
                     $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
@@ -49,8 +51,7 @@ class LevelReplayController extends Controller
                     return $media;
                 });
                 return $replay;
-            })
-            ->appends(['format', 'user_id', 'level_id']);
+            });
 
         return page('Replays/Index', [
             'leaderboard' => $query->orderBy('replays_count', 'DESC')->limit(25)->get(),
@@ -83,7 +84,16 @@ class LevelReplayController extends Controller
         $level = Hydrate::level($request->integer('level_id'));
 
         $request->validate([
-            'file' => 'required|max:16000',
+            'file' => [
+                'required',
+                'max:16000',
+                function (string $attribute, UploadedFile $value, Closure $fail) {
+                    if (!in_array($value->getClientOriginalExtension(), ['replay', 'zbot', 'dat', 'ddhor', 'xbot', 'kd', 'zbf', 'xbot', 'rsh', 'json', 'mhr'])) {
+                        $fail('This file type is invalid.');
+                    }
+                },
+            ],
+
         ]);
 
         $replay = new LevelReplay();
@@ -92,6 +102,7 @@ class LevelReplayController extends Controller
         $replay->format = $request->string('format');
         $replay->notes = $request->string('notes');
         $replay->coins = $request->integer('coins');
+        $replay->fps = MacroMetadata::only($replay, $request->file('file')->get(), false);
         $replay->save();
 
         $file = new Media();
@@ -101,8 +112,6 @@ class LevelReplayController extends Controller
         $file->owner_id = $replay->id;
         $file->owner_type = 41;
         $file->save();
-
-        MacroMetadata::all();
 
         return redirect()->route('levels.show', $level->id);
     }
