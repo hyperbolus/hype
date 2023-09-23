@@ -13,7 +13,6 @@ use App\Models\Media;
 use App\Models\System\User;
 use Hashids\Hashids;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -133,10 +132,6 @@ class LevelController extends Controller
                 [
                     'text' => 'Levels',
                     'url' => route('levels.index'),
-                ],
-                [
-                    'text' => $level->name,
-                    'url' => route('levels.show', $level->id),
                 ]
             ]);
     }

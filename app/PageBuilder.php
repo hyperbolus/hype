@@ -45,6 +45,10 @@ class PageBuilder implements Responsable
 
     public function toResponse($request): \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
+        if ($this->title) {
+            $this->breadcrumbs[] = crumb($this->title, $request->url());
+        }
+
         return Inertia::render($this->component, [
             ...$this->props,
             '__meta_title' => $this->title,

@@ -59,13 +59,7 @@ class LevelReplayController extends Controller
             'approved' => LevelReplay::query()->whereNotNull('approved_at')->count(),
             'unapproved' => LevelReplay::query()->whereNull('approved_at')->count(),
             'replays' => $replays
-        ])->meta('Replay Archive (WIP)', 'Work in progress, attempt at building a public database of level replays')
-            ->breadcrumbs([
-                [
-                    'text' => 'Replays Archive (WIP)',
-                    'url' => '/replays',
-                ]
-            ]);
+        ])->meta('Replay Archive (WIP)', 'Work in progress, attempt at building a public database of level replays');
     }
 
     public function create(): RedirectResponse
