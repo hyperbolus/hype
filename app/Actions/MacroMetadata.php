@@ -25,7 +25,7 @@ class MacroMetadata
     {
         $data = $file instanceof Media ? Storage::disk('contabo')->get($file->path) : $file;
 
-        $fps = match ($macro->format->toString()) { // someone needs to die for this Illuminate Stringable shit
+        $fps = match ((string)$macro->format) { // someone needs to die for this Illuminate Stringable shit
             'zbot_frame' => self::zbot($data),
             'mhr' => self::mhr($data),
             default => null,
