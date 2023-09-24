@@ -6,6 +6,7 @@ use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
 use App\Yggdrasil;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Support\Facades\Cookie;
 use function event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -16,8 +17,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
-use Inertia\Response;
 use function redirect;
 use function request;
 
@@ -84,11 +83,17 @@ class RegisteredUserController extends Controller
                 'name.regex' => 'Usernames must be alphanumeric (no spaces or symbols except underscores)',
             ])->validate();
 
+        // TODO: which takes priority? first visit or explicit registration invite?
+        $referrer_id = request('invite');
+        if (Cookie::has('referrer_id')) {
+            $referrer_id = Cookie::get('referrer_id');
+        }
+
         $user = User::create([
             'email' => request('email'),
             'name' => request('name'),
             'password' => Hash::make(request('password')),
-            'referrer_id' => request('invite'),
+            'referrer_id' => $referrer_id,
         ]);
 
         $banned_ids = [
