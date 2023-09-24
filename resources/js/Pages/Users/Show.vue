@@ -18,7 +18,7 @@ const tab = ref(0);
 <template>
     <app-layout :fullwidth="true" title="Profile" :background="false" :decorations="false" class="grid-lines">
         <Header :profile="profile" :reviews="reviews"/>
-        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full space-x-4 py-4 md:px-4">
+        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full space-x-4 py-4 md:px-4">
             <div class="flex flex-col space-y-4 md:w-1/2 lg:w-1/4">
                 <div class="y bg-ui-900 px-4 py-2 md:rounded-lg text-sm !px-2">
                     <div class="x justify-between p-2">
