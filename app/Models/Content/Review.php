@@ -6,6 +6,7 @@ use App\Models\Game\Level;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * @mixin IdeHelperReview
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [
         'rating_gameplay',
@@ -23,6 +25,11 @@ class Review extends Model
         'level_id',
         'user_id',
     ];
+
+    public function toSearchableArray(): array
+    {
+        return $this->toArray();
+    }
 
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

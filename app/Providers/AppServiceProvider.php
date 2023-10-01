@@ -23,14 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Recursive Migrations
-//        $dirs = glob(database_path('migrations').'/*', GLOB_ONLYDIR);
-//        $sort = array_filter($dirs, function($p) {
-//            $slices = explode('/', $p);
-//            return !str_starts_with($slices[count($slices) - 1], '_');
-//        });
-//        $paths = array_merge([database_path('migrations')], $sort);
-//        $this->loadMigrationsFrom($paths);
+        \Stancl\Tenancy\Features\TenantConfig::$storageToConfigMap = [
+            'scout_prefix' => 'scout.prefix',
+        ];
 
         Relation::enforceMorphMap(config('hyperbolus.morph_map'));
     }

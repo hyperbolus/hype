@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
 
 //use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -28,6 +29,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
     use Impersonate;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -60,6 +62,16 @@ class User extends Authenticatable
         'time_online' => 'integer',
         'signature_visibility' => 'boolean'
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'flag' => $this->flag,
+            'primary_group_id' => $this->primary_group_id
+        ];
+    }
 
     public function canImpersonate(): bool
     {

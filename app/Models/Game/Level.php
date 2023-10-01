@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Laravel\Scout\Searchable;
 
 /**
  * @mixin IdeHelperLevel
@@ -17,6 +18,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Level extends Model
 {
     use HasFactory;
+    use Searchable;
+
+    public function toSearchableArray(): array
+    {
+        return $this->toArray();
+    }
 
     public function reviews(): HasMany
     {
