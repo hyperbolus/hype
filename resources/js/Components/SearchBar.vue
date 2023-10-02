@@ -66,7 +66,7 @@ const tiny = (n) => {
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
         </svg>
         <!-- Changing this to v-show breaks because lastQuery (null) is undefined on searches cache -->
-        <div v-if="focused && searches[lastQuery]" class="absolute border border-ui-700 bg-ui-900 rounded-md py-1 space-y-2 shadow-xl top-12 z-10 min-w-full">
+        <div v-if="focused && searches[lastQuery]" class="absolute border border-ui-700 bg-ui-900 rounded-md py-1 space-y-2 shadow-xl top-12 z-30 min-w-full">
             <div class="px-2" v-if="searches[lastQuery].results[0].hits.length === 0 && searches[lastQuery].results[1].hits.length === 0">No results</div>
             <div class="px-2 text-sm text-ui-500" v-else>{{ searches[lastQuery].results[0].totalHits + searches[lastQuery].results[1].totalHits }} hits in {{ Math.max(searches[lastQuery].results[0].processingTimeMs, searches[lastQuery].results[1].processingTimeMs) }}ms</div>
             <div class="y px-2 !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
