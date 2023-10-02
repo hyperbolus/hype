@@ -5,7 +5,7 @@ import Avatar from '@/Components/Avatar.vue'
 import Dropdown from '@/Jetstream/Dropdown.vue'
 import { Link } from '@inertiajs/vue3'
 import route from 'ziggy-js'
-import {logout, isDark, toggleDark} from '@/util.js'
+import {logout, isDark, toggleDark, isAuthenticated} from '@/util.js'
 import {ref} from "vue";
 import SearchBar from "@/Components/SearchBar.vue";
 import SiteLogo from "@/Components/SiteLogo.vue";
@@ -50,21 +50,30 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                 <ControlBar/>
             </div>
             <div class="x md:hidden items-center cursor-pointer">
-                <svg @click="mobileNavOpen = !mobileNavOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <svg v-if="mobileNavOpen" @click="mobileNavOpen = !mobileNavOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                    <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                </svg>
+                <svg v-else @click="mobileNavOpen = !mobileNavOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
             </div>
         </div>
     </div>
-    <div v-if="mobileNavOpen" class="y md:hidden relative z-20 bg-ui-900 w-full pb-1 space-y-2">
-        <ControlBar v-if="$page.props.auth" class="justify-center bg-ui-900 py-1 border-y border-ui-700"/>
+    <div v-if="mobileNavOpen" class="y md:hidden relative z-20 bg-ui-900 w-full pb-1 space-y-2" :class="{'pb-2': isAuthenticated()}">
+        <ControlBar v-if="isAuthenticated()" class="justify-center bg-ui-900 py-1 border-y border-ui-700"/>
         <template v-for="(node, key) in navigation">
-            <Link :href="route(node.route)" class="hover:text-ui-500 transition-colors px-4">{{ node.name }}</Link>
-            <div v-if="node.hasOwnProperty('children')" class="y bg-ui-200">
+            <details v-if="node.hasOwnProperty('children')" class="y group/subnav bg-ui-900">
+                <summary class="x items-center justify-between px-4 pb-2">
+                    <span>{{ node.name }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 group-open/subnav:-rotate-90">
+                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                    </svg>
+                </summary>
                 <Link v-for="(child, key) in node.children" :key="key" class="px-8 py-1 bg-ui-800 hover:bg-ui-700" :href="route(child.route)">{{ child.name }}</Link>
-            </div>
+            </details>
+            <Link v-else :href="route(node.route)" class="hover:text-ui-500 transition-colors px-4">{{ node.name }}</Link>
         </template>
-        <div v-if="!$page.props.auth" class="x gap-2 px-2 border-t pt-3 pb-2 border-ui-700 text-center">
+        <div v-if="!isAuthenticated()" class="x space-x-2 px-2 border-t pt-3 border-ui-700 text-center">
             <Link :href="route('auth::login')" class="w-1/2 bg-ui-700 text-ui-200 rounded-md font-bold px-2 py-1">Login</Link>
             <Link :href="route('auth::register')" class="w-1/2 bg-ui-700 text-ui-200 rounded-md font-bold px-2 py-1">Register</Link>
         </div>
