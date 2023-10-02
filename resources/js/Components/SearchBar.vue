@@ -50,11 +50,13 @@ const handleFocus = () => {
     document.addEventListener('mousedown', focusEvent);
 }
 
+const format = Intl.NumberFormat('en-US', {
+    notation: "compact",
+    maximumFractionDigits: 1
+});
+
 const tiny = (n) => {
-    return Intl.NumberFormat('en-US', {
-        notation: "compact",
-        maximumFractionDigits: 1
-    }).format(n);
+    return format.format(n);
 }
 </script>
 <template>
@@ -80,7 +82,7 @@ const tiny = (n) => {
                                 <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                             </svg>
                             <div class="mr-4">{{ tiny(hit.downloads) }}</div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3" :class="{'rotate-180': hit.likes < 0}">
                                 <path d="M1 8.25a1.25 1.25 0 112.5 0v7.5a1.25 1.25 0 11-2.5 0v-7.5zM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0114 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 01-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 01-1.341-.317l-2.734-1.366A3 3 0 006.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 012.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388z" />
                             </svg>
                             <div>{{ tiny(hit.likes) }}</div>
