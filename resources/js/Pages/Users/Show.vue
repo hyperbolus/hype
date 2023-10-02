@@ -63,7 +63,7 @@ const tab = ref(0);
                             <div v-if="reviews.data.length === 0" class="px-4 py-2">
                                 User has not written any reviews
                             </div>
-                            <Link v-else v-for="review in reviews.data" :href="route('levels.show', review.level.id)" class="y justify-between px-4 py-2">
+                            <Link v-else v-for="review in reviews.data" :href="route('reviews.show', review.id)" class="y justify-between px-4 py-2">
                                 <h2 class="font-bold">{{ review.level.name }}</h2>
                                 <span class="text-xs">by&nbsp;<span class="font-bold">{{ review.level.creator }}</span></span>
                                 <div class="x flex-wrap space-x-4 lg:space-x-2 items-center justify-between">
