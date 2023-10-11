@@ -6,7 +6,7 @@ import route from "ziggy-js";
     <div class="y z-10 items-center w-full bg-ui-1000">
         <div class="x justify-center bg-ui-900 p-2 w-full">
             <div class="x items-center justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full text-ui-600">
-                <span class="text-sm">GDForums is not affiliated with RobTopGames AP or Geometry Dash</span>
+                <span class="text-sm">Hyperbolus is not affiliated with RobTopGames AB or Geometry Dash</span>
                 <div class="space-x-4">
                     <Link :href="route('legal.terms')">Terms of Service</Link>
                     <Link :href="route('legal.privacy')">Privacy</Link>

@@ -4,16 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta property="og:url" content="https://gdforums.com">
+    <meta property="og:url" content="https://hyperbolus.net">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="GD Forums">
-    <meta property="og:title" content="{{ $page['props']['__meta_title'] ?? 'GD Forums' }}">
+    <meta property="og:site_name" content="Hyperbolus">
+    <meta property="og:title" content="{{ $page['props']['__meta_title'] ?? 'Hyperbolus' }}">
     <meta property="og:description" content="{{ $page['props']['__meta_description'] ?? 'Your source for everything Geometry Dash' }}">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <!-- TODO: -->
+    <!-- <link rel="canonical" href="https://example.com/dresses/green-dresses" /> -->
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 

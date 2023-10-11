@@ -40,7 +40,7 @@ import DiscordInvite from "@/Components/DiscordInvite.vue";
                 <details class="pane">
                     <summary class="font-bold text-xl">About</summary>
                     <h2 class="font-bold">History</h2>
-                    <p>GD Forums is a project that started in my mind palace around ~2016. Some very poorly though out
+                    <p>Hyperbolus is a project that started in my mind palace around ~2016. Some very poorly though out
                         prototypes and a slightly better thought-out MyBB site later and here we are. Its current
                         iteration is what you are using right now!</p>
                     <h2 class="font-bold mt-2">Technology</h2>
