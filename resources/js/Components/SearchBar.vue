@@ -50,6 +50,9 @@ const handleFocus = () => {
     document.addEventListener('mousedown', focusEvent);
 }
 
+/**
+ * @type {Intl.NumberFormat}
+ */
 const format = Intl.NumberFormat('en-US', {
     notation: "compact",
     maximumFractionDigits: 1
@@ -67,8 +70,8 @@ const tiny = (n) => {
         </svg>
         <!-- Changing this to v-show breaks because lastQuery (null) is undefined on searches cache -->
         <div v-if="focused && searches[lastQuery]" class="absolute border border-ui-700 bg-ui-900 rounded-md py-1 space-y-2 shadow-xl top-12 z-30 min-w-full">
-            <div class="px-2" v-if="searches[lastQuery].results[0].hits.length === 0 && searches[lastQuery].results[1].hits.length === 0">No results</div>
-            <div class="px-2 text-sm text-ui-500" v-else>{{ searches[lastQuery].results[0].totalHits + searches[lastQuery].results[1].totalHits }} hits in {{ Math.max(searches[lastQuery].results[0].processingTimeMs, searches[lastQuery].results[1].processingTimeMs) }}ms</div>
+            <div class="px-2" v-if="searches[lastQuery].results.map(r => r.totalHits).reduce((p, a) => p + a, 0) === 0">No results</div>
+            <div class="px-2 text-sm text-ui-500" v-else>{{ searches[lastQuery].results.map(r => r.totalHits).reduce((p, a) => p + a, 0) }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
             <div class="y px-2 !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
                 <span class="text-xs text-ui-500 font-bold uppercase">Levels</span>
                 <Link v-for="hit in searches[lastQuery].results[0].hits" :href="route('levels.show', hit.id)" class="x space-x-2 items-center">
