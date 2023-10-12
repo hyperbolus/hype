@@ -4,9 +4,11 @@ namespace App\Http\Controllers\System\Auth;
 
 use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
+use App\Rules\AllowedUserNamespace;
 use App\Yggdrasil;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Validation\Rule;
 use function event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -59,7 +61,7 @@ class RegisteredUserController extends Controller
         return page('Auth/Register', [
             'invite' => request('invite'),
             'referrer' => $user
-        ])->meta('GD Forums | Sign Up', 'Sign up for GD Forums, your source for everything Geometry Dash!' . $invite);
+        ])->meta('Sign Up', 'Sign up for Hyperbolus, your source for everything Geometry Dash!' . $invite);
     }
 
     /**
@@ -74,7 +76,7 @@ class RegisteredUserController extends Controller
     {
         Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'name' => ['required', 'string', 'min:3', 'max:32', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/'],
+            'name' => ['required', 'string', 'min:3', 'max:24', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/', new AllowedUserNamespace],
             'password' => Yggdrasil::passwordRules(),
             'terms' => ['required', 'accepted'],
             'agecheck' => ['required', 'accepted'],
