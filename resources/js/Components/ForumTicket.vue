@@ -20,7 +20,7 @@ const props = defineProps({
             </div>
             <Link :href="route('forums.show', forum.slug)" class="y justify-center py-2 grow">
                 <h2 class="text-lg">{{ forum.name }}</h2>
-                <p class="text-sm">{{ forum.description }}</p>
+                <p class="text-sm break-all">{{ forum.description }}</p>
             </Link>
             <div class="x items-center text-center gap-2">
                 <div class="y">
@@ -34,17 +34,21 @@ const props = defineProps({
             </div>
         </div>
         <div class="hidden md:block py-3 rounded border-r border-r-ui-300 self-center"></div>
-        <div class="hidden md:flex justify-between space-x-2 mr-4 w-1/4 shrink-0">
+        <div class="hidden md:flex justify-between w-1/4 shrink-0">
             <div v-if="forum.last_post" class="y w-full justify-center">
                 <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
-                <span class="text-xs"><Username :user="forum.last_post.author"/> &bull; <Timestamp :time="forum.last_post.created_at"/></span>
+                <div class="flex flex-col-reverse lg:flex-row lg:items-center text-xs">
+                    <Username :user="forum.last_post.author"/>
+                    <span class="hidden lg:inline px-1">&bull;</span>
+                    <Timestamp :time="forum.last_post.created_at"/>
+                </div>
             </div>
             <div v-else class="y justify-center">
                 <span class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis opacity-50">No posts</span>
             </div>
-            <div class="!hidden x items-center shrink-0">
-                <Avatar v-if="forum.last_post" class="w-10" :user="forum.last_post.author"/>
-            </div>
+        </div>
+        <div class="x items-center shrink-0">
+            <Avatar :link="true" v-if="forum.last_post" width="w-10" :user="forum.last_post.author"/>
         </div>
     </div>
 </template>
