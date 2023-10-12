@@ -62,15 +62,12 @@ class LevelReplayController extends Controller
         ])->meta('Replay Archive (WIP)', 'Work in progress, attempt at building a public database of level replays');
     }
 
-    public function create(): RedirectResponse
+    public function create(): Responsable
     {
-        return redirect()->route('replays.index');
+        //return redirect()->route('replays.index');
 
-//        return page('Replays/Create', [])
-//            ->meta('Upload Macro', 'Upload a new macro')
-//            ->breadcrumbs([
-//                crumb('New Replay', \request()->fullUrl())
-//            ]);
+        return page('Replays/Create', [])
+            ->meta('Upload Macro', 'Upload a new macro');
     }
 
     public function store(Request $request): RedirectResponse
