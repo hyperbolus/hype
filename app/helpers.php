@@ -1,4 +1,7 @@
 <?php
+
+use App\PageBuilder;
+
 if (! function_exists('meta')) {
     function meta(string $title = null, string $description = null): array
     {
@@ -10,9 +13,9 @@ if (! function_exists('meta')) {
 }
 
 if (! function_exists('page')) {
-    function page(string $component, array $props = [])
+    function page(string $component, array $props = []): PageBuilder
     {
-        return new \App\PageBuilder($component, $props);
+        return new PageBuilder($component, $props);
     }
 }
 
@@ -24,7 +27,7 @@ if (! function_exists('crumb')) {
 }
 
 if (! function_exists('xor_key')) {
-    function xor_key(string $str, string $key)
+    function xor_key(string $str, string $key): string
     {
         $out = '';
 
@@ -39,18 +42,18 @@ if (! function_exists('xor_key')) {
 }
 
 if (! function_exists('gj_unmap')) {
-    function gj_unmap($dict, $separator)
+    function gj_unmap($dict, $separator): string
     {
         $string = '';
         foreach ($dict as $key => $value) {
-            $string .= "${separator}${key}${separator}${value}";
+            $string .= "$separator$key$separator$value";
         }
         return $string;
     }
 }
 
 if (! function_exists('gj_map')) {
-    function gj_map($list, $separator)
+    function gj_map($list, $separator): array
     {
         $bits = explode($separator, $list);
         $array = [];
@@ -62,14 +65,14 @@ if (! function_exists('gj_map')) {
 }
 
 if (! function_exists('base64_urlencode')) {
-    function base64_urlencode($string)
+    function base64_urlencode($string): string
     {
         return base64_encode(strtr($string, '+/', '-_'));
     }
 }
 
 if (! function_exists('base64_urldecode')) {
-    function base64_urldecode($string)
+    function base64_urldecode($string): bool|string
     {
         return base64_decode(strtr($string, '-_', '+/'), true);
     }
