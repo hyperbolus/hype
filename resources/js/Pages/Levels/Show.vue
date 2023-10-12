@@ -97,7 +97,7 @@ const submit = () => {
         <div class="x bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
             <span class="y items-center font-bold text-sm uppercase">Top Tags</span>
             <div class="py-2 select-none border-r border-ui-400 border-ui-700"></div>
-            <span v-if="level.tags.length === 0" class="opacity-50">No Tags</span>
+            <span v-if="level.tags.length === 0" class="text-ui-500">No Tags</span>
             <Link v-else v-for="tag in level.tags" :href="route('tags.show', tag)" :title="`${tag.pivot.verified ? 'Verified' : 'Unverified'} tag`" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
                 <svg v-if="tag.pivot.verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline mr-1 rounded-full text-green-500 w-5 h-5">
                     <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
@@ -268,7 +268,14 @@ const submit = () => {
                                 </Tooltip>
                             </div>
                             <div class="x items-center justify-between space-x-2 text-sm">
-                                <span class="rounded px-2 bg-ui-800">{{ macro.format }}</span>
+                                <div class="x space-x-1">
+                                    <Tooltip v-if="macro.notes" position="left" :message="macro.notes ?? 'This macro has no notes'" class="x items-center rounded p-0.5 bg-ui-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                                        </svg>
+                                    </Tooltip>
+                                    <span class="rounded px-2 bg-ui-800">{{ macro.format }}</span>
+                                </div>
                                 <span class="rounded px-2 bg-ui-800">FPS: {{ macro.fps ?? 'Unknown' }}</span>
                             </div>
                         </div>
