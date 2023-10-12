@@ -34,7 +34,7 @@ defineProps({
                 <div class="px-4 py-2" v-if="latestPosts.length === 0">No activity</div>
                 <div v-for="post in latestPosts" class="y px-4 py-3">
                     <Link :href="route('threads.show', post.thread)" class="font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ post.thread.title }}</Link>
-                    <span class="text-xs"><Username :user="post.author"/> &bull; <Timestamp :time="post.created_at"/></span>
+                    <div class="x items-center text-xs"><Username :user="post.author"/><span class="px-1">&bull;</span><Timestamp :time="post.created_at"/></div>
                 </div>
             </div>
         </div>
