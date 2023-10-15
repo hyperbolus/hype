@@ -27,6 +27,7 @@ return [
     ],
 
     'patreon_token' => env('PATREON_TOKEN'),
+    'youtube_token' => env('YOUTUBE_TOKEN'),
     'gd_username' => env('GD_USERNAME'),
     'gd_password' => env('GD_PASSWORD'),
     'gd_account_id' => env('GD_ACCOUNT_ID'),
