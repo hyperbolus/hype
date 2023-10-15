@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Game;
 
+use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
 use App\Models\Game\Profile;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,16 +14,11 @@ use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
-    public function index(): \Inertia\Response
+    public function index(): Responsable
     {
-        return Inertia::render('Proxy/Profile/Index', [
-            'profiles' => Profile::all(),
-        ]);
+        return page('Profiles/Index', [
+            'profiles' => Profile::query()->whereNotNull('id')->paginate(),
+        ])->meta('Profiles', 'Explore in-game user profiles');
     }
 
     /**
@@ -31,7 +28,7 @@ class ProfileController extends Controller
      */
     public function create(): \Inertia\Response
     {
-        return Inertia::render('Proxy/Profile/Create');
+        return Inertia::render('Profiles/Create');
     }
 
     /**
@@ -83,33 +80,16 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  string  $name
-     * @return \Inertia\Response|RedirectResponse
-     */
-    public function show(string $name): \Inertia\Response|RedirectResponse
+    public function show(string $name): Responsable
     {
-        return Inertia::render('Profiles/Show', [
-            'profile' => [
-                'name' => $name,
-            ],
-        ]);
+        $profile = Hydrate::profile($name);
 
-        $res = Http::get(config('app.gdps_url').'/api/profile/'.$name);
-        if ($res->body() == '-1') {
-            abort(404);
-        }
-        $profile = json_decode($res, true);
-        // It's ok if this fails. We show all profiles.
-        $plus = Profile::query()->where('account_id', $profile['accountID'])->first();
-
-        $profile['plus'] = $plus ? $plus->plus() : false;
-
-        return Inertia::render('Beta/Profile', [
-            'profile' => $profile,
-        ]);
+        return page('Profiles/Show', [
+            'profile' => $profile
+        ])->meta($profile->username, 'View ' . $profile->username . '\'s profile')
+            ->breadcrumbs([
+                crumb('Profiles', route('profiles.index'))
+            ]);
     }
 
     /**

@@ -108,8 +108,8 @@ Route::get('/groups', function () {
     return page('Groups/Index');
 });
 
-//Route::get('/profiles', [ProfileController::class, 'index'])->name('users.index');
-//Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('users.show');
+Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
+Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('profiles.show');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');

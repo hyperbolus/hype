@@ -94,7 +94,49 @@ class Hydrate
             }
 
             $profile = new Profile();
-            dd($res);
+            $profile->account_id = $res['accountID'];
+            $profile->player_id = $res['playerID'];
+            $profile->username = $res['username'];
+
+            $profile->youtube = $res['youtube'];
+            $profile->twitter = $res['twitter'];
+            $profile->twitch = $res['twitch'];
+
+            $profile->rank = $res['rank'];
+            $profile->stars = $res['stars'];
+            $profile->diamonds = $res['diamonds'];
+            $profile->coins = $res['coins'];
+            $profile->user_coins = $res['userCoins'];
+            $profile->demons = $res['demons'];
+            $profile->cp = $res['cp'];
+
+            $profile->moderator = $res['moderator'];
+
+            $profile->friend_requests = $res['friendRequests'];
+            $profile->messaging = match ($res['messages']) {
+                'all' => 1,
+                'friends' => 2,
+                'off' => 0,
+            };
+            $profile->comment_visibility = match ($res['commentHistory']) {
+                'all' => 1,
+                'friends' => 2,
+                'off' => 0,
+            };;
+
+            $profile->icon = $res['icon'];
+            $profile->ship = $res['ship'];
+            $profile->ball = $res['ball'];
+            $profile->ufo = $res['ufo'];
+            $profile->wave = $res['wave'];
+            $profile->robot = $res['robot'];
+            $profile->spider = $res['spider'];
+            $profile->col1 = $res['col1'];
+            $profile->col2 = $res['col2'];
+            $profile->death = $res['deathEffect'];
+            $profile->glow = $res['glow'];
+
+            $profile->save();
         }
 
         return $profile;
