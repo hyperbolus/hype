@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\Connection;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
@@ -89,6 +90,11 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Player::class, 'owner_id');
     }
     */
+
+    public function connections(): HasMany
+    {
+        return $this->hasMany(Connection::class);
+    }
 
     public function comments(): HasMany
     {
