@@ -4,6 +4,7 @@ import {Link, useForm} from '@inertiajs/vue3';
 import Input from "@/Jetstream/Input.vue";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     thread: Object
@@ -28,11 +29,7 @@ const submit = () => {
         </template>
         <div class="y lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
             <h2 class="mx-2 font-bold text-2xl">Edit Thread</h2>
-            <ul class="list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors/>
             <Input class="p-2" type="text" v-model="form.title" placeholder="Title (Required)"/>
             <p>Trying to edit your post? Click the <span class="p-1.5 uppercase tracking-widest select-none text-xs bg-ui-800 rounded">Edit</span> button on the post itself.</p>
             <div class="x justify-center gap-2">

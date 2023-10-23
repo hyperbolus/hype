@@ -18,6 +18,7 @@ import route from 'ziggy-js'
 import {displayRating, isAdmin, isAuthenticated, face, difficulties} from "@/util.js";
 import ReportModal from "@/Components/ReportModal.vue";
 import {ref} from "vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     level: Object,
@@ -145,11 +146,7 @@ const submit = () => {
                     </summary>
                     <form @submit.prevent="submit" class="y gap-4">
                         <div class="space-y-2 w-full">
-                            <ul v-if="Object.keys($page.props.errors).length > 0" class="list-disc list-inside text-sm text-red-500">
-                                <li v-for="(error, key) in $page.props.errors" :key="key">
-                                    {{ error }}
-                                </li>
-                            </ul>
+                            <Errors/>
                             <p class="hidden">{{ form.body }}</p>
                             <textarea v-model="form.body" class="resize-none resize-y w-full pane !bg-ui-800 border-none"></textarea>
                             <PostPad v-if="false" v-model="form"/>

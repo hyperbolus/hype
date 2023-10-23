@@ -4,6 +4,7 @@ import {Link, useForm, usePage} from '@inertiajs/vue3';
 import PostPad from "@/Components/PostPad.vue";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     post: Object
@@ -29,11 +30,7 @@ const submit = () => {
         </template>
         <div class="y lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
             <h2 class="mx-2 font-bold text-2xl">Edit Post</h2>
-            <ul v-if="$page.props.errors.length > 0" class="list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors/>
             <PostPad v-model="form"/>
             <div class="x justify-center gap-2">
                 <Button :disabled="form.processing" @click="submit">Edit Post</Button>

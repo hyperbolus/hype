@@ -7,6 +7,7 @@ import Input from "@/Jetstream/Input.vue";
 import {ref} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Textbox from "@/Components/Textbox.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     recipient: Object
@@ -68,11 +69,7 @@ const searchName = async () => {
                     <span class="my-1">Message</span>
                     <textarea class="textbox" v-model="message.body" placeholder="Required"/>
                 </label>
-                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                    <li v-for="(error, key) in $page.props.errors.default" :key="key">
-                        {{ error }}
-                    </li>
-                </ul>
+                <Errors/>
                 <Button class="w-fit">Send Message</Button>
             </form>
         </div>

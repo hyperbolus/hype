@@ -6,6 +6,7 @@ import PostPad from "@/Components/PostPad.vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import {ref} from "vue"
 import Pagination from "@/Components/Pagination.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     thread: Object,
@@ -74,11 +75,7 @@ const sendReply = () => {
             <Pagination :list="posts"/>
             <template v-if="$page.props.auth">
                 <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
-                <ul v-if="Object.keys($page.props.errors).length > 0" class="list-disc list-inside text-sm text-red-500">
-                    <li v-for="(error, key) in $page.props.errors" :key="key">
-                        {{ error }}
-                    </li>
-                </ul>
+                <Errors/>
                 <PostPad :key="postKey" :submit="sendReply" v-model="reply"/>
             </template>
             <div id="reply" v-else>

@@ -6,6 +6,7 @@ import PostPad from "@/Components/PostPad.vue";
 import {ref} from "vue";
 import route from "ziggy-js";
 import Button from "@/Jetstream/Button.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     forum_id: [Number, String]
@@ -40,11 +41,7 @@ const submit = () => {
             <span>Create Thread</span>
         </template>
         <div class="y lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <ul v-if="$page.props.errors.length > 0" class="mt-3 list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors/>
             <h2 class="mx-2 font-bold text-2xl">Create a New Thread</h2>
             <Input class="py-1 !bg-ui-800" type="text" v-model="form.title" placeholder="Title (Required)"/>
             <PostPad v-model="postData"/>

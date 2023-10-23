@@ -4,6 +4,7 @@ import {Link, useForm} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
+import Errors from "@/Components/Errors.vue";
 
 const playlist = useForm({
     title: '',
@@ -35,11 +36,7 @@ const submitPlaylist = () => {
                         <span class="my-1">Short Description</span>
                         <Input v-model="playlist.description" type="text" placeholder="Required"/>
                     </label>
-                    <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                        <li v-for="(error, key) in $page.props.errors" :key="key">
-                            {{ error }}
-                        </li>
-                    </ul>
+                    <Errors/>
                     <Button class="w-fit">Create Playlist</Button>
                 </form>
             </div>

@@ -5,6 +5,7 @@ import {useSettingsStore} from "@/stores/settings.ts";
 import {onMounted, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
+import Errors from "@/Components/Errors.vue";
 
 const reasons = ref({});
 
@@ -69,11 +70,7 @@ onMounted(() => {
                     <span>Please be as specific as possible</span>
                 </span>
             </label>
-            <ul v-if="Object.keys($page.props.errors).length > 0" class="mt-3 list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors/>
             <Button @click="report.post(route('reports.store'), {preserveScroll: true})" class="w-fit" type="submit" :class="{ 'opacity-25': report.processing }" :disabled="report.processing">{{ report.processing ? 'Submitting...' : 'Submit Report' }}</Button>
         </div>
     </div>

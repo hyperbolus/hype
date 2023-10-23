@@ -7,6 +7,7 @@ import route from "ziggy-js";
 import {ref} from "vue";
 import Toggle from "@/Components/Toggle.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     profile: Object,
@@ -127,33 +128,21 @@ const intlGroup = (index) => {
             <h2 class="font-bold text-xl">Avatar</h2>
             <img class="max-h-32 w-32" ref="avatar_preview" :src="profile.avatar_url" alt="Avatar"/>
             <input type="file" @input="previewImage($event, avatar, $refs.avatar_preview)"/>
-            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors.changeAvatar" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors bag="changeAvatar"/>
             <Button class="w-fit">Change Avatar</Button>
         </form>
         <form @submit.prevent="changeBanner" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Banner</h2>
             <img class="max-h-32 self-start object-scale-down" ref="banner_preview" :src="profile.banner_url" alt="Banner"/>
             <input type="file" @input="previewImage($event, banner, $refs.banner_preview)"/>
-            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors.changeBanner" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors bag="changeBanner"/>
             <Button class="w-fit">Change Profile Banner</Button>
         </form>
         <form v-if="$page.props.user.roles.includes('admin')" @submit.prevent="changePostbit" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Postbit Background</h2>
             <img class="max-h-32 self-start object-scale-down" ref="postbit_preview" :src="profile.postbit_url" alt="Postbit Background"/>
             <input type="file" @input="previewImage($event, postbit, $refs.postbit_preview)"/>
-            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                <li v-for="(error, key) in $page.props.errors.changePostbit" :key="key">
-                    {{ error }}
-                </li>
-            </ul>
+            <Errors bag="changePostbit"/>
             <Button class="w-fit">Change Postbit Background</Button>
         </form>
         <form @submit.prevent="changeFlag" class="y pane space-y-2">
@@ -164,6 +153,7 @@ const intlGroup = (index) => {
                     <option v-for="flag in group" :value="flag">{{ intlCountry(flag) }}</option>
                 </optgroup>
             </select>
+            <Errors/>
             <Button class="w-fit">Change Flag</Button>
         </form>
         <form @submit.prevent="changeBio" class="y pane space-y-2">

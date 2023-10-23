@@ -7,6 +7,7 @@ import {onMounted, onUpdated, ref} from "vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import route from 'ziggy-js'
 import {isAdmin} from "@/util.js";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     level: Object,
@@ -117,11 +118,7 @@ onMounted(() => {
                         </template>
                     </Dropdown>
                 </div>
-                <ul v-if="$page.props.errorBags.default" class="mt-3 list-disc list-inside text-sm text-red-600">
-                    <li v-for="(error, key) in $page.props.errors" :key="key">
-                        {{ error }}
-                    </li>
-                </ul>
+                <Errors/>
                 <Button class="w-fit">Submit Tag</Button>
             </form>
             <p v-if="!$page.props.auth" class="pane">
