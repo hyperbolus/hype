@@ -48,7 +48,7 @@ class Statistics
         $key = 'statistics:'.$table;
         $value = Cache::get($key);
         if ($value === null) {
-            $value = DB::table($table)->count();
+            $value = (new $model)->count();
             Cache::put($key, $value, 300);
         }
 
