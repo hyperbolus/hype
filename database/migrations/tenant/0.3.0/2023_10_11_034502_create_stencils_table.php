@@ -16,8 +16,15 @@ return new class extends Migration
         Schema::create('stencils', function (Blueprint $table) {
             $table->id();
             $table->foreignId('author_id');
-            $table->mediumText('content');
-            $table->unsignedInteger('views');
+            $table->string('name');
+            $table->text('description')->nullable();
+
+            $table->string('format');
+
+            $table->unsignedInteger('objects')->nullable();
+            $table->unsignedInteger('views')->default(0);
+
+            $table->mediumText('object_string')->comment('Temporary? Maybe we can come up with a better format...');
             $table->timestamps();
         });
     }

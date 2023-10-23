@@ -4,81 +4,63 @@ namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Stencil;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 
 class StencilController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): Responsable
     {
-        //
+        return page('Stencils/Index', [
+            'stencils' => Stencil::query()->whereNotNull('id')->paginate()
+        ])->meta('Stencils', 'Share custom creations for others to use!');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): Responsable
     {
-        //
+        return page('Stencils/Create')
+            ->meta('New Stencil', 'Share a new stencil')
+            ->breadcrumbs([
+                crumb('Stencils', route('stencils.index'))
+            ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $attributes = $request->validate([
+            'name' => ['required', 'max:32'],
+            'description' => ['required'],
+            'object_string' => ['required']
+        ]);
+
+        $stencil = Stencil::create([
+            ...$attributes,
+            'author_id' => $request->user()->id,
+        ]);
+
+        return redirect()->route('stencils.show', $stencil->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Content\Stencil  $stencil
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Stencil $stencil)
+    public function show(Stencil $stencil): Responsable
     {
-        //
+        return page('Stencils/Show', [
+            'stencil' => $stencil
+        ])->meta($stencil->name, $stencil->description)
+            ->breadcrumbs([
+                crumb('Stencils', route('stencils.index'))
+            ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Content\Stencil  $stencil
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Stencil $stencil)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Content\Stencil  $stencil
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Stencil $stencil)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Content\Stencil  $stencil
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Stencil $stencil)
     {
         //
