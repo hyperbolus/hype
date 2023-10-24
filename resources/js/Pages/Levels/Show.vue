@@ -56,7 +56,7 @@ const submit = () => {
 </script>
 <template>
     <app-layout :title="level.name" :decorations="false">
-        <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-ui-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
+        <div class="y h-64 shadow-lg rounded-lg justify-between w-full bg-ui-500 bg-ui-800 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl p-4 my-4 bg-center bg-cover" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -275px 75px -200px inset;" :style="`background-image: url('${level.banner_url ?? background}')`">
             <div class="x justify-between items-start">
                 <div class="x space-x-2">
                     <span>D: {{ displayRating(level.rating_difficulty) }}</span>
