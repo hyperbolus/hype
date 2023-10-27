@@ -35,6 +35,7 @@ class StencilController extends Controller
 
         $stencil = Stencil::create([
             ...$attributes,
+            'format' => 'obj[;]',
             'author_id' => $request->user()->id,
         ]);
 

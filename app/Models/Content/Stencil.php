@@ -26,6 +26,6 @@ class Stencil extends Model
 
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class, 'author_id')->select(['id', 'name', 'flag', 'primary_group_id', 'created_at', 'reputation', 'pronouns', 'avatar_url', 'banner_url', 'postbit_url']);
     }
 }

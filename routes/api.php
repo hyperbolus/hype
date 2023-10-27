@@ -128,6 +128,18 @@ SVG;
 
 });
 
+Route::get('/stencil/{id}', function (Request $request, int $id) {
+    return \App\Models\Content\Stencil::query()
+        ->where('id', '=', $id)
+        ->first();
+});
+
+Route::get('/stencils', function (Request $request) {
+    return \App\Models\Content\Stencil::query()
+        ->whereNotNull('id')
+        ->paginate();
+});
+
 Route::get('/macros', function (Request $request) {
     $macros = \App\Models\Game\LevelReplay::query()->whereNotNull('created_at');
 
