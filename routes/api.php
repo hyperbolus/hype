@@ -137,7 +137,7 @@ Route::get('/stencil/{id}', function (Request $request, int $id) {
 Route::get('/stencils', function (Request $request) {
     return \App\Models\Content\Stencil::query()
         ->whereNotNull('id')
-        ->paginate();
+        ->paginate($request->integer('perPage', 10));
 });
 
 Route::get('/macros', function (Request $request) {
@@ -169,30 +169,70 @@ Route::get('/macros', function (Request $request) {
     });
 });
 
-Route::get('/styles', function () {
+$fix_style = function (\App\Models\Forge\Style $style) {
+    $sizes = [
+        'sd' => null,
+        'hd' => null,
+        'uhd' => null
+    ];
+    $files = $style->files->transform(function (\App\Models\Media $file, int $key) use (&$sizes) {
+        $sizes[$file->collection] = $key;
+        $file->makeHidden(['owner_id', 'owner_type']);
+        $file->setAttribute('url', Storage::disk('contabo')->temporaryUrl($file->path, now()->addHour()));
+        return $file;
+    });
+    $style->setAttribute('sizes', $sizes);
+    return $style;
+};
+
+Route::get('/styles', function () use ($fix_style) {
     $styles = \App\Models\Forge\Style::query()
         ->with('files')
         ->paginate(10);
 
-    $styles->through(function (\App\Models\Forge\Style $style) {
-        $sizes = [
-            'sd' => null,
-            'hd' => null,
-            'uhd' => null
-        ];
-        $files = $style->files->transform(function (\App\Models\Media $file, int $key) use (&$sizes) {
-            $sizes[$file->collection] = $key;
-            $file->makeHidden(['owner_id', 'owner_type']);
-            $file->setAttribute('url', Storage::disk('contabo')->temporaryUrl($file->path, now()->addHour()));
-            return $file;
-        });
-        $style->setAttribute('sizes', $sizes);
-        return $style;
-    });
+    $styles->through($fix_style);
 
     return $styles;
 });
-Route::get('/style/{id}', function ($id) {
+Route::get('/style/{id}', function ($id) use ($fix_style) {
     $style = \App\Models\Forge\Style::query()->with('files')->findOrFail($id);
+
+    $fix_style($style);
+
     return $style;
+});
+
+
+Route::get('/proxy', function () {
+    $proxies = \App\Models\System\Setting::query()->where('key', '=', 'proxies')->first();
+
+    $proxies = explode("\n", $proxies->value);
+
+    foreach ($proxies as $proxy) {
+        $proxy = explode(':', $proxy);
+
+    }
+
+    $res = Http::asForm()
+        ->withOptions([
+            'proxy' => 'http://zefucltq:s1epxbz7cdju@38.154.227.167:5868'
+        ])
+        ->withHeaders([
+            'User-Agent' => ''
+        ])->post('https://www.boomlings.com/database/getGJLevels21.php', [
+            'secret' => 'Wmfd2893gb7',
+            'gameVersion' => '22',
+            'type' => '26',
+            'str' => join(',', range(101, 200))
+        ])->body();
+
+    if ($res === 'error code: 1005') {
+        abort(500, 'Banned IP');
+    }
+
+    return explode('|', explode('#', $res)[0]);
+});
+
+Route::get('/render', function () {
+
 });
