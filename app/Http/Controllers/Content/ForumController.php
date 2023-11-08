@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Forum;
 use App\Models\Content\Post;
 use App\Models\Content\Thread;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
@@ -13,7 +14,7 @@ use Inertia\Response;
 
 class ForumController extends Controller
 {
-    public function index(): Response
+    public function index(): Responsable
     {
         $forums = Forum::query()->where('parent_id', '=', null)->orderBy('priority', 'ASC')->with(['children'])->get();
         foreach ($forums as $forum) {
@@ -39,11 +40,11 @@ class ForumController extends Controller
             });
         }
 
-        return Inertia::render('Forums', [
+        return page('Forums', [
             'forums' => $forums,
             // TODO: Get only one of each (latest of each) thread if it repeats multiple times
             'latestPosts' => Post::query()->latest()->limit(10)->with(['author', 'thread'])->get(),
-        ]);
+        ])->meta('Forums', 'Join the discussion');
     }
 
     public function create()
