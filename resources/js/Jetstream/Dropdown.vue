@@ -11,11 +11,11 @@ const props = defineProps({
         default: '48',
     },
     contentClasses: {
-        type: Array,
+        type: [Array, String],
         default: () => [],
     },
     containerClasses: {
-        type: Array,
+        type: [Array, String],
         default: () => ['mt-2'],
     },
 });
