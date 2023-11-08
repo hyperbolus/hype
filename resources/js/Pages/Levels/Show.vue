@@ -95,7 +95,7 @@ const submit = () => {
                 </div>
             </div>
         </div>
-        <div class="x bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl w-full px-4 py-2">
+        <div class="x bg-ui-950 border border-ui-900 rounded-lg items-center space-x-2 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full px-4 py-2">
             <span class="y items-center font-bold text-sm uppercase">Top Tags</span>
             <div class="py-2 select-none border-r border-ui-400 border-ui-700"></div>
             <span v-if="level.tags.length === 0" class="text-ui-500">No Tags</span>
@@ -107,7 +107,7 @@ const submit = () => {
             </Link>
             <Link :href="route('levels.tags.show', level)" class="text-sm rounded hover:underline cursor-pointer">{{ level.tags.length === 0 ? 'Submit' : 'More'  }}...</Link>
         </div>
-        <div class="flex flex-col md:flex-row bg-ui-950 border border-ui-900 rounded-lg p-4 lg:max-w-5xl xl:max-w-6xl w-full gap-4 my-4">
+        <div class="flex !mt-0 flex-col md:flex-row bg-ui-950 border border-ui-900 rounded-lg p-4 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 my-4">
             <div class="y space-y-2 md:w-3/4">
                 <template v-if="false">
                     <div class="x items-center justify-between">
