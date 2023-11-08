@@ -61,10 +61,6 @@ class UserController extends Controller
                 [
                     'text' => 'Users',
                     'url' => route('users.index'),
-                ],
-                [
-                    'text' => $user->name . '\'s Profile',
-                    'url' => route('users.show', $user->id),
                 ]
             ]);
     }
