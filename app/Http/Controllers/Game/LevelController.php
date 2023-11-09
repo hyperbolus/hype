@@ -16,6 +16,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -158,10 +159,21 @@ class LevelController extends Controller
         ]);
     }
 
-    public function view(Level $level) {
+    public function view(Level $level): Responsable {
+        // TODO: put hydration here?
+        $res = Http::get('https://history.geometrydash.eu/api/v1/level/' . $level->id)->json();
+        $records = [];
+        foreach ($res['records'] as $record) {
+            if ($record['record_type'] === 'download') $records[] = $record;
+        }
+
+        if (count($records) === 0) abort(404);
+
+        $res = Http::get('https://history.geometrydash.eu/level/' . $level->id . '/' . $records[0]['id'] . '/download')->body();
+
         return page('Levels/Viewer', [
-            'level_info' => $level
-        ])->meta('Level Viewer', 'Guess');
+            'levelData' => $res
+        ])->meta('Level Viewer', 'View levels in your browser');
     }
 
     public function images(Level $level): Response

@@ -107,6 +107,10 @@ const submit = () => {
             </Link>
             <Link :href="route('levels.tags.show', level)" class="text-sm rounded hover:underline cursor-pointer">{{ level.tags.length === 0 ? 'Submit' : 'More'  }}...</Link>
         </div>
+        <div class="!hidden mt-4 x space-x-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4">
+            <div class="rounded-t px-2 border border-b-0 border-ui-800 bg-ui-950">Home</div>
+            <Link :href="route('levels.view', level.id)" class="rounded-t px-2 border border-b-0 border-ui-900 bg-ui-1000">Level Viewer</Link>
+        </div>
         <div class="flex !mt-0 flex-col md:flex-row bg-ui-950 border border-ui-900 rounded-lg p-4 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 my-4">
             <div class="y space-y-2 md:w-3/4">
                 <template v-if="false">

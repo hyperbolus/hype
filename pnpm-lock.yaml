@@ -65,9 +65,15 @@ dependencies:
   get-youtube-id:
     specifier: ^1.0.1
     version: 1.0.1
+  graphalite:
+    specifier: ^0.1.1
+    version: 0.1.1
   meilisearch:
     specifier: ^0.35.0
     version: 0.35.0
+  pako:
+    specifier: ^2.1.0
+    version: 2.1.0
   pinia:
     specifier: ^2.1.6
     version: 2.1.6(typescript@4.9.5)(vue@3.3.4)
@@ -677,6 +683,10 @@ packages:
       vue: 3.3.4
     dev: false
 
+  /@tweakpane/core@2.0.1:
+    resolution: {integrity: sha512-iJNrLrLffQR0I8mWgAWcMVO9ZPNdNeXZl66WNT+Op5L9FW7BSF6lwG3izR6Ki9CaI3HzIownwjzYS5xWUaokTA==}
+    dev: false
+
   /@types/history@4.7.11:
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
     dev: true
@@ -684,6 +694,12 @@ packages:
   /@types/node@18.17.18:
     resolution: {integrity: sha512-/4QOuy3ZpV7Ya1GTRz5CYSz3DgkKpyUptXuQ5PPce7uuyJAOR7r9FhkmxJfvcNUXyklbC63a+YvB3jxy7s9ngw==}
     dev: true
+
+  /@types/node@20.9.0:
+    resolution: {integrity: sha512-nekiGu2NDb1BcVofVcEKMIwzlx4NjHlcjhoxxKBNLtz15Y1z7MYf549DFvkHSId02Ax6kGwWntIBPC3l/JZcmw==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: false
 
   /@types/object.omit@3.0.1:
     resolution: {integrity: sha512-24XD34UeRWw505TsMNBrQ4bES2s8IxiFC59mmNUFhTz9IX2hAtA7gQ8wVww1i17QmhBYILg5iqYP2y7aqA3pwQ==}
@@ -1370,6 +1386,10 @@ packages:
     resolution: {integrity: sha512-5yidLzoLXbtw82a/Wb7LrajkGn29BM6JuLWeHyNfzOGp1weGyW4+7eMz6cP23+etqj27VlOFtq8fFFDMLq/FXQ==}
     dev: false
 
+  /gl-matrix@3.4.3:
+    resolution: {integrity: sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==}
+    dev: false
+
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -1394,6 +1414,16 @@ packages:
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
+
+  /graphalite@0.1.1:
+    resolution: {integrity: sha512-LmYptcYpI12d7+HkdFPpWqgP/E1fQ1vtErgSQVUg+O33Tdm/RmWXOuwc/2pB03D9zHsn2WdQNmuzr+0jK8yoAQ==}
+    dependencies:
+      '@tweakpane/core': 2.0.1
+      '@types/node': 20.9.0
+      gl-matrix: 3.4.3
+      tweakpane: 4.0.1
+      twgl.js: 5.5.3
+    dev: false
 
   /has-proto@1.0.1:
     resolution: {integrity: sha512-7qE+iP+O+bgF9clE5+UoBFzE65mlBiVj3tKCrlNQ0Ogwm0BjpT/gK4SlLYDMybDh5I3TCTKnPPa0oMG7JDYrhg==}
@@ -1698,6 +1728,10 @@ packages:
 
   /orderedmap@2.1.1:
     resolution: {integrity: sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==}
+    dev: false
+
+  /pako@2.1.0:
+    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
     dev: false
 
   /path-is-absolute@1.0.1:
@@ -2152,6 +2186,14 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
+  /tweakpane@4.0.1:
+    resolution: {integrity: sha512-1JmmGbF4h2zuFbpN1XfIWcV0kLbBUgSXpR1QtW19vJFx44asnCrufRSvd69OItOFMEWgbVtoiWM2uDPUEUKcMQ==}
+    dev: false
+
+  /twgl.js@5.5.3:
+    resolution: {integrity: sha512-lUrWxXmEURxQphwu4hMkudIThjhbrej3WUKH2qdTifixuO1FxQRLgxJVQ81rTDw9CBoxx4m4iIEOfgCf02Ip1Q==}
+    dev: false
+
   /type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
@@ -2164,6 +2206,10 @@ packages:
 
   /uc.micro@1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
+    dev: false
+
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: false
 
   /update-browserslist-db@1.0.13(browserslist@4.21.11):
