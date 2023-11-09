@@ -1,32 +1,38 @@
 <script setup>
 import Dash from "@/Layouts/Dash.vue";
 import {onMounted, ref} from "vue";
+import LevelViewer from "@/Components/LevelViewer.vue";
+import {inflate} from "pako";
 
 const props = defineProps({
-    level_info: Object
+    levelData: String
 })
 
-/**
- * @type {Ref<HTMLCanvasElement>}
- */
-const canvas = ref(null);
-const ctx = ref(null);
-onMounted(() => {
-    canvas.value.removeAttribute('style');
-})
+const parser = new DOMParser();
+const data = parser.parseFromString(props.levelData, 'application/xml').firstChild;
+const level = {};
+for (let i = 0; i < data.children.length; i++) {
+    level[data.children[i].innerHTML] = data.children[++i].innerHTML;
+}
+
+level['k4'] = level['k4'].replaceAll('-', '+').replaceAll('_', '/')
+
+let _ = new Uint8Array(atob(level['k4']).split('').map(char => char.charCodeAt(0)));
+_ = inflate(_);
+let dc = new TextDecoder();
+_ = dc.decode(_);
 </script>
 <template>
     <Dash :fullwidth="true" :decorations="false">
-        <div class="relative w-full grow bg-ui-1000/75">
-            <canvas class="absolute inset-0 z-30 h-full w-full bg-blue-500" ref="canvas" style="display: none;"></canvas>
-            <div class="y z-20 space-y-6 p-8 items-center justify-center absolute inset-0">
-                <div class="pane font-bold uppercase tracking-widest font-mono text-5xl">Loading</div>
-                <div class="bg-ui-800 w-full max-w-7xl text-center font-bold text-lg rounded-full w-full">
-                    <div class="text-center font-bold text-lg p-1 rounded-full bg-blue-500" :style="`width: 20%;`"></div>
+        <div class="y relative grow w-full">
+            <LevelViewer :level-data="_" :decoration="false">
+                <div class="x space-x- 2 justify-between">
+
                 </div>
-                <span>Loading textures (2/17)</span>
-            </div>
-            <div class="z-10 absolute animate-pulse inset-0 bg-ui-1000"></div>
+                <div class="x space-y-2 justify-center">
+                    <div class="select-none rounded text-red-500 bg-ui-800 border border-ui-700 px-1.5 py-0.5">This feature is a work-in-progress. There are still many bugs.</div>
+                </div>
+            </LevelViewer>
         </div>
     </Dash>
 </template>

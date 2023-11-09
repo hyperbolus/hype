@@ -22,8 +22,17 @@ export default defineConfig({
         noExternal: ['@inertiajs/server'],
     },
     resolve: {
-        alias: {
-            '@': resolve('./resources/js'),
-        },
+        alias: [{
+            find: '@',
+            replacement: resolve(__dirname, './resources/js')
+        }],
     },
+    optimizeDeps: {
+        esbuildOptions: {
+            loader: {
+                '.frag': 'text',
+                '.vert': 'text',
+            }
+        }
+    }
 });
