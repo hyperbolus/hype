@@ -45,7 +45,7 @@
         "@tiptap/vue-3": "^2.1.11",
         "@vueuse/core": "^9.13.0",
         "get-youtube-id": "^1.0.1",
-        "graphalite": "^0.1.1",
+        "graphalite": "^0.2.0",
         "meilisearch": "^0.35.0",
         "pako": "^2.1.0",
         "pinia": "^2.1.6",

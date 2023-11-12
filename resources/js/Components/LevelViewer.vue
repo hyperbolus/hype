@@ -1,9 +1,6 @@
 <script setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {Renderer} from 'graphalite/src/Renderer.ts'
-import {Level} from 'graphalite/src/Level.ts'
-import {Texture} from 'graphalite/src/Texture.ts'
-import {Annotation} from 'graphalite/src/Annotation.ts'
+import {Renderer, Level, Texture, Annotation} from 'graphalite'
 
 import ATLAS_1 from '@/../resources/GJ_GameSheet-uhd.png'
 import ATLAS_2 from '@/../resources/GJ_GameSheet02-uhd.png'

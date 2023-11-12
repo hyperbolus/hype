@@ -66,8 +66,8 @@ dependencies:
     specifier: ^1.0.1
     version: 1.0.1
   graphalite:
-    specifier: ^0.1.1
-    version: 0.1.1
+    specifier: ^0.2.0
+    version: 0.2.0
   meilisearch:
     specifier: ^0.35.0
     version: 0.35.0
@@ -1415,8 +1415,8 @@ packages:
       path-is-absolute: 1.0.1
     dev: true
 
-  /graphalite@0.1.1:
-    resolution: {integrity: sha512-LmYptcYpI12d7+HkdFPpWqgP/E1fQ1vtErgSQVUg+O33Tdm/RmWXOuwc/2pB03D9zHsn2WdQNmuzr+0jK8yoAQ==}
+  /graphalite@0.2.0:
+    resolution: {integrity: sha512-S0JUgPhz/Rk831+VWyidTCBP9upym9dzOG5CScUc4afdVcehr/jFs7EbFbIcbjQSsC3IzaSw49sH9ulzMS/gPw==}
     dependencies:
       '@tweakpane/core': 2.0.1
       '@types/node': 20.9.0
