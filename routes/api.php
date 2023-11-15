@@ -69,29 +69,6 @@ Route::get('/test/type26', function () {
     return $levels;
 });
 
-Route::get('messages', function () {
-    $gjp = base64_urlencode(xor_key(config('hyperbolus.gd_password'), '37526'));
-
-    $res = Http::asForm()
-        ->withUserAgent('')
-        ->post('https://www.boomlings.com/database/getGJMessages20.php', [
-            'page' => 0,
-            'total' => 0,
-            'secret' => 'Wmfd2893gb7',
-            'accountID' => config('hyperbolus.gd_account_id'),
-            'gjp' => $gjp,
-        ])
-        ->body();
-
-    $messages = collect(explode('|', $res))->map(function (string $string) {
-        return gj_map($string, ':');
-    });
-
-Route::get('/thingy', function () {
-    $repo = new \Laravel\Passport\ClientRepository();
-    //$repo->createPasswordGrantClient(0, 'Custom Object Thingy', 'http://dashnet/');
-});
-
 Route::post('/stencils/new-anonymous', function (Request $request) {
     $attributes = $request->validate([
         'name' => ['required', 'max:32'],
@@ -233,7 +210,7 @@ Route::get('/proxy', function () {
 
     $res = Http::asForm()
         ->withOptions([
-            'proxy' => 'http://zefucltq:s1epxbz7cdju@38.154.227.167:5868'
+            'proxy' => ''
         ])
         ->withHeaders([
             'User-Agent' => ''
@@ -249,8 +226,4 @@ Route::get('/proxy', function () {
     }
 
     return explode('|', explode('#', $res)[0]);
-});
-
-Route::get('/render', function () {
-
 });
