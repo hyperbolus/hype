@@ -18,6 +18,13 @@ class Stencil extends Model
         'name',
         'description',
         'object_string',
+        'username',
+        'password',
+        'format',
+    ];
+
+    protected $hidden = [
+        'password'
     ];
 
     protected $with = [

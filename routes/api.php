@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Content\Stencil;
 use App\Models\Game\LevelReplay;
 use App\Models\Media;
 use Hashids\Hashids;
@@ -86,7 +87,24 @@ Route::get('messages', function () {
         return gj_map($string, ':');
     });
 
-    return $messages;
+Route::get('/thingy', function () {
+    $repo = new \Laravel\Passport\ClientRepository();
+    //$repo->createPasswordGrantClient(0, 'Custom Object Thingy', 'http://dashnet/');
+});
+
+Route::post('/stencils/new-anonymous', function (Request $request) {
+    $attributes = $request->validate([
+        'name' => ['required', 'max:32'],
+        'description' => ['required'],
+        'object_string' => ['required'],
+        'anon_name' => ['required', 'min:3', 'max:20'],
+        'anon_password' => ['required', 'min:16', 'max:32'],
+    ]);
+
+    return Stencil::create([
+        ...$attributes,
+        'format' => 'obj[;]',
+    ]);
 });
 
 Route::get('/level/{id}/reviews', function ($id) {
