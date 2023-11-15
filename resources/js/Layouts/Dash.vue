@@ -68,4 +68,8 @@ onBeforeMount(() => {
 .rotate-hue {
     /*animation: hue 10s linear infinite;*/
 }
+
+#nprogress div.bar {
+    background: linear-gradient(#67e8f9, #34d399) !important;
+}
 </style>
