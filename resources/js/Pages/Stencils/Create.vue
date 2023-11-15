@@ -7,10 +7,14 @@ import Button from "@/Jetstream/Button.vue";
 import route from "ziggy-js";
 import Errors from "@/Components/Errors.vue";
 
+const props = defineProps({
+    data: String
+})
+
 const form = useForm({
     name: '',
     description: '',
-    object_string: '',
+    object_string: props.data ?? '',
 })
 
 const submit = () => {
@@ -34,7 +38,7 @@ const submit = () => {
 
                 <Label>
                     Object String
-                    <textarea v-model="form.object_string" class="block text-sm rounded border-none w-full font-mono bg-ui-950"></textarea>
+                    <textarea :readonly="!!data" v-model="form.object_string" class="block read-only:text-ui-500 text-sm rounded border-none w-full font-mono bg-ui-950"></textarea>
                 </Label>
 
                 <Errors/>

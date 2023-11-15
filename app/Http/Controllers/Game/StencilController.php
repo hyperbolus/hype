@@ -16,9 +16,11 @@ class StencilController extends Controller
         ])->meta('Stencils', 'Share custom creations for others to use!');
     }
 
-    public function create(): Responsable
+    public function create(Request $request): Responsable
     {
-        return page('Stencils/Create')
+        return page('Stencils/Create', [
+            'data' => $request->string('data')
+        ])
             ->meta('New Stencil', 'Share a new stencil')
             ->breadcrumbs([
                 crumb('Stencils', route('stencils.index'))

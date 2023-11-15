@@ -210,8 +210,8 @@ Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
 Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
-Route::get('/stencils/new', [StencilController::class, 'create'])->middleware(['role:admin', 'auth', 'verified'])->name('stencils.create');
-Route::post('/stencils/new', [StencilController::class, 'store'])->middleware(['role:admin', 'auth', 'verified'])->name('stencils.store');
+Route::get('/stencils/new', [StencilController::class, 'create'])->middleware(['auth', 'verified'])->name('stencils.create');
+Route::post('/stencils/new', [StencilController::class, 'store'])->middleware(['auth', 'verified'])->name('stencils.store');
 Route::get('/stencil/{stencil}', [StencilController::class, 'show'])->name('stencils.show');
 
 //Route::get('/notifications')->middleware(['auth'])->name('notifications.index');
