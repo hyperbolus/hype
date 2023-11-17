@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 <template>
     <Lightbox class="w-full">
-        <img class="w-full aspect-video object-cover rounded glass" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt="Thumbnail"/>
+        <img class="w-full aspect-video object-cover rounded glass" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt=""/>
         <template #content>
             <div class="y space-y-2">
                 <div class="relative box !px-0 !py-0">
