@@ -16,7 +16,7 @@ Current sites powered by this software:
 - https://userlevels.com - The Impossible Game 1 & 2
 
 ## Stack
-The current codebase is a multi-tenant one meant for hosting several "sites" on a single installation. No support will be given to anyone attempting to set up the project. Please do not modify redistribute etc.
+The current codebase is a multi-tenant one meant for hosting several "sites" on a single installation.
 
 # Features
 - Forum
@@ -25,9 +25,10 @@ The current codebase is a multi-tenant one meant for hosting several "sites" on 
 - Messaging
 - Cosmetics
 - Community workshop for mods
+- Other random game specific stuff
 
 # Usage
-You can do whatever you want with this locally but this software is not licensed and I give no permission for redistribution nor will I provide support for people attempting to setup an instance of the site for public use.
+Setup mostly as a standard Laravel app plus Laravel Tenancy, however no support will be given for setting up the project.
 
 ## I want to use this for my game's community
 Whether you're a game dev or community leader, reach out to see if Hype would be a good fit for your community
@@ -36,4 +37,4 @@ Whether you're a game dev or community leader, reach out to see if Hype would be
 We are currently not accepting code contributions, although you can still request features and report bugs
 
 # License
-Hype is licensed under
+Hype is licensed under the AGPL-3.0
