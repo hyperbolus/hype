@@ -2,7 +2,6 @@
 import {Link} from '@inertiajs/vue3';
 import StatsPanel from "@/Components/StatsPanel.vue";
 import AppLayout from "@/Layouts/Dash.vue";
-import PatreonGoal from "@/Components/PatreonGoal.vue";
 import route from 'ziggy-js'
 import DiscordInvite from "@/Components/DiscordInvite.vue";
 </script>
@@ -45,32 +44,61 @@ import DiscordInvite from "@/Components/DiscordInvite.vue";
                         iteration is what you are using right now!</p>
                     <h2 class="font-bold mt-2">Technology</h2>
                     <p>The site is powered by the Laravel PHP framework + various services that sync from boomlings. The
-                        frontend is Vue + Tailwind. This version (specifically the review system) was originally based
-                        on the work of Spellslave's short-lived Grimoire software. Though it has since been essentially
-                        rewritten. The site or at least parts of it may be open sourced in the future.</p>
+                        frontend is Vue + Tailwind. It is powered by the Hype CMS (made specifically for this and our
+                        sister sites) and licensed under the AGPLv3 so with the exception of a few private modules, and
+                        services free to take a peek at the source code :)</p>
                 </details>
                 <details class="pane">
                     <summary class="font-bold text-xl">Special Thanks</summary>
                     <ul class="list-inside list-disc">
+                        <li>iAndy_HD3 and camila314 for using the API in their mods</li>
                         <li>Cvolton for help regarding interacting with gd servers</li>
                         <li>Nora for her amazing work on MDL and being good at design in general</li>
                         <li>GD Colon for all of his awesome work with gd on web</li>
                         <li>matcool for replay conversion code</li>
                         <li>matcool again & npesta for inspiring roulette game</li>
-                        <li>dogotrigger for providing a large cache of levels for research</li>
                         <li>Geometry Dash Programming Discord</li>
                         <li>Country flags by freakflags</li>
+                        <li>Tailwind heroicons</li>
                         <li>osu for having an oddly really good website that I could steal from</li>
                         <li>Durianhead for his amazing profile banner artwork (<a class="underline" href="https://twitter.com/real_durianhead/status/1462436726496890881?s=20">source</a>)</li>
                         <li>Users like you, thank you!</li>
                     </ul>
+                </details>
+                <details class="pane">
+                    <summary class="font-bold text-xl">Software Licenses</summary>
+                    <textarea readonly>Copyright ©2023 Michael P. Cohen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </textarea>
+                    <textarea readonly>MIT License
+
+Copyright (c) 2020 Refactoring UI Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</textarea>
                 </details>
             </div>
         </div>
         <div class="y space-y-2 md:w-1/4">
             <h2 class="mx-2 font-bold text-2xl">More</h2>
             <DiscordInvite code="bWt5aks8jb"/>
-            <PatreonGoal/>
             <h2 class="mx-2 font-bold text-2xl">Staff</h2>
             <div class="pane">
                 <p>Who knows? They're in the shadows...</p>
