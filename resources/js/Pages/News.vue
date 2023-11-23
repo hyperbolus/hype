@@ -1,5 +1,8 @@
 <script setup>
 import AppLayout from "@/Layouts/Dash.vue";
+import {Link} from '@inertiajs/vue3';
+import route from "ziggy-js";
+import banner from "@/../images/Article22UpdateBanner.jpg"
 
 const props = defineProps({
     articles: Object
@@ -8,13 +11,13 @@ const props = defineProps({
 <template>
     <AppLayout title="News">
         <div class="y space-y-4 w-full">
-            <div class="y space-y-2 w-72">
-                <div class="h-40 bg-ui-600 rounded"></div>
-                <div>
-                    <h2 class="font-bold text-xl">Article Title Wee Woo Wee Woo</h2>
-                    <p>A short stub from the article. Just enough to get you hooked on the...</p>
+            <Link v-for="article in articles.data" :href="route('articles.show', article.slug)" class="block relative aspect-video rounded overflow-hidden">
+                <div class="absolute inset-0 hover:scale-105 transition-transform bg-contain" :style="`background-image: url(${banner});`"></div>
+                <div class="absolute bottom-0 p-4" style="text-shadow: black 1px 1px 5px">
+                    <h2 class="font-bold text-3xl">{{ article.title }}</h2>
+                    <p>{{ article.blurb }}</p>
                 </div>
-            </div>
+            </Link>
         </div>
     </AppLayout>
 </template>

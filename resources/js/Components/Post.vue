@@ -209,7 +209,7 @@ const sendLike = () => {
                 </svg>
                 <span>{{ post.reactions.length }}</span>
             </div>
-            <Link class="text-sm" v-for="(reaction, index) in post.reactions" :href="route('users.show', reaction.reacter.id)" :title="new Date(reaction.created_at).toLocaleString([], {day: '2-digit', month: '2-digit', year:'2-digit', hour: '2-digit', minute: '2-digit'})"><Username :user="reaction.reacter"/>{{ index < post.reactions.length - 1 ? ',' : '' }}</Link>
+            <Username class="!text-sm" v-for="(reaction, index) in post.reactions" :user="reaction.reacter"/>
         </div>
     </div>
 </template>

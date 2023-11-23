@@ -21,7 +21,7 @@ const props = defineProps({
                         <h1 class="font-bold text-6xl" style="text-shadow: black 1px 1px 1px">{{ article.title }}</h1>
                         <div class="x space-x-2 items-center text-sm">
                             <span class="y bg-ui-900 border border-ui-700 rounded-md px-2 py-1">{{ new Date(article.created_at).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'}) }}</span>
-                            <span class="y bg-ui-900 border border-ui-700 rounded-md px-2 py-1">{{ Math.ceil(article.content.split(/\s+/).length / 225) }} Minute Read</span>
+                            <span class="y bg-ui-900 border border-ui-700 rounded-md px-2 py-1">{{ Math.ceil(article.post.body.split(/\s+/).length / 225) }} Minute Read</span>
                         </div>
                     </div>
                     <div class="x space-x-8 py-12 px-16">
@@ -44,7 +44,7 @@ const props = defineProps({
                                 </div>
                             </Link>
                         </div>
-                        <TipTap class="w-2/3" :editable="false" v-model="article.content"/>
+                        <TipTap class="w-2/3" :editable="false" v-model="article.post.body"/>
                     </div>
                 </div>
             </div>

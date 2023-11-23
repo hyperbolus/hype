@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -12,15 +13,18 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return page('Articles/Show');
+        return page('News', [
+            'articles' => Article::query()->latest()->paginate()
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Responsable
     {
-        //
+        return page('Articles/Create')
+            ->meta('Create Article', 'Submit your hot takes');
     }
 
     /**
@@ -28,15 +32,18 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Article $article)
+    public function show(Article $article): Responsable
     {
-        //
+        return page('Articles/Show', [
+            'article' => $article->load(['post']),
+            'articles' => Article::query()
+                ->whereNot('id', '=', $article->id)
+                ->limit(3)
+                ->get()
+        ])->meta($article->title, $article->blurb ?? 'Read articles and news on Hyperbolus');
     }
 
     /**

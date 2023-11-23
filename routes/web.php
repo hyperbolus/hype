@@ -55,10 +55,10 @@ Route::domain(config('app.domains.profile'))->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/forge', [HomeController::class, 'forge'])->name('forge');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+//Route::get('/news', [HomeController::class, 'news'])->name('news');
 Route::get('/levels', [HomeController::class, 'levels'])->name('levels');
 Route::get('/levels/random', [LevelController::class, 'random'])->name('levels.random');
-Route::get('/client', [HomeController::class, 'client'])->name('client');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
 
@@ -105,8 +105,28 @@ Route::get('/replays/new', [LevelReplayController::class, 'create'])->name('repl
 Route::post('/replays/new', [LevelReplayController::class, 'store'])->name('replays.store')->middleware(['auth', 'verified']);
 
 Route::get('/groups', function () {
-    return page('Groups/Index');
-});
+    return page('Groups/Index', [
+        'groups' => [
+            [
+                'name' => 'Hyper',
+                'description' => 'Those with the power to create. Levantate ponte hyper.'
+            ],
+            [
+                'name' => 'Writers',
+                'description' => 'Only good takes havers. Write for the news page.'
+            ],
+            [
+                'name' => 'Janitors',
+                'description' => 'Help clean up garbage'
+            ]
+        ]
+    ])->meta('User Groups', 'Discover site communities');
+})->name('groups.index');
+
+Route::get('/news', [\App\Http\Controllers\ArticleController::class, 'index'])->name('news');
+Route::get('/news/{article}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
+Route::get('/articles/new', [\App\Http\Controllers\ArticleController::class, 'create'])->name('articles.create');
+Route::post('/articles/new', [\App\Http\Controllers\ArticleController::class, 'store'])->name('articles.store');
 
 Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
 Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('profiles.show');

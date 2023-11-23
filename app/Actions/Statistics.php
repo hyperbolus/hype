@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use Exception;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class Statistics
@@ -19,6 +18,7 @@ class Statistics
             'reviews' => self::count(\App\Models\Content\Review::class),
             'videos' => self::count(\App\Models\Content\Video::class),
             'playlists' => self::count(\App\Models\Content\Playlist::class),
+            'macros' => self::count(\App\Models\Game\LevelReplay::class),
             //'nongs' => self::count(\App\Models\Content\Song::class),
         ];
     }

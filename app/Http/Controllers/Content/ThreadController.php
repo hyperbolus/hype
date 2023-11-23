@@ -8,6 +8,7 @@ use App\Models\Content\Post;
 use App\Models\Content\Thread;
 use App\Models\System\Subscription;
 use App\Models\System\User;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\RedirectResponse;
@@ -18,11 +19,15 @@ use Inertia\Response;
 
 class ThreadController extends Controller
 {
-    public function create(): Response
+    public function create(): Responsable
     {
-        return Inertia::render('Threads/Create', [
+        return page('Threads/Create', [
             'forum_id' => \request('fid') ?? null,
-        ]);
+        ])
+            ->meta('Create Thread', 'Start a discussion')
+            ->breadcrumbs([
+                crumb('Forums', route('forums.index'))
+            ]);
     }
 
     /**

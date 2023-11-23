@@ -11,6 +11,7 @@ import SearchBar from "@/Components/SearchBar.vue";
 import SiteLogo from "@/Components/SiteLogo.vue";
 import {useSettingsStore} from "@/stores/settings.ts";
 import ControlBar from "@/Components/ControlBar.vue";
+import Icon from "@/Components/Icon.vue";
 
 const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
@@ -21,28 +22,39 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
 
         </div>
         <div class="x px-2 gap-4 justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full">
-            <div class="x items-center space-x-4">
+            <div class="x items-center space-x-2">
                 <SiteLogo class="py-4"/>
-                <div class="hidden md:flex group/nav h-full items-center text-sm">
-                    <div class="hidden md:flex z-10 transition-opacity left-0 opacity-0 group-hover/nav:opacity-100 absolute w-full h-48 pointer-events-none top-full bg-gradient-to-b from-ui-900 via-ui-900/75 to-ui-900/0 -border-b-2 -border-ui-600">
-
-                    </div>
+                <div class="hidden md:flex h-full items-center text-sm">
                     <span v-if="navigation.length === 0" class="text-red-500">No key 'navigation' defined in site settings</span>
                     <template v-for="(node, key) in navigation">
-                        <Tooltip v-if="node.hasOwnProperty('children')" container-class="top-full" class="h-full mr-4 x items-center" :caret="false" :decoration="false">
-                            <div class="x items-center">
-                                <Link :href="route(node.route)" class="hover:text-ui-500 transition-colors">{{ node.name }}</Link>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <template #content>
-                                <div class="y -divide-y -divide-ui-700 min-w-[8rem] -ml-2 -mt-4">
-                                    <Link v-for="(child, key) in node.children" :key="key" class="group/nav-link px-2 py-1 hover:hover:bg-ui-800/75 rounded" :href="route(child.route)"><span class="bg-transparent group-hover/nav-link:bg-green-400 rounded-full px-[0.15rem] mr-2"></span> {{ child.name }}</Link>
+                        <Dropdown v-if="node.hasOwnProperty('children')" align="left" container-classes="shadow-xl w-[32rem] top-[80%]" class="h-full x items-center">
+                            <template #trigger>
+                                <div class="x items-center hover:bg-ui-950 px-3 py-2 rounded">
+                                    <Icon class="w-4 w-4" :name="node.icon" size="20" type="solid"/>
+                                    <div class="ml-2 transition-colors">{{ node.name }}</div>
                                 </div>
                             </template>
-                        </Tooltip>
-                        <Link v-else :href="route(node.route)" class="hover:text-ui-500 transition-colors mr-4">{{ node.name }}</Link>
+                            <template #content>
+                                <div class="y">
+                                    <div class="p-2" :class="node.type === 'list' ? 'y space-y-2' : 'grid grid-cols-2 gap-2'">
+                                        <Link :href="route(child.route)" v-for="(child, key) in node.children" :key="key" class="block relative group/nav-link">
+                                            <div class="x space-x-3 h-full items-center py-2 px-4">
+                                                <Icon class="w-6 w-6 group-hover/nav-link:[filter:drop-shadow(0_0_3px_rgb(103_232_249))]" :name="child.icon" size="20" type="solid"/>
+                                                <div class="y">
+                                                    <h3 class="font-bold text-emerald-400">{{ child.name }}</h3>
+                                                    <h4 class="text-xs">{{ child.description ?? ':3' }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="absolute inset-0 group-hover/nav-link:[filter:drop-shadow(0_0_3px_rgb(103_232_249))] border border-transparent rounded hover:border-cyan-200"></div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </template>
+                        </Dropdown>
+                        <Link v-else :href="route(node.route)" class="x block hover:bg-ui-950 px-3 py-2 rounded transition-colors">
+                            <Icon class="w-4 w-4" :name="node.icon" size="20" type="solid"/>
+                            <span class="ml-1">{{ node.name }}</span>
+                        </Link>
                     </template>
                 </div>
             </div>
