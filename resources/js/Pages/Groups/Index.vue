@@ -4,7 +4,8 @@ import {getUser, isAuthenticated} from "@/util.js";
 import Username from "@/Components/Username.vue";
 
 const props = defineProps({
-    groups: Object
+    groups: Object,
+    owner: Object
 })
 </script>
 <template>
@@ -23,8 +24,7 @@ const props = defineProps({
                     </div>
                     <div class="x text-sm justify-between">
                         <span>Group Owner:</span>
-                        <Username v-if="isAuthenticated()" :user="getUser()"/>
-                        <span v-else>System</span>
+                        <Username :user="owner"/>
                     </div>
                 </div>
                 <div class="p-4">
