@@ -7,14 +7,12 @@ import Button from "@/Jetstream/Button.vue";
 import route from "ziggy-js";
 import Errors from "@/Components/Errors.vue";
 
-const props = defineProps({
-    data: String
-})
+const data = window.location.hash.substring(1, window.location.hash.length);
 
 const form = useForm({
     name: '',
     description: '',
-    object_string: props.data ?? '',
+    object_string: data ?? '',
 })
 
 const submit = () => {
