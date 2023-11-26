@@ -119,7 +119,8 @@ Route::get('/groups', function () {
                 'name' => 'Janitors',
                 'description' => 'Help clean up garbage'
             ]
-        ]
+        ],
+        'owner' => \App\Models\System\User::query()->oldest()->first()
     ])->meta('User Groups', 'Discover site communities');
 })->name('groups.index');
 
