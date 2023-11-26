@@ -7,7 +7,7 @@ import Button from "@/Jetstream/Button.vue";
 import route from "ziggy-js";
 import Errors from "@/Components/Errors.vue";
 
-const data = window.location.hash.substring(1, window.location.hash.length);
+const data = localStorage.getItem('_stencil_data');
 
 const form = useForm({
     name: '',
@@ -16,7 +16,11 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.post(route('stencils.store'))
+    form.post(route('stencils.store'), {
+        onSuccess: () => {
+            localStorage.setItem('_stencil_data', null)
+        }
+    })
 }
 </script>
 <template>

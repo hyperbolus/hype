@@ -25,6 +25,15 @@ class StencilController extends Controller
             ]);
     }
 
+    public function interstitial(): Responsable
+    {
+        return page('Stencils/Interstitial')
+            ->meta('New Stencil', 'Share a new stencil')
+            ->breadcrumbs([
+                crumb('Stencils', route('stencils.index'))
+            ]);
+    }
+
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $attributes = $request->validate([
