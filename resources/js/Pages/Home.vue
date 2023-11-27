@@ -33,16 +33,16 @@ const props = defineProps({
                     </div>
                 </Link>
                 <div v-if="recent_articles.length > 0" class="x space-x-2">
-                    <div v-for="article in recent_articles" class="relative w-1/2 aspect-video rounded overflow-hidden">
+                    <Link v-for="article in recent_articles" :href="route('articles.show', article.slug)" class="relative w-1/2 aspect-video rounded overflow-hidden">
                         <div class="absolute inset-0 hover:scale-105 transition-transform bg-contain" :style="`background-image: url(${banner});`"></div>
                         <div class="absolute bottom-0 p-2" style="text-shadow: black 1px 1px 5px">
                             <h2 class="font-bold text-lg">{{ article.title }}</h2>
                         </div>
-                    </div>
+                    </Link>
                 </div>
                 <h2 class="font-bold text-2xl">Recent Forum Posts</h2>
                 <div class="pane y !p-0 divide-y divide-ui-800">
-                    <div v-for="post in recent_posts" class="x px-4 py-2 items-center justify-between">
+                    <Link v-for="post in recent_posts" :href="route('threads.show', post.thread.id)" class="x px-4 py-2 items-center justify-between">
                         <span class="y">
                             <span class="font-bold">{{ post.thread.title }}</span>
                             <Username class="text-sm" :user="post.thread.author"/>
@@ -51,7 +51,7 @@ const props = defineProps({
                             <Username :user="post.author"/>
                             <span class="text-sm">{{ useTimeAgo(post.created_at).value }}</span>
                         </span>
-                    </div>
+                    </Link>
                 </div>
                 <h2 class="font-bold text-2xl">Recent Videos</h2>
                 <div class="grid grid-cols-3 gap-4">
