@@ -42,7 +42,7 @@ const props = defineProps({
                 </div>
                 <h2 class="font-bold text-2xl">Recent Forum Posts</h2>
                 <div class="pane y !p-0 divide-y divide-ui-800">
-                    <Link v-for="post in recent_posts" :href="route('threads.show', post.thread.id)" class="x px-4 py-2 items-center justify-between">
+                    <Link v-for="post in recent_posts" :href="route('threads.show', post.thread.slug)" class="x px-4 py-2 items-center justify-between">
                         <span class="y">
                             <span class="font-bold">{{ post.thread.title }}</span>
                             <Username class="text-sm" :user="post.thread.author"/>
