@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/Dash.vue'
-import {Link, useForm, usePage} from '@inertiajs/vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
 import Username from "@/Components/Username.vue";
 import Avatar from "@/Components/Avatar.vue";
@@ -148,9 +148,11 @@ const submit = () => {
                             </template>
                         </Lightbox>
                     </summary>
-                    <form @submit.prevent="submit" class="y gap-4">
+                    <form @submit.prevent="submit" class="y space-y-4">
                         <div class="space-y-2 w-full">
                             <Errors/>
+                            <p class="font-bold text-sm text-red-400">NOTE: Reviews are NOT comments! Reviews should be thoughtful and constructive in a way that is helpful or insightful for the creator or others visiting the site. Ff a review is only a sentence and a half, it probably isn't a review. If you don't wish to write a text review, remember that you are free (and encouraged) to skip it.</p>
+                            <p class="text-sm text-red-100">We are working to write helpful review guidelines and systems for up/down voting un/helpful reviews. Guidelines will just be writing suggestions, users will always be free to write what they wish without being deleted (except spam), we just ask for consideration. Thank you for contributing to our site <span class="text-red-500">&hearts;</span></p>
                             <p class="hidden">{{ form.body }}</p>
                             <textarea v-model="form.body" class="resize-none resize-y w-full pane !bg-ui-800 border-none"></textarea>
                             <PostPad v-if="false" v-model="form"/>
