@@ -37,10 +37,12 @@ class LevelController extends Controller
             'rating_difficulty',
             'reviews_count',
         ];
+
         $directions = [
             'DESC',
             'ASC',
         ];
+
         $sorting = [
             'sortBy' => $request->integer('sortBy', 5),
             'sortDir' => $request->integer('sortDir', 0),
@@ -49,7 +51,7 @@ class LevelController extends Controller
 
         $sorting['sortBy'] = $sorting['sortBy'] < count($attributes) ? $sorting['sortBy'] : 0;
         $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
-        $sorting['filter'] = $sorting['filter'] < 3 ? $sorting['filter'] : 0;
+        $sorting['filter'] = $sorting['filter'] < 4 ? $sorting['filter'] : 0;
         // TODO: be more explicit about unauthenticated attempt to use filters
 
         $levels = Level::query();
@@ -66,6 +68,8 @@ class LevelController extends Controller
                 $levels = $levels->whereDoesntHave('reviews', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 });
+            } else if ($sorting['filter'] === 3) {
+                $levels = $levels->whereHas('replays')->whereDoesntHave('approvedReplays');
             }
 
             $levels->with(['reviews' => function ($query) use ($user) {

@@ -30,15 +30,19 @@ class Level extends Model
         return $this->hasMany(Review::class, 'level_id');
     }
 
-    public function videos(): HasMany
-    {
-        return $this->hasMany(Video::class, 'level_id');
-    }
-
     public function replays(): HasMany
     {
         return $this->hasMany(LevelReplay::class, 'level_id')->orderBy('approved_at', 'DESC');
-            //->whereNotNull('approved_at');
+    }
+
+    public function approvedReplays(): HasMany
+    {
+        return $this->hasMany(LevelReplay::class, 'level_id')->whereNotNull('approved_at');
+    }
+
+    public function videos(): HasMany
+    {
+        return $this->hasMany(Video::class, 'level_id');
     }
 
     public function tags(): MorphToMany

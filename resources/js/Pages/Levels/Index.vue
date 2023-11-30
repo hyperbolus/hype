@@ -39,7 +39,8 @@ let filter = props.filters.filter;
 const filterNames = [
     'All',
     'Reviewed',
-    'Unreviewed'
+    'Unreviewed',
+    'Unapproved Records'
 ]
 function setSortBy(value) {
     sortBy = value;
@@ -105,6 +106,7 @@ const search = () => {
                                 <div @click="setFilter(0)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">All</div>
                                 <div @click="setFilter(1)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Reviewed</div>
                                 <div @click="setFilter(2)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Unreviewed</div>
+                                <div @click="setFilter(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Unapproved Replays</div>
                             </template>
                         </Dropdown>
                     </div>
