@@ -18,9 +18,10 @@ return new class extends Migration
             $table->intMorphs('resource');
             $table->string('version');
             $table->string('metadata')->nullable();
-            $table->unique(['resource_id', 'resource_type', 'version', 'metadata']);
+            $table->unique(['resource_id', 'resource_type', 'version', 'metadata'], 'unique_release');
             $table->string('release_notes')->nullable();
             $table->timestamp('published')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mod_versions');
+        Schema::dropIfExists('resource_versions');
     }
 };

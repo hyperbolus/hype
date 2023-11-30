@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('impossible_levels', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('description');
+            $table->foreignId('creator_id');
+            $table->mediumText('string');
             $table->timestamps();
         });
     }

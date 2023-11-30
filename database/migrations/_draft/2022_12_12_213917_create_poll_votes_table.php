@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('poll_votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('voter_id');
+            $table->foreignId('voter_id')->nullable();
             $table->foreignId('poll_id');
+            $table->string('ip');
             $table->timestamps();
         });
     }
