@@ -240,6 +240,8 @@ Route::get('/stencil/{stencil}', [StencilController::class, 'show'])->name('sten
 Route::get('/notification/{id}', [NotificationController::class, 'show'])->middleware(['auth'])->name('notifications.read');
 Route::get('/notifications/clear', [NotificationController::class, 'update'])->middleware(['auth'])->name('notifications.clear');
 
+//Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
+
 Route::impersonate();
 
 require_once 'auth.php';
