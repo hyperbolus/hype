@@ -1,5 +1,4 @@
 <script setup>
-import Toggle from "@/Components/Toggle.vue";
 import TipTap from "@/Components/TipTap.vue";
 import Post from "@/Components/Post.vue";
 import Button from "@/Jetstream/Button.vue";
@@ -11,6 +10,7 @@ import prettyBytes from "pretty-bytes";
 import {usePage} from "@inertiajs/vue3";
 import {getUser} from "../util.js";
 import Checkbox from "@/Jetstream/Checkbox.vue";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     modelValue: {
@@ -75,13 +75,10 @@ resumable.value.on('fileProgress', function(file, message){
 <template>
     <div class="pane !p-0 border border-ui-700">
         <TipTap v-model="value.body"/>
-<!--    <textarea v-else v-model="value.body" class="resize-none resize-y !rounded-none w-full bg-neutral-100 dark:bg-neutral-900"></textarea>-->
         <div class="!hidden y gap-2 p-4 bg-ui-800">
             <span class="tracking-widest uppercase text-sm text-ui-500">Attachments:</span>
             <div ref="dropbox" class="y cursor-pointer place-items-center gap-2 p-4 rounded border-2 text-ui-500 border-dashed border-ui-700 bg-ui-900">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                </svg>
+                <Icon class="w-8" size="24" type="outline" name="arrow-up-tray"/>
                 <span>Click or drag and drop some file(s) here to upload</span>
             </div>
             <div v-for="(file, id) in filelist" :key="id" class="y gap-2">
@@ -95,9 +92,7 @@ resumable.value.on('fileProgress', function(file, message){
                         - Gif
                         - Film
                         -->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                            <path d="M3 3.5A1.5 1.5 0 014.5 2h6.879a1.5 1.5 0 011.06.44l4.122 4.12A1.5 1.5 0 0117 7.622V16.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 16.5v-13z" />
-                        </svg>
+                        <Icon class="w-4" size="20" type="solid" name="document"/>
                         <a class="text-sm text-blue-500 hover:underline truncate whitespace-nowrap" href="/download/X3D76GqO">{{ file.name }}</a>
                         <span class="text-xs whitespace-nowrap">({{ prettyBytes(file.size) }})</span>
                     </div>
@@ -121,11 +116,6 @@ resumable.value.on('fileProgress', function(file, message){
                     </select>
                 </div>
             </Tooltip>
-            <!-- TODO: this preview when rendered with a readonly tiptap doesnt update from the other tiptap editor -->
-<!--            <div class="flex items-center space-x-2">-->
-<!--                <Toggle v-model="showingPreview"/>-->
-<!--                <span>Show Preview</span>-->
-<!--            </div>-->
         </div>
     </div>
     <div class="x justify-center">

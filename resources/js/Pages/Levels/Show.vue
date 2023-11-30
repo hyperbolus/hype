@@ -6,7 +6,6 @@ import Username from "@/Components/Username.vue";
 import Avatar from "@/Components/Avatar.vue";
 import background from "@/../images/background.png"
 import Carousel from "@/Components/Carousel.vue";
-import Dropdown from "@/Jetstream/Dropdown.vue";
 import PostPad from "@/Components/PostPad.vue";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
 import Pagination from "@/Components/Pagination.vue";
@@ -19,6 +18,8 @@ import {displayRating, isAdmin, isAuthenticated, face, difficulties} from "@/uti
 import ReportModal from "@/Components/ReportModal.vue";
 import {ref} from "vue";
 import Errors from "@/Components/Errors.vue";
+import Icon from "@/Components/Icon.vue";
+import Label from "@/Jetstream/Label.vue";
 
 const props = defineProps({
     level: Object,
@@ -261,50 +262,35 @@ const submit = () => {
                                     </Tooltip>
                                     <Username :user="macro.author"/>
                                 </div>
-                                <Tooltip class="block" :message="macro.files[0].filename">
-                                    <a :href="macro.files[0].url" class="block rounded bg-ui-800 p-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                            <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
-                                            <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
-                                        </svg>
-                                    </a>
-                                </Tooltip>
+                                <div class="x space-x-2">
+                                    <Lightbox v-if="false /*isAdmin()*/" class="rounded bg-ui-800 p-1">
+                                        <Icon class="w-4" name="cog-6-tooth" size="20" type="solid"/>
+                                        <template #content>
+                                            <div @click.stop class="y space-y-2 pane text-ui-200 w-[32rem]">
+                                                <h1 class="font-bold text-3xl">Replay Moderation</h1>
+                                                <Label>
+                                                    Coins Collected
+                                                    <div></div>
+                                                </Label>
+                                            </div>
+                                        </template>
+                                    </Lightbox>
+                                    <Tooltip class="block" :message="macro.files[0].filename">
+                                        <a :href="macro.files[0].url" class="block rounded bg-ui-800 p-1">
+                                            <Icon class="w-4" name="arrow-down-tray" size="20" type="solid"/>
+                                        </a>
+                                    </Tooltip>
+                                </div>
                             </div>
                             <div class="x items-center justify-between space-x-2 text-sm">
                                 <div class="x space-x-1">
                                     <Tooltip v-if="macro.notes" position="left" :message="macro.notes ?? 'This macro has no notes'" class="x items-center rounded p-0.5 bg-ui-800">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
-                                        </svg>
+                                        <Icon class="w-4" name="information-circle" size="20" type="solid"/>
                                     </Tooltip>
                                     <span class="rounded px-2 bg-ui-800">{{ macro.format }}</span>
                                 </div>
-                                <span class="rounded px-2 bg-ui-800">FPS: {{ macro.fps ?? 'Unknown' }}</span>
+                                <span class="rounded px-2 bg-ui-800">{{ macro.fps ?? 'Unknown' }} FPS</span>
                             </div>
-                        </div>
-                        <div class="!hidden x px-4 py-2 space-x-2 items-center justify-between">
-                            <Dropdown width="fit" class="pane !px-2 w-full">
-                                <template #trigger>
-                                    <div class="x justify-between items-center">
-                                        <span>Choose Format</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </template>
-                                <template #content>
-                                    <div class="divide-y divide-ui-700 whitespace-nowrap">
-                                        <div class="px-4 py-1">MegaHack Replay (json)</div>
-                                        <div class="px-4 py-1">ReplayBot</div>
-                                        <div class="px-4 py-1">TASBOT</div>
-                                        <div class="px-4 py-1">zbot (frame)</div>
-                                        <div class="px-4 py-1">ybot (frame)</div>
-                                        <div class="px-4 py-1">xbot (frame)</div>
-                                        <div class="px-4 py-1">Universal Replay</div>
-                                    </div>
-                                </template>
-                            </Dropdown>
-                            <span class="text-sm underline cursor-pointer">Download</span>
                         </div>
                     </div>
                 </div>

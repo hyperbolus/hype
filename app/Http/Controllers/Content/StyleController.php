@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Forge\Mod;
 use App\Models\Forge\Style;
 use App\Models\System\User;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -52,18 +53,19 @@ class StyleController extends Controller
             }
         }
 
-        return Inertia::render('Styles/Index', [
+        return page('Styles/Index', [
             'styles' => $styles
                 ->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']])
                 ->paginate(6)
                 ->appends($sorting),
             'filters' => $sorting,
-        ]);
+        ])->meta('Styles', 'Browse a database of texture packs and styles to prettyify your experience.');
     }
 
-    public function create()
+    public function create(): Responsable
     {
-        return Inertia::render('Styles/Create');
+        return page('Styles/Create')
+            ->meta('Create New Style', 'blah blah blah');
     }
 
     public function store(Request $request)
@@ -73,7 +75,9 @@ class StyleController extends Controller
 
     public function show(Style $style)
     {
-        return Inertia::render('Styles/Show');
+        return page('Styles/Show', [
+            'style' => $style->load(['author', 'files', 'tags'])
+        ])->meta($style->name, $style->blurb);
     }
 
     public function edit(Style $style)

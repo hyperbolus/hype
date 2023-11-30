@@ -208,12 +208,13 @@ Route::post('/inbox/new', [MessageController::class, 'store'])->name('inbox.stor
 Route::get('/inbox/{id}', [MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
 Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
 
-Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
-Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');
+//Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
+//Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');
 
-Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
-Route::get('/styles/{style:id}', [StyleController::class, 'show'])->name('styles.show');
-Route::get('/styles/create', [StyleController::class, 'create'])->name('styles.create');
+//Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
+//Route::get('/style/{style:id}', [StyleController::class, 'show'])->name('styles.show');
+//Route::get('/styles/new', [StyleController::class, 'create'])->name('styles.create');
+//Route::post('/styles/new', [StyleController::class, 'store'])->name('styles.store');
 
 Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified']);
