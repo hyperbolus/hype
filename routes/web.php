@@ -168,9 +168,13 @@ Route::post('/post/{post}/like', [ReactionController::class, 'store'])->name('li
 
 Route::get('/reviews', [LevelController::class, 'index'])->name('levels.index');
 Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('reviews.show');
+
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
 Route::get('/level/{level:id}/view', [LevelController::class, 'view'])->name('levels.view');
 Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
+Route::get('/level/{level:id}/reviews', [LevelController::class, 'reviews'])->name('levels.reviews.show');
+Route::get('/level/{level:id}/replays', [LevelController::class, 'replays'])->name('levels.replays.show');
+Route::get('/level/{level:id}/videos', [LevelController::class, 'videos'])->name('levels.videos.show');
 Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
 Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('levels.images.show');
 //Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
@@ -211,7 +215,7 @@ Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox
 //Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
 //Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');
 
-//Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
+Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
 //Route::get('/style/{style:id}', [StyleController::class, 'show'])->name('styles.show');
 //Route::get('/styles/new', [StyleController::class, 'create'])->name('styles.create');
 //Route::post('/styles/new', [StyleController::class, 'store'])->name('styles.store');

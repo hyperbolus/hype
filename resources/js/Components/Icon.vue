@@ -3,8 +3,14 @@ import {onMounted, ref} from "vue";
 
 const props = defineProps({
     name: String,
-    type: String,
-    size: String
+    type: {
+        type: String,
+        default: 'solid'
+    },
+    size: {
+        type: String,
+        default: '20'
+    }
 })
 
 const icons = import.meta.glob(`./../../images/icons/**/*.svg`, {as: 'raw'});

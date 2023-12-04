@@ -107,11 +107,11 @@ class LevelController extends Controller
                 $q->inRandomOrder()->limit(5);
             },
             'replays' => function ($q) {
-                $q->inRandomOrder();
+                $q->inRandomOrder()->limit(5);
             },
             'replays.author',
             'replays.files',
-        ]);
+        ])->loadCount(['reviews']);
 
         $level->replays->transform(function (LevelReplay $replay) {
             $replay->files->transform(function (Media $media) {
@@ -127,7 +127,8 @@ class LevelController extends Controller
             'level' => $level,
             'reviews' => $level->reviews()
                 ->with('author')
-                ->paginate(10),
+                ->paginate(5)
+                ->withPath(route('levels.reviews.show', $id)),
             'review' => auth()->check() ? Review::query()
                 ->where('level_id', $id)
                 ->where('user_id', auth()->id())
@@ -156,10 +157,42 @@ class LevelController extends Controller
                 ->get();
         }
 
-        return Inertia::render('Levels/Tags', [
+        return Inertia::render('Levels/Sections/Tags', [
             'level' => $level->load('tags'),
             'tags' => Tag::all(),
             'votes' => $votes
+        ]);
+    }
+
+    public function reviews(Level $level) {
+        return page('Levels/Sections/Reviews', [
+            'level' => $level,
+            'reviews' => $level->reviews()
+                ->with('author')
+                ->paginate(5),
+            'review' => auth()->check() ? Review::query()
+                ->where('level_id', $level->id)
+                ->where('user_id', auth()->id())
+                ->first() : null,
+        ]);
+    }
+
+    public function replays(Level $level) {
+        return page('Levels/Sections/Replays', [
+            'level' => $level,
+            'replays' => $level->replays()
+                ->with([
+                    'author',
+                    'files'
+                ])->paginate(12)
+        ]);
+    }
+
+    public function videos(Level $level) {
+        return page('Levels/Sections/Videos', [
+            'level' => $level,
+            'videos' => $level->videos()
+                ->paginate(12)
         ]);
     }
 

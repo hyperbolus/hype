@@ -86,8 +86,8 @@ watch(props.modelvalue, () => {
 </script>
 <template>
     <div class="y items-center">
-        <div v-if="editor && editable" class="x w-full flex-wrap divide-x divide-ui-700 border-b border-ui-700">
-            <div class="x items-center text-xl p-1 space-x-1">
+        <div v-if="editor && editable" class="x w-full flex-wrap border-b border-ui-700">
+            <div class="flex flex-wrap items-center text-xl p-1 gap-1">
                 <button title="Bold" class="px-2 py-0.5 rounded" @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-ui-700': editor.isActive('bold') }">
                     <span class="block w-4">&#119809;</span>
                 </button>
@@ -102,21 +102,24 @@ watch(props.modelvalue, () => {
                     <span class="block w-4 font-bold text-lg relative -top-[0.05rem]">U</span>
                     <span class="absolute rounded left-[25%] bottom-[0.5rem] border-y border-ui-300 px-2"></span>
                 </button>
-            </div>
-            <div class="x items-center p-1">
+
+                <div class="py-3 border-x rounded border-ui-700"></div>
+
                 <button title="Blockquote" class="px-2 py-1 rounded" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'bg-ui-700': editor.isActive('blockquote') }">
                     <span class="block px-1 scale-[1.8] translate-y-[.42rem]">&#128630;</span>
                 </button>
                 <Icon title="Bullet Points" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'bg-ui-700': editor.isActive('bulletList') }" class="mx-2 my-1 w-5" size="24" type="outline" name="list-bullet"/>
                 <Icon title="Numbered List" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'bg-ui-700': editor.isActive('orderedList') }" class="mx-2 my-1 w-5" size="24" type="outline" name="queue-list"/>
-            </div>
-            <div class="x items-center p-1">
+
+                <div class="py-3 border-x border-ui-700"></div>
+
                 <Icon title="Undo" @click="editor.chain().focus().undo().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="arrow-uturn-left"/>
                 <Icon title="Redo" @click="editor.chain().focus().undo().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="arrow-uturn-right"/>
                 <Icon title="Source" @click="source = !source" v-if="isAuthenticated() && getUser().roles.includes('admin')" :class="{ 'bg-ui-700': source }" class="mx-2 my-1 w-5" size="24" type="outline" name="code-bracket"/>
                 <Icon title="Spoiler" @click="addSpoiler" class="mx-2 my-1 w-5" size="24" type="outline" name="eye-slash"/>
-            </div>
-            <div class="x items-center p-1">
+
+                <div class="py-3 border-x border-ui-700"></div>
+
                 <Dropdown class="hidden" align="left" width="fit">
                     <template #trigger>
                         <button title="Insert Image" class="px-2 py-1 rounded" @click="editor.chain().focus().undo().run()">
