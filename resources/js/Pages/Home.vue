@@ -11,6 +11,7 @@ import Tooltip from "@/Components/Tooltip.vue";
 import route from "ziggy-js";
 import {Link} from "@inertiajs/vue3";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
+import ReviewSummary from "@/Components/ReviewSummary.vue";
 
 const props = defineProps({
     recent_posts: Object,
@@ -62,15 +63,7 @@ const props = defineProps({
         <div class="y space-y-2 md:w-1/3">
             <h2 class="font-bold text-2xl">Recent Level Reviews</h2>
             <div class="pane y !p-0 divide-y divide-ui-800">
-                <div v-for="review in recent_reviews" class="y text-sm px-4 py-2 justify-between">
-                    <div class="x justify-between space-x-2">
-                        <Link :href="route('levels.show', review.level.id)" class="font-bold">{{ review.level.name }}</Link>
-                        <Tooltip :message="review.created_at"><span class="text-ui-500">{{ useTimeAgo(review.created_at).value }}</span></Tooltip>
-                    </div>
-                    <span class="text-ui-500">by {{ review.level.creator }}</span>
-                    <Link :href="route('reviews.show', review.id)" class="italic">"{{ trimAtWord(review.review, 100) }}"</Link>
-                    <div class="x items-center space-x-1 justify-end"><span>&#8212;</span><Username :user="review.author"/></div>
-                </div>
+                <ReviewSummary v-for="review in recent_reviews" :review="review" :decorations="false"/>
             </div>
             <DiscordInvite code="JJc8nndmFE"/>
             <StatsPanel/>

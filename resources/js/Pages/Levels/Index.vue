@@ -12,6 +12,7 @@ import Username from "@/Components/Username.vue";
 import {trimAtWord} from "@/util.js";
 import {formatTimeAgo} from "@vueuse/core";
 import Tooltip from "@/Components/Tooltip.vue";
+import ReviewSummary from "@/Components/ReviewSummary.vue";
 
 const props = defineProps({
     levels: Object,
@@ -153,15 +154,7 @@ const search = () => {
             </div>
             <h2 class="font-bold text-2xl">Recent Reviews</h2>
             <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                <div class="y px-4 py-2 text-sm" v-for="review in recent_reviews">
-                    <div class="x justify-between space-x-2">
-                        <Link :href="route('levels.show', review.level.id)" class="font-bold">{{ review.level.name }}</Link>
-                        <Tooltip :message="review.created_at"><span class="text-ui-500">{{ formatTimeAgo(new Date(review.created_at)) }}</span></Tooltip>
-                    </div>
-                    <span class="text-ui-500">by {{ review.level.creator }}</span>
-                    <Link :href="route('reviews.show', review.id)" class="italic">"{{ trimAtWord(review.review, 100) }}"</Link>
-                    <div class="x items-center space-x-1 justify-end"><span>&#8212;</span><Username :user="review.author"/></div>
-                </div>
+                <ReviewSummary v-for="review in recent_reviews" :review="review" :decorations="false"/>
             </div>
         </div>
     </app-layout>
