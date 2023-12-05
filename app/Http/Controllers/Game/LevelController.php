@@ -166,7 +166,8 @@ class LevelController extends Controller
 
     public function reviews(Level $level) {
         return page('Levels/Sections/Reviews', [
-            'level' => $level,
+            'level' => $level
+                ->loadCount('reviews'),
             'reviews' => $level->reviews()
                 ->with('author')
                 ->paginate(5),

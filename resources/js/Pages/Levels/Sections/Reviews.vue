@@ -57,9 +57,31 @@ const submit = () => {
 </script>
 <template>
     <Layout :level="level">
-        <div class="flex !mt-0 flex-col lg:flex-row bg-ui-950 border border-ui-900 rounded-lg px-4 py-2 gap-2">
+        <div class="flex !mt-0 flex-col lg:flex-row-reverse bg-ui-950 border border-ui-900 rounded-lg px-4 py-2 gap-2">
             <div class="y space-y-2 lg:w-1/2">
-                <h2 class="font-bold text-2xl">Reviews</h2>
+                <h2 class="font-bold text-2xl">Average Ratings</h2>
+                <div class="x pane justify-between">
+                    <div class="y">
+                        <span class="text-xs uppercase">Reviews</span>
+                        <span class="text-xl font-bold">{{ level.reviews_count }}</span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Difficulty</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_difficulty) }}<span class="text-xs text-ui-600">/100</span></span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Overall</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_overall) }}<span class="text-xs text-ui-600">/10</span></span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Gameplay</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay) }}<span class="text-xs text-ui-600">/10</span></span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Visuals</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_visuals) }}<span class="text-xs text-ui-600">/10</span></span>
+                    </div>
+                </div>
                 <details v-if="isAuthenticated()" class="pane" :open="!props.review">
                     <summary>
                         <span class="text-xl cursor-pointer">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
@@ -126,6 +148,7 @@ const submit = () => {
                 </div>
             </div>
             <div class="y space-y-2 lg:w-1/2">
+                <h2 class="font-bold text-2xl">Reviews</h2>
                 <Pagination :list="reviews"/>
                 <div v-if="reviews.data.length === 0" class="pane">
                     This level has no reviews. Be the first!

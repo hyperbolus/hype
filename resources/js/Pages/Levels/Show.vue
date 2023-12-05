@@ -20,6 +20,7 @@ import Errors from "@/Components/Errors.vue";
 import Icon from "@/Components/Icon.vue";
 import LevelReview from "@/Components/LevelReview.vue";
 import ReplayTicket from "@/Components/ReplayTicket.vue";
+import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
 
 const props = defineProps({
     level: Object,
@@ -67,6 +68,29 @@ const submit = () => {
                     <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
                     <Carousel v-else :images="level.images"/>
                 </template>
+                <h2 class="font-bold text-2xl">Overview</h2>
+                <div class="x pane justify-between">
+                    <div class="y">
+                        <span class="text-xs uppercase">Reviews</span>
+                        <span class="text-xl font-bold">{{ level.reviews_count }}</span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Difficulty</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_difficulty) }}<span class="text-xs text-ui-600">/100</span></span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Overall</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_overall) }}<span class="text-xs text-ui-600">/10</span></span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Gameplay</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay) }}<span class="text-xs text-ui-600">/10</span></span>
+                    </div>
+                    <div class="y">
+                        <span class="text-xs uppercase">Visuals</span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_visuals) }}<span class="text-xs text-ui-600">/10</span></span>
+                    </div>
+                </div>
                 <h2 class="font-bold text-2xl">Reviews</h2>
                 <Pagination :list="reviews"/>
                 <div v-if="reviews.data.length === 0" class="pane">
