@@ -46,6 +46,7 @@ class Hydrate
             ];
 
             $lengths = [
+                'plat' => -1,
                 'tiny' => 0,
                 'short' => 1,
                 'medium' => 2,

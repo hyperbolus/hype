@@ -1,5 +1,6 @@
 <?php
 
+use App\Doctrine\TinyInteger;
 use Illuminate\Support\Str;
 
 return [
@@ -16,6 +17,24 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fucking Hell
+    |--------------------------------------------------------------------------
+    |
+    | There is no god
+    |
+    | https://github.com/laravel/framework/issues/8840
+    |
+    */
+
+    'dbal' => [
+        'types' => [
+            TinyInteger::NAME => TinyInteger::class,
+        ],
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
