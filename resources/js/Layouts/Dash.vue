@@ -55,20 +55,6 @@ onBeforeMount(() => {
     </div>
 </template>
 <style>
-.bg-rainbow {
-    /*animation: hue 20s linear infinite;*/
-    background-image: repeating-linear-gradient(110deg, cyan, magenta, yellow);
-}
-
-@keyframes hue {
-    0% { filter: hue-rotate(0deg) }
-    50% { filter: hue-rotate(180deg) }
-    100% { filter: hue-rotate(360deg) }
-}
-.rotate-hue {
-    /*animation: hue 10s linear infinite;*/
-}
-
 #nprogress div.bar {
     background: linear-gradient(#67e8f9, #34d399) !important;
 }

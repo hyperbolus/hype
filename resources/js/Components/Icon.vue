@@ -22,5 +22,10 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <div v-html="t"></div>
+    <div class="icon-container" v-html="t"></div>
 </template>
+<style>
+    .icon-container > svg {
+        @apply shrink-0;
+    }
+</style>
