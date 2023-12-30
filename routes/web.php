@@ -307,7 +307,7 @@ Route::get('/tools/sfx', function () {
 
 
 Route::get('/tools/music', function () {
-    $library = Cache::get('boomlings:sfxLibrary');
+    $library = Cache::get('boomlings:musicLibrary');
     if (! $library) {
         $secret = '8501f9c2-75ba-4230-8188-51037c4da102';
         $expires = 9_999_999_999;

@@ -142,8 +142,8 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
+    audioLoaded.value = false;
     if (currentFile.value && audio.value) {
-        audioLoaded.value = false;
         audio.value.src = `https://geometrydashfiles.b-cdn.net/sfx/s${currentFile.value}.ogg`;
     }
 })
@@ -197,7 +197,7 @@ onMounted(() => {
                                 <div @click.stop class="rounded-lg y space-y-2 cursor-auto bg-ui-900 text-ui-200 p-4 shadow-xl w-full md:w-[32rem] lg:w-[48rem]">
                                     <h2 class="font-bold text-2xl">SFX Library Credits</h2>
                                     <p>This SFX browser is provided as a utility to the community.</p>
-                                    <p>Hyperbolus neither stores or redistributes any copyrighted content on it's servers. Only the metadata provided by Geometry Dash. File playback is streamed directly from Geometry Dash's official CDN client-side.</p>
+                                    <p>Hyperbolus neither stores nor redistributes any copyrighted content on its servers. Only the metadata provided by Geometry Dash. Audio on this page is played directly from Geometry Dash's official CDN client-side.</p>
                                     <p>These sound effects are owned by the following parties and are licensed (I hope) to Robtop Games AB for use in Geometry Dash.</p>
                                     <a target="_blank" v-for="credit in library.credits" :href="credit.website" class="x items-center space-x-1 rounded-md bg-ui-800 px-2 py-0.5">
                                         <span>{{ credit.name }}</span>
@@ -213,36 +213,38 @@ onMounted(() => {
             </div>
             <div class="gap-0 grid grow" :style="`grid-template-columns: repeat(${columns.length}, minmax(0, 1fr));`">
                 <div v-for="i in columns" class="y bg-ui-950 border-t border-ui-700 first:rounded-bl-lg last:rounded-br-lg h-[calc(100vh-19rem)] overflow-y-auto">
-                    <template v-if="i === columns.length - 1">
-                        <div v-if="currentFile" class="y items-center space-y-4 p-8" :class="{'border-l border-ui-700': columns.length === 2}">
+                    <div class="y justify-center relative" :class="{'border-l border-ui-700': columns.length === 2}" v-if="i === columns.length - 1">
+                        <div class="y items-center space-y-4 p-8" :class="{'invisible': !currentFile}">
                             <div class="rounded-full bg-ui-800 p-8">
                                 <Icon class="w-16" name="speaker-wave" type="solid" size="24"/>
                             </div>
                             <div class="y items-center">
-                                <span class="text-center font-bold text-2xl">{{ library.files[currentFile].name }}</span>
+                                <span class="text-center font-bold text-2xl">{{ currentFile ? library.files[currentFile].name : 'Hidden Message :)' }}</span>
                                 <div class="y items-end justify-start h-full">
-                                    <span class="text-sm font-mono text-ui-500"><Tooltip class="inline-flex" :message="library.files[currentFile].bytes" position="left">{{ prettyBytes(library.files[currentFile].bytes) }}</Tooltip> &bull; {{ currentFile }} &bull; {{ (library.files[currentFile].milliseconds / 100).toFixed(2) }}s</span>
+                                    <span class="text-sm font-mono text-ui-500"><Tooltip class="inline-flex" :message="audioLoaded && currentFile ? library.files[currentFile].bytes : '1 chungillion'" position="left">{{ currentFile ? prettyBytes(library.files[currentFile].bytes) : 'SiXTy fOUr BITS' }}</Tooltip> &bull; {{ currentFile }} &bull; {{ currentFile ? (library.files[currentFile].milliseconds / 100).toFixed(2) : 'Five years ago... 👻' }}s</span>
                                 </div>
                             </div>
                             <!-- <iframe src="https://geometrydashfiles.b-cdn.net/sfx/s2962.ogg"></iframe> -->
-                            <div v-if="audioLoaded" class="bg-ui-800 rounded-full w-full">
-                                <div class="p-0.5 bg-ui-300 rounded-full transition-[width]" :style="`width: ${audioProgress/audio.duration * 100}%;`"></div>
+                            <div class="bg-ui-800 rounded-full w-full">
+                                <div class="p-0.5 bg-ui-300 rounded-full transition-[width]" :style="`width: ${audioLoaded ? (audioProgress/audio.duration * 100) : 0}%;`"></div>
                             </div>
-                            <div class="x space-x-2 justify-center" v-if="audioLoaded">
-                                <button @click="audio.play()" class="rounded bg-ui-800 border border-ui-700 px-2 py-1">
+                            <div class="x space-x-2 justify-center">
+                                <button v-if="audioLoaded" @click="audio.play()" class="rounded bg-ui-800 border border-ui-700 px-2 py-1">
                                     <Icon class="w-5" name="play"/>
                                 </button>
+                                <div v-else class="rounded bg-ui-800 border border-ui-700 px-2 py-1">
+                                    <Icon class="w-5 animate-spin" name="arrow-path"/>
+                                </div>
                                 <Tooltip message="Right Click &#10141; Save Link As">
-                                    <a target="_blank" :href="`https://geometrydashfiles.b-cdn.net/sfx/s${currentFile}.ogg`" class="block rounded bg-ui-800 border border-ui-700 px-2 py-1" :download="library.files[currentFile].name">
+                                    <a target="_blank" :href="`https://geometrydashfiles.b-cdn.net/sfx/s${currentFile}.ogg`" class="block rounded bg-ui-800 border border-ui-700 px-2 py-1">
                                         <Icon class="w-5" name="document-arrow-down"/>
                                     </a>
                                 </Tooltip>
                             </div>
-                            <p v-else>Loading...</p>
                         </div>
-                        <p v-else class="p-2 text-center" :class="{'border-l border-ui-700': columns.length === 2}">Select a file to play</p>
+                        <p v-if="!currentFile" class="p-2 text-center absolute inset-0 top-[45%]">Select a file to play</p>
                         <div class="border-t border-ui-700 bg-ui-900 w-full"></div>
-                    </template>
+                    </div>
                     <div class="y" :class="{'border-x border-ui-700': i === 1}">
                         <div v-for="(file, id) in panels[i].folders" @click="selectFolder(id|0)" class="x px-2 py-0.5 items-center justify-between cursor-pointer" :class="{'bg-blue-600 text-white': path.includes(id|0), 'text-ui-600 [&>*:nth-child(even)]:hidden cursor-normal': (searchQuery !== '' && !highlightedFolders.includes(id|0))}">
                             <div class="x items-center space-x-2">
