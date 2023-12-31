@@ -7,6 +7,9 @@ import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import Icon from "@/Components/Icon.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import {useMediaQuery} from "@vueuse/core";
+import Dropdown from "@/Jetstream/Dropdown.vue";
+import Checkbox from "@/Jetstream/Checkbox.vue";
+import Label from "@/Jetstream/Label.vue";
 
 const props = defineProps({
     library: Object
@@ -21,10 +24,14 @@ const lg = useMediaQuery('(min-width: 1024px)')
 
 watch(md, (value) => {
     columns.value = value ? [0, 1] : [0]
+}, {
+    immediate: true
 })
 
 watch(lg, (value) => {
     columns.value = value ? [0, 1, 2] : [0, 1]
+}, {
+    immediate: true
 })
 
 const panels = computed(() => {
@@ -63,11 +70,7 @@ const audioLoaded = ref(false);
 
 watch(currentFile, (value) => {
     const url = new URL(window.location.href);
-    if (value) {
-        url.searchParams.set('file', value);
-    } else {
-        url.searchParams.delete('file');
-    }
+    value ? url.searchParams.set('file', value) : url.searchParams.delete('file');
     window.history.replaceState(null, '', url.toString());
 
     if (audio.value && value) {
@@ -116,24 +119,7 @@ watch(path, (value) => {
 
 onBeforeMount(() => {
     const params = new URLSearchParams(window.location.search);
-    let _path = params.get('path');
     let file = params.get('file');
-    if (_path) {
-        _path = _path.split('/')
-        _path.unshift(); // Might not be needed
-
-        // while (_path.join('/') !== path.value.join()) {
-        //
-        // }
-
-        let last = _path[_path.length - 1];
-        for (let folder in props.library.folders) {
-            if (props.library.folders[folder].name === last) {
-                console.log(3)
-                selectFolder(folder);
-            }
-        }
-    }
     if (file && props.library.files.hasOwnProperty(file)) {
         file = file|0;
         currentFile.value = file;
@@ -147,10 +133,15 @@ onMounted(() => {
         audio.value.src = `https://geometrydashfiles.b-cdn.net/sfx/s${currentFile.value}.ogg`;
     }
 })
+
+const options = ref({
+    pruneResults: false,
+    instantPlay: true,
+});
 </script>
 <template>
     <app-layout title="SFX Browser">
-        <audio @timeupdate="e => audioProgress = e.target.currentTime" @canplay="audioLoaded = true;" ref="audio" class="hidden"></audio>
+        <audio @timeupdate="e => audioProgress = e.target.currentTime" @canplay="audioLoaded = true;audio.play()" ref="audio" class="hidden"></audio>
         <div class="y rounded-lg border border-ui-700 w-full bg-ui-900">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0 md:space-x-2 p-2 rounded-t-lg">
                 <div class="x space-x-2">
@@ -165,7 +156,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 grow w-full">
-                    <div @click="pathFocus = true; pathInput.focus()" class="x items-center grow rounded-md bg-ui-950 text-sm px-1 py-1 w-full">
+                    <div @click="pathFocus = true; pathInput.focus()" class="x flex-wrap gap-1 items-center grow rounded-md bg-ui-950 text-sm px-1 py-1 w-full">
                         <button @click="path = [1]" class="rounded px-1 hover:bg-ui-900">Root</button>
                         <template v-for="(bit, key) in path.slice(1, path.length)">
                             <button class="rounded py-0.5 px-1 hover:bg-ui-900">
@@ -190,6 +181,26 @@ onMounted(() => {
                         <Icon class="w-4" name="funnel" type="solid" size="20"/>
                         <Icon class="w-4" name="chevron-down" type="solid" size="20"/>
                     </div>
+                    <Dropdown>
+                        <template #trigger>
+                            <div class="x space-x-1 items-center border border-ui-700 rounded bg-ui-800 shadow text-sm p-1">
+                                <Icon class="w-4" name="cog-6-tooth" type="solid" size="20"/>
+                                <Icon class="w-4" name="chevron-down" type="solid" size="20"/>
+                            </div>
+                        </template>
+                        <template #content>
+                            <div @click.stop class="y space-y-2 p-2">
+                                <Label>
+                                    <Checkbox v-model="options.instantPlay" :checked="options.instantPlay" class="mr-1"/>
+                                    Play Sound on Selection
+                                </Label>
+                                <Label>
+                                    <Checkbox v-model="options.pruneResults" :checked="options.pruneResults" class="mr-1"/>
+                                    Remove search results instead of dimming
+                                </Label>
+                            </div>
+                        </template>
+                    </Dropdown>
                     <Lightbox>
                         <span class="border border-ui-700 rounded bg-ui-800 shadow text-sm px-1 py-0.5">Credits</span>
                         <template #content>
@@ -213,7 +224,7 @@ onMounted(() => {
             </div>
             <div class="gap-0 grid grow" :style="`grid-template-columns: repeat(${columns.length}, minmax(0, 1fr));`">
                 <div v-for="i in columns" class="y bg-ui-950 border-t border-ui-700 first:rounded-bl-lg last:rounded-br-lg h-[calc(100vh-19rem)] overflow-y-auto">
-                    <div class="y justify-center relative" :class="{'border-l border-ui-700': columns.length === 2}" v-if="i === columns.length - 1">
+                    <div class="y sticky top-0 bg-ui-950 z-10 justify-center relative" :class="{'border-l border-ui-700': columns.length === 2}" v-if="i === columns.length - 1">
                         <div class="y items-center space-y-4 p-8" :class="{'invisible': !currentFile}">
                             <div class="rounded-full bg-ui-800 p-8">
                                 <Icon class="w-16" name="speaker-wave" type="solid" size="24"/>
@@ -246,23 +257,23 @@ onMounted(() => {
                         <div class="border-t border-ui-700 bg-ui-900 w-full"></div>
                     </div>
                     <div class="y" :class="{'border-x border-ui-700': i === 1}">
-                        <div v-for="(file, id) in panels[i].folders" @click="selectFolder(id|0)" class="x px-2 py-0.5 items-center justify-between cursor-pointer" :class="{'bg-blue-600 text-white': path.includes(id|0), 'text-ui-600 [&>*:nth-child(even)]:hidden cursor-normal': (searchQuery !== '' && !highlightedFolders.includes(id|0))}">
+                        <div v-for="(folder, id) in panels[i].folders" @click="selectFolder(id|0)" class="x px-2 py-0.5 items-center justify-between cursor-pointer" :class="{'bg-blue-600 text-white': path.includes(id|0), 'text-ui-600 [&>*:nth-child(even)]:hidden cursor-normal': (searchQuery !== '' && !highlightedFolders.includes(id|0)), '!hidden': (searchQuery !== '' && !highlightedFolders.includes(id|0) && options.pruneResults)}">
                             <div class="x items-center space-x-2">
                                 <Icon v-if="path.includes(id|0)" class="w-4" name="folder-open" type="solid" size="20"/>
                                 <Icon v-else class="w-4" name="folder" type="solid" size="20"/>
-                                <span class="text-sm">{{ file.name }}</span>
+                                <span class="text-sm">{{ folder.name }}</span>
                             </div>
                             <Icon class="w-4" name="chevron-right" type="solid" size="20"/>
                         </div>
                     </div>
                     <div v-if="Object.keys(panels[i].folders).length > 0 && Object.keys(panels[i].files).length > 0" class="border-t border-ui-700 bg-ui-900"></div>
                     <div class="y grow border-ui-700"  :class="{'border-x': i === 1, 'border-r-0': columns.length === 2}">
-                        <div v-for="(song, id) in panels[i].files" class="y cursor-pointer text-sm px-2 py-1" @click="currentFile = id|0" :class="{'bg-blue-600 text-white': (id|0) === currentFile}">
-                            <div class="x items-center justify-between" :class="{'text-ui-600': searchQuery !== '' && !searchResults.includes(id|0)}">
-                                <span>{{ song.name }}</span>
-                                <span>{{ (song.milliseconds / 100).toFixed(2) }}s</span>
+                        <div v-for="(file, id) in panels[i].files" class="y cursor-pointer text-sm px-2 py-1" @click="currentFile = id|0" :class="{'bg-blue-600 text-white': (id|0) === currentFile, '!hidden': searchQuery !== '' && !searchResults.includes(id|0) /*&& (id|0) !== currentFile*/ && options.pruneResults}">
+                            <div class="x items-center justify-between" :class="{'text-ui-600': searchQuery !== '' && !searchResults.includes(id|0) && (id|0) !== currentFile}">
+                                <span>{{ file.name }}</span>
+                                <span>{{ (file.milliseconds / 100).toFixed(2) }}s</span>
                             </div>
-                            <span class="text-sm font-mono text-ui-600" :class="{'!text-white': (id|0) === currentFile}"><Tooltip class="inline-flex" :message="song.bytes" position="left">{{ prettyBytes(song.bytes) }}</Tooltip> &bull; ID: {{ id }}</span>
+                            <span class="text-sm font-mono text-ui-600" :class="{'!text-white': (id|0) === currentFile}"><Tooltip class="inline-flex" :message="file.bytes" position="left">{{ prettyBytes(file.bytes) }}</Tooltip> &bull; ID: {{ id }}</span>
                         </div>
                     </div>
                 </div>
