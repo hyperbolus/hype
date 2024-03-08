@@ -186,6 +186,17 @@ class LevelController extends Controller
                     'author',
                     'files'
                 ])->paginate(12)
+                ->through(function (LevelReplay $r) {
+                    $r->files->transform(function (Media $media) {
+
+                        $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
+                        $result = $hashids->encode([$media->id, 0]);
+                        $media->setAttribute('url', route('download', $result));
+                        return $media;
+                    });
+
+                    return $r;
+                })
         ]);
     }
 

@@ -79,7 +79,7 @@ class LevelReplayController extends Controller
                 'required',
                 'max:16000',
                 function (string $attribute, UploadedFile $value, Closure $fail) {
-                    if (!in_array($value->getClientOriginalExtension(), ['replay', 'zbot', 'dat', 'ddhor', 'xbot', 'kd', 'zbf', 'xbot', 'rsh', 'json', 'mhr'])) {
+                    if (!in_array($value->getClientOriginalExtension(), ['gdr', 'replay', 'zbot', 'dat', 'ddhor', 'xbot', 'kd', 'zbf', 'xbot', 'rsh', 'json', 'mhr'])) {
                         $fail('This file type is invalid.');
                     }
                 },
