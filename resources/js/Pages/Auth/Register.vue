@@ -6,16 +6,17 @@ import JetButton from '@/Jetstream/Button.vue';
 import JetInput from '@/Jetstream/Input.vue';
 import JetCheckbox from '@/Jetstream/Checkbox.vue';
 import JetLabel from '@/Jetstream/Label.vue';
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
 import Username from "@/Components/Username.vue";
 import Avatar from "@/Components/Avatar.vue";
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     invite: String,
     referrer: Object
 })
 
+// TODO: change keyname to username
 const form = useForm({
     name: '',
     email: '',
@@ -33,6 +34,8 @@ const submit = () => {
         },
     });
 };
+
+// TODO: live validate username
 </script>
 
 <template>
@@ -42,8 +45,6 @@ const submit = () => {
         <template #logo>
             <SiteLogo />
         </template>
-
-        <JetValidationErrors class="mb-4" />
 
         <div class="y space-y-2 pane mb-2" v-if="referrer">
             <span class="font-bold text-xs">You've been invited by:</span>
@@ -107,6 +108,8 @@ const submit = () => {
                     autocomplete="new-password"
                 />
             </div>
+
+            <Errors/>
 
             <div class="mt-4">
                 <JetLabel for="terms">

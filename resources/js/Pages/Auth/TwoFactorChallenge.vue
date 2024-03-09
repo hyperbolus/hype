@@ -6,8 +6,8 @@ import SiteLogo from '@/Components/SiteLogo.vue';
 import JetButton from '@/Jetstream/Button.vue';
 import JetInput from '@/Jetstream/Input.vue';
 import JetLabel from '@/Jetstream/Label.vue';
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
+import Errors from "@/Components/Errors.vue";
 
 const recovery = ref(false);
 
@@ -56,8 +56,6 @@ const submit = () => {
             </template>
         </div>
 
-        <JetValidationErrors class="mb-4" />
-
         <form @submit.prevent="submit">
             <div v-if="! recovery">
                 <JetLabel for="code" value="Code" />
@@ -84,6 +82,8 @@ const submit = () => {
                     autocomplete="one-time-code"
                 />
             </div>
+
+            <Errors/>
 
             <div class="flex items-center justify-end mt-4">
                 <button type="button" class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer" @click.prevent="toggleRecovery">

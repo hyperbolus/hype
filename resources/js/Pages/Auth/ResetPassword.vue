@@ -5,8 +5,8 @@ import SiteLogo from '@/Components/SiteLogo.vue';
 import JetButton from '@/Jetstream/Button.vue';
 import JetInput from '@/Jetstream/Input.vue';
 import JetLabel from '@/Jetstream/Label.vue';
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
+import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({
     email: String,
@@ -22,7 +22,9 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('password.update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => {
+            form.reset('password', 'password_confirmation')
+        },
     });
 };
 </script>
@@ -34,8 +36,6 @@ const submit = () => {
         <template #logo>
             <SiteLogo />
         </template>
-
-        <JetValidationErrors class="mb-4" />
 
         <form @submit.prevent="submit">
             <div>
@@ -73,6 +73,8 @@ const submit = () => {
                     autocomplete="new-password"
                 />
             </div>
+
+            <Errors/>
 
             <div class="flex items-center justify-end mt-4">
                 <JetButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

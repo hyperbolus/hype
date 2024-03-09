@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Content\ContestController;
 use App\Http\Controllers\Content\ForumController;
 use App\Http\Controllers\Content\LevelTagController;
 use App\Http\Controllers\Content\LevelTagVoteController;
@@ -20,7 +19,6 @@ use App\Http\Controllers\Dashboard\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardConnectionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DownloadController;
-use App\Http\Controllers\Forge\ModController;
 use App\Http\Controllers\Game\LevelController;
 use App\Http\Controllers\Game\LevelReplayController;
 use App\Http\Controllers\Game\ProfileController;
@@ -34,10 +32,7 @@ use App\Http\Controllers\System\ProfileCommentController;
 use App\Http\Controllers\System\ReportController;
 use App\Http\Controllers\System\ReputationLogController;
 use App\Http\Controllers\System\SearchController;
-use App\Http\Controllers\System\UploadController;
 use App\Http\Controllers\System\UserController;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -142,15 +137,6 @@ Route::post('/user/{id}/reputation', [ReputationLogController::class, 'store'])-
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
 
-//Route::inertia('/tools/inspector', 'Tools/Inspector', [
-//    '__meta_breadcrumbs' => [
-//        [
-//            'text' => 'Save Inspector',
-//            'url' => '/tools/inspector'
-//        ]
-//    ]
-//])->name('tools.inspector');
-
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
 
@@ -173,15 +159,21 @@ Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('revi
 
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
 Route::get('/level/{level:id}/view', [LevelController::class, 'view'])->name('levels.view');
-Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
+
 Route::get('/level/{level:id}/reviews', [LevelController::class, 'reviews'])->name('levels.reviews.show');
 Route::get('/level/{level:id}/replays', [LevelController::class, 'replays'])->name('levels.replays.show');
 Route::get('/level/{level:id}/videos', [LevelController::class, 'videos'])->name('levels.videos.show');
-Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
 Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('levels.images.show');
-//Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
+
 Route::get('/level/{level:id}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware(['auth', 'verified', 'role:admin']);
 Route::post('/level/{level:id}/edit', [LevelController::class, 'update'])->name('levels.update')->middleware(['auth', 'verified', 'role:admin']);
+
+Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
+Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
+
+Route::get('/tags', [LevelTagController::class, 'index'])->name('tags.index');
+Route::post('/tags/create', [LevelTagController::class, 'store'])->name('tags.store')->middleware(['auth', 'verified', 'role:admin']);
+Route::get('/tag/{tag}', [LevelTagController::class, 'show'])->name('tags.show');
 
 Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlists.index');
 Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create')->middleware(['auth', 'verified']);
@@ -194,19 +186,15 @@ Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->n
 Route::get('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'create'])->name('submissions.create');
 Route::post('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'store'])->name('submissions.store');
 
-Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');
-Route::get('/contests/create', [ContestController::class, 'create'])->name('contests.create')->middleware(['auth', 'verified']);
-Route::post('/contests/create', [ContestController::class, 'store'])->name('contests.store')->middleware(['auth', 'verified']);
-Route::get('/contest/{contest}', [ContestController::class, 'show'])->name('contests.show');
-Route::post('/contest/{contest}', [ContestController::class, 'update'])->name('contests.update')->middleware(['auth', 'verified']);
-Route::delete('/contest/{contest}', [ContestController::class, 'destroy'])->name('contests.destroy')->middleware(['auth', 'verified']);
+//Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');
+//Route::get('/contests/create', [ContestController::class, 'create'])->name('contests.create')->middleware(['auth', 'verified']);
+//Route::post('/contests/create', [ContestController::class, 'store'])->name('contests.store')->middleware(['auth', 'verified']);
+//Route::get('/contest/{contest}', [ContestController::class, 'show'])->name('contests.show');
+//Route::post('/contest/{contest}', [ContestController::class, 'update'])->name('contests.update')->middleware(['auth', 'verified']);
+//Route::delete('/contest/{contest}', [ContestController::class, 'destroy'])->name('contests.destroy')->middleware(['auth', 'verified']);
 
 //Route::get('/files', [LevelTagController::class, 'index'])->name('files.index');
 //Route::post('/files/create', [LevelTagController::class, 'store'])->name('files.store')->middleware(['auth', 'verified', 'role:admin']);
-
-Route::get('/tags', [LevelTagController::class, 'index'])->name('tags.index');
-Route::post('/tags/create', [LevelTagController::class, 'store'])->name('tags.store')->middleware(['auth', 'verified', 'role:admin']);
-Route::get('/tag/{tag}', [LevelTagController::class, 'show'])->name('tags.show');
 
 Route::get('/inbox', [MessageController::class, 'index'])->name('inbox.index')->middleware(['auth', 'verified']);
 Route::get('/inbox/new', [MessageController::class, 'create'])->name('inbox.create')->middleware(['auth', 'verified']);
@@ -218,9 +206,9 @@ Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox
 //Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');
 
 Route::get('/styles', [StyleController::class, 'index'])->name('styles.index');
-//Route::get('/style/{style:id}', [StyleController::class, 'show'])->name('styles.show');
-//Route::get('/styles/new', [StyleController::class, 'create'])->name('styles.create');
-//Route::post('/styles/new', [StyleController::class, 'store'])->name('styles.store');
+Route::get('/style/{style:id}', [StyleController::class, 'show'])->name('styles.show');
+Route::get('/styles/new', [StyleController::class, 'create'])->name('styles.create');
+Route::post('/styles/new', [StyleController::class, 'store'])->name('styles.store');
 
 Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified']);
@@ -235,7 +223,7 @@ Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+//Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
 Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
 Route::get('/stencils/new/interstitial', [StencilController::class, 'interstitial'])->name('stencils.interstitial');
@@ -247,120 +235,10 @@ Route::get('/stencil/{stencil}', [StencilController::class, 'show'])->name('sten
 Route::get('/notification/{id}', [NotificationController::class, 'show'])->middleware(['auth'])->name('notifications.read');
 Route::get('/notifications/clear', [NotificationController::class, 'update'])->middleware(['auth'])->name('notifications.clear');
 
-Route::get('/tools/sfx', function () {
-    $library = Cache::get('boomlings:sfxLibrary');
-    if (! $library || true) {
-        $secret = '8501f9c2-75ba-4230-8188-51037c4da102';
-        $expires = 9_999_999_999;
-        $token = base64_urldecode(hash('sha256', $secret . $secret));
-        //$res = Http::get('https://geometrydashfiles.b-cdn.net/sfx/sfxLibrary.dat?token=' . $token . '&expires=' . $expires)->body();
-        $res = Http::get('https://geometrydashfiles.b-cdn.net/sfx/sfxLibrary.dat')->body();
-        $res = mb_convert_encoding($res, 'UTF-8', 'UTF-8');;
-        $res = base64_urldecode($res);
-        $res = zlib_decode($res);
-        $res = explode('|', $res);
-        $library = [];
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i] = explode(';', $res[$i]);
-            array_pop($res[$i]); // Remove trailing ';'
-            if ($i === 0) $library['version'] = (int) explode(',', $res[0][0])[1];
-            for ($j = 1; $j < count($res[$i]); $j++) {
-                $bits = explode(',', $res[$i][$j]);
-                switch ($i) {
-                    case 0: // File/Folder
-                        if ($bits[2]) {
-                            $library['folders'][(int)$bits[0]] = [
-                                'name' => $bits[1],
-                                'parent' => (int) $bits[3],
-                            ];
-                        } else {
-                            $library['files'][(int)$bits[0]] = [
-                                'name' => $bits[1],
-                                'parent' => (int) $bits[3],
-                                'bytes' => (int) $bits[4],
-                                'milliseconds' => (int) $bits[5],
-                            ];
-                        }
-                        break;
-                    case 1: // Credit
-                        $library['credits'][] = [
-                            'name' => $bits[0],
-                            'website' => $bits[1],
-                        ];
-                        break;
-                }
-            }
-        }
-        $library = json_decode(json_encode($library, JSON_INVALID_UTF8_IGNORE));
-        Cache::put('boomlings:sfxLibrary', $library, 60 * 60);
-    }
-    return page('Tools/SFX', [
-        'library' => $library
-    ])
-        ->meta('SFX Browser', 'Browse the official Geometry Dash sound effect libraryin your browser')
-        ->breadcrumbs([
-            crumb('Tools', '')
-        ]);
-})->name('tools.sfx');
+Route::get('/tools/sfx', [\App\Http\Controllers\ToolsController::class, 'sfxLibrary'])->name('tools.sfx');
+Route::get('/tools/music', [\App\Http\Controllers\ToolsController::class, 'musicLibrary'])->name('tools.music');
 
 //Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
-
-
-Route::get('/tools/music', function () {
-    $library = Cache::get('boomlings:musicLibrary');
-    if (! $library) {
-        $secret = '8501f9c2-75ba-4230-8188-51037c4da102';
-        $expires = 9_999_999_999;
-        $token = base64_urldecode(hash('sha256', $secret . $secret));
-        //$res = Http::get('https://geometrydashfiles.b-cdn.net/music/musiclibrary.dat?token=' . $token . '&expires=' . $expires)->body();
-        $res = Http::get('https://geometrydashfiles.b-cdn.net/music/musiclibrary.dat')->body();
-        $res = mb_convert_encoding($res, 'UTF-8', 'UTF-8');;
-        $res = base64_urldecode($res);
-        $res = zlib_decode($res);
-        $res = explode('|', $res);
-        $library = [];
-        for ($i = 1; $i < count($res); $i++) {
-            $res[$i] = explode(';', $res[$i]);
-            array_pop($res[$i]); // Remove trailing ';'
-            for ($j = 0; $j < count($res[$i]); $j++) {
-                $bits = explode(',', $res[$i][$j]);
-                switch ($i) {
-                    case 1: // Artist
-                        $library['artists'][(int)$bits[0]] = [
-                            'name' => $bits[1],
-                            'website' => empty(trim($bits[2])) ? null : $bits[2],
-                            'youtube' => empty(trim($bits[3])) ? null : $bits[3],
-                        ];
-                        break;
-                    case 2: // Song
-                        $tags = explode('.', $bits[5]);
-                        array_pop($tags);
-                        array_shift($tags); // todo: slice?
-                        for ($k = 0; $k < count($tags); $k++) $tags[$k] = (int) $tags[$k];
-                        $library['songs'][(int)$bits[0]] = [
-                            'name' => $bits[1],
-                            'artist' => (int) $bits[2],
-                            'bytes' =>  (int) $bits[3],
-                            'seconds' => (int) $bits[4],
-                            'tags' => $tags,
-                        ];
-                        break;
-                    case 3: // Tag
-                        $library['tags'][(int)$bits[0]] = [
-                            'name' => $bits[1],
-                        ];
-                        break;
-                }
-            }
-        }
-        $library['version'] = $res[0];
-        $library = json_decode(json_encode($library, JSON_INVALID_UTF8_IGNORE));
-        Cache::put('boomlings:musicLibrary', $library, 60 * 60);
-    }
-    return page('Tools/Music', [
-        'library' => json_decode(json_encode($library, JSON_INVALID_UTF8_IGNORE)) // FIXME: this sucks
-    ]);
-})->name('tools.music');
 
 Route::get('/guide', function () {
     return page('Guide');

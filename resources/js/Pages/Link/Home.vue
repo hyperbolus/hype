@@ -18,8 +18,8 @@
                 <Link :href="route('auth::register')" class="shadow bg-gray-50 rounded py-1">Register</Link>
             </template>
             <template v-else>
-                <template v-if="$page.props.user.linked_accounts.length > 0">
-                    <a target="_blank" :href="'http://profile.gd/' + $page.props.user.linked_accounts[0].name" class="underline">Visit Your Profile</a>
+                <template v-if="!true">
+                    <a target="_blank" :href="'http://profile.gd/'" class="underline">Visit Your Profile</a>
                     <Link href="/settings/profile" class="shadow bg-gray-50 rounded py-1">Customize Profile</Link>
                 </template>
                 <template v-else>

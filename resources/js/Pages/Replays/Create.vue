@@ -44,6 +44,7 @@ const formFinished = computed(() => {
 });
 
 const filters = ref({
+    'gdr': false,
     'tasbot': false,
     'mhr': false,
     'mhr_json': false,
@@ -63,6 +64,7 @@ const filters = ref({
 });
 
 const formats = {
+    'gdr': 'GD Replay',
     'tasbot': 'TASBOT',
     'mhr': 'MegaHack Replay',
     'mhr_json': 'MegaHack Replay (JSON)',
@@ -111,7 +113,7 @@ const query = useForm({
                         </svg>
                         <span class="font-bold text-xl">Drag and Drop</span>
                         <span>or click here to upload your file</span>
-                        <span class="text-ui-500">.replay, .zbot, .dat, .ddhor, .xbot, .kd, .zbf, .xbot, .rsh, .json, .mhr</span>
+                        <span class="text-ui-500"><b>.gdr</b>, .replay, .zbot, .dat, .ddhor, .xbot, .kd, .zbf, .xbot, .rsh, .json, .mhr</span>
                     </div>
                     <div v-else class="x justify-between items-center space-x-1 bg-ui-950 rounded-md px-2 py-1">
                         <div @click.prevent class="x items-center grow">
@@ -127,7 +129,7 @@ const query = useForm({
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
                     </svg>
-                    <span>MegaHack, TASBOT, and zBot are preferred</span>
+                    <span>GD Replay, MegaHack, TASBOT, and zBot are most preferred</span>
                 </div>
 
                 <Label>
@@ -135,6 +137,7 @@ const query = useForm({
                     <select v-model="submission.format" class="block bg-ui-950 text-sm border-0 rounded px-2 py-1 w-full">
                         <option value="" disabled hidden selected></option>
                         <optgroup label="Preferred Formats">
+                            <option value="gdr">GD Replay</option>
                             <option value="tasbot">TASBOT</option>
                             <option value="mhr">MegaHack Replay</option>
                             <option value="mhr_json">MegaHack Replay (JSON)</option>

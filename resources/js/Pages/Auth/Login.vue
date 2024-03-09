@@ -6,8 +6,8 @@ import JetButton from '@/Jetstream/Button.vue';
 import JetInput from '@/Jetstream/Input.vue';
 import JetCheckbox from '@/Jetstream/Checkbox.vue';
 import JetLabel from '@/Jetstream/Label.vue';
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
+import Errors from "@/Components/Errors.vue";
 
 defineProps({
     canResetPassword: Boolean,
@@ -39,8 +39,6 @@ const submit = () => {
             <SiteLogo />
         </template>
 
-        <JetValidationErrors class="mb-4" />
-
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
@@ -69,6 +67,8 @@ const submit = () => {
                     autocomplete="current-password"
                 />
             </div>
+
+            <Errors/>
 
             <div class="x space-x-2 justify-between mt-4">
                 <label class="flex items-center">

@@ -50,6 +50,7 @@ const changePassword = () => {
             <div>
                 <span class="block font-medium text-sm text-ui-300">Email</span>
                 <Input v-model="email.email" class="mt-1" type="email" placeholder="Email"/>
+                <span class="text-sm text-ui-500">NOTE: Changing your email requires you to verify it again</span>
             </div>
             <div>
                 <span class="block font-medium text-sm text-ui-300">Confirm Password</span>

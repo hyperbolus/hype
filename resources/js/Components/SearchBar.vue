@@ -46,7 +46,7 @@ const format = Intl.NumberFormat('en-US', {
 });
 
 const tiny = n => format.format(n);
-
+// TODO: autofocus on dropdown open
 </script>
 <template>
     <Dropdown id="globalSearchBar" content-classes="w-fit">

@@ -26,6 +26,25 @@ class HomeController extends Controller
             $q = Article::query()->latest()->first();
         }
 
+        $dcr = Http::asForm()->withUserAgent('')
+            ->post('https://www.boomlings.com/database/getGJComments21.php', [
+                'levelID' => '60805571',
+                'page' => '0',
+                'secret' => 'Wmfd2893gb7'
+            ])->body();
+
+        $dcr = explode('#', $dcr)[0];
+        $dcr = explode('|', $dcr);
+
+        foreach ($dcr as &$d) {
+            $bits = explode(':', $d);
+            $d = gj_map($bits[0], '~');
+            sort($d);
+            $d[6] = base64_urldecode($d[6]);
+            $d[7] = gj_map($bits[1], '~');
+            //$d[7] = $bits[1];
+        }
+
         return page('Home', [
             'frontpage_article' => $q,
             'recent_articles' => Article::query()
@@ -47,7 +66,8 @@ class HomeController extends Controller
                 ->latest()
                 ->limit(6)
                 ->get(),
-            'newest_user' => User::query()->latest()->first()
+            'newest_user' => User::query()->latest()->first(),
+            'daily_chat' => $dcr
         ])->meta('Home', 'Hyperbolus, your home for Geometry Dash');
     }
 

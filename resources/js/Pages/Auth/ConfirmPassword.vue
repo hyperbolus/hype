@@ -6,8 +6,8 @@ import SiteLogo from '@/Components/SiteLogo.vue';
 import JetButton from '@/Jetstream/Button.vue';
 import JetInput from '@/Jetstream/Input.vue';
 import JetLabel from '@/Jetstream/Label.vue';
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import route from 'ziggy-js'
+import Errors from "@/Components/Errors.vue";
 
 const form = useForm({
     password: '',
@@ -38,8 +38,6 @@ const submit = () => {
             This is a secure area of the application. Please confirm your password before continuing.
         </div>
 
-        <JetValidationErrors class="mb-4" />
-
         <form @submit.prevent="submit">
             <div>
                 <JetLabel for="password" value="Password" />
@@ -54,6 +52,8 @@ const submit = () => {
                     autofocus
                 />
             </div>
+
+            <Errors/>
 
             <div class="flex justify-end mt-4">
                 <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
