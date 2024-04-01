@@ -65,8 +65,8 @@ const props = defineProps({
             </div>
         </div>
         <div class="y space-y-2 md:w-1/3">
-            <h2 class="font-bold text-2xl">Daily Chat</h2>
-            <div class="y pane !px-0 !py-0 border border-ui-700">
+            <h2 v-if="false" class="font-bold text-2xl">Daily Chat</h2>
+            <div v-if="false" class="y pane !px-0 !py-0 border border-ui-700">
                 <div class="x space-x-2 items-center bg-ui-950 rounded-t-lg justify-between border-b border-ui-700 p-2">
                     <div class="x space-x-3 items-center px-2">
                         <span class="relative h-2 w-2 bg-red-500 rounded-full">
