@@ -58,6 +58,7 @@ const formFinished = computed(() => {
 });
 
 const filters = ref({
+    'gdr': false,
     'tasbot': false,
     'mhr': false,
     'mhr_json': false,
@@ -77,6 +78,7 @@ const filters = ref({
 });
 
 const formats = {
+    'gdr': 'GD Replay',
     'tasbot': 'TASBOT',
     'mhr': 'MegaHack Replay',
     'mhr_json': 'MegaHack Replay (JSON)',
