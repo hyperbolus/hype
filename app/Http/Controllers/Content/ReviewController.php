@@ -58,7 +58,7 @@ class ReviewController extends Controller
     {
         return page('Reviews/Show', [
             'review' => $review->load(['level', 'author'])
-        ])->meta($review->author->name . '\'s Review of ' . $review->level->title, Str::trimAtWord($review->review, 150));
+        ])->meta($review->author->name . '\'s Review of ' . $review->level->name, Str::trimAtWord($review->review, 150));
     }
 
     public function edit(Review $review)
