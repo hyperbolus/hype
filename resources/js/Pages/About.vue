@@ -39,11 +39,14 @@ import DiscordInvite from "@/Components/DiscordInvite.vue";
                     <ul class="list-inside list-disc">
                         <li>iAndy_HD3 and camila314 for using the API in their mods</li>
                         <li>Cvolton for help regarding interacting with gd servers</li>
-                        <li>Nora for her amazing work on MDL and being good at design in general</li>
+                        <li>Nora for her inspirational work on MDL and being good at design in general</li>
+                        <li>ninXout for being awesome and making a screenshot mod to help collect content for level pages</li>
                         <li>GD Colon for all of his awesome work with gd on web</li>
+                        <li>The GD Replay Standards Committee for inviting me to their cartel and enforcing .gdr use on this site haha jk unless</li>
                         <li>matcool for replay conversion code</li>
                         <li>matcool again & npesta for inspiring roulette game</li>
                         <li>Geometry Dash Programming Discord</li>
+                        <li>The other, more secret, gd programming discord</li>
                         <li>Country flags by freakflags</li>
                         <li>Tailwind heroicons</li>
                         <li>osu for having an oddly really good website that I could steal from</li>
