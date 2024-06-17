@@ -6,13 +6,14 @@ import Username from "@/Components/Username.vue";
 import {displayRating} from "@/util.js";
 import Avatar from "@/Components/Avatar.vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
+import TipTap from "@/Components/TipTap.vue";
 
 const props = defineProps({
     review: Object
 })
 </script>
 <template>
-    <app-layout :title="review.id">
+    <app-layout>
         <template #breadcrumbs>
             <Link :href="route('levels.index')">Levels</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -36,7 +37,10 @@ const props = defineProps({
                         <Avatar class="w-6" :user="review.author"/>
                         <span><Username :user="review.author"/> says...</span>
                     </div>
-                    <p class="pane border border-ui-700 grow" :class="{'italic text-ui-600 text-center': !review.review}">{{ review.review ? review.review : 'User has not left a written review' }}</p>
+                    <div class="pane border border-ui-700 grow">
+                        <p v-if="!review.review" class="italic text-ui-600 text-center">User has not left a written review</p>
+                        <TipTap v-else :editable="false" v-model="review.review"/>
+                    </div>
                 </div>
                 <div class="y space-y-4 pane grow border border-ui-700">
                     <div class="y">
