@@ -166,19 +166,28 @@ const search = () => {
                     <li>Recommend levels by maximizing user ratings</li>
                 </ul>
             </details>
-            <div v-if="false" class="x space-x-2 items-center rounded-md p-2 bg-red-500/10 border border-red-500">
+            <div class="x space-x-2 items-center rounded-md p-2 bg-red-500/10 border border-red-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="shrink-0 text-red-500 w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                 </svg>
-                <span>For safety reasons, the replay archive is only accessible to a few individuals until we've understood the effects this can have. Levels such as demons and list levels may be withheld even longer. If you are a leaderboard moderator or prominent list auditor please <Tooltip message="Discord Invite" :inline="true"><a class="text-white underline" href="https://discord.gg/JJc8nndmFE">contact us.</a></Tooltip></span>
+                <div class="flex flex-col space-y-0">
+                    <span><b>GDR UPDATE (<span class="text-green-400">iCreate</span> users PLEASE READ):</b><br/>We are transitioning away from legacy bot formats to <a href="https://github.com/maxnut/GDReplayFormat">GD Replay</a> (GDR), a universal replay format developed in collaboration with most of the major bot developers.</span>
+                    <span class="font-bold">What This Means:</span>
+                    <ul class="list-disc list-inside">
+                        <li>Old records will remain on the site but moving forward we will only allow GDR uploads</li>
+                        <li><b class="font-bold text-green-400">iCREATE:</b> iCreate now uses GDR in 2.2 NOT zbf!</li>
+                        <li>Expanding search filters and metadata for GDR records for ease of users and API consumers</li>
+                        <li>After overhaul, legacy macros will be moved to another section</li>
+                    </ul>
+                </div>
             </div>
-            <div class="x space-x-2 items-center rounded-md p-2 bg-blue-500/10 border border-blue-500">
+            <div v-if="false" class="x space-x-2 items-center rounded-md p-2 bg-blue-500/10 border border-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="shrink-0 text-blue-500 w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                 </svg>
                 <span>If you have an academic interest in the full dataset or would like to contribute to our research, please <Tooltip message="Discord Invite" :inline="true"><a class="text-white underline" href="https://discord.gg/JJc8nndmFE">contact us!</a></Tooltip></span>
             </div>
-            <Link :href="route('replays.create')" :disabled="!isAuthenticated()" class="font-bold w-full rounded-md px-2 py-1 shadow bg-ui-800 border-0" :class="isAuthenticated() ? 'hover:bg-ui-900 hover:shadow-sm' : 'cursor-not-allowed'">{{ isAuthenticated() ? 'Submit' : 'Log in to submit' }} a record</Link>
+            <Link :href="route('replays.create')" :disabled="!isAuthenticated()" class="font-bold w-full rounded-md px-2 py-1 shadow bg-ui-800 border-0 text-center" :class="isAuthenticated() ? 'hover:bg-ui-900 hover:shadow-sm' : 'cursor-not-allowed'">{{ isAuthenticated() ? 'Submit' : 'Log in to submit' }} a record</Link>
             <h2 class="font-bold text-xl">Statistics</h2>
             <div class="grid grid-cols-2 lg:grid-cols-4">
                 <div class="y">
