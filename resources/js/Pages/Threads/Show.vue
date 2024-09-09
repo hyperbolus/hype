@@ -70,7 +70,7 @@ const sendReply = () => {
             <div class="pane text-center italic text-ui-500" v-else-if="posts.data.length === 0 && posts.total > 0">"You just blow in from stupid town?"</div>
             <template v-for="(post, index) in posts.data" :key="index">
                 <Post :post="post" :op="thread.author.id"/>
-                <a v-if="index === 0" class="text-center hidden"><img class="inline" src="https://via.placeholder.com/970x90" alt="Advertisement"/></a>
+                <a v-if="index === 0" class="text-center hidden"><img class="inline" src="https://via.placeholder.com/970x90" alt=""/></a>
             </template>
             <Pagination :list="posts"/>
             <template v-if="$page.props.auth">

@@ -57,7 +57,7 @@ const props = defineProps({
                                 <span v-if="level.epic" class="rounded-full p-[.15rem] px-2 bg-red-500"></span>
                             </span>
                             <div class="hidden mr-4 sm:flex place-items-center w-16 aspect-square">
-                                <img :src="face(level)" alt="difficulty"/>
+                                <img :src="face(level)" alt=""/>
                             </div>
                             <div class="y">
                                 <div class="x z-10 items-center h-full space-x-2">

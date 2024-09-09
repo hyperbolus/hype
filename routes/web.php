@@ -223,7 +223,7 @@ Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-//Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
 Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
 Route::get('/stencils/new/interstitial', [StencilController::class, 'interstitial'])->name('stencils.interstitial');
