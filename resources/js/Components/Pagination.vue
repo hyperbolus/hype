@@ -1,10 +1,13 @@
 <script setup>
 import {Link, router} from '@inertiajs/vue3';
 import route from "ziggy-js";
+import {computed} from "vue";
 
 const props = defineProps({
-    list: Object
+    list: Object,
+    small: Boolean
 })
+// TODO: use calculation to figure out when to use small logic!!!
 
 const promptPage = () => {
     let page = prompt('Jump to page number:')
@@ -33,9 +36,11 @@ const promptPage = () => {
             <template v-for="(link, index) in list.links.slice(1, -1)">
                 <span v-if="link.label === '...'" @click="promptPage" class="cursor-pointer hover:text-ui-500" title="Jump to specific page">{{ link.label }}</span>
                 <template v-else>
-                    <Link v-if="list.links[index + 2].label === '...' || list.links[index].label === '...'" :href="link.url" class="hidden sm:inline px-2 transition-colors hover:text-ui-500" :class="{'bg-ui-700': link.active}">
-                        {{ link.label }}
-                    </Link>
+                    <template v-if="list.links[index + 2].label === '...' || list.links[index].label === '...'">
+                        <Link v-if="!small" :href="link.url" class="hidden sm:inline px-2 transition-colors hover:text-ui-500" :class="{'bg-ui-700': link.active}">
+                            {{ link.label }}
+                        </Link>
+                    </template>
                     <Link v-else :href="link.url" class="px-2 transition-colors hover:text-ui-500" :class="{'bg-ui-700': link.active}">
                         {{ link.label }}
                     </Link>

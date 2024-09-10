@@ -74,7 +74,7 @@ const tab = ref(0);
                                 </div>
                                 <p class="text-sm">{{ review.review }}</p>
                             </Link>
-                            <Pagination class="py-2" :list="reviews"/>
+                            <Pagination class="py-2" :list="reviews" :small="true"/>
                         </div>
                     </div>
                 </div>
