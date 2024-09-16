@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DownloadController extends Controller
 {
-    public function __invoke(string $id): Response|RedirectResponse
+    public function __invoke(string $id)//: Response|RedirectResponse
     {
         $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
         $result = $hashids->decode($id);
@@ -26,8 +26,17 @@ class DownloadController extends Controller
             $media->save();
         })->afterResponse();
 
-        return redirect(Storage::disk('contabo')->temporaryUrl($media->path, now()->addMinutes(5), [
+        $object_url = Storage::disk('contabo')->temporaryUrl($media->path, now()->addMinutes(5), [
             'ResponseContentDisposition' => 'attachment;filename=' . $media->filename
-        ]));
+        ]);
+
+        if (request()->string('__PROXY')->toString() === 'THIS_IS_A_TEMPORARY_SOLUTION') {
+            return response(Storage::disk('contabo')->get($media->path), 200, $headers = [
+                'Content-type'        => 'application/octet-stream',
+                'Content-Disposition' => 'attachment; filename="' . $media->filename . '"',
+            ]);
+        }
+
+        return redirect($object_url);
     }
 }

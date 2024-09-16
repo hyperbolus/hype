@@ -164,6 +164,13 @@ Route::get('/macros', function (Request $request) {
     });
 });
 
+Route::get('chkdsk', function () {
+    // todo: other disks potentially
+    if (request()->string('disk')->toString() !== 'contabo-usc1') return response('storage disk not found', 404);
+
+    return redirect(Storage::disk('contabo')->temporaryUrl('hello.txt', now()->addWeek()));
+});
+
 $fix_style = function (\App\Models\Forge\Style $style) {
     $sizes = [
         'sd' => null,
