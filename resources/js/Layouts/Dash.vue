@@ -38,7 +38,7 @@ onBeforeMount(() => {
 
 </script>
 <template>
-    <div ref="base" class="y relative items-center text-ui-300 min-h-screen grow">
+    <div ref="base" class="y relative items-center text-ui-300 min-h-screen grow overflow-x-hidden">
         <Head v-if="title"><title>{{ title }}</title></Head>
         <NetworkNav/>
         <SiteNav/>
