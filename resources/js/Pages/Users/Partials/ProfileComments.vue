@@ -51,7 +51,7 @@ const postComment = () => {
             <Pagination class="py-2" :list="comments"/>
             <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
                 <textarea class="textbox" v-model="newComment.body" placeholder="Comment..." style="min-height: 4rem !important;"/>
-                <Button @click="postComment" class="w-fit" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : 'Submit Comment' }}</Button>
+                <Button @click="postComment" class="w-fit bg-ui-800 px-2 py-1 rounded" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : 'Submit Comment' }}</Button>
             </div>
         </div>
     </div>
