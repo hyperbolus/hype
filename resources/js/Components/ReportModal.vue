@@ -18,6 +18,7 @@ const report = useForm({
     reason_id: 0,
     subject: '',
     details: '',
+    url: route().current(),
     reportable_type: props.reportable_type,
     reportable_id: props.reportable_id,
 })

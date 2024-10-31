@@ -42,6 +42,7 @@ class ReportController extends Controller
         $request->validate([
             'subject' => 'required',
             'details' => 'required',
+            'url' => 'required',
             'reason_id' => [
                 function (string $attribute, mixed $value, \Closure $fail) {
                     if (!array_key_exists($value, config('hyperbolus.report_reasons'))) {
@@ -57,6 +58,7 @@ class ReportController extends Controller
         $report = new Report();
         $report->subject = $request->string('subject');
         $report->content = $request->string('details');
+        $report->url = $request->string('url');
         $report->reason_id = $request->integer('reason_id');
         $report->reportable_type = $request->integer('reportable_type');
         $report->reportable_id = $request->integer('reportable_id');
