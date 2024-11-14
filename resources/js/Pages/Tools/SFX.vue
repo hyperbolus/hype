@@ -137,7 +137,12 @@ onMounted(() => {
 const options = ref({
     pruneResults: false,
     instantPlay: true,
+    allowDownloads: false,
 });
+
+watch(options, (value) => {
+    if (value.allowDownloads === true) alert('NOTICE: Hyperbolus does not redistribute SFX files, it only shows you the links to them. Just because you can use these to download sounds does not mean you have the right to use them. Please consult the individual rights holders for permission or licenses!');
+}, {deep: true})
 </script>
 <template>
     <app-layout title="SFX Browser">
@@ -198,6 +203,10 @@ const options = ref({
                                     <Checkbox v-model="options.pruneResults" :checked="options.pruneResults" class="mr-1"/>
                                     Remove search results instead of dimming
                                 </Label>
+                                <Label>
+                                    <Checkbox v-model="options.allowDownloads" :checked="options.allowDownloads" class="mr-1"/>
+                                    Enable SFX Downloading
+                                </Label>
                             </div>
                         </template>
                     </Dropdown>
@@ -208,8 +217,8 @@ const options = ref({
                                 <div @click.stop class="rounded-lg y space-y-2 cursor-auto bg-ui-900 text-ui-200 p-4 shadow-xl w-full md:w-[32rem] lg:w-[48rem]">
                                     <h2 class="font-bold text-2xl">SFX Library Credits</h2>
                                     <p>This SFX browser is provided as a utility to the community.</p>
-                                    <p>Hyperbolus neither stores nor redistributes any copyrighted content on its servers. Only the metadata provided by Geometry Dash. Audio on this page is played directly from Geometry Dash's official CDN client-side.</p>
-                                    <p>These sound effects are owned by the following parties and are licensed (I hope) to Robtop Games AB for use in Geometry Dash.</p>
+                                    <p>Hyperbolus neither stores nor redistributes any copyrighted content on its servers. Only the metadata provided by Geometry Dash. All audio comes from Geometry Dash's official CDN client-side.</p>
+                                    <p>These sound effects are owned by the following parties and are licensed to Robtop Games AB for use in Geometry Dash. This means that while you may be able to grab these sounds from his server, <u>you likely do not have the rights to use them</u> and should consult the individual rights holders for permission or licensing.</p>
                                     <a target="_blank" v-for="credit in library.credits" :href="credit.website" class="x items-center space-x-1 rounded-md bg-ui-800 px-2 py-0.5">
                                         <span>{{ credit.name }}</span>
                                         <Icon class="w-4" name="arrow-top-right-on-square"/>
@@ -246,7 +255,7 @@ const options = ref({
                                 <div v-else class="rounded bg-ui-800 border border-ui-700 px-2 py-1">
                                     <Icon class="w-5 animate-spin" name="arrow-path"/>
                                 </div>
-                                <Tooltip message="Right Click &#10141; Save Link As">
+                                <Tooltip v-if="options.allowDownloads" message="Right Click &#10141; Save Link As">
                                     <a target="_blank" :href="`https://geometrydashfiles.b-cdn.net/sfx/s${currentFile}.ogg`" class="block rounded bg-ui-800 border border-ui-700 px-2 py-1">
                                         <Icon class="w-5" name="document-arrow-down"/>
                                     </a>
