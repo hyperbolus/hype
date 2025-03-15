@@ -73,7 +73,7 @@ const submit = () => {
             <div class="x space-x-2 justify-between mt-4">
                 <label class="flex items-center">
                     <JetCheckbox v-model:checked="form.remember" name="remember" />
-                    <span class="ml-2 text-sm text-ui-200">Remember me</span>
+                    <span class="ml-2 text-sm text-ui-200">Stay logged in</span>
                 </label>
                 <Link :href="route('auth::register')" class="text-sm underline">Don't have an account?</Link>
             </div>
