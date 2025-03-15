@@ -52,9 +52,10 @@ class HomeController extends Controller
                 ->whereNot('id', '=', $q->id ?? 0)
                 ->limit(2)
                 ->get(),
-            'recent_posts' => Post::query()
-                ->latest()
-                ->with(['author', 'thread', 'thread.author'])
+            'recent_posts' => Thread::query()
+                ->latest('last_activity_at')
+                ->whereHas('lastPost')
+                ->with(['author', 'lastPost', 'lastPost.author'])
                 ->limit(5)
                 ->get(),
             'recent_reviews' => Review::query()

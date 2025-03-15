@@ -29,9 +29,10 @@ defineProps({
             <h2 class="mx-2 font-bold text-2xl">Latest Activity</h2>
             <div class="pane !p-0 divide-y divide-ui-700">
                 <div class="px-4 py-2" v-if="latestPosts.length === 0">No activity</div>
-                <div v-for="post in latestPosts" class="y px-4 py-3">
-                    <Link :href="route('threads.show', post.thread)" class="font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ post.thread.title }}</Link>
-                    <div class="x items-center text-xs"><Username :user="post.author"/><span class="px-1">&bull;</span><Timestamp :time="post.created_at"/></div>
+                <div v-for="thread in latestPosts" class="y px-4 py-3">
+                    <Link v-if="thread" :href="route('threads.show', thread)" class="font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ thread.title }}</Link>
+                    <span class="text-sm italic opacity-50" v-else>Deleted Post</span>
+                    <div class="x items-center text-xs"><Username :user="thread.last_post.author"/><span class="px-1">&bull;</span><Timestamp :time="thread.last_post.created_at"/></div>
                 </div>
             </div>
         </div>

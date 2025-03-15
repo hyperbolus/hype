@@ -3,11 +3,8 @@ import StatsPanel from "@/Components/StatsPanel.vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import DiscordInvite from "@/Components/DiscordInvite.vue";
 import Username from "@/Components/Username.vue";
-import {getUser, trimAtWord} from "@/util.js";
 import banner from "@/../images/Article22UpdateBanner.jpg"
-import {ref} from "vue";
-import {formatTimeAgo, useTimeAgo} from "@vueuse/core";
-import Tooltip from "@/Components/Tooltip.vue";
+import {useTimeAgo} from "@vueuse/core";
 import route from "ziggy-js";
 import {Link} from "@inertiajs/vue3";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
@@ -47,14 +44,14 @@ const props = defineProps({
                 </div>
                 <h2 class="font-bold text-2xl">Recent Forum Posts</h2>
                 <div class="pane y !p-0 divide-y divide-ui-800">
-                    <Link v-for="post in recent_posts" :href="route('threads.show', post.thread.slug)" class="x px-4 py-2 items-center justify-between">
+                    <Link v-for="thread in recent_posts" :href="route('threads.show', thread.slug)" class="x px-4 py-2 items-center justify-between">
                         <span class="y">
-                            <span class="font-bold">{{ post.thread.title }}</span>
-                            <Username class="text-sm" :user="post.thread.author"/>
+                            <span class="font-bold">{{ thread.title }}</span>
+                            <Username class="text-sm" :user="thread.author"/>
                         </span>
                         <span class="y items-end">
-                            <Username :user="post.author"/>
-                            <span class="text-sm">{{ useTimeAgo(post.created_at).value }}</span>
+                            <Username :user="thread.last_post.author"/>
+                            <span class="text-sm">{{ useTimeAgo(thread.last_post.created_at).value }}</span>
                         </span>
                     </Link>
                 </div>

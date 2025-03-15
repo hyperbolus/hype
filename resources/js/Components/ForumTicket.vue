@@ -3,6 +3,7 @@ import {Link} from '@inertiajs/vue3'
 import Timestamp from "@/Components/Timestamp.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Username from "@/Components/Username.vue";
+import route from "ziggy-js";
 
 const props = defineProps({
     forum: Object
@@ -36,10 +37,12 @@ const props = defineProps({
         <div class="hidden md:block py-3 rounded border-r border-r-ui-300 self-center"></div>
         <div class="hidden md:flex justify-between w-1/4 shrink-0">
             <div v-if="forum.last_post" class="y w-full justify-center">
-                <Link :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
+                <Link v-if="forum.last_post.thread" :href="route('threads.show', forum.last_post.thread)" class="z-10 font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">{{ forum.last_post.thread.title }}</Link>
+                <span class="text-sm italic opacity-50" v-else>Deleted Post</span>
                 <div class="flex flex-col-reverse lg:flex-row lg:items-center text-xs">
                     <Username :user="forum.last_post.author"/>
                     <span class="hidden lg:inline px-1">&bull;</span>
+                    <!-- TODO: evaluate if this tooltip is necessary, also it gets clipped by the user avatar -->
                     <Timestamp :time="forum.last_post.created_at"/>
                 </div>
             </div>

@@ -16,7 +16,11 @@ class ForumController extends Controller
 {
     public function index(): Responsable
     {
-        $forums = Forum::query()->where('parent_id', '=', null)->orderBy('priority', 'ASC')->with(['children'])->get();
+        $forums = Forum::query()
+            ->where('parent_id', '=', null)
+            ->orderBy('priority', 'ASC')
+            ->with(['children'])->get();
+
         foreach ($forums as $forum) {
             $forum->children->map(function (Forum $forum) {
                 $key = 'forums:'.$forum->id.':post_count';
@@ -43,7 +47,12 @@ class ForumController extends Controller
         return page('Forums', [
             'forums' => $forums,
             // TODO: Get only one of each (latest of each) thread if it repeats multiple times
-            'latestPosts' => Post::query()->latest()->limit(10)->with(['author', 'thread'])->get(),
+            'latestPosts' => Thread::query()
+                ->latest('last_activity_at')
+                ->whereHas('lastPost')
+                ->with(['author', 'lastPost', 'lastPost.author'])
+                ->limit(10)
+                ->get(),
         ])->meta('Forums', 'Join the discussion');
     }
 

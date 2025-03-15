@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -63,5 +64,13 @@ class Thread extends Model
     public function subscribers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'subscriptions', 'subscribable_id', 'subscriber_id')->where('subscribable_type', '=', (new Thread())->getMorphClass());
+    }
+
+    public function lastPost(): HasOne
+    {
+        // TODO: why does using limit 1 break here but not forum??
+        return $this->hasOne(Post::class)
+            ->orderByDesc('id');
+            //->limit(1);
     }
 }
