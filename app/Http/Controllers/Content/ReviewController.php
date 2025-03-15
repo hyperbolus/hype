@@ -32,7 +32,7 @@ class ReviewController extends Controller
             'rating_visuals' => 'nullable|integer|between:0,10',
             'rating_difficulty' => 'nullable|integer|between:0,100',
             'rating_overall' => 'required|integer|between:0,10',
-            'body' => 'required|min:20'
+            'body' => 'nullable|min:20'
         ]);
 
         // TODO: I think this should be moved to update or something
