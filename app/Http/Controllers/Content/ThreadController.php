@@ -8,6 +8,7 @@ use App\Models\Content\Post;
 use App\Models\Content\Thread;
 use App\Models\System\Subscription;
 use App\Models\System\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -107,15 +108,25 @@ class ThreadController extends Controller
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(Thread $thread): Response
     {
+        $this->authorize($thread);
+
         return Inertia::render('Threads/Edit', [
             'thread' => $thread,
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(Request $request, Thread $thread): RedirectResponse
     {
+        $this->authorize($thread);
+
         //TODO: thread bump without manual post?
         $request->validate([
             'title' => 'required|min:5',
