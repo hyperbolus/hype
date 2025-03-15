@@ -33,6 +33,10 @@ export const getUser = () => {
     return usePage().props.user;
 }
 
+export const isUser = (id) => {
+    return getUser().id === id;
+}
+
 export const displayRating = (rating, fixed = true) => {
     return rating === null ? '-' : (fixed ? rating.toFixed(1) : rating);
 }

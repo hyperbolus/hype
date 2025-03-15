@@ -137,6 +137,20 @@ class ThreadController extends Controller
         return redirect()->route('threads.show', $thread);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
+    public function lock(Request $request, Thread $thread): RedirectResponse
+    {
+        $this->authorize($thread);
+
+        $thread->locked = !$thread->locked;
+        $thread->timestamps = false;
+        $thread->save();
+
+        return back();
+    }
+
     public function destroy(Thread $thread)
     {
         //

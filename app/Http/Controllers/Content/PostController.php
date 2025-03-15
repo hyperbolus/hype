@@ -25,10 +25,17 @@ class PostController extends Controller
         $request->validate([
             'body' => 'required|min:20',
         ]);
+
         /**
          * @var Thread $thread
          */
         $thread = Thread::query()->findOrFail($request->integer('thread_id'));
+
+        // TODO: Move to policy
+        if ($thread->locked && !$request->user()->hasRole('admin')) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['forum' => 'This thread is currently locked']);
+        }
+
         $post = new Post();
         $post->signature = $request->boolean('signature');
         $post->thread_id = $request->integer('thread_id');

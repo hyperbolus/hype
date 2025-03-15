@@ -143,6 +143,7 @@ Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.sho
 Route::get('/thread/create', [ThreadController::class, 'create'])->name('threads.create')->middleware(['auth', 'verified']);
 Route::post('/thread/create', [ThreadController::class, 'store'])->name('threads.store')->middleware(['auth', 'verified']);
 Route::get('/thread/{thread}', [ThreadController::class, 'show'])->name('threads.show');
+Route::patch('/thread/{thread}/lock', [ThreadController::class, 'lock'])->name('threads.lock')->middleware(['auth', 'verified']);
 Route::get('/thread/{thread}/edit', [ThreadController::class, 'edit'])->name('threads.edit')->middleware(['auth', 'verified']);
 Route::post('/thread/{thread}/edit', [ThreadController::class, 'update'])->name('threads.update')->middleware(['auth', 'verified']);
 Route::delete('/thread/{thread}', [ThreadController::class, 'destroy'])->name('threads.destroy')->middleware(['auth', 'verified']);

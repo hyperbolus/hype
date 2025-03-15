@@ -14,4 +14,9 @@ class ThreadPolicy
     {
         return $user->id === $thread->author_id;
     }
+
+    public function lock(User $user): bool
+    {
+        return $user->hasRole('admin');
+    }
 }

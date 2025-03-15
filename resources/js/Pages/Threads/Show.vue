@@ -7,6 +7,7 @@ import AppLayout from "@/Layouts/Dash.vue";
 import {ref} from "vue"
 import Pagination from "@/Components/Pagination.vue";
 import Errors from "@/Components/Errors.vue";
+import {isAdmin, isAuthenticated, isUser} from "@/util.js";
 
 const props = defineProps({
     thread: Object,
@@ -40,6 +41,13 @@ const sendReply = () => {
         }
     })
 }
+
+const lock = () => {
+    let form =  useForm({})
+    form.patch(route('threads.lock', props.thread), {
+        preserveScroll: true,
+    })
+}
 </script>
 <template>
     <app-layout :title="thread.title">
@@ -57,11 +65,20 @@ const sendReply = () => {
         <div class="y w-full space-y-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="font-bold text-2xl">{{ thread.title }}</h2>
+                    <div class="x items-center space-x-2">
+                        <div v-if="thread.locked" class="x items-center space-x-1 font-bold rounded bg-red-500 px-1 py-1 text-sm text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Locked</span>
+                        </div>
+                        <h2 class="font-bold text-2xl">{{ thread.title }}</h2>
+                    </div>
                     <span class="text-sm">Posted by {{ thread.author.name }}, {{ new Date(thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Thread ID: {{ thread.id }}</span>
                 </div>
                 <div class="space-x-2">
-                    <Link v-if="$page.props.auth && $page.props.user.id === thread.author_id" class="button" :href="route('threads.edit', thread.slug)">Edit Thread</Link>
+                    <Link v-if="isAuthenticated() && isUser(thread.author_id)" class="button" :href="route('threads.edit', thread.slug)">Edit Thread</Link>
+                    <button v-if="isAdmin()" @click="lock" class="button" :href="route('threads.update', thread.slug)">{{ thread.locked ? "Unlock" : "Lock" }} Thread</button>
                     <a href="#reply" class="button">Reply</a>
                 </div>
             </div>
@@ -74,9 +91,12 @@ const sendReply = () => {
             </template>
             <Pagination :list="posts"/>
             <template v-if="$page.props.auth">
-                <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
-                <Errors/>
-                <PostPad :key="postKey" :submit="sendReply" v-model="reply"/>
+                <p class="pane" v-if="thread.locked">This thread is locked you cannot reply to it anymore</p>
+                <template v-else>
+                    <h2 id="reply" class="font-bold text-2xl">Reply to This Thread</h2>
+                    <Errors/>
+                    <PostPad :key="postKey" :submit="sendReply" v-model="reply"/>
+                </template>
             </template>
             <div id="reply" v-else>
                 Log in to post a reply
