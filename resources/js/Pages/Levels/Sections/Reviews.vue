@@ -108,7 +108,8 @@ const submit = () => {
                             </template>
                         </Lightbox>
                     </summary>
-                    <form @submit.prevent="submit" class="y space-y-4">
+                    <!-- if you wanna get technical, maybe form should only wrap the button and not this whole thing bc adding any button inside it can trigger submit -->
+                    <form @submit.prevent="void(0)" class="y space-y-4">
                         <div class="space-y-2 w-full">
                             <Errors/>
                             <p class="font-bold text-sm text-red-400">NOTE: Reviews are NOT comments! Reviews should be thoughtful and constructive in a way that is helpful or insightful for the creator or others visiting the site. If a review is only a sentence and a half, it probably isn't a review. If you don't wish to write a text review, remember that you are free (and encouraged) to skip it.</p>
