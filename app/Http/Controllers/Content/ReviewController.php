@@ -40,10 +40,10 @@ class ReviewController extends Controller
             'level_id' => $request->integer('level_id'),
             'user_id' => $request->user()->id,
         ], [
-            'rating_difficulty' => $request->integer('rating_difficulty'),
-            'rating_gameplay' => $request->integer('rating_gameplay'),
-            'rating_visuals' => $request->integer('rating_visuals'),
-            'rating_overall' => $request->integer('rating_overall'),
+            'rating_difficulty' => $request->input('rating_difficulty'),
+            'rating_gameplay' => $request->input('rating_gameplay'),
+            'rating_visuals' => $request->input('rating_visuals'),
+            'rating_overall' => $request->input('rating_overall'),
             'review' => $request->string('body'),
         ]);
 
