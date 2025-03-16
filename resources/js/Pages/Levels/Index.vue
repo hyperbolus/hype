@@ -29,7 +29,8 @@ const sortByNames = [
     'Gameplay Rating',
     'Visual Rating',
     'Difficulty Rating',
-    'Review Count'
+    'Review Count',
+    'Date Added',
 ]
 let sortDir = props.filters.sortDir;
 const sortDirNames = [
@@ -90,6 +91,7 @@ const search = () => {
                                 <div @click="setSortBy(3)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Visual Rating</div>
                                 <div @click="setSortBy(4)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Difficulty Rating</div>
                                 <div @click="setSortBy(5)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Review Count</div>
+                                <div @click="setSortBy(6)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">Date Added</div>
                             </template>
                         </Dropdown>
                     </div>
