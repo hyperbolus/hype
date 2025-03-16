@@ -9,7 +9,7 @@ import {Link} from '@inertiajs/vue3'
 import route from "ziggy-js"
 import Avatar from "@/Components/Avatar.vue";
 import UserFlag from "@/Components/UserFlag.vue";
-import {invisiblePixel} from "@/util.js";
+import {isAuthenticated} from "@/util.js";
 import UserTitle from "@/Components/UserTitle.vue";
 
 const props = defineProps({
