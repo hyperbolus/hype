@@ -35,7 +35,8 @@ const tab = ref(0);
                     </div>
                     <div class="x justify-between p-2">
                         <span>Member Since:</span>
-                        <span>{{ new Date(profile.created_at).toLocaleDateString() }}</span>
+                        <span v-if="profile.id === 666">monday</span>
+                        <span v-else>{{ new Date(profile.created_at).toLocaleDateString() }}</span>
                     </div>
                 </div>
             </div>
