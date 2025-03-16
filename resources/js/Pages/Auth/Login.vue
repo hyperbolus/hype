@@ -1,16 +1,15 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue';
+import AuthenticationCard from '@/Jetstream/AuthenticationCard.vue';
 import SiteLogo from '@/Components/SiteLogo.vue';
-import JetButton from '@/Jetstream/Button.vue';
-import JetInput from '@/Jetstream/Input.vue';
-import JetCheckbox from '@/Jetstream/Checkbox.vue';
-import JetLabel from '@/Jetstream/Label.vue';
+import Button from '@/Jetstream/Button.vue';
+import Input from '@/Jetstream/Input.vue';
+import Checkbox from '@/Jetstream/Checkbox.vue';
+import Label from '@/Jetstream/Label.vue';
 import route from 'ziggy-js'
 import Errors from "@/Components/Errors.vue";
 
 defineProps({
-    canResetPassword: Boolean,
     status: String,
     errors: Object
 });
@@ -34,7 +33,7 @@ const submit = () => {
 <template>
     <Head title="Log in" />
 
-    <JetAuthenticationCard>
+    <AuthenticationCard>
         <template #logo>
             <SiteLogo />
         </template>
@@ -45,8 +44,8 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <JetLabel for="email" value="Email" />
-                <JetInput
+                <Label for="email" value="Email" />
+                <Input
                     id="email"
                     v-model="form.email"
                     type="email"
@@ -57,8 +56,8 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <JetLabel for="password" value="Password" />
-                <JetInput
+                <Label for="password" value="Password" />
+                <Input
                     id="password"
                     v-model="form.password"
                     type="password"
@@ -72,21 +71,17 @@ const submit = () => {
 
             <div class="x space-x-2 justify-between mt-4">
                 <label class="flex items-center">
-                    <JetCheckbox v-model:checked="form.remember" name="remember" />
+                    <Checkbox v-model:checked="form.remember" name="remember" />
                     <span class="ml-2 text-sm text-ui-200">Stay logged in</span>
                 </label>
-                <Link :href="route('auth::register')" class="text-sm underline">Don't have an account?</Link>
+                <Link :href="route('auth::register')" class="text-sm underline hover:text-ui-400">Don't have an account?</Link>
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('auth::password.request')" class="underline text-sm text-ui-600 hover:text-ui-900">
-                    Forgot your password?
-                </Link>
+                <Link :href="route('auth::password.request')" class="text-sm underline hover:text-ui-400">Forgot your password?</Link>
 
-                <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </JetButton>
+                <Button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Log in</Button>
             </div>
         </form>
-    </JetAuthenticationCard>
+    </AuthenticationCard>
 </template>
