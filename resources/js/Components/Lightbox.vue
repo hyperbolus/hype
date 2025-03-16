@@ -13,9 +13,7 @@ const card = ref(null)
 const open = ref(false)
 
 onMounted(() => {
-    if (props.image) {
-        card.value.style.setProperty('--url', `url('${bg}')`)
-    }
+    if (props.image) card.value.style.setProperty('--url', `url('${bg}')`)
 })
 
 const lerp = (min, max, alpha) => {
@@ -46,13 +44,17 @@ const tilt = (e) => {
         card.value.style.transform = `perspective(1000px) rotateX(${lerp(-15, 15, y).toFixed(2)}deg) rotateY(${-lerp(-35, 35, x).toFixed(2)}deg)`
     })
 }
+
+const close = () => {
+    open.value = false;
+}
 </script>
 <template>
     <div class="cursor-pointer" @click="open = true">
         <img v-if="image" class="rounded" :class="classes" :alt="alt" :src="image"/>
         <slot/>
         <teleport to="#body">
-            <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer items-center justify-center z-[100] fixed inset-0 bg-ui-1000/50" :class="open ? 'flex' : 'hidden'">
+            <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer cursor-none items-center justify-center z-[100] fixed inset-0 bg-ui-1000/50" :class="open ? 'flex' : 'hidden'">
                 <transition
                     enter-active-class="transition ease-out duration-200"
                     enter-from-class="transform opacity-0 scale-50"
@@ -62,7 +64,7 @@ const tilt = (e) => {
                     leave-to-class="transform opacity-0 scale-50">
                     <div v-show="open" class="card rounded overflow-hidden relative" ref="card">
                         <img v-if="image" :alt="alt" :src="image"/>
-                        <slot v-if="open" name="content"/>
+                        <slot v-if="open" name="content" :close="close"/>
                         <div v-if="holo" ref="shine" class="_sparkle absolute inset-0 w-full h-full"></div>
                         <div v-if="holo" class="_glare absolute inset-0 w-full h-full"></div>
                     </div>
@@ -72,7 +74,6 @@ const tilt = (e) => {
     </div>
 </template>
 <style scoped>
-
 ._sparkle, ._sparkle::after {
     mix-blend-mode: color-dodge;
     background-color: transparent;
