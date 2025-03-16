@@ -91,3 +91,8 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
         </div>
     </div>
 </template>
+<style scoped>
+details summary::-webkit-details-marker {
+    display:none;
+}
+</style>
