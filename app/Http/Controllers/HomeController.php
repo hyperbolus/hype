@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
+use App\Models\Content\Thread;
 use App\Models\Content\Video;
 use App\Models\System\Setting;
 use App\Models\System\User;
