@@ -28,11 +28,11 @@ class ReviewController extends Controller
         $level = Hydrate::level($request->integer('level_id'));
 
         $request->validate([
-            'rating_gameplay' => 'nullable|integer|between:0,10',
-            'rating_visuals' => 'nullable|integer|between:0,10',
-            'rating_difficulty' => 'nullable|integer|between:0,100',
-            'rating_overall' => 'required|integer|between:0,10',
-            'body' => 'nullable|min:20'
+            'rating_gameplay' => ['nullable', 'integer', 'between:0,10'],
+            'rating_visuals' => ['nullable', 'integer', 'between:0,10'],
+            'rating_difficulty' => ['nullable', 'integer', 'between:0,100'],
+            'rating_overall' => ['required', 'integer', 'between:0,10'],
+            'body' => ['nullable', 'string', 'min:20']
         ]);
 
         // TODO: I think this should be moved to update or something

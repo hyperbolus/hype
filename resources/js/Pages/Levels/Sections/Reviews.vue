@@ -48,6 +48,7 @@ const submit = () => {
         final.rating_difficulty = blanks.value.difficulty ? null : final.rating_difficulty;
         final.rating_gameplay = blanks.value.gameplay ? null : final.rating_gameplay;
         final.rating_visuals = blanks.value.visuals ? null : final.rating_visuals;
+        final.body = final.body === '<p></p>' ? null : final.body;
 
         return final;
     }).post(route('reviews.store'), {
