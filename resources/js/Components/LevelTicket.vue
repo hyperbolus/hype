@@ -74,7 +74,7 @@ const props = defineProps({
                         <LevelRatingStamp v-if="showRatings" :level="level"/>
                     </div>
                 </div>
-                <div v-if="level.banner_url" class="absolute right-0 top-0 h-full w-full -md:w-4/5 group-hover/ticket:scale-105 transition-transform bg-cover bg-center opacity-80 [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]" :style="`background-image:url('${level.banner_url}');`"></div>
+                <div class="absolute right-0 top-0 h-full w-full -md:w-4/5 group-hover/ticket:scale-105 transition-transform bg-cover bg-center opacity-80 [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]" :style="`background-image:url('${level.banner_url ?? 'https://raw.githubusercontent.com/cdc-sys/level-thumbnails/refs/heads/main/thumbs/' + level.id + '.png'}');`"></div>
             </Link>
         </div>
     </div>
