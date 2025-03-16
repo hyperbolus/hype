@@ -9,9 +9,15 @@ import {ref} from "vue";
 import {useSettingsStore} from "@/stores/settings.ts";
 import SearchBar from "@/Components/SearchBar.vue";
 import Icon from "@/Components/Icon.vue";
+import Lightbox from "@/Components/Lightbox.vue";
+import Button from "@/Jetstream/Button.vue";
+import Checkbox from "@/Jetstream/Checkbox.vue";
+import {useStorage} from "@vueuse/core";
 
 const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
+
+const instantLogout = useStorage('instantLogout', false)
 </script>
 <template>
     <SearchBar class="mr-4"/>
@@ -72,12 +78,29 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                         <Toggle class="pointer-events-none cursor-pointer" @click="toggleDark" v-model="isDark"/>
                     </label>
                 </template>
-                    <div class="border-t border-t-ui-700"></div>
                 <template v-if="$page.props.user.impersonating">
                     <Link :href="route('impersonate.leave')" class="block px-2 py-1 cursor-pointer hover:bg-ui-800">Stop Impersonating</Link>
-                    <div class="border-t border-t-ui-700"></div>
                 </template>
-                <div @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white">Logout</div>
+                <div>
+                    <div v-if="instantLogout" @click="logout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white rounded-b-md">Logout</div>
+                    <Lightbox @click.prevent classes="!border-t-none">
+                        <div v-if="!instantLogout" class="px-2 py-1 cursor-pointer hover:bg-red-500 text-red-500 hover:text-white rounded-b-md">Logout</div>
+                        <template #content="props">
+                            <div @click.stop class="y space-y-2 items-center rounded-md cursor-auto bg-ui-900 text-ui-200 p-6 shadow-xl w-full">
+                                <h1 class="font-bold text-2xl">Logout</h1>
+                                <p class="mt-2">Are you sure you want to log out?</p>
+                                <label class="x items-center space-x-1">
+                                    <Checkbox v-model="instantLogout"/>
+                                    <span>Don't ask me again</span>
+                                </label>
+                                <div class="x space-x-2">
+                                    <button @click="logout" class="button text-red-500 hover:bg-red-500 hover:text-white">Yes</button>
+                                    <Button @click="props.close(); instantLogout = false">Close</Button>
+                                </div>
+                            </div>
+                        </template>
+                    </Lightbox>
+                </div>
             </template>
         </Dropdown>
     </div>
