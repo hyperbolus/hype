@@ -36,6 +36,7 @@ class LevelController extends Controller
             'rating_visuals',
             'rating_difficulty',
             'reviews_count',
+            'created_at',
         ];
 
         $directions = [
@@ -75,14 +76,15 @@ class LevelController extends Controller
             $levels->with(['reviews' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             }]);
+
+            if ($sorting['sortBy'] !== 5) $levels->whereNotNull($attributes[$sorting['sortBy']]);
         }
 
         return Inertia::render('Levels/Index', [
             'levels' => $levels
-                ->whereNotNull($attributes[$sorting['sortBy']])
+                ->withCount('reviews')
                 ->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']])
                 ->orderBy('id') // TODO: Break ties so it's not random (which for some reason it is? maybe study)
-                ->withCount('reviews')
                 ->paginate(10)
                 ->appends($sorting),
             'filters' => $sorting,
