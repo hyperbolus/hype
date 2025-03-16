@@ -171,7 +171,10 @@ watch(options, (value) => {
                         </template>
                         <input ref="pathInput" @focusout="pathFocus = false" type="text" placeholder="Path" class="!hidden shadow border-0 grow rounded-md bg-ui-950 text-sm py-0.5 px-2 w-full"/>
                     </div>
-                    <input v-model="searchQuery" type="text" placeholder="🔍 Search" class="shadow border-0 grow rounded-md bg-ui-950 text-sm py-0.5 px-2"/>
+                    <div class="x space-x-1 items-center shadow grow rounded-md bg-ui-950 py-0.5 px-2 focus-within:ring-1 ring-blue-500">
+                        <Icon class="w-4" name="magnifying-glass"/>
+                        <input v-model="searchQuery" type="text" placeholder="Search" class="text-sm border-0 bg-transparent p-0 focus-visible:ring-0"/>
+                    </div>
                 </div>
                 <div class="x space-x-2">
                     <div v-if="false" class="x divide-x divide-ui-700 border border-ui-700 rounded bg-ui-800 shadow text-sm">
@@ -232,7 +235,7 @@ watch(options, (value) => {
                 </div>
             </div>
             <div class="gap-0 grid grow" :style="`grid-template-columns: repeat(${columns.length}, minmax(0, 1fr));`">
-                <div v-for="i in columns" class="y bg-ui-950 border-t border-ui-700 first:rounded-bl-lg last:rounded-br-lg h-[calc(100vh-19rem)] overflow-y-auto">
+                <div v-for="i in columns" class="y bg-ui-950 border-t border-ui-700 h-[calc(100vh-19rem)] overflow-y-auto">
                     <div class="y sticky top-0 bg-ui-950 z-10 justify-center relative" :class="{'border-l border-ui-700': columns.length === 2}" v-if="i === columns.length - 1">
                         <div class="y items-center space-y-4 p-8" :class="{'invisible': !currentFile}">
                             <div class="rounded-full bg-ui-800 p-8">
@@ -285,6 +288,13 @@ watch(options, (value) => {
                             <span class="text-sm font-mono text-ui-600" :class="{'!text-white': (id|0) === currentFile}"><Tooltip class="inline-flex" :message="file.bytes" position="left">{{ prettyBytes(file.bytes) }}</Tooltip> &bull; ID: {{ id }}</span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="x space-x-2 justify-between border-t border-t-ui-700 text-sm">
+                <span class="px-2 border-r border-r-ui-700">SFX Library Version {{ library.version }}</span>
+                <div>
+                    <span v-if="searchQuery" class="px-2 border-l border-l-ui-700">{{ Object.keys(searchResults).length }} Results</span>
+                    <span class="px-2 border-l border-l-ui-700">{{ Object.keys(library.files).length }} Files</span>
                 </div>
             </div>
         </div>
