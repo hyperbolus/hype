@@ -33,7 +33,7 @@
 }
 
 .button {
-    @apply select-none font-semibold rounded px-2 py-1 shadow bg-ui-800 border-0 hover:bg-ui-900 hover:shadow-sm cursor-pointer
+    @apply inline-flex items-center select-none font-semibold rounded-md px-4 py-2 shadow bg-ui-700 text-xs uppercase tracking-widest hover:bg-ui-600 active:bg-ui-900 focus:outline-none focus:border-ui-900 focus:ring focus:ring-ui-300 disabled:opacity-25 transition border border-transparent hover:bg-ui-900 hover:shadow-sm cursor-pointer
 }
 
 .textbox {
