@@ -80,7 +80,7 @@ class LevelController extends Controller
         return Inertia::render('Levels/Index', [
             'levels' => $levels
                 ->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']])
-                ->orderBy('id') // Break ties so it's not random (which for some reason it is? maybe study)
+                ->orderBy('id') // TODO: Break ties so it's not random (which for some reason it is? maybe study)
                 ->withCount('reviews')
                 ->paginate(10)
                 ->appends($sorting),
@@ -88,7 +88,7 @@ class LevelController extends Controller
             'recent_reviews' => Review::query()
                 ->whereNotNull('review')
                 ->whereNot('review', '=', '')
-                ->orderBy('created_at', 'DESC')
+                ->latest()
                 ->limit(10)
                 ->with(['author', 'level'])
                 ->get()
@@ -126,6 +126,7 @@ class LevelController extends Controller
         return page('Levels/Show', [
             'level' => $level,
             'reviews' => $level->reviews()
+                ->latest()
                 ->with('author')
                 ->paginate(5)
                 ->withPath(route('levels.reviews.show', $id)),
@@ -169,6 +170,7 @@ class LevelController extends Controller
             'level' => $level
                 ->loadCount('reviews'),
             'reviews' => $level->reviews()
+                ->latest()
                 ->with('author')
                 ->paginate(5),
             'review' => auth()->check() ? Review::query()
