@@ -7,6 +7,7 @@ import ReportModal from "@/Components/ReportModal.vue";
 import {displayRating, isAuthenticated} from "@/util.js";
 import route from "ziggy-js";
 import TipTap from "@/Components/TipTap.vue";
+import Timestamp from "@/Components/Timestamp.vue";
 
 const props = defineProps({
     review: Object
@@ -24,7 +25,10 @@ const list = {
         <div class="flex flex-col md:flex-row gap-2 items-start md:items-center w-full justify-between">
             <div class="x items-center space-x-2 px-2">
                 <Avatar width="w-10 shrink-0" :user="review.author"/>
-                <Username :user="review.author"/>
+                <div class="y">
+                    <Username :user="review.author"/>
+                    <Timestamp class="w-fit text-sm text-ui-500" position="right" :time="review.created_at"/>
+                </div>
             </div>
             <div class="x space-x-2 items-center text-sm text-ui-400">
                 <div v-for="(item, key) in list" class="y items-end leading-tight bg-ui-950 rounded px-2 py-0.5">
