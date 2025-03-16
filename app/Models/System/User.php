@@ -9,6 +9,7 @@ use App\Models\Content\Thread;
 use App\Models\Forge\Mod;
 use App\Models\Game\Level;
 use App\Models\Game\LevelReplay;
+use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -64,6 +65,17 @@ class User extends Authenticatable
         'reputation' => 'integer',
         'signature_visibility' => 'boolean'
     ];
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword($token));
+    }
 
     public function recalculateReputation() {
         $this->reputation = ReputationLog::query()->where('recipient_id', $this->id)->sum('reputation');

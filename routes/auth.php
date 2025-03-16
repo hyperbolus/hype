@@ -63,11 +63,11 @@ Route::name('auth::')->group(function () {
         Route::get('/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])
             ->name('password.confirmation');
     });
-//</editor-fold>
+    //</editor-fold>
 
     //<editor-fold desc="Password Reset">
-    Route::middleware('guest')->name('password')->group(function () {
-        Route::get('/auth/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::middleware('guest')->name('password.')->group(function () {
+        Route::get('/auth/forgot-password', [PasswordResetLinkController::class, 'create'])->name('request');
 
         Route::post('/auth/forgot-password', [PasswordResetLinkController::class, 'store'])->name('email');
 
