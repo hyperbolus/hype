@@ -132,8 +132,9 @@ Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name(
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
-Route::get('/user/{id}/reputation', [ReputationLogController::class, 'index'])->name('reputation.show');
-Route::post('/user/{id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);
+Route::get('/user/{user:id}/reputation', [ReputationLogController::class, 'index'])->name('reputation.show');
+Route::post('/user/{user:id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);
+Route::delete('/user/{user:id}/reputation', [ReputationLogController::class, 'destroy'])->name('reputation.destroy')->middleware(['auth', 'verified']); // TODO: finish this
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
 

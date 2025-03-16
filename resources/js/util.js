@@ -34,7 +34,11 @@ export const getUser = () => {
 }
 
 export const isUser = (id) => {
-    return getUser().id === id;
+    return isAuthenticated() && getUser().id === id;
+}
+
+export const isNotUser = (id) => {
+    return isAuthenticated() && getUser().id !== id;
 }
 
 export const displayRating = (rating, fixed = true) => {

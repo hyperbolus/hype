@@ -61,8 +61,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_seen' => 'datetime',
         'time_online' => 'integer',
+        'reputation' => 'integer',
         'signature_visibility' => 'boolean'
     ];
+
+    public function recalculateReputation() {
+        $this->reputation = ReputationLog::query()->where('recipient_id', $this->id)->sum('reputation');
+    }
 
     public function toSearchableArray(): array
     {
