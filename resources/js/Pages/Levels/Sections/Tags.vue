@@ -147,7 +147,7 @@ onMounted(() => {
                             </template>
                         </div>
                         <div>
-                            <span>{{ tag.pivot.score * 100 }}% Approval</span>
+                            <span>{{ (tag.pivot.score * 100).toFixed(1) }}% Approval</span>
                         </div>
                     </div>
                 </div>
