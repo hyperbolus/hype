@@ -31,7 +31,7 @@ class CalculateRatings
             ->get()
             ->where('reviews_count', '>', 5);
 
-        $reviews = Review::all(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall'])->keyBy('id');
+        $reviews = Review::all(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id'])->keyBy('id');
 
         $updates = [];
 
@@ -40,13 +40,15 @@ class CalculateRatings
                 return $review->level_id === $level->id;
             });
 
-            $updates[] = [
+            clock($ratings);
+
+            $updates[] = clock([
                 'id' => $level->id,
                 'rating_difficulty' => $ratings->avg('rating_difficulty'),
                 'rating_gameplay' => $ratings->avg('rating_gameplay'),
                 'rating_visuals' => $ratings->avg('rating_visuals'),
                 'rating_overall' => $ratings->avg('rating_overall'),
-            ];
+            ]);
         });
 
         Level::query()->upsert(
