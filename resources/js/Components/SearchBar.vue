@@ -1,5 +1,5 @@
 <script setup>
-import {onUnmounted, ref, watch} from 'vue'
+import {ref, watch} from 'vue'
 import { MeiliSearch } from 'meilisearch'
 import { Link } from '@inertiajs/vue3'
 import route from 'ziggy-js'
@@ -7,6 +7,7 @@ import {face} from "@/util.js";
 import Username from "@/Components/Username.vue";
 import Icon from "@/Components/Icon.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
+import {useMagicKeys} from "@vueuse/core";
 
 const client = new MeiliSearch({
     host: 'https://search.gdps.io',
@@ -45,22 +46,43 @@ const format = Intl.NumberFormat('en-US', {
     maximumFractionDigits: 1
 });
 
+const searchInput = ref(null)
+const trigger = ref(null)
+const dropdown = ref(null)
+// TODO: disable in input? https://vueuse.org/core/useMagicKeys/
+const { ctrl_k } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+        // TODO: docs say to sue with caution. why?
+        if (e.ctrlKey && e.key === 'k' && e.type === 'keydown') {
+            e.preventDefault()
+            dropdown.value.open = true;
+            setTimeout(() => searchInput.value.focus(), 100) // lmao fuck off
+        }
+    },
+})
+// whenever(ctrl_k, () => {
+//     dropdown.value.open = true;
+//     searchInput.value.focus()
+// })
+
 const tiny = n => format.format(n);
 // TODO: autofocus on dropdown open
 </script>
 <template>
-    <Dropdown id="globalSearchBar" content-classes="w-fit">
+    <Dropdown ref="dropdown" @click="searchInput.focus()" id="globalSearchBar" content-classes="w-fit">
         <template #trigger>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
-                <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-            </svg>
-
+            <div ref="trigger">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                </svg>
+            </div>
         </template>
         <template #content>
             <div @click.stop class="y items-stretch rounded-md space-y-2 shadow-xl z-30 w-64">
                 <div class="flex items-center bg-ui-800 px-2 rounded-t-md">
                     <Icon class="w-5" size="24" type="solid" name="magnifying-glass"/>
-                    <input placeholder="Search..." v-model="newQuery" type="text" class="pl-3 w-full truncate shrink text-sm py-1.5 border-none focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
+                    <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="pl-3 w-full truncate shrink text-sm py-1.5 border-none focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
                 </div>
                 <div class="y space-y-2 w-full" v-if="searches[lastQuery]">
                     <div class="px-2" v-if="searches[lastQuery].results.map(r => r.totalHits).reduce((p, a) => p + a, 0) === 0">No results</div>
