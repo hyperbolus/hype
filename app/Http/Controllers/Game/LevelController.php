@@ -77,7 +77,7 @@ class LevelController extends Controller
                 $query->where('user_id', $user->id);
             }]);
 
-            if ($sorting['sortBy'] !== 5) $levels->whereNotNull($attributes[$sorting['sortBy']]);
+            if ($sorting['sortBy'] !== 5) $levels->whereNotNull('levels.' . $attributes[$sorting['sortBy']]);
         }
 
         return Inertia::render('Levels/Index', [
