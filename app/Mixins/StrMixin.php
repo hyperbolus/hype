@@ -17,7 +17,7 @@ class StrMixin
             if (Str::length($string) <= $max) return $string;
 
             // We hard trim at length, then trim further
-            $trimmed = substr($string, 0, $max);
+            $trimmed = Str::substr($string, 0, $max);
 
             // Heuristics are based on position of the last
             // space vs position of last character in string
@@ -26,7 +26,7 @@ class StrMixin
             // If the word cut isn't less than 2/3 of the text,
             // then forget about it and just split the word
             if ($lastSpace > (Str::length($trimmed) / 3) * 2) {
-                $trimmed = substr($trimmed, 0, min(Str::length($trimmed), $lastSpace));
+                $trimmed = Str::substr($trimmed, 0, min(Str::length($trimmed), $lastSpace));
             }
 
             return $trimmed . '...';
