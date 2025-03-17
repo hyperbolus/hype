@@ -68,10 +68,10 @@ const tab = ref(0);
                                 <h2 class="font-bold">{{ review.level.name }}</h2>
                                 <span class="text-xs">by&nbsp;<span class="font-bold">{{ review.level.creator }}</span></span>
                                 <div class="x flex-wrap space-x-4 lg:space-x-2 items-center justify-between">
-                                    <span class="text-xs">DIFF:&nbsp;{{ review.rating_difficulty ? review.rating_difficulty : 'N/A' }}</span>
-                                    <span class="text-xs">GAME:&nbsp;{{ review.rating_gameplay ? review.rating_gameplay : 'N/A' }}</span>
-                                    <span class="text-xs">VIS:&nbsp;{{ review.rating_visuals ? review.rating_visuals : 'N/A' }}</span>
-                                    <span class="text-xs">ALL:&nbsp;{{ review.rating_overall ? review.rating_overall : 'N/A' }}</span>
+                                    <span class="text-xs">DIFF:&nbsp;{{ review.rating_difficulty ?? 'N/A' }}</span>
+                                    <span class="text-xs">GAME:&nbsp;{{ review.rating_gameplay ?? 'N/A' }}</span>
+                                    <span class="text-xs">VIS:&nbsp;{{ review.rating_visuals ?? 'N/A' }}</span>
+                                    <span class="text-xs">ALL:&nbsp;{{ review.rating_overall ?? 'N/A' }}</span>
                                 </div>
                                 <p class="text-sm">{{ review.review }}</p>
                             </Link>
