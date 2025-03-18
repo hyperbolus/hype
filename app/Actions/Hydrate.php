@@ -62,7 +62,7 @@ class Hydrate
             $level->stars = $res['stars'];
             if ($res['officialSong'] === 0) {
                 $level->song_id = $res['songID'];
-                $level->song_url = $res['songLink'];
+                $level->song_url = $res['songLink'] ?? null;
             }
             $level->song_name = $res['songName'];
             $level->song_author = $res['songAuthor'];
