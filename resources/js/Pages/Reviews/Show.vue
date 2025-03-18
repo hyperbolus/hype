@@ -46,7 +46,7 @@ const props = defineProps({
                     <div class="y">
                         <span class="font-bold text-sm">OVERALL</span>
                         <span class="font-bold text-3xl">{{ displayRating(review.rating_overall) }}<span class="text-base text-ui-600">/10</span></span>
-                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_gameplay === null}" :style="`width: ${review.rating_overall * 10}%;`"></div></div>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_overall === null}" :style="`width: ${review.rating_overall * 10}%;`"></div></div>
                     </div>
                     <div class="y">
                         <span class="font-bold text-sm">GAMEPLAY</span>
@@ -56,12 +56,12 @@ const props = defineProps({
                     <div class="y">
                         <span class="font-bold text-sm">VISUALS</span>
                         <span class="font-bold text-3xl">{{ displayRating(review.rating_visuals) }}<span class="text-base text-ui-600">/10</span></span>
-                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_gameplay === null}" :style="`width: ${review.rating_visuals * 10}%;`"></div></div>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_visuals === null}" :style="`width: ${review.rating_visuals * 10}%;`"></div></div>
                     </div>
                     <div class="y">
                         <span class="font-bold text-sm">DIFFICULTY</span>
                         <span class="font-bold text-3xl">{{ displayRating(review.rating_difficulty) }}<span class="text-base text-ui-600">/100</span></span>
-                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_gameplay === null}" :style="`width: ${review.rating_difficulty}%;`"></div></div>
+                        <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_difficulty === null}" :style="`width: ${review.rating_difficulty}%;`"></div></div>
                     </div>
                 </div>
             </div>
