@@ -20,6 +20,13 @@ class Level extends Model
     use HasFactory;
     use Searchable;
 
+    protected $fillable = [
+        'rating_difficulty',
+        'rating_gameplay',
+        'rating_visuals',
+        'rating_overall'
+    ];
+
     public function toSearchableArray(): array
     {
         return $this->toArray();
