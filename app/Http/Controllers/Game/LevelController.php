@@ -76,9 +76,9 @@ class LevelController extends Controller
             $levels->with(['reviews' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             }]);
-
-            if ($sorting['sortBy'] !== 5) $levels->whereNotNull('levels.' . $attributes[$sorting['sortBy']]);
         }
+
+        if ($sorting['sortBy'] !== 5) $levels->whereNotNull('levels.' . $attributes[$sorting['sortBy']]);
 
         return Inertia::render('Levels/Index', [
             'levels' => $levels
@@ -180,6 +180,9 @@ class LevelController extends Controller
                 ->where('level_id', $level->id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
+        ])->meta('Level Reviews', 'Level Reviews')->breadcrumbs([
+            crumb($level->name, $level->description),
+            crumb('Level', route('levels.index'))
         ]);
     }
 
