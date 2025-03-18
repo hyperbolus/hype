@@ -25,6 +25,7 @@ const props = defineProps({
             <span class="pane" v-if="levels.data.length === 0">There are no levels with this tag</span>
             <Pagination :list="levels"/>
             <LevelTicket v-for="level in levels.data" :level="level"/>
+            <Pagination :list="levels"/>
         </div>
     </app-layout>
 </template>
