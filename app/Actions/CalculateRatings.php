@@ -4,25 +4,36 @@ namespace App\Actions;
 
 use App\Models\Content\Review;
 use App\Models\Game\Level;
-use Illuminate\Database\Eloquent\Collection;
-use function Clue\StreamFilter\fun;
+use Illuminate\Support\Collection;
 
 class CalculateRatings
 {
-    protected static $validTypes = [
-        'difficulty',
-        'gameplay',
-        'visuals',
-        'overall',
-    ];
+    private static function score($avg, $reviews, $difficulty = false)
+    {
+        // Don't average if before x
+        if ($reviews < 5) return null;
+
+        $lerp = fn(float $a, float $b, float $t) => $a + $t * ($b - $a);
+
+        $all_avg = $difficulty ? 10 : 5;
+        $confidence = $difficulty ? 1 : 10;
+
+        // Don't weight after x
+        if ($reviews < 30) {
+            return $lerp($avg, ($avg * $reviews + $confidence * $all_avg) / ($reviews + $confidence), 0.44);
+        } else {
+            return $avg;
+        }
+    }
 
     public static function all(): void
     {
+        // Reset all level averages
         Level::query()->update([
             'rating_difficulty' => null,
             'rating_gameplay' => null,
             'rating_visuals' => null,
-            'rating_overall' => null,
+            'rating_overall' => null
         ]);
 
         $levels = Level::query()
@@ -36,51 +47,49 @@ class CalculateRatings
         $updates = [];
 
         $levels->map(function (Level $level) use (&$updates, $reviews) {
-            $ratings = $reviews->filter(function (Review $review) use ($level) {
-                return $review->level_id === $level->id;
-            });
-
-            clock($ratings);
-
-            $updates[] = clock([
+            $updates[] = [
                 'id' => $level->id,
-                'rating_difficulty' => $ratings->avg('rating_difficulty'),
-                'rating_gameplay' => $ratings->avg('rating_gameplay'),
-                'rating_visuals' => $ratings->avg('rating_visuals'),
-                'rating_overall' => $ratings->avg('rating_overall'),
-            ]);
+                ...self::filter($reviews->filter(function (Review $review) use ($level) {
+                    return $review->level_id === $level->id;
+                }))
+            ];
         });
 
         Level::query()->upsert(
             $updates,
-            ['id'],
+            'id',
             ['rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall']
         );
     }
 
     public static function level(Level $level): void
     {
-        if ($level->reviews_count < 5) {
-            $level->rating_difficulty = null;
-            $level->rating_gameplay = null;
-            $level->rating_visuals = null;
-            $level->rating_overall = null;
-        } else {
-            $level->rating_difficulty = self::avgRating('difficulty', $level);
-            $level->rating_gameplay = self::avgRating('gameplay', $level);
-            $level->rating_visuals = self::avgRating('visuals', $level);
-            $level->rating_overall = self::avgRating('overall', $level);
-        }
-        $level->save();
+        $reviews = Review::query()
+            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id'])
+            ->where('level_id', '=', $level->id)
+            ->get()
+            ->keyBy('id');
+
+        $level->update(self::filter($reviews));
     }
 
-    private static function avgRating(string $type, Level $level): float
+    /**
+     * @param Collection<Review> $reviews
+     * @return array<Collection>
+     */
+    private static function filter(Collection $reviews): array
     {
-        if (!in_array($type, self::$validTypes)) return 0.0;
+        // Filter collections per rating to remove people who abstained
+        $difficulty = $reviews->filter(fn (Review $review) => $review->rating_difficulty !== null);
+        $gameplay = $reviews->filter(fn (Review $review) => $review->rating_gameplay !== null);
+        $visuals = $reviews->filter(fn (Review $review) => $review->rating_visuals !== null);
+        $overall = $reviews->filter(fn (Review $review) => $review->rating_overall !== null);
 
-        return (float)\App\Models\Content\Review::query()
-            ->where('level_id', '=', $level->id)
-            ->whereNotNull('rating_' . $type)
-            ->avg('rating_' . $type);
+        return [
+            'rating_difficulty' => self::score($difficulty->avg('rating_difficulty'), $difficulty->count(), true),
+            'rating_gameplay' => self::score($gameplay->avg('rating_gameplay'), $gameplay->count()),
+            'rating_visuals' => self::score($visuals->avg('rating_visuals'), $visuals->count()),
+            'rating_overall' => self::score($overall->avg('rating_overall'), $overall->count()),
+        ];
     }
 }
