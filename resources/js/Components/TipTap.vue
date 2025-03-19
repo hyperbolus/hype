@@ -1,6 +1,6 @@
 <script setup>
 import {EditorContent, useEditor,} from '@tiptap/vue-3'
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {Underline} from "@tiptap/extension-underline";
 import {Youtube} from "@tiptap/extension-youtube";
 import {TextAlign} from "@tiptap/extension-text-align";
@@ -78,7 +78,10 @@ const addSpoiler = () => {
 
 const addVideoURL = ref('');
 
-watch(props.modelvalue, () => {
+const v = computed(() => {
+    return props.modelValue
+})
+watch(v, () => {
     editor.value.commands.setContent(props.modelValue, false)
 }, {
     deep: true,
