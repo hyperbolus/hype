@@ -22,17 +22,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/mention', [\App\Http\Controllers\System\SearchController::class, 'username']);
 Route::get('/search', [\App\Http\Controllers\System\SearchController::class, 'tagname']);
-Route::get('/channel-videos/{id}', function (Request $request, string $id) {
-    $apiKey = config('hyperbolus.youtube_token');
-    $api = 'https://youtube.googleapis.com/youtube/v3';
-    $channel = Http::get("${api}/channels?part=contentDetails&part=snippet&id=${id}&key=${apiKey}")->json();
-
-    $playlistId = $channel['items'][0]['contentDetails']['relatedPlaylists']['uploads'];
-
-    $playlist = Http::get("${api}/playlistItems?part=snippet&playlistId=${playlistId}&key=${apiKey}")->json();
-
-    return $playlist;
-});
+//Route::get('/channel-videos/{id}', function (Request $request, string $id) {
+//    $apiKey = config('hyperbolus.youtube_token');
+//    $api = 'https://youtube.googleapis.com/youtube/v3';
+//    $channel = Http::get("${api}/channels?part=contentDetails&part=snippet&id=${id}&key=${apiKey}")->json();
+//
+//    $playlistId = $channel['items'][0]['contentDetails']['relatedPlaylists']['uploads'];
+//
+//    $playlist = Http::get("${api}/playlistItems?part=snippet&playlistId=${playlistId}&key=${apiKey}")->json();
+//
+//    return $playlist;
+//});
 Route::get('/level/{id}', function ($id) {
     $level = \App\Models\Game\Level::query()->with(['tags'])->withCount(['reviews'])->find($id);
     $level->tags->map(function (\App\Models\Content\Tag $tag) {
@@ -45,44 +45,49 @@ Route::get('/level/{id}', function ($id) {
     return $level;
 });
 
-Route::get('/test/lvls', function () {
-    $lvls = \App\Models\Game\Level::query()->limit(100)->orderBy('id', 'DESC')->get()->pluck('id')->toArray();
-    return join(',', $lvls);
-});
+//Route::get('/test/lvls', function () {
+//    $lvls = \App\Models\Game\Level::query()->limit(100)->orderBy('id', 'DESC')->get()->pluck('id')->toArray();
+//    return join(',', $lvls);
+//});
+//
+//Route::get('/calculate-ratings', function () {
+//    \App\Actions\CalculateRatings::all();
+//    return microtime(true) - LARAVEL_START;
+//});
 
-Route::get('/test/type26', function () {
-    $req = Http::asForm()->withHeaders([
-        'User-Agent' => ''
-    ])->post('http://www.boomlings.com/database/getGJLevels21.php', [
-        'secret' => 'Wmfd2893gb7',
-        'gameVersion' => '22',
-        'type' => '26',
-        'str' => '189628'
-    ])->body();
-
-    $levels = collect(explode('|', explode('#', $req)[0]))->mapWithKeys(function ($item) {
-        $mapped = gj_map($item, ':');
-        return [$mapped[1] => collect($mapped)->mapWithKeys(function ($value, $key) {
-            return [\App\Libraries\GJSchema::$level[$key] => $value];
-        })];
-    });
-    return $levels;
-});
-
-Route::post('/stencils/new-anonymous', function (Request $request) {
-    $attributes = $request->validate([
-        'name' => ['required', 'max:32'],
-        'description' => ['required'],
-        'object_string' => ['required'],
-        'anon_name' => ['required', 'min:3', 'max:20'],
-        'anon_password' => ['required', 'min:16', 'max:32'],
-    ]);
-
-    return Stencil::create([
-        ...$attributes,
-        'format' => 'obj[;]',
-    ]);
-});
+//Route::get('/test/type26', function () {
+//    $req = Http::asForm()->withHeaders([
+//        'User-Agent' => ''
+//    ])->post('http://www.boomlings.com/database/getGJLevels21.php', [
+//        'secret' => 'Wmfd2893gb7',
+//        'gameVersion' => '22',
+//        'type' => '26',
+//        'str' => '189628'
+//    ])->body();
+//
+//    $levels = collect(explode('|', explode('#', $req)[0]))->mapWithKeys(function ($item) {
+//        $mapped = gj_map($item, ':');
+//        return [$mapped[1] => collect($mapped)->mapWithKeys(function ($value, $key) {
+//            return [\App\Libraries\GJSchema::$level[$key] => $value];
+//        })];
+//    });
+//    return $levels;
+//});
+//
+//Route::post('/stencils/new-anonymous', function (Request $request) {
+//    $attributes = $request->validate([
+//        'name' => ['required', 'max:32'],
+//        'description' => ['required'],
+//        'object_string' => ['required'],
+//        'anon_name' => ['required', 'min:3', 'max:20'],
+//        'anon_password' => ['required', 'min:16', 'max:32'],
+//    ]);
+//
+//    return Stencil::create([
+//        ...$attributes,
+//        'format' => 'obj[;]',
+//    ]);
+//});
 
 Route::get('/level/{id}/reviews', function ($id) {
     $reviews = \App\Models\Content\Review::query()->where('level_id', '=', $id)->where('deleted_at', '=', null)->with('author')->paginate(20);
@@ -205,32 +210,32 @@ Route::get('/style/{id}', function ($id) use ($fix_style) {
 });
 
 
-Route::get('/proxy', function () {
-    $proxies = \App\Models\System\Setting::query()->where('key', '=', 'proxies')->first();
-
-    $proxies = explode("\n", $proxies->value);
-
-    foreach ($proxies as $proxy) {
-        $proxy = explode(':', $proxy);
-
-    }
-
-    $res = Http::asForm()
-        ->withOptions([
-            'proxy' => ''
-        ])
-        ->withHeaders([
-            'User-Agent' => ''
-        ])->post('https://www.boomlings.com/database/getGJLevels21.php', [
-            'secret' => 'Wmfd2893gb7',
-            'gameVersion' => '22',
-            'type' => '26',
-            'str' => join(',', range(101, 200))
-        ])->body();
-
-    if ($res === 'error code: 1005') {
-        abort(500, 'Banned IP');
-    }
-
-    return explode('|', explode('#', $res)[0]);
-});
+//Route::get('/proxy', function () {
+//    $proxies = \App\Models\System\Setting::query()->where('key', '=', 'proxies')->first();
+//
+//    $proxies = explode("\n", $proxies->value);
+//
+//    foreach ($proxies as $proxy) {
+//        $proxy = explode(':', $proxy);
+//
+//    }
+//
+//    $res = Http::asForm()
+//        ->withOptions([
+//            'proxy' => ''
+//        ])
+//        ->withHeaders([
+//            'User-Agent' => ''
+//        ])->post('https://www.boomlings.com/database/getGJLevels21.php', [
+//            'secret' => 'Wmfd2893gb7',
+//            'gameVersion' => '22',
+//            'type' => '26',
+//            'str' => join(',', range(101, 200))
+//        ])->body();
+//
+//    if ($res === 'error code: 1005') {
+//        abort(500, 'Banned IP');
+//    }
+//
+//    return explode('|', explode('#', $res)[0]);
+//});
