@@ -55,6 +55,12 @@ const submit = () => {
         preserveScroll: true,
     });
 };
+
+const remove = () => {
+    useForm({}).delete(route('reviews.destroy', props.review.id), {
+        preserveScroll: true,
+    });
+};
 </script>
 <template>
     <Layout :level="level">
@@ -142,7 +148,10 @@ const submit = () => {
                             </div>
                             <input :disabled="blanks.visuals" class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
                         </div>
-                        <Button class="w-fit" @click="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : (props.review ? 'Edit Your' : 'Submit') + ' Rating' }}</Button>
+                        <div class="x space-x-2">
+                            <Button class="w-fit" @click="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : (props.review ? 'Edit Your' : 'Submit') + ' Rating' }}</Button>
+                            <button class="button text-red-500 hover:text-white hover:bg-red-500" @click="remove" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : 'Delete' }}</button>
+                        </div>
                     </form>
                 </details>
                 <div v-else class="y pane">

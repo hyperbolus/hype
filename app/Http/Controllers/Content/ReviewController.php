@@ -6,10 +6,10 @@ use App\Actions\CalculateRatings;
 use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Review;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Inertia\Inertia;
 
 class ReviewController extends Controller
 {
@@ -71,8 +71,15 @@ class ReviewController extends Controller
         //
     }
 
-    public function destroy(Review $review)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(Request $request, Review $review): RedirectResponse
     {
-        //
+        $this->authorize('destroy', $review);
+
+        $review->forceDelete();
+
+        return back();
     }
 }
