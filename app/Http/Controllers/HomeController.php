@@ -62,6 +62,7 @@ class HomeController extends Controller
             'recent_reviews' => Review::query()
                 ->latest()
                 ->with(['author', 'level'])
+                ->whereNot('review', '')
                 ->limit(5)
                 ->get(),
             'recent_videos' => Video::query()
