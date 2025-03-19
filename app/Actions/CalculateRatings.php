@@ -19,7 +19,7 @@ class CalculateRatings
         $confidence = $difficulty ? 1 : 10;
 
         // Don't weight after x
-        if ($reviews < 30) {
+        if ($reviews < 5) {
             return $lerp($avg, ($avg * $reviews + $confidence * $all_avg) / ($reviews + $confidence), 0.44);
         } else {
             return $avg;
