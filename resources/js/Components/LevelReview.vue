@@ -52,6 +52,6 @@ const list = {
                 </div>
             </div>
         </div>
-        <TipTap v-if="review.review" class="rounded-md bg-ui-800 px-2 py-1 w-full" :editable="false" v-model="review.review"/>
+        <TipTap v-if="review.review" :key="review.id" class="rounded-md bg-ui-800 px-2 py-1 w-full" :editable="false" v-model="review.review"/>
     </div>
 </template>

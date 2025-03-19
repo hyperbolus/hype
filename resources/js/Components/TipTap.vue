@@ -78,14 +78,12 @@ const addSpoiler = () => {
 
 const addVideoURL = ref('');
 
-const v = computed(() => {
-    return props.modelValue
-})
-watch(v, () => {
-    editor.value.commands.setContent(props.modelValue, false)
-}, {
-    deep: true,
-});
+// const v = computed(() => {
+//     return props.modelValue
+// })
+// watch(v, () => {
+//     editor.value.commands.setContent(props.modelValue, false)
+// });
 </script>
 <template>
     <div class="y items-center">
