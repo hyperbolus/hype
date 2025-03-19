@@ -109,6 +109,19 @@ export const trimAtWord = (string, max) => {
     return trimmed + '...';
 }
 
+export const toHHMMSS = (n) => {
+    n = n|0;
+    let hours   = Math.floor(n / 3600);
+    let minutes = Math.floor((n - (hours * 3600)) / 60);
+    let seconds = n - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) hours   = "0" + hours;
+    if (minutes < 10) minutes = "0" + minutes;
+    if (seconds < 10) seconds = "0" + seconds;
+
+    return hours + ':' + minutes + ':' + seconds;
+}
+
 export const readonly = (e, reset) => {
     e.currentTarget.value = reset;
     return true;
