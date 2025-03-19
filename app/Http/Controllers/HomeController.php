@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
 use App\Models\Content\Video;
+use App\Models\Game\Level;
 use App\Models\System\Setting;
 use App\Models\System\User;
 use Illuminate\Contracts\Support\Responsable;
@@ -27,24 +27,24 @@ class HomeController extends Controller
             $q = Article::query()->latest()->first();
         }
 
-        $dcr = Http::asForm()->withUserAgent('')
-            ->post('https://www.boomlings.com/database/getGJComments21.php', [
-                'levelID' => '60805571',
-                'page' => '0',
-                'secret' => 'Wmfd2893gb7'
-            ])->body();
-
-        $dcr = explode('#', $dcr)[0];
-        $dcr = explode('|', $dcr);
-
-        foreach ($dcr as &$d) {
-            $bits = explode(':', $d);
-            $d = gj_map($bits[0], '~');
-            sort($d);
-            $d[6] = base64_urldecode($d[6]);
-            $d[7] = gj_map($bits[1], '~');
-            //$d[7] = $bits[1];
-        }
+//        $dcr = Http::asForm()->withUserAgent('')
+//            ->post('https://www.boomlings.com/database/getGJComments21.php', [
+//                'levelID' => '60805571',
+//                'page' => '0',
+//                'secret' => 'Wmfd2893gb7'
+//            ])->body();
+//
+//        $dcr = explode('#', $dcr)[0];
+//        $dcr = explode('|', $dcr);
+//
+//        foreach ($dcr as &$d) {
+//            $bits = explode(':', $d);
+//            $d = gj_map($bits[0], '~');
+//            sort($d);
+//            $d[6] = base64_urldecode($d[6]);
+//            $d[7] = gj_map($bits[1], '~');
+//            //$d[7] = $bits[1];
+//        }
 
         return page('Home', [
             'frontpage_article' => $q,
@@ -70,7 +70,7 @@ class HomeController extends Controller
                 ->limit(6)
                 ->get(),
             'newest_user' => User::query()->latest()->first(),
-            'daily_chat' => $dcr
+            //'daily_chat' => $dcr
         ])->meta('Home', 'Hyperbolus, your home for Geometry Dash');
     }
 
@@ -117,7 +117,12 @@ class HomeController extends Controller
 
         return Inertia::render('Levels', [
             'featured' => $featured,
-            'magic' => $magic
+            'magic' => $magic,
+            'levels' => Level::query()
+                ->orderBy('reviews_count', 'DESC')
+                ->orderBy('id')
+                ->withCount('reviews')
+                ->paginate(10)
         ]);
     }
 }
