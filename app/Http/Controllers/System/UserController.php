@@ -17,6 +17,8 @@ class UserController extends Controller
         $attributes = [
             'id',
             'name',
+            'reputation',
+            'credits',
             'reviews_count',
         ];
 
@@ -34,7 +36,7 @@ class UserController extends Controller
         $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
 
         $users = User::query()
-            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url'])
+            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits'])
             ->withCount('reviews');
 
         if ($sorting['sortBy'] === 1) {
