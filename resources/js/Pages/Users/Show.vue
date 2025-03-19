@@ -43,18 +43,13 @@ const tab = ref(0);
             <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 md:w-1/2 lg:w-3/4">
                 <div class="y space-y-4 lg:w-1/2">
                     <div class="y md:rounded-b-lg bg-ui-900 divide-y divide-ui-700">
-                        <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">
-                            Bio
-                        </div>
+                        <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Bio</div>
                         <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
                         <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                     </div>
-                    <div class="y md:rounded-b-lg bg-ui-900 divide-y divide-ui-700">
-                        <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">
-                            Signature
-                        </div>
-                        <p class="px-4 py-2 whitespace-pre-wrap" v-if="profile.signature">{{ profile.signature }}</p>
-                        <span v-else class="opacity-50 italic px-4 py-2">This user has no signature</span>
+                    <div v-if="profile.signature" class="y md:rounded-b-lg bg-ui-900 divide-y divide-ui-700">
+                        <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Signature</div>
+                        <p class="px-4 py-2 whitespace-pre-wrap">{{ profile.signature }}</p>
                     </div>
                     <div class="">
                         <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
