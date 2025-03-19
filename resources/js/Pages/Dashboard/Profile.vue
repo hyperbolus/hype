@@ -89,7 +89,7 @@ const flag = useForm({
 })
 const changeFlag = () => {
     flag.post(route('settings.update'), {
-        errorBag: 'changePostbit',
+        errorBag: 'changeFlag',
         preserveScroll: true,
     })
 }
@@ -153,7 +153,7 @@ const intlGroup = (index) => {
                     <option v-for="flag in group" :value="flag">{{ intlCountry(flag) }}</option>
                 </optgroup>
             </select>
-            <Errors/>
+            <Errors bag="changeFlag"/>
             <Button class="w-fit">Change Flag</Button>
         </form>
         <form @submit.prevent="changeBio" class="y pane space-y-2">
