@@ -164,7 +164,7 @@ const remove = () => {
                 <div v-if="reviews.data.length === 0" class="pane">
                     This level has no reviews. Be the first!
                 </div>
-                <LevelReview v-for="review in reviews.data" :review="review"/>
+                <LevelReview :key="review.id" v-for="review in reviews.data" :review="review"/>
                 <Pagination :list="reviews"/>
             </div>
         </div>
