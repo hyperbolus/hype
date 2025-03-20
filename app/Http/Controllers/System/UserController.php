@@ -53,11 +53,34 @@ class UserController extends Controller
 
     public function show(User $user): Responsable
     {
+        // TODO: add all ratings and condense into single query
+        $counts = $user->reviews()
+            ->selectRaw('rating_overall, COUNT(*) as count')
+            ->groupBy('rating_overall')
+            ->get()
+            ->keyBy('rating_overall')
+            ->map(fn(Review $review) => $review->count);
+
+        $curve = [
+            0 => $counts[0] ?? 0,
+            1 => $counts[1] ?? 0,
+            2 => $counts[2] ?? 0,
+            3 => $counts[3] ?? 0,
+            4 => $counts[4] ?? 0,
+            5 => $counts[5] ?? 0,
+            6 => $counts[6] ?? 0,
+            7 => $counts[7] ?? 0,
+            8 => $counts[8] ?? 0,
+            9 => $counts[9] ?? 0,
+            10 => $counts[10] ?? 0,
+        ];
+
         // TODO: appends
         return page('Users/Show', [
             'profile' => $user->loadCount(['threads', 'posts', 'names']),
             'comments' => $user->comments()->latest()->paginate(10, ['*'], 'comments'),
             'reviews' => Review::query()->latest()->where('user_id', $user->id)->with('level')->paginate(5, ['*'], 'reviews'),
+            'curve' => $curve
         ])->meta('Profile of ' . $user->name, $user->bio ?? 'This user has no bio.')
             ->breadcrumbs([
                 [
