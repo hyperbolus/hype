@@ -149,7 +149,7 @@ class LevelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function tags(Level $level): Response
+    public function tags(Level $level): Responsable
     {
         $votes = [];
         if (auth()->check()) {
@@ -161,10 +161,13 @@ class LevelController extends Controller
                 ->get();
         }
 
-        return Inertia::render('Levels/Sections/Tags', [
+        return page('Levels/Sections/Tags', [
             'level' => $level->load('tags'),
             'tags' => Tag::all(),
             'votes' => $votes
+        ])->meta('Tags', $level->description)->breadcrumbs([
+            crumb('Levels', route('levels.index')),
+            crumb($level->name, route('levels.show', $level)),
         ]);
     }
 
@@ -180,9 +183,9 @@ class LevelController extends Controller
                 ->where('level_id', $level->id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
-        ])->meta('Level Reviews', 'Level Reviews')->breadcrumbs([
-            crumb($level->name, $level->description),
-            crumb('Level', route('levels.index'))
+        ])->meta('Reviews', $level->description)->breadcrumbs([
+            crumb('Levels', route('levels.index')),
+            crumb($level->name, route('levels.show', $level)),
         ]);
     }
 
@@ -205,6 +208,9 @@ class LevelController extends Controller
 
                     return $r;
                 })
+        ])->meta('Replays', $level->description)->breadcrumbs([
+            crumb('Levels', route('levels.index')),
+            crumb($level->name, route('levels.show', $level)),
         ]);
     }
 
@@ -213,6 +219,9 @@ class LevelController extends Controller
             'level' => $level,
             'videos' => $level->videos()
                 ->paginate(12)
+        ])->meta('Videos', $level->description)->breadcrumbs([
+            crumb('Levels', route('levels.index')),
+            crumb($level->name, route('levels.show', $level)),
         ]);
     }
 
