@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -32,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
     public function register(): void
     {
         Passport::ignoreRoutes();
-        Passport::ignoreMigrations();
+        Passport::enablePasswordGrant();
     }
 
     /**
