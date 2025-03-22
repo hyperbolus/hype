@@ -46,7 +46,12 @@ class DashboardController extends Controller
                     'password' => 'current_password',
                 ]);
                 $user->email = $request->input('email');
+                $user->email_verified_at = null;
                 $user->save();
+
+                $user->sendEmailVerificationNotification();
+
+                return redirect()->route('auth::verification.notice');
 
                 break;
             case 'update avatar':

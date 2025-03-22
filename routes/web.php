@@ -162,7 +162,7 @@ Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('revi
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
 Route::get('/level/{level:id}/view', [LevelController::class, 'view'])->name('levels.view');
 
-Route::get('/level/{level:id}/reviews', [LevelController::class, 'reviews'])->name('levels.reviews.show');
+Route::get('/level/{level:id}/reviews', [LevelController::class, 'reviews'])->middleware(\App\Http\Middleware\EnsureEmailIsVerifiedIfAuthenticated::class)->name('levels.reviews.show');
 Route::get('/level/{level:id}/replays', [LevelController::class, 'replays'])->name('levels.replays.show');
 Route::get('/level/{level:id}/videos', [LevelController::class, 'videos'])->name('levels.videos.show');
 Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('levels.images.show');

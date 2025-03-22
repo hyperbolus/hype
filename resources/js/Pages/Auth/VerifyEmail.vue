@@ -10,10 +10,10 @@ const props = defineProps({
     status: String,
 });
 
-const form = useForm();
+const form = useForm({});
 
 const submit = () => {
-    form.post(route('verification.send'));
+    form.post(route('auth::verification.send'));
 };
 
 const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
@@ -27,13 +27,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
             <SiteLogo />
         </template>
 
-        <div class="mb-4 text-sm text-ui-200">
-            Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
-        </div>
+        <div class="mb-4 text-sm text-ui-200">Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.</div>
 
-        <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">
-            A new verification link has been sent to the email address you provided in your profile settings.
-        </div>
+        <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">A new verification link has been sent to the email address you provided in your profile settings.</div>
 
         <form @submit.prevent="submit">
             <div class="mt-4 flex items-center justify-between">
@@ -42,19 +38,8 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                 </JetButton>
 
                 <div>
-                    <Link
-                        :href="route('profile.show')"
-                        class="underline text-sm text-ui-200 hover:text-ui-400"
-                    >
-                        Edit Profile</Link>
-
-                    <Link
-                        :href="route('logout')"
-                        method="post"
-                        as="button"
-                        class="underline text-sm text-ui-200 hover:text-ui-400 ml-2">
-                        Log Out
-                    </Link>
+                    <Link :href="route('settings.account')" class="underline text-sm text-ui-200 hover:text-ui-400">Edit Email</Link>
+                    <Link :href="route('auth::logout')" method="post" as="button" class="underline text-sm text-ui-200 hover:text-ui-400 ml-2">Log Out</Link>
                 </div>
             </div>
         </form>

@@ -25,6 +25,12 @@ Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('pa
 Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->middleware('auth');
 
 Route::name('auth::')->group(function () {
+    Route::get('/auth/banned', function (\Illuminate\Http\Request $request) {
+        if ($request->user()->banned_at === null) return redirect('/');
+
+        return page('Auth/Banned');
+    })->middleware(['auth'])->name('banned');
+
     //<editor-fold desc="Authentication">
     Route::middleware('guest')->group(function () {
         Route::get('/auth/login', [AuthenticatedSessionController::class, 'create'])->name('login');
