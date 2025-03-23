@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Game;
 
 use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
+use App\Models\Game\Level;
 use App\Models\Game\Profile;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
@@ -80,12 +81,19 @@ class ProfileController extends Controller
         }
     }
 
-    public function show(string $name): Responsable
+    public function show(Request $request, string $name): Responsable
     {
         $profile = Hydrate::profile($name);
 
+        $levels = Level::query()->where('creator', $profile->username)->withCount('reviews');
+
+        if (auth()->check()) $levels->with(['reviews' => function ($q) use ($request) {
+            $q->where('user_id', $request->user()->id);
+        }]);
+
         return page('Profiles/Show', [
-            'profile' => $profile
+            'profile' => $profile,
+            'levels' => $levels->get()
         ])->meta($profile->username, 'View ' . $profile->username . '\'s profile')
             ->breadcrumbs([
                 crumb('Profiles', route('profiles.index'))
