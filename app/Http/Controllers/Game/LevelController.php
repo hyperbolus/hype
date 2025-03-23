@@ -105,7 +105,7 @@ class LevelController extends Controller
     {
         $level = Hydrate::level($id)->load([
             'images',
-            'tags',
+            'topTags',
             'videos' => function ($q) {
                 $q->inRandomOrder()->limit(5);
             },

@@ -56,6 +56,17 @@ class Level extends Model
     {
         return $this->morphToMany(Tag::class, 'taggable')->withPivot(['verified', 'score'])->orderByPivot('verified', 'DESC')->orderByPivot('score', 'DESC')->withTimestamps();
     }
+    public function topTags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->withPivot(['verified', 'score'])
+            ->orderByPivot('verified', 'DESC')
+            ->orderByPivot('score', 'DESC')
+            ->withTimestamps()
+            ->where('score', '>', 0.5)
+            ->orWhere('verified', true);
+    }
+
 
     public function images(): HasMany
     {
