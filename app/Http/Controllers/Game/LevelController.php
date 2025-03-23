@@ -114,7 +114,7 @@ class LevelController extends Controller
             },
             'replays.author',
             'replays.files',
-        ])->loadCount(['reviews']);
+        ]);
 
         $level->replays->transform(function (LevelReplay $replay) {
             $replay->files->transform(function (Media $media) {
@@ -173,8 +173,7 @@ class LevelController extends Controller
 
     public function reviews(Level $level) {
         return page('Levels/Sections/Reviews', [
-            'level' => $level
-                ->loadCount('reviews'),
+            'level' => $level,
             'reviews' => $level->reviews()
                 ->latest()
                 ->with('author')

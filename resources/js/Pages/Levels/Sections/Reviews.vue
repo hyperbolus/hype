@@ -70,7 +70,7 @@ const remove = () => {
                 <div class="x pane justify-between">
                     <div class="y">
                         <span class="text-xs uppercase">Reviews</span>
-                        <span class="text-xl font-bold">{{ level.reviews_count }}</span>
+                        <span class="text-xl font-bold">{{ reviews.total }}</span>
                     </div>
                     <div class="y">
                         <span class="text-xs uppercase">Difficulty</span>
