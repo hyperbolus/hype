@@ -71,7 +71,7 @@ const search = () => {
             <Link :href="route('levels.index')">Levels</Link>
         </template>
         <div class="y space-y-4 md:w-3/4">
-            <div class="x justify-between items-center">
+            <div class="y sm:flex-row space-y-2 sm:space-y-0 justify-between items-center">
                 <h2 class="font-bold text-2xl">Levels</h2>
                 <div class="x space-x-4 items-center">
                     <div class="x space-x-2 items-center">
