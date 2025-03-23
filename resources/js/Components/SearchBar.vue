@@ -1,4 +1,4 @@
-<script setup>
+    <script setup>
 import {ref, watch} from 'vue'
 import { MeiliSearch } from 'meilisearch'
 import { Link } from '@inertiajs/vue3'
@@ -70,7 +70,7 @@ const tiny = n => format.format(n);
 // TODO: autofocus on dropdown open
 </script>
 <template>
-    <Dropdown ref="dropdown" @click="searchInput.focus()" id="globalSearchBar" content-classes="w-fit">
+    <Dropdown align="left" ref="dropdown" @click="searchInput.focus()" id="globalSearchBar" content-classes="w-fit">
         <template #trigger>
             <div ref="trigger">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">

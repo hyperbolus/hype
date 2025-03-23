@@ -22,7 +22,7 @@ const instantLogout = useStorage('instantLogout', false)
 <template>
     <SearchBar class="mr-4"/>
     <div v-if="$page.props.auth" class="flex items-center space-x-4">
-        <Dropdown container-classes="min-w-[20rem]">
+        <Dropdown align="var" container-classes="origin-top-left -left-12 sm:origin-top-right md:right-0 md:left-auto min-w-[20rem]">
             <template #trigger>
                 <div class="relative">
                     <span v-show="$page.props.user.notifications.length > 0" class="absolute flex -top-0.5 -right-0.5 h-3 w-3">

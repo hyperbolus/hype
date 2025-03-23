@@ -72,7 +72,9 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
         </div>
     </div>
     <div v-if="mobileNavOpen" class="y md:hidden relative z-20 bg-ui-900 w-full pb-1 space-y-2" :class="{'pb-2': isAuthenticated()}">
-        <ControlBar v-if="isAuthenticated()" class="justify-center bg-ui-900 py-1 border-y border-ui-700"/>
+        <div class="x items-center justify-center">
+            <ControlBar v-if="isAuthenticated()" class="justify-center bg-ui-900 py-1 border-y border-ui-700"/>
+        </div>
         <template v-for="(node, key) in navigation">
             <details v-if="node.hasOwnProperty('children')" class="y group/subnav bg-ui-900">
                 <summary class="x items-center justify-between px-4 pb-2">
