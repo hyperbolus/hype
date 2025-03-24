@@ -4,6 +4,7 @@ namespace Deployer;
 
 import('recipe/laravel.php');
 import('contrib/rsync.php');
+import('contrib/crontab .php');
 
 set('application', getenv('CI_PROJECT_NAME'));
 set('ssh_multiplexing', true);
@@ -83,4 +84,9 @@ task('launch', [
     'deploy:unlock',
     'deploy:cleanup',
     'deploy:success',
+]);
+
+after('deploy:success', 'crontab:sync');
+add('crontab:jobs', [
+    '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
 ]);
