@@ -27,7 +27,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
             <SiteLogo />
         </template>
 
-        <div class="mb-4 text-sm text-ui-200">Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.</div>
+        <div class="mb-4 text-sm text-ui-200">Before continuing, we need you to verify your email. If you haven't received an email, you can request another one using the button below. Just be sure to check your spam folder first!</div>
 
         <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">A new verification link has been sent to the email address you provided in your profile settings.</div>
 
