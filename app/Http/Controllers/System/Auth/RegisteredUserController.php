@@ -8,7 +8,6 @@ use App\Rules\AllowedUserNamespace;
 use App\Yggdrasil;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Validation\Rule;
 use function event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -75,7 +74,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): JsonResponse|RedirectResponse
     {
         Validator::make($request->all(), [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'indisposable'],
             'name' => ['required', 'string', 'min:3', 'max:24', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/', new AllowedUserNamespace],
             'password' => Yggdrasil::passwordRules(),
             'terms' => ['required', 'accepted'],

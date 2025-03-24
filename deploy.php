@@ -50,6 +50,9 @@ task('fix:folders', function () {
 set('writable_dirs', ['{{deploy_path}}/shared/storage/framework', '{{deploy_path}}/shared/storage/clockwork']); // ??????
 task('artisan:update', artisan('app:update'));
 
+desc('Update disposable email list');
+task('artisan:disposable:update', artisan('disposable:update'));
+
 after('deploy:failed', 'deploy:unlock');
 
 desc('Runs the database migrations for tenants');
@@ -75,6 +78,7 @@ task('launch', [
     'artisan:migrate',          // |
     'artisan:tenants:migrate',  // |
     //'artisan:update',         // |
+    'artisan:disposable:update',// |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
