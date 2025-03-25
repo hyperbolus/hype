@@ -93,7 +93,7 @@ const sendLike = () => {
                             </div>
                             <div class="flex justify-between">
                                 <span>Credits:</span>
-                                <span>0</span>
+                                <span>{{ user.credits }}</span>
                             </div>
                         </div>
                     </div>
