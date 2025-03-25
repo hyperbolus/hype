@@ -4,7 +4,7 @@ namespace Deployer;
 
 import('recipe/laravel.php');
 import('contrib/rsync.php');
-import('contrib/crontab .php');
+import('contrib/crontab.php');
 
 set('application', getenv('CI_PROJECT_NAME'));
 set('ssh_multiplexing', true);
