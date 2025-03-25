@@ -7,6 +7,7 @@ import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Timestamp from "@/Components/Timestamp.vue";
 import Button from "@/Jetstream/Button.vue";
+import {getUser} from "@/util.js";
 
 const props = defineProps({
     messages: Object,
@@ -31,6 +32,23 @@ const sendMessage = () => {
 const sender = (obj) => {
     return obj.sender_id === usePage().props.user.id ? usePage().props.user : props.recipient
 }
+
+const msgClasses = (msg, i) => {
+    let classes = '';
+    let other = msg.sender_id === props.recipient.id;
+
+    if (msg.sender_id === props.messages.data[i - 1]?.sender_id) {
+        classes += other ? 'rounded-tl' : 'rounded-tr';
+    }
+
+    if (other) {
+        classes += ' bg-ui-700 rounded-bl';
+    } else {
+        classes += ' text-white bg-blue-500 rounded-br'
+    }
+
+    return classes;
+}
 </script>
 <template>
     <app-layout title="Messages">
@@ -42,24 +60,28 @@ const sender = (obj) => {
             <span>Conversation with {{ recipient.name }}</span>
         </template>
         <div class="y space-y-4 w-full">
-            <h2 class="mx-2 font-bold text-2xl">Conversation with {{ recipient.name }}</h2>
-            <Pagination :list="messages"/>
-            <div class="pane !px-0 !py-0 divide-y divide-ui-700">
-                <div class="x items-center px-4 py-2" v-for="message in messages.data">
-                    <Avatar class="w-8 mr-4" :user="sender(message)"/>
-                    <div class="y w-full">
-                        <div class="x justify-between text-sm">
-                            <Username :user="sender(message)"/>
-                            <span class="text-ui-400 text-ui-600"><Timestamp :time="message.created_at"/></span>
-                        </div>
-                        <p>{{ message.body }}</p>
-                    </div>
+            <div class="x justify-between">
+                <div class="x space-x-2 items-center pane">
+                    <Avatar class="w-8" :user="recipient"/>
+                    <Username :user="recipient"/>
+                </div>
+                <div class="x space-x-2 items-center pane">
+                    <Username :user="getUser()"/>
+                    <Avatar class="w-8" :user="getUser()"/>
                 </div>
             </div>
+            <Pagination :list="messages"/>
+            <div class="y space-y-1">
+                <div class="y" :class="{'items-end': message.recipient_id === recipient.id}" v-for="(message, i) in messages.data">
+                    <p class="y px-4 py-2 rounded-3xl max-w-3/4 w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
+                    <span v-if="message.sender_id !== messages.data[i + 1]?.sender_id" class="text-ui-400 text-ui-600"><Timestamp position="bottom" :time="message.created_at"/></span>
+                </div>
+            </div>
+            <Pagination :list="messages"/>
             <form @submit.prevent="sendMessage" class="y pane space-y-2 !pb-4">
                 <label class="y">
                     <span class="my-1">Message</span>
-                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full placeholder-ui-600 pane border-none"></textarea>
+                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full placeholder-ui-600 pane border-none !bg-ui-950"></textarea>
                 </label>
                 <Button class="w-fit">Send Message</Button>
             </form>
