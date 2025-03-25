@@ -4,6 +4,10 @@ import Username from "@/Components/Username.vue";
 import Pagination from "@/Components/Pagination.vue";
 import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
+import Lightbox from "@/Components/Lightbox.vue";
+import ReportModal from "@/Components/ReportModal.vue";
+import {getUser, isAdmin, isAuthenticated} from "@/util.js";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     profile: Object,
@@ -23,14 +27,20 @@ const postComment = () => {
         }
     })
 }
+
+const deleteComment = (id) => {
+    useForm({}).delete(route('user.comments.destroy', id), {
+        preserveScroll: true
+    })
+}
 </script>
 <template>
     <div class="y h-fit md:rounded-b-lg bg-ui-900 lg:w-1/2 divide-y divide-ui-700">
         <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
         <div v-if="comments.data.length === 0" class="px-4 py-2">
-            Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="$page.props.auth">Be the first!</span>
+            Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="isAuthenticated()">Be the first!</span>
         </div>
-        <div v-else v-for="comment in comments.data" class="x space-x-4 justify-between p-4">
+        <div v-else v-for="comment in comments.data" class="x space-x-3 justify-between p-3">
             <div class="y items-center space-y-4 justify-between">
                 <Avatar class="w-8" :user="comment.commenter"/>
                 <div class="!hidden x w-fit justify-center p-1 rounded bg-ui-800">
@@ -46,10 +56,21 @@ const postComment = () => {
                 </div>
                 <p class="text-sm">{{ comment.body }}</p>
             </div>
+            <div class="y space-y-2">
+                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id)">
+                    <Icon class="w-4" name="x-mark"/>
+                </div>
+                <Lightbox class="rounded p-1 bg-ui-800" v-if="isAuthenticated()">
+                    <Icon class="w-4" name="flag"/>
+                    <template #content>
+                        <ReportModal :reportable_id="comment.id" :reportable_type="23" @click.stop class="cursor-auto"/>
+                    </template>
+                </Lightbox>
+            </div>
         </div>
         <div class="px-2">
             <Pagination class="py-2" :list="comments"/>
-            <div v-if="$page.props.auth" class="y items-center gap-2 pb-2">
+            <div v-if="isAuthenticated()" class="y items-center gap-2 pb-2">
                 <textarea class="textbox" v-model="newComment.body" placeholder="Comment..." style="min-height: 4rem !important;"/>
                 <Button @click="postComment" class="w-fit bg-ui-800 px-2 py-1 rounded" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : 'Submit Comment' }}</Button>
             </div>

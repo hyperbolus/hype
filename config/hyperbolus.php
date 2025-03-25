@@ -6,6 +6,7 @@ return [
         11 => \App\Models\Content\Tag::class,
         21 => \App\Models\Content\Post::class,
         22 => \App\Models\Content\Thread::class,
+        23 => \App\Models\System\ProfileComment::class,
 
         40 => \App\Models\Game\Level::class,
         41 => \App\Models\Game\LevelReplay::class,
@@ -18,6 +19,7 @@ return [
         'tag' => 11,
         'post' => 21,
         'thread' => 22,
+        'profilecomment' => 23,
 
         'level' => 40,
         'replay' => 41,

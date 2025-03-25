@@ -4,6 +4,7 @@ namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
 use App\Models\System\ProfileComment;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -30,8 +31,15 @@ class ProfileCommentController extends Controller
         //
     }
 
-    public function destroy(ProfileComment $profileComment)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(ProfileComment $comment): RedirectResponse
     {
-        //
+        $this->authorize('destroy', $comment);
+
+        $comment->delete();
+
+        return back();
     }
 }

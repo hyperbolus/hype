@@ -136,7 +136,8 @@ Route::get('/user/{user:id}/reputation', [ReputationLogController::class, 'index
 Route::post('/user/{user:id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);
 Route::delete('/user/{user:id}/reputation', [ReputationLogController::class, 'destroy'])->name('reputation.destroy')->middleware(['auth', 'verified']); // TODO: finish this
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
-Route::post('/user/{id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
+Route::post('/user/{user:id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
+Route::delete('/user/comment/{comment:id}', [ProfileCommentController::class, 'destroy'])->name('user.comments.destroy')->middleware(['auth', 'verified', 'throttle:10,10']);
 
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
