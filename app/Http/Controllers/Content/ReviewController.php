@@ -74,11 +74,13 @@ class ReviewController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function destroy(Request $request, Review $review): RedirectResponse
+    public function destroy(Review $review): RedirectResponse
     {
         $this->authorize('destroy', $review);
-
+        $review->load('level');
+        $level = $review->level;
         $review->forceDelete();
+        CalculateRatings::level($level);
 
         return back();
     }
