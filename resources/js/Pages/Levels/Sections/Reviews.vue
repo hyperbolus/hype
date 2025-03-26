@@ -2,24 +2,18 @@
 import Layout from '../Layout.vue'
 import {Link, useForm} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
-import Username from "@/Components/Username.vue";
-import Avatar from "@/Components/Avatar.vue";
-import Carousel from "@/Components/Carousel.vue";
-import PostPad from "@/Components/PostPad.vue";
-import VideoLightbox from "@/Components/VideoLightbox.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
-import Tooltip from "@/Components/Tooltip.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
-import {displayRating, isAdmin, isAuthenticated} from "@/util.js";
-import ReportModal from "@/Components/ReportModal.vue";
-import {ref} from "vue";
+import {displayRating, isAuthenticated} from "@/util.js";
+import {onMounted, onUnmounted, ref} from "vue";
 import Errors from "@/Components/Errors.vue";
-import Icon from "@/Components/Icon.vue";
 import LevelReview from "@/Components/LevelReview.vue";
 import TipTap from "@/Components/TipTap.vue";
+import Dropdown from "@/Jetstream/Dropdown.vue";
+import {useEventListener} from "@vueuse/core";
 
 const props = defineProps({
     level: Object,
@@ -74,19 +68,19 @@ const remove = () => {
                     </div>
                     <div class="y">
                         <span class="text-xs uppercase">Difficulty</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_difficulty) }}<span class="text-xs text-ui-600">/100</span></span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_difficulty, 2) }}<span class="text-xs text-ui-600">/100</span></span>
                     </div>
                     <div class="y">
                         <span class="text-xs uppercase">Overall</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_overall) }}<span class="text-xs text-ui-600">/10</span></span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_overall, 2) }}<span class="text-xs text-ui-600">/10</span></span>
                     </div>
                     <div class="y">
                         <span class="text-xs uppercase">Gameplay</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay) }}<span class="text-xs text-ui-600">/10</span></span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay, 2) }}<span class="text-xs text-ui-600">/10</span></span>
                     </div>
                     <div class="y">
                         <span class="text-xs uppercase">Visuals</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_visuals) }}<span class="text-xs text-ui-600">/10</span></span>
+                        <span class="text-xl font-bold">{{ displayRating(level.rating_visuals, 2) }}<span class="text-xs text-ui-600">/10</span></span>
                     </div>
                 </div>
                 <details v-if="isAuthenticated()" class="pane" :open="!props.review">

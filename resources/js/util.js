@@ -41,8 +41,8 @@ export const isNotUser = (id) => {
     return isAuthenticated() && getUser().id !== id;
 }
 
-export const displayRating = (rating, fixed = true) => {
-    return rating === null ? '-' : (fixed ? rating.toFixed(1) : rating);
+export const displayRating = (rating, digits = 1) => {
+    return rating === null ? '-' : rating.toFixed(digits);
 }
 
 export const xor = (str, key) => {

@@ -32,7 +32,7 @@ const list = {
             </div>
             <div class="x space-x-2 items-center text-sm text-ui-400">
                 <div v-for="(item, key) in list" class="y items-end leading-tight bg-ui-950 rounded px-2 py-0.5">
-                    <span class="font-bold text-2xl">{{ displayRating(review[key], false) }}</span>
+                    <span class="font-bold text-2xl">{{ displayRating(review[key], 0) }}</span>
                     <span class="text-xs">{{ item }}</span>
                 </div>
                 <div class="y space-y-2">
