@@ -8,7 +8,7 @@ import Checkbox from "@/Jetstream/Checkbox.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
 import {displayRating, isAuthenticated} from "@/util.js";
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import Errors from "@/Components/Errors.vue";
 import LevelReview from "@/Components/LevelReview.vue";
 import TipTap from "@/Components/TipTap.vue";
@@ -55,6 +55,17 @@ const remove = () => {
         preserveScroll: true,
     });
 };
+
+const unload = (e) => form.isDirty ? e.preventDefault() : void(0)
+
+onMounted(() => {
+    useEventListener(window, 'beforeunload', unload)
+    useEventListener(document, 'inertia:before', (e) => {
+        if (form.isDirty && !confirm('You have unsaved changes with your rating/review that might be lost! Are you sure you want to leave?')) {
+            e.preventDefault()
+        }
+    })
+})
 </script>
 <template>
     <Layout :level="level">
