@@ -26,7 +26,7 @@ const form = useForm({
     rating_difficulty: props.review ? props.review.rating_difficulty : 5,
     rating_visuals: props.review ? props.review.rating_visuals : 5,
     rating_overall: props.review ? props.review.rating_overall : 5,
-    body: props.review ? props.review.review : '<p></p>',
+    body: props.review ? (!props.review.review ? '<p></p>' : props.review.review) : '<p></p>',
     level_id: props.level.id
 });
 
