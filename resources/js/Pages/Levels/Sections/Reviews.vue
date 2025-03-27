@@ -26,7 +26,7 @@ const form = useForm({
     rating_difficulty: props.review ? props.review.rating_difficulty : 5,
     rating_visuals: props.review ? props.review.rating_visuals : 5,
     rating_overall: props.review ? props.review.rating_overall : 5,
-    body: props.review ? props.review.review : '',
+    body: props.review ? props.review.review : '<p></p>',
     level_id: props.level.id
 });
 
@@ -36,7 +36,10 @@ const blanks = ref({
     visuals: false
 });
 
+const submitting = ref(false);
+
 const submit = () => {
+    submitting.value = true;
     form.transform((data) => {
         let final = {...data}; // Copy
         final.rating_difficulty = blanks.value.difficulty ? null : final.rating_difficulty;
@@ -47,12 +50,19 @@ const submit = () => {
         return final;
     }).post(route('reviews.store'), {
         preserveScroll: true,
+        onFinish: () => {
+            submitting.value = false;
+        }
     });
 };
 
 const remove = () => {
+    submitting.value = true;
     useForm({}).delete(route('reviews.destroy', props.review.id), {
         preserveScroll: true,
+        onFinish: () => {
+            submitting.value = false;
+        }
     });
 };
 
@@ -61,7 +71,7 @@ const unload = (e) => form.isDirty ? e.preventDefault() : void(0)
 onMounted(() => {
     useEventListener(window, 'beforeunload', unload)
     useEventListener(document, 'inertia:before', (e) => {
-        if (form.isDirty && !confirm('You have unsaved changes with your rating/review that might be lost! Are you sure you want to leave?')) {
+        if (form.isDirty && !submitting.value && !confirm('You have unsaved changes with your rating/review that might be lost! Are you sure you want to leave?')) {
             e.preventDefault()
         }
     })
