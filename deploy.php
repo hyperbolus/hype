@@ -54,6 +54,9 @@ task('artisan:update', artisan('app:update'));
 desc('Update disposable email list');
 task('artisan:disposable:update', artisan('disposable:update'));
 
+desc('Update Cloudflare IP list');
+task('artisan:cloudflare:reload', artisan('cloudflare:reload'));
+
 after('deploy:failed', 'deploy:unlock');
 
 desc('Runs the database migrations for tenants');
@@ -80,6 +83,7 @@ task('launch', [
     'artisan:tenants:migrate',  // |
     //'artisan:update',         // |
     'artisan:disposable:update',// |
+    'artisan:cloudflare:reload',// |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',

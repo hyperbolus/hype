@@ -22,6 +22,7 @@
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "3.0",
         "meilisearch/meilisearch-php": "^1.4",
+        "monicahq/laravel-cloudflare": "^3.8",
         "pion/laravel-chunk-upload": "^1.5",
         "pragmarx/google2fa": "^8.0",
         "propaganistas/laravel-disposable-email": "^2.4",
