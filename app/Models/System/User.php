@@ -9,6 +9,7 @@ use App\Models\Content\Thread;
 use App\Models\Forge\Mod;
 use App\Models\Game\Level;
 use App\Models\Game\LevelReplay;
+use App\Models\IP;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -21,8 +22,6 @@ use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
-
-//use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 /**
  * @mixin IdeHelperUser
@@ -54,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'referrer_id',
         'location',
         'birthday',
+        'ips'
     ];
 
     /**
@@ -108,6 +108,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(\App\Models\Player::class, 'owner_id');
     }
     */
+
+    public function ips(): HasMany
+    {
+        return $this->hasMany(IP::class);
+    }
 
     public function connections(): HasMany
     {
