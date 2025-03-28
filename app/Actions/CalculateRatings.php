@@ -120,10 +120,10 @@ class CalculateRatings
         });
 
         return [
-            'rating_difficulty' => $counts['rating_difficulty'] === 0 ? null : $scores['rating_difficulty'] / $counts['rating_difficulty'],
-            'rating_gameplay' => $counts['rating_gameplay'] === 0 ? null : $scores['rating_gameplay'] / $counts['rating_gameplay'],
-            'rating_visuals' => $counts['rating_visuals'] === 0 ? null : $scores['rating_visuals'] / $counts['rating_visuals'],
-            'rating_overall' => $counts['rating_overall'] === 0 ? null : $scores['rating_overall'] / $counts['rating_overall'],
+            'rating_difficulty' => $counts['rating_difficulty'] < 5 ? null : $scores['rating_difficulty'] / $counts['rating_difficulty'],
+            'rating_gameplay' => $counts['rating_gameplay'] < 5 ? null : $scores['rating_gameplay'] / $counts['rating_gameplay'],
+            'rating_visuals' => $counts['rating_visuals'] < 5 ? null : $scores['rating_visuals'] / $counts['rating_visuals'],
+            'rating_overall' => $counts['rating_overall'] < 5 ? null : $scores['rating_overall'] / $counts['rating_overall'],
         ];
 
         // for weighting:
