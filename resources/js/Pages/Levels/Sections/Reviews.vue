@@ -56,9 +56,11 @@ const submit = () => {
     });
 };
 
+const removeForm = useForm({});
+
 const remove = () => {
     submitting.value = true;
-    useForm({}).delete(route('reviews.destroy', props.review.id), {
+    removeForm.delete(route('reviews.destroy', props.review.id), {
         preserveScroll: true,
         onFinish: () => {
             submitting.value = false;
@@ -165,7 +167,7 @@ onMounted(() => {
                         </div>
                         <div class="x space-x-2">
                             <Button class="w-fit" @click="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : (props.review ? 'Edit Your' : 'Submit') + ' Rating' }}</Button>
-                            <button class="button text-red-500 hover:text-white hover:bg-red-500" @click="remove" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">{{ form.processing ? 'Processing...' : 'Delete' }}</button>
+                            <button v-if="props.review" class="button text-red-500 hover:text-white hover:bg-red-500" @click="remove" :class="{ 'opacity-25': removeForm.processing }" :disabled="removeForm.processing">{{ removeForm.processing ? 'Processing...' : 'Delete' }}</button>
                         </div>
                     </form>
                 </details>
