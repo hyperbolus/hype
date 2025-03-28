@@ -29,37 +29,44 @@ class CalculateRatings
     public static function all(): void
     {
         // Reset all level averages
-        Level::query()->update([
-            'rating_difficulty' => null,
-            'rating_gameplay' => null,
-            'rating_visuals' => null,
-            'rating_overall' => null
-        ]);
-
-        $levels = Level::query()
-            ->withCount('reviews')
-            ->whereHas('reviews')
-            ->get()
-            ->where('reviews_count', '>', 5);
-
-        $reviews = Review::all(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id'])->keyBy('id');
-
-        $updates = [];
-
-        $levels->map(function (Level $level) use (&$updates, $reviews) {
-            $updates[] = [
-                'id' => $level->id,
-                ...self::filter($reviews->filter(function (Review $review) use ($level) {
-                    return $review->level_id === $level->id;
-                }))
-            ];
+        Level::withoutTimestamps(function () {
+            Level::query()->update([
+                'rating_difficulty' => null,
+                'rating_gameplay' => null,
+                'rating_visuals' => null,
+                'rating_overall' => null
+            ]);
         });
 
-        Level::query()->upsert(
-            $updates,
-            'id',
-            ['rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall']
-        );
+        $levels = Level::query()
+            ->select('id')
+            ->withCount('reviews')
+            ->whereHas('reviews')
+            ->get();
+
+        $reviews = Review::query()
+            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id'])
+            ->get()
+            ->mapToGroups(fn (Review $review) => [$review->level_id => $review]);
+
+        $updates = [];
+        $empty = collect();
+
+        $levels->map(function (Level $level) use (&$updates, &$reviews, &$empty) {
+            if ($level->reviews_count > 5) {
+                $results = self::filter($reviews[$level->id] ?? $empty);
+                $results['id'] = $level->id;
+                $updates[] = $results;
+            }
+        });
+
+        Level::withoutTimestamps(function () use (&$updates) {
+            Level::query()->upsert(
+                $updates,
+                'id',
+                ['rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall']
+            );
+        });
     }
 
     public static function level(Level $level): void
@@ -74,22 +81,58 @@ class CalculateRatings
     }
 
     /**
-     * @param Collection<Review> $reviews
-     * @return array<Collection>
+     * @param Collection $reviews
+     * @return array
      */
     private static function filter(Collection $reviews): array
     {
-        // Filter collections per rating to remove people who abstained
-        $difficulty = $reviews->filter(fn (Review $review) => $review->rating_difficulty !== null);
-        $gameplay = $reviews->filter(fn (Review $review) => $review->rating_gameplay !== null);
-        $visuals = $reviews->filter(fn (Review $review) => $review->rating_visuals !== null);
-        $overall = $reviews->filter(fn (Review $review) => $review->rating_overall !== null);
+        $counts = [
+            'rating_difficulty' => 0,
+            'rating_gameplay' => 0,
+            'rating_visuals' => 0,
+            'rating_overall' => 0,
+        ];
+
+        $scores = [
+            'rating_difficulty' => 0,
+            'rating_gameplay' => 0,
+            'rating_visuals' => 0,
+            'rating_overall' => 0,
+        ];
+
+        $reviews->map(function (Review $review) use (&$counts, &$scores) {
+            if ($review->rating_difficulty !== null) {
+                $counts['rating_difficulty']++;
+                $scores['rating_difficulty'] += $review->rating_difficulty;
+            }
+            if ($review->rating_gameplay !== null) {
+                $counts['rating_gameplay']++;
+                $scores['rating_gameplay'] += $review->rating_gameplay;
+            }
+            if ($review->rating_visuals !== null) {
+                $counts['rating_visuals']++;
+                $scores['rating_visuals'] += $review->rating_visuals;
+            }
+            if ($review->rating_overall !== null) {
+                $counts['rating_overall']++;
+                $scores['rating_overall'] += $review->rating_overall;
+            }
+        });
 
         return [
-            'rating_difficulty' => self::score($difficulty->avg('rating_difficulty'), $difficulty->count(), true),
-            'rating_gameplay' => self::score($gameplay->avg('rating_gameplay'), $gameplay->count()),
-            'rating_visuals' => self::score($visuals->avg('rating_visuals'), $visuals->count()),
-            'rating_overall' => self::score($overall->avg('rating_overall'), $overall->count()),
+            'rating_difficulty' => $counts['rating_difficulty'] === 0 ? null : $scores['rating_difficulty'] / $counts['rating_difficulty'],
+            'rating_gameplay' => $counts['rating_gameplay'] === 0 ? null : $scores['rating_gameplay'] / $counts['rating_gameplay'],
+            'rating_visuals' => $counts['rating_visuals'] === 0 ? null : $scores['rating_visuals'] / $counts['rating_visuals'],
+            'rating_overall' => $counts['rating_overall'] === 0 ? null : $scores['rating_overall'] / $counts['rating_overall'],
         ];
+
+        // for weighting:
+
+//        return [
+//            'rating_difficulty' => self::score($difficulty->avg('rating_difficulty'), $difficulty->count(), true),
+//            'rating_gameplay' => self::score($gameplay->avg('rating_gameplay'), $gameplay->count()),
+//            'rating_visuals' => self::score($visuals->avg('rating_visuals'), $visuals->count()),
+//            'rating_overall' => self::score($overall->avg('rating_overall'), $overall->count()),
+//        ];
     }
 }
