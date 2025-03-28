@@ -57,7 +57,7 @@ const deleteComment = (id) => {
                 <p class="text-sm">{{ comment.body }}</p>
             </div>
             <div class="y space-y-2">
-                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id)">
+                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAuthenticated() && (isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id))">
                     <Icon class="w-4" name="x-mark"/>
                 </div>
                 <Lightbox class="rounded p-1 bg-ui-800" v-if="isAuthenticated()">
