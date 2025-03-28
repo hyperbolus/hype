@@ -53,7 +53,7 @@ class CalculateRatings
         $empty = collect();
 
         $levels->map(function (Level $level) use (&$updates, &$reviews, &$empty) {
-            if ($level->reviews_count > 5) {
+            if ($level->reviews_count >= 5) {
                 $results = self::filter($reviews[$level->id] ?? $empty);
                 $results['id'] = $level->id;
                 $updates[] = $results;
