@@ -171,11 +171,13 @@ class LevelController extends Controller
         ]);
     }
 
-    public function reviews(Level $level) {
+    public function reviews(Level $level): Responsable {
         return page('Levels/Sections/Reviews', [
             'level' => $level,
             'reviews' => $level->reviews()
                 ->latest()
+                ->whereNotNull('review')
+                ->whereNot('review', '')
                 ->with('author')
                 ->paginate(5),
             'review' => auth()->check() ? Review::query()
