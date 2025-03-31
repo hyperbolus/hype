@@ -104,7 +104,7 @@ onMounted(() => {
                     <span class="text-xl font-bold">{{ displayRating(level.rating_visuals, 2) }}<span class="text-xs text-ui-600">/10</span></span>
                 </div>
             </div>
-            <details v-if="isAuthenticated()" class="pane" :open="!props.review">
+            <details v-if="isAuthenticated()" class="pane">
                 <summary>
                     <span class="text-xl cursor-pointer">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
                     <Lightbox @click.prevent class="float-right">
