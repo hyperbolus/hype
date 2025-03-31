@@ -79,7 +79,11 @@ class UserController extends Controller
         return page('Users/Show', [
             'profile' => $user->loadCount(['threads', 'posts', 'names']),
             'comments' => $user->comments()->latest()->paginate(10, ['*'], 'comments'),
-            'reviews' => Review::withReview()->where('user_id', $user->id)->with('level')->paginate(5, ['*'], 'reviews'),
+            'reviews' => Review::withReview()
+                ->latest()
+                ->where('user_id', $user->id)
+                ->with('level')
+                ->paginate(5, ['*'], 'reviews'),
             'curve' => $curve
         ])->meta('Profile of ' . $user->name, $user->bio ?? 'This user has no bio.')
             ->breadcrumbs([
