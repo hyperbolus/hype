@@ -130,6 +130,8 @@ class LevelController extends Controller
             'level' => $level,
             'reviews' => $level->reviews()
                 ->latest()
+                ->whereNotNull('review')
+                ->whereNot('review', '')
                 ->with('author')
                 ->paginate(5)
                 ->withPath(route('levels.reviews.show', $id)),
