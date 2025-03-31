@@ -9,6 +9,9 @@ import {displayRating} from "@/util.js";
 import {ref} from "vue";
 import LevelReview from "@/Components/LevelReview.vue";
 import ReplayTicket from "@/Components/ReplayTicket.vue";
+import Icon from "@/Components/Icon.vue";
+import Tooltip from "@/Components/Tooltip.vue";
+import {useClipboard} from "@vueuse/core";
 
 const props = defineProps({
     level: Object,
@@ -42,7 +45,10 @@ const submit = () => {
     }).post(route('reviews.store'), {
         preserveScroll: true,
     });
-};
+}
+
+const source = ref(props.level.id)
+const { copied, copy } = useClipboard({source, legacy: true})
 </script>
 <template>
     <Layout :level="level" :tags="true">
@@ -89,6 +95,26 @@ const submit = () => {
             </div>
             <div class="y space-y-2 md:w-1/4">
                 <div class="w-full space-y-2">
+                    <h2 class="font-bold text-2xl">Info</h2>
+                    <div class="y space-y-2 pane">
+                        <div class="x justify-between items-center">
+                            <span>ID</span>
+                            <div class="x space-x-1 items-center">
+                                <Tooltip @click="copy(level.id)" class="cursor-pointer" :class="{'text-green-500': copied}" :message="copied ? 'Copied!' : 'Copy ID'">
+                                    <Icon class="w-4" name="clipboard-document-list"/>
+                                </Tooltip>
+                                <span>{{ level.id }}</span>
+                            </div>
+                        </div>
+                        <div class="x justify-between">
+                            <span>Title</span>
+                            <span>{{ level.name }}</span>
+                        </div>
+                        <div class="x justify-between">
+                            <span>Creator</span>
+                            <span>{{ level.creator }}</span>
+                        </div>
+                    </div>
                     <div v-if="false" class="flex items-center justify-center rounded-md px-4 py-2 bg-rose-500 text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-2">
                             <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
