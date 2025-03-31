@@ -56,7 +56,7 @@ const props = defineProps({
                     <div class="x items-center bg-black/50 space-x-4 p-4 min-w-[20rem]">
                         <Avatar width="w-16" :user="user"/>
                         <div class="y [text-shadow:black_0_1px_2px]">
-                            <span class="font-bold text-lg w-fit" :style="user.primary_group_id === 1 ? `color:rgb(255,75,75);background-image: url('${sparkle}');text-shadow: black 0 1px 3px;` : ''">{{ user.name }}</span>
+                            <span class="font-bold text-lg w-fit" :class="{'line-through': user.banned_at}" :style="user.primary_group_id === 1 ? `color:rgb(255,75,75);background-image: url('${sparkle}');text-shadow: black 0 1px 3px;` : ''">{{ user.name }}</span>
                             <UserTitle class="[text-shadow:black_0_1px_3px]" :user="user"/>
                         </div>
                     </div>
