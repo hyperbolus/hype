@@ -21,7 +21,12 @@ class VideoController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        Hydrate::level($request->input('level_id'));
+        $request->validate([
+            'video_id' => ['required', 'string', 'unique:videos'],
+            'level_id' => ['required', 'integer'],
+        ]);
+
+        Hydrate::level($request->integer('level_id'));
 
         $video = new Video();
         $video->video_id = $request->string('video_id');
