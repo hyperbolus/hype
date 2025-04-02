@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+/**
+ * @mixin IdeHelperLevelReplay
+ */
 class LevelReplay extends Model
 {
     use HasFactory;
