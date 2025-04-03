@@ -7,7 +7,6 @@ import route from 'ziggy-js'
 import {logout, isDark, toggleDark} from '@/util.js'
 import {ref} from "vue";
 import {useSettingsStore} from "@/stores/settings.ts";
-import SearchBar from "@/Components/SearchBar.vue";
 import Icon from "@/Components/Icon.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import Button from "@/Jetstream/Button.vue";
@@ -20,8 +19,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
 const instantLogout = useStorage('instantLogout', false)
 </script>
 <template>
-    <SearchBar class="mr-4"/>
-    <div v-if="$page.props.auth" class="flex items-center space-x-4">
+    <div v-if="$page.props.auth" class="flex items-center space-x-4 w-full">
         <Dropdown align="var" container-classes="origin-top-left -left-12 sm:origin-top-right md:right-0 md:left-auto min-w-[20rem]">
             <template #trigger>
                 <div class="relative">
