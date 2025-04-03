@@ -18,7 +18,7 @@ const props = defineProps({
             <Tooltip :message="review.created_at"><span class="text-ui-500">{{ useTimeAgo(review.created_at).value }}</span></Tooltip>
         </div>
         <span class="text-ui-500">by {{ review.level.creator }}</span>
-        <Link :href="route('reviews.show', review.id)" class="italic">"{{ trimAtWord(review.review.substring(3, review.review.length - 4), 100) }}"</Link>
+        <Link :href="route('reviews.show', review.id)" class="italic line-clamp-3">"{{ review.review.substring(3, review.review.length - 4) }}"</Link>
         <div class="x items-center space-x-1 justify-end"><span>&#8212;</span><Username :user="review.author"/></div>
     </div>
 </template>
