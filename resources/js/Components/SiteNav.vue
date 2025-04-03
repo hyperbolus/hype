@@ -1,11 +1,8 @@
 <script setup>
-import Tooltip from '@/Components/Tooltip.vue'
-import Toggle from '@/Components/Toggle.vue'
-import Avatar from '@/Components/Avatar.vue'
 import Dropdown from '@/Jetstream/Dropdown.vue'
-import { Link } from '@inertiajs/vue3'
+import {Link} from '@inertiajs/vue3'
 import route from 'ziggy-js'
-import {logout, isDark, toggleDark, isAuthenticated} from '@/util.js'
+import {isAuthenticated} from '@/util.js'
 import {ref} from "vue";
 import SearchBar from "@/Components/SearchBar.vue";
 import SiteLogo from "@/Components/SiteLogo.vue";
@@ -17,11 +14,8 @@ const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
 </script>
 <template>
-    <div class="y items-center relative w-full bg-ui-900">
-        <div class="hidden md:flex z-10 transition-opacity opacity-0 group-hover/nav:opacity-100 absolute w-full h-48 pointer-events-none top-full bg-gradient-to-b from-ui-900 via-ui-900/75 to-ui-900/75 border-b-2 border-ui-600">
-
-        </div>
-        <div class="x px-2 gap-4 justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full">
+    <div class="y items-center w-full bg-ui-900">
+        <div class="x gap-4 justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full px-4">
             <div class="x items-center space-x-2">
                 <SiteLogo class="py-4"/>
                 <div class="hidden md:flex h-full items-center text-sm">
@@ -59,9 +53,11 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                 </div>
             </div>
             <div class="hidden md:flex items-center">
+                <SearchBar class="mr-4"/>
                 <ControlBar/>
             </div>
             <div class="x md:hidden items-center cursor-pointer">
+                <SearchBar class="mr-4"/>
                 <svg v-if="mobileNavOpen" @click="mobileNavOpen = !mobileNavOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
                     <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
                 </svg>

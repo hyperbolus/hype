@@ -1,13 +1,12 @@
-    <script setup>
-import {ref, watch} from 'vue'
-import { MeiliSearch } from 'meilisearch'
-import { Link } from '@inertiajs/vue3'
+<script setup>
+import {computed, nextTick, ref, watch} from 'vue'
+import {MeiliSearch} from 'meilisearch'
+import {Link} from '@inertiajs/vue3'
 import route from 'ziggy-js'
 import {face} from "@/util.js";
 import Username from "@/Components/Username.vue";
 import Icon from "@/Components/Icon.vue";
-import Dropdown from "@/Jetstream/Dropdown.vue";
-import {useMagicKeys} from "@vueuse/core";
+import {useMagicKeys, whenever} from "@vueuse/core";
 
 const client = new MeiliSearch({
     host: 'https://search.gdps.io',
@@ -18,27 +17,35 @@ const newQuery = ref(null);
 const lastQuery = ref(null);
 const searches = ref({});
 
-watch(newQuery, async () => {
+const pageLevels = ref(1)
+
+const search = async () => {
+    index.value = -1;
     if (!searches.value.hasOwnProperty(newQuery.value)) {
         searches.value[newQuery.value] = await client.multiSearch({
             queries: [
                 {
                     indexUid: 'hype_gdf_levels',
                     q: newQuery.value,
-                    hitsPerPage: 5,
+                    hitsPerPage: 15,
+                    //sort: ['downloads:desc'], // TODO: sort by downloads
+                    //page: pageLevels.value,
                     attributesToSearchOn: ['name']
                 },
                 {
                     indexUid: 'hype_gdf_users',
                     q: newQuery.value,
-                    hitsPerPage: 10,
+                    hitsPerPage: 20,
                     attributesToSearchOn: ['name']
                 },
             ]
         });
     }
     lastQuery.value = newQuery.value;
-})
+}
+
+watch(newQuery, search)
+watch(pageLevels, search) // TODO: make search aware of pages
 
 /** @type {Intl.NumberFormat} */
 const format = Intl.NumberFormat('en-US', {
@@ -46,74 +53,90 @@ const format = Intl.NumberFormat('en-US', {
     maximumFractionDigits: 1
 });
 
-const searchInput = ref(null)
-const trigger = ref(null)
-const dropdown = ref(null)
+const searchInput = ref(null);
+const trigger = ref(null);
+const dropdown = ref(null);
+
 // TODO: disable in input? https://vueuse.org/core/useMagicKeys/
-const { ctrl_k } = useMagicKeys({
+const {ctrl_k, down, up, escape} = useMagicKeys({
     passive: false,
     onEventFired(e) {
-        // TODO: docs say to sue with caution. why?
+        // TODO: docs say to use with caution. why?
         if (e.ctrlKey && e.key === 'k' && e.type === 'keydown') {
             e.preventDefault()
-            dropdown.value.open = true;
+            open.value = !open.value;
             setTimeout(() => searchInput.value.focus(), 100) // lmao fuck off
         }
     },
-})
-// whenever(ctrl_k, () => {
-//     dropdown.value.open = true;
-//     searchInput.value.focus()
-// })
+});
+
+const index = ref(-1);
+
+// whenever(up, () => {
+//     if (index.value > 0) index.value--;
+// });
+//
+// whenever(down, () => {
+//     if (index.value < searches.value[lastQuery.value].results[0].hits.length - 1) index.value++;
+// });
+
+whenever(escape, () => {
+    open.value = false;
+});
+
+const open = ref(false);
 
 const tiny = n => format.format(n);
-// TODO: autofocus on dropdown open
+
+const results = computed(() => {
+    return searches.value[lastQuery.value].results.map(r => r.totalHits).reduce((p, a) => p + a, 0)
+})
 </script>
 <template>
-    <Dropdown align="left" ref="dropdown" @click="searchInput.focus()" id="globalSearchBar" content-classes="w-fit">
-        <template #trigger>
-            <div ref="trigger">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
-                    <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                </svg>
+    <div id="globalSearchBar">
+        <div @click="open = true; nextTick(() => searchInput.focus())">
+            <Icon class="w-5" size="20" name="magnifying-glass"/>
+        </div>
+        <div v-show="open" @click="open = false" class="x items-center justify-end px-4 md:hidden absolute right-0 top-0 bg-ui-900 h-16 w-1/3">
+            <Icon class="w-6" size="20" name="x-mark"/>
+        </div>
+        <div v-show="open" class="y md:space-y-4 items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[5.5rem] md:p-4 z-30">
+            <div class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-md md:bg-ui-950 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
+                <Icon class="w-6 shrink-0" size="24" name="magnifying-glass"/>
+                <div v-if="false" class="bg-ui-900 px-2 py-1 border border-ui-700 rounded-md text-sm uppercase">Level</div>
+                <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="w-full border-b border-ui-700 md:border-b-0 truncate shrink text-xl pl-0 py-2 border-0 focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
             </div>
-        </template>
-        <template #content>
-            <div @click.stop class="y items-stretch rounded-md space-y-2 shadow-xl z-30 w-64">
-                <div class="flex items-center bg-ui-800 px-2 rounded-t-md">
-                    <Icon class="w-5" size="24" type="solid" name="magnifying-glass"/>
-                    <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="pl-3 w-full truncate shrink text-sm py-1.5 border-none focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
+            <div v-if="false" class="y space-y-2 pane w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
+                <div class="x space-x-2 items-center">
+                    <div class="px-2 py-1 rounded-md bg-red-500/25 text-white font-bold">type: User</div>
+                    <span>Search for a user</span>
                 </div>
-                <div class="y space-y-2 w-full" v-if="searches[lastQuery]">
-                    <div class="px-2" v-if="searches[lastQuery].results.map(r => r.totalHits).reduce((p, a) => p + a, 0) === 0">No results</div>
-                    <div class="px-2 text-sm text-ui-500" v-else>{{ searches[lastQuery].results.map(r => r.totalHits).reduce((p, a) => p + a, 0) }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
-                    <div class="y px-2 !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
-                        <span class="text-xs text-ui-500 font-bold uppercase">Levels</span>
-                        <Link v-for="hit in searches[lastQuery].results[0].hits" :href="route('levels.show', hit.id)" class="x space-x-2 items-center">
-                            <img class="w-10" alt="Difficulty" :src="face(hit)"/>
-                            <div class="y leading-tight">
-                                <div>{{ hit.name }}</div>
-                                <div class="text-xs text-ui-500">{{ hit.creator }}</div>
-                                <div class="text-xs text-ui-400 x items-center space-x-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
-                                        <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                                        <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                                    </svg>
-                                    <div class="mr-4">{{ tiny(hit.downloads) }}</div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3" :class="{'rotate-180': hit.likes < 0}">
-                                        <path d="M1 8.25a1.25 1.25 0 112.5 0v7.5a1.25 1.25 0 11-2.5 0v-7.5zM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0114 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 01-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 01-1.341-.317l-2.734-1.366A3 3 0 006.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 012.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388z" />
-                                    </svg>
-                                    <div>{{ tiny(hit.likes) }}</div>
-                                </div>
+            </div>
+            <div class="y space-y-2 w-full border-0 md:border border-ui-700 md:bg-ui-900 md:rounded-md lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl overflow-y-auto" v-if="searches[lastQuery]">
+                <div class="px-2" v-if="results === 0">No results</div>
+                <div class="px-2 text-sm py-1" v-else>Found {{ results }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
+                <div class="y !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
+                    <span class="text-xs text-ui-500 font-bold uppercase px-2">Levels</span>
+                    <Link v-for="(hit, i) in searches[lastQuery].results[0].hits" :class="{'bg-ui-950': index === i}" :key="i" :href="route('levels.show', hit.id)"
+                          class="x space-x-2 items-center px-2 py-1">
+                        <img class="w-12" alt="Difficulty" :src="face(hit)"/>
+                        <div class="y leading-tight">
+                            <h1 class="font-bold">{{ hit.name }}</h1>
+                            <h2 class="text-xs text-ui-500">{{ hit.creator }}</h2>
+                            <div class="text-xs text-ui-400 x items-center space-x-1">
+                                <Icon class="w-3" name="eye"/>
+                                <div class="mr-4">{{ tiny(hit.downloads) }}</div>
+                                <Icon class="w-3" name="hand-thumb-up" :class="{'rotate-180': hit.likes < 0}"/>
+                                <div>{{ tiny(hit.likes) }}</div>
                             </div>
-                        </Link>
-                    </div>
-                    <div class="y px-2" v-if="searches[lastQuery].results[1].hits.length > 0">
-                        <span class="text-xs text-ui-500 font-bold uppercase">Users</span>
-                        <Username v-for="hit in searches[lastQuery].results[1].hits" :user="hit"/>
-                    </div>
+                        </div>
+                    </Link>
+                </div>
+                <div class="y px-2" v-if="searches[lastQuery].results[1].hits.length > 0">
+                    <span class="text-xs text-ui-500 font-bold uppercase">Users</span>
+                    <Username v-for="hit in searches[lastQuery].results[1].hits" :user="hit"/>
                 </div>
             </div>
-        </template>
-    </Dropdown>
+        </div>
+    </div>
 </template>
