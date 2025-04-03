@@ -94,7 +94,7 @@ const results = computed(() => {
 </script>
 <template>
     <div id="globalSearchBar">
-        <div @click="open = true; nextTick(() => searchInput.focus())">
+        <div @click="open = !open; nextTick(() => searchInput.focus())">
             <Icon class="w-5" size="20" name="magnifying-glass"/>
         </div>
         <div v-show="open" @click="open = false" class="x items-center justify-end px-4 md:hidden absolute right-0 top-0 bg-ui-900 h-16 w-1/3">
