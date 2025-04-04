@@ -56,16 +56,16 @@ const deleteComment = (id) => {
                 </div>
                 <p class="text-sm">{{ comment.body }}</p>
             </div>
-            <div class="y space-y-2">
-                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAuthenticated() && (isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id))">
-                    <Icon class="w-4" name="x-mark"/>
-                </div>
+            <div class="x space-x-2 h-fit">
                 <Lightbox class="rounded p-1 bg-ui-800" v-if="isAuthenticated()">
                     <Icon class="w-4" name="flag"/>
                     <template #content>
                         <ReportModal :reportable_id="comment.id" :reportable_type="23" @click.stop class="cursor-auto"/>
                     </template>
                 </Lightbox>
+                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAuthenticated() && (isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id))">
+                    <Icon class="w-4" name="x-mark"/>
+                </div>
             </div>
         </div>
         <div class="px-2">
