@@ -40,15 +40,7 @@ const tab = ref(0);
                         <span v-else>{{ new Date(profile.created_at).toLocaleDateString() }}</span>
                     </div>
                 </div>
-                <div class="pane !pl-2">
-                    <h1 class="px-2">Rating Curve</h1>
-                    <div v-for="(count, score) in curve" class="x items-center">
-                        <span class="text-sm text-ui-500 w-5 mr-2 text-center">{{ score }}</span>
-                        <div class="bg-ui-800 rounded overflow-hidden grow">
-                            <div class="bg-blue-500 p-0.5" :class="{'invisible': count === 0}" :style="`width: ${count / reviews.total * 100}%;`"></div>
-                        </div>
-                    </div>
-                </div>
+                <RatingsCurve :curve="curve"/>
             </div>
             <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 md:w-1/2 lg:w-3/4">
                 <div class="y space-y-4 lg:w-1/2">
