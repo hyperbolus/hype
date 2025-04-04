@@ -6,6 +6,7 @@ import Pagination from "@/Components/Pagination.vue";
 import {ref} from "vue";
 import ProfileComments from "@/Pages/Users/Partials/ProfileComments.vue";
 import Header from "@/Pages/Users/Partials/Header.vue";
+import RatingsCurve from "@/Components/RatingsCurve.vue";
 
 const props = defineProps({
     profile: Object,
