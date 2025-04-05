@@ -14,7 +14,7 @@ const props = defineProps({
                         <div class="bg-blue-500 p-0.5" :class="{'invisible': count === 0}" :style="`width: ${count / Math.max(...curve) * 100}%;`"></div>
                     </div>
                     <!-- TODO: make it so blue bar does not change and is proportionally correct instead of shrinking and being inaccurate -->
-                    <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 overflow-hidden text-sm">{{ count }}&nbsp;Ratings</div>
+                    <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden text-sm">{{ count }}&nbsp;Ratings</div>
                 </div>
             </div>
         </div>
