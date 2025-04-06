@@ -64,7 +64,7 @@ const {ctrl_k, down, up, escape} = useMagicKeys({
         // TODO: docs say to use with caution. why?
         if (e.ctrlKey && e.key === 'k' && e.type === 'keydown') {
             e.preventDefault()
-            open.value = !open.value;
+            open.value = true;
             setTimeout(() => searchInput.value.focus(), 100) // lmao fuck off
         }
     },
