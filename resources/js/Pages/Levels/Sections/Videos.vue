@@ -17,7 +17,7 @@ const props = defineProps({
 })
 
 const form = useForm({
-    level_id: null,
+    level_id: props.level.id,
     video_id: ''
 })
 
@@ -26,7 +26,7 @@ const submit = () => {
         ...data,
         video_id: getYouTubeID(form.video_id),
     })).post(route('videos.store'), {
-        onFinish: () => form.reset('video_id', 'level_id'),
+        onFinish: () => form.reset('video_id'),
     });
 }
 </script>
@@ -41,7 +41,6 @@ const submit = () => {
                         <div @click.stop v-if="isAuthenticated()" class="glass p-4 text-ui-200">
                             <form @submit.prevent="submit" class="space-y-2">
                                 <Input v-model="form.video_id" type="text" placeholder="YouTube Video Link" required/>
-                                <Input v-model="form.level_id" type="text" placeholder="Level ID" required/>
                                 <Errors/>
                                 <Button>Add</Button>
                             </form>
