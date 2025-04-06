@@ -100,41 +100,43 @@ const results = computed(() => {
         <div v-show="open" @click="open = false" class="x items-center justify-end px-4 md:hidden absolute right-0 top-0 bg-ui-900 h-16 w-1/3">
             <Icon class="w-6" size="20" name="x-mark"/>
         </div>
-        <div v-show="open" class="y md:space-y-4 items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[5.5rem] md:p-4 z-30">
-            <div class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-md md:bg-ui-950 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
-                <Icon class="w-6 shrink-0" size="24" name="magnifying-glass"/>
-                <div v-if="false" class="bg-ui-900 px-2 py-1 border border-ui-700 rounded-md text-sm uppercase">Level</div>
-                <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="w-full border-b border-ui-700 md:border-b-0 truncate shrink text-xl pl-0 py-2 border-0 focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
-            </div>
-            <div v-if="false" class="y space-y-2 pane w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
-                <div class="x space-x-2 items-center">
-                    <div class="px-2 py-1 rounded-md bg-red-500/25 text-white font-bold">type: User</div>
-                    <span>Search for a user</span>
+        <div v-show="open" @click="open = false" class="y cursor-pointer items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[5.5rem] md:p-4 z-30">
+            <div class="y md:space-y-4 cursor-auto w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl h-full">
+                <div @click.stop class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-md md:bg-ui-950">
+                    <Icon class="w-6 shrink-0" size="24" name="magnifying-glass"/>
+                    <div v-if="false" class="bg-ui-900 px-2 py-1 border border-ui-700 rounded-md text-sm uppercase">Level</div>
+                    <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="w-full border-b border-ui-700 md:border-b-0 truncate shrink text-xl pl-0 py-2 border-0 focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
                 </div>
-            </div>
-            <div class="y space-y-2 w-full border-0 md:border border-ui-700 md:bg-ui-900 md:rounded-md lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl overflow-y-auto" v-if="searches[lastQuery]">
-                <div class="px-2" v-if="results === 0">No results</div>
-                <div class="px-2 text-sm py-1" v-else>Found {{ results }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
-                <div class="y !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
-                    <span class="text-xs text-ui-500 font-bold uppercase px-2">Levels</span>
-                    <Link v-for="(hit, i) in searches[lastQuery].results[0].hits" :class="{'bg-ui-950': index === i}" :key="i" :href="route('levels.show', hit.id)"
-                          class="x space-x-2 items-center px-2 py-1">
-                        <img class="w-12" alt="Difficulty" :src="face(hit)"/>
-                        <div class="y leading-tight">
-                            <h1 class="font-bold">{{ hit.name }}</h1>
-                            <h2 class="text-xs text-ui-500">{{ hit.creator }}</h2>
-                            <div class="text-xs text-ui-400 x items-center space-x-1">
-                                <Icon class="w-3" name="eye"/>
-                                <div class="mr-4">{{ tiny(hit.downloads) }}</div>
-                                <Icon class="w-3" name="hand-thumb-up" :class="{'rotate-180': hit.likes < 0}"/>
-                                <div>{{ tiny(hit.likes) }}</div>
+                <div @click.stop v-if="false" class="y space-y-2 pane">
+                    <div class="x space-x-2 items-center">
+                        <div class="px-2 py-1 rounded-md bg-red-500/25 text-white font-bold">type: User</div>
+                        <span>Search for a user</span>
+                    </div>
+                </div>
+                <div @click.stop class="y space-y-2 border-0 md:border border-ui-700 md:bg-ui-900 md:rounded-md overflow-y-auto" v-if="searches[lastQuery]">
+                    <div class="px-2" v-if="results === 0">No results</div>
+                    <div class="px-2 text-sm py-1" v-else>Found {{ results }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
+                    <div class="y !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
+                        <span class="text-xs text-ui-500 font-bold uppercase px-2">Levels</span>
+                        <Link v-for="(hit, i) in searches[lastQuery].results[0].hits" :class="{'bg-ui-950': index === i}" :key="i" :href="route('levels.show', hit.id)"
+                              class="x space-x-2 items-center px-2 py-1">
+                            <img class="w-12" alt="Difficulty" :src="face(hit)"/>
+                            <div class="y leading-tight">
+                                <h1 class="font-bold">{{ hit.name }}</h1>
+                                <h2 class="text-xs text-ui-500">{{ hit.creator }}</h2>
+                                <div class="text-xs text-ui-400 x items-center space-x-1">
+                                    <Icon class="w-3" name="eye"/>
+                                    <div class="mr-4">{{ tiny(hit.downloads) }}</div>
+                                    <Icon class="w-3" name="hand-thumb-up" :class="{'rotate-180': hit.likes < 0}"/>
+                                    <div>{{ tiny(hit.likes) }}</div>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                </div>
-                <div class="y px-2" v-if="searches[lastQuery].results[1].hits.length > 0">
-                    <span class="text-xs text-ui-500 font-bold uppercase">Users</span>
-                    <Username v-for="hit in searches[lastQuery].results[1].hits" :user="hit"/>
+                        </Link>
+                    </div>
+                    <div class="y px-2" v-if="searches[lastQuery].results[1].hits.length > 0">
+                        <span class="text-xs text-ui-500 font-bold uppercase">Users</span>
+                        <Username v-for="hit in searches[lastQuery].results[1].hits" :user="hit"/>
+                    </div>
                 </div>
             </div>
         </div>
