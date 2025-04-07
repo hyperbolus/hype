@@ -47,6 +47,22 @@ if (! function_exists('clamp')) {
         return min($max, max($min, $n));
     }
 }
+if (! function_exists('clampRange')) {
+    function clampRange(string $range, $min, $max, bool $string = false): string|array
+    {
+        if (\Str::doesntContain($range, '-')) $range = $min . '-' . $max;
+
+        $range = explode('-', $range);
+        sort($range);
+
+        if ($range[0] < 0) $range[0] = $min;
+        if ($range[1] > $max) $range[1] = $max;
+
+        if ($string) return join('-', $range);
+
+        return $range;
+    }
+}
 
 if (! function_exists('crumb')) {
     function crumb(string $text, ?string $url = null): array
