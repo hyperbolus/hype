@@ -1,17 +1,16 @@
 <script setup>
 import {Link, router} from '@inertiajs/vue3';
-import route from "ziggy-js";
-import {computed} from "vue";
 
 const props = defineProps({
     list: Object,
     small: Boolean
 })
+
 // TODO: use calculation to figure out when to use small logic!!!
 
 const promptPage = () => {
     let page = prompt('Jump to page number:')
-    if (!page) return;
+    if (!page || !Number.isInteger(page)) return;
     let first = props.list.first_page_url.toString();
     let url = first.substring(0, first.length - 1) + page;
     router.get(url);
