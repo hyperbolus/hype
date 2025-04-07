@@ -21,6 +21,15 @@ export const logout = () => {
     router.post(route('auth::logout'));
 }
 
+export const ordinal = (n) => {
+    const category = new Intl.PluralRules("en", {type: "ordinal"}).select(n);
+    return n + {
+        one: "st",
+        two: "nd",
+        few: "rd",
+        other: "th"
+    }[category];
+}
 export const isAdmin = () => {
     return isAuthenticated() && usePage().props.user.roles.includes('admin')
 }
@@ -81,7 +90,7 @@ export const face = (level) => {
 
     let name = difficulties[level.difficulty].toLowerCase().split(' ').reverse().join('-')
 
-    if(level.epic) {
+    if (level.epic) {
         name += '-epic'
     } else if (level.featured) {
         name += '-featured'
@@ -110,12 +119,12 @@ export const trimAtWord = (string, max) => {
 }
 
 export const toHHMMSS = (n) => {
-    n = n|0;
-    let hours   = Math.floor(n / 3600);
+    n = n | 0;
+    let hours = Math.floor(n / 3600);
     let minutes = Math.floor((n - (hours * 3600)) / 60);
     let seconds = n - (hours * 3600) - (minutes * 60);
 
-    if (hours   < 10) hours   = "0" + hours;
+    if (hours < 10) hours = "0" + hours;
     if (minutes < 10) minutes = "0" + minutes;
     if (seconds < 10) seconds = "0" + seconds;
 
