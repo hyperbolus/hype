@@ -1,7 +1,5 @@
 <?php
 
-use App\PageBuilder;
-
 if (! function_exists('meta')) {
     function meta(string $title = null, string $description = null): array
     {
@@ -13,9 +11,40 @@ if (! function_exists('meta')) {
 }
 
 if (! function_exists('page')) {
-    function page(string $component, array $props = []): PageBuilder
+    function page(string $component, array $props = []): \App\PageBuilder
     {
-        return new PageBuilder($component, $props);
+        return new \App\PageBuilder($component, $props);
+    }
+}
+
+if (! function_exists('sorting')) {
+    /**
+     * @param class-string|\Illuminate\Database\Eloquent\Builder $model
+     * @param string $default
+     * @param array<string> $sortable
+     * @return \App\FilterBuilder
+     */
+    function sorting(string|\Illuminate\Database\Eloquent\Builder $model, string $default = 'created_at', ?array $sortable = null): \App\FilterBuilder
+    {
+        $q = new \App\FilterBuilder($model);
+        $q->sortOrderBy($sortable, $default);
+        return $q;
+    }
+}
+
+if (! function_exists('array_left')) {
+    function array_left(array $array): array
+    {
+        $out = [];
+        foreach ($array as  $key => $value) $out[] = is_int($key) ? $value : $key;
+        return $out;
+    }
+}
+
+if (! function_exists('clamp')) {
+    function clamp(int|float $n, int|float $min, int|float $max): int|float
+    {
+        return min($max, max($min, $n));
     }
 }
 
