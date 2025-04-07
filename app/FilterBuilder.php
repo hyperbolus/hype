@@ -15,6 +15,8 @@ class FilterBuilder extends Builder implements Arrayable
         'asc',
     ];
 
+    protected array $appends = [];
+
     protected array $filters = [];
 
     protected string $filter = 'all';
@@ -126,13 +128,21 @@ class FilterBuilder extends Builder implements Arrayable
         return $p->appends($this->getQueryParameters());
     }
 
+    public function append(array $appends): FilterBuilder
+    {
+        $this->appends = $appends;
+
+        return $this;
+    }
+
     public function getQueryParameters(): array
     {
-        return [
+        $query = [
             'sortBy' => $this->sortBy,
             'sortDir' => $this->direction,
             'filter' => $this->filter,
-            'perPage' => $this->perPage
+            'perPage' => $this->perPage,
+            ...$this->appends
         ];
     }
 
