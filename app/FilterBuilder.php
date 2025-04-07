@@ -125,7 +125,7 @@ class FilterBuilder extends Builder implements Arrayable
 
         $p = parent::paginate($this->perPage, $columns, $pageName, $page, $total);
 
-        return $p->appends($this->getQueryParameters());
+        return $p->appends($this->getQueryParameters(true));
     }
 
     public function append(array $appends): FilterBuilder
@@ -135,7 +135,7 @@ class FilterBuilder extends Builder implements Arrayable
         return $this;
     }
 
-    public function getQueryParameters(): array
+    public function getQueryParameters(bool $trimmed = false): array
     {
         $query = [
             'sortBy' => $this->sortBy,
@@ -144,6 +144,15 @@ class FilterBuilder extends Builder implements Arrayable
             'perPage' => $this->perPage,
             ...$this->appends
         ];
+
+        if ($trimmed) {
+            if ($query['sortDir'] === 'desc') unset($query['sortDir']);
+            if ($query['filter'] === 'all') unset($query['filter']);
+            if ($query['perPage'] === $this->paginatorOptions['default']) unset($query['perPage']);
+            // todo: figure out how to detect sortBy default
+        }
+
+        return $query;
     }
 
     public function toArray(): array
