@@ -51,7 +51,7 @@ const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase
                     </div>
                 </template>
                 <template #content>
-                    <div v-for="(name, i) in sorting.sortable" @click="setSortBy(name)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800 first:rounded-t last:rounded-b">{{ transformName(name) }}</div>
+                    <div v-for="name in sorting.sortable" @click="setSortBy(name)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800 first:rounded-t last:rounded-b">{{ transformName(name) }}</div>
                 </template>
             </Dropdown>
         </div>
@@ -59,13 +59,13 @@ const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase
             <Dropdown align="left">
                 <template #trigger>
                     <div class="x items-center space-x-2 pane !px-2 !py-1 rounded text-sm cursor-pointer">
-                        <span class="capitalize">{{ filter }}</span>
+                        <span class="capitalize">{{ transformName(filter) }}</span>
                         <Icon class="w-4" name="chevron-down"/>
                     </div>
                 </template>
                 <template #content>
-                    <div @click="setFilter('all')" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">all</div>
-                    <div v-for="name in sorting.filters" @click="setFilter(name)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">{{ name }}</div>
+                    <div @click="setFilter('all')" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">All</div>
+                    <div v-for="name in sorting.filters" @click="setFilter(name)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-700">{{ transformName(name) }}</div>
                 </template>
             </Dropdown>
         </div>
