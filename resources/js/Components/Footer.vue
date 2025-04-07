@@ -6,9 +6,9 @@ import Tooltip from "@/Components/Tooltip.vue";
 <template>
     <div class="y z-10 items-center w-full bg-ui-1000">
         <div class="x justify-center bg-ui-900 p-2 w-full">
-            <div class="x items-center justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full text-ui-600">
-                <span class="text-sm">Hyperbolus is not affiliated with RobTopGames AB or Geometry Dash</span>
-                <div class="space-x-4">
+            <div class="y space-y-2 items-center justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full text-ui-600">
+                <span class="text-center md:text-left text-sm">Hyperbolus is not affiliated with RobTopGames AB or Geometry Dash</span>
+                <div class="x flex-wrap gap-y-2 gap-x-4">
                     <Link :href="route('about')">About</Link>
                     <Link :href="route('legal.terms')">Terms of Service</Link>
                     <Link :href="route('legal.privacy')">Privacy</Link>
