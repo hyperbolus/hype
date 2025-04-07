@@ -1,6 +1,6 @@
 <script setup>
 import Dropdown from "@/Jetstream/Dropdown.vue";
-import {router} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
 import {ref} from "vue";
 import {isAuthenticated} from "@/util.js";
@@ -44,7 +44,7 @@ function setFilter(value) {
 }
 
 const search = () => {
-    router.get(props.url + '?' + new URLSearchParams({
+    router.get((props.url ?? usePage().url) + '?' + new URLSearchParams({
         sortBy: sortBy.value,
         sortDir: sortDir.value,
         filter: filter.value,

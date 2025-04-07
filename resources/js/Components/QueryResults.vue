@@ -15,7 +15,7 @@ const props = defineProps({
     <div class="flex flex-col space-y-2 w-full">
         <div class="y md:flex-row gap-1 justify-between items-center">
             <h2 class="font-bold text-2xl">{{ title }}</h2>
-            <Sorting v-if="sorting" :sorting="sorting" :url="url"/>
+            <Sorting v-if="sorting" :sorting="sorting" :url="url ?? $page.url"/>
         </div>
         <Pagination :list="results"/>
         <div v-if="results.data.length === 0 && results.total === 0" class="pane text-center italic text-ui-500">No Results</div>
