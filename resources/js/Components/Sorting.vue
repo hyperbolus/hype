@@ -14,20 +14,6 @@ const props = defineProps({
 const sortDir = ref(props.sorting.sortDir);
 const sortBy = ref(props.sorting.sortBy);
 const filter = ref(props.sorting.filter);
-const sortByNames = {
-    'id': 'ID',
-    'name': 'Username',
-    'reputation': 'Reputation',
-    'credits': 'Credits',
-    'reviews_count': 'Rating Count',
-    'created_at': 'Join Date'
-}
-const filterNames = [
-    'All',
-    'Reviewed',
-    'Unreviewed',
-    'Unapproved Records'
-]
 
 function setSortBy(value) {
     sortBy.value = value;
@@ -51,6 +37,8 @@ const search = () => {
         perPage: props.sorting.perPage,
     }).toString())
 }
+
+const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').replaceAll(' At', ' Date').replaceAll('Id', 'ID')
 </script>
 <template>
     <div class="flex flex-wrap gap-2 items-center justify-center md:justify-end">
@@ -58,12 +46,12 @@ const search = () => {
             <Dropdown align="left">
                 <template #trigger>
                     <div class="flex items-center space-x-2 bg-ui-900 px-2 py-1 rounded-md text-sm cursor-pointer">
-                        <span>{{ sortByNames[sortBy] ?? sortBy }}</span>
+                        <span>{{ transformName(sortBy) }}</span>
                         <Icon class="w-4" name="chevron-down"/>
                     </div>
                 </template>
                 <template #content>
-                    <div v-for="(name, i) in sorting.sortable" @click="setSortBy(name)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800 first:rounded-t last:rounded-b">{{ sortByNames[name] ?? name }}</div>
+                    <div v-for="(name, i) in sorting.sortable" @click="setSortBy(name)" class="px-2 py-1 text-sm cursor-pointer hover:bg-ui-800 first:rounded-t last:rounded-b">{{ transformName(name) }}</div>
                 </template>
             </Dropdown>
         </div>
