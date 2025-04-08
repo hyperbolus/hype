@@ -18,9 +18,9 @@ const props = defineProps({
 
 const list = {
     'rating_difficulty': 'DIFFICULTY',
+    'rating_overall': 'OVERALL',
     'rating_gameplay': 'GAMEPLAY',
     'rating_visuals': 'VISUALS',
-    'rating_overall': 'OVERALL',
 };
 
 const removeForm = useForm({});
