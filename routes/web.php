@@ -131,6 +131,12 @@ Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name(
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/user/{user:id}', [UserController::class, 'show'])->name('users.show');
+
+Route::get('/user/{user:id}/reviews', [UserController::class, 'reviews'])->name('users.reviews');
+Route::get('/user/{user:id}/posts', [UserController::class, 'posts'])->name('users.posts');
+Route::get('/user/{user:id}/playlists', [UserController::class, 'playlists'])->name('users.playlists');
+Route::get('/user/{user:id}/videos', [UserController::class, 'videos'])->name('users.videos');
+
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
 Route::get('/user/{user:id}/reputation', [ReputationLogController::class, 'index'])->name('reputation.show');
 Route::post('/user/{user:id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);

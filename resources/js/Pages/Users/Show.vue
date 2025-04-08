@@ -2,7 +2,6 @@
 import AppLayout from '@/Layouts/Dash.vue'
 import {Link} from '@inertiajs/vue3';
 import route from 'ziggy-js'
-import Pagination from "@/Components/Pagination.vue";
 import {ref} from "vue";
 import ProfileComments from "@/Pages/Users/Partials/ProfileComments.vue";
 import Header from "@/Pages/Users/Partials/Header.vue";
@@ -54,26 +53,19 @@ const tab = ref(0);
                         <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Signature</div>
                         <p class="px-4 py-2 whitespace-pre-wrap">{{ profile.signature }}</p>
                     </div>
-                    <div class="">
-                        <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                            <div class="rounded-t bg-ui-800 px-2 py-1">
-                                Recent Reviews
-                            </div>
-                            <div v-if="reviews.data.length === 0" class="px-4 py-2">
-                                User has not written any reviews
-                            </div>
-                            <Link v-else v-for="review in reviews.data" :href="route('reviews.show', review.id)" class="y justify-between px-4 py-2">
-                                <h2 class="font-bold">{{ review.level.name }}</h2>
-                                <span class="text-xs">by&nbsp;<span class="font-bold">{{ review.level.creator }}</span></span>
-                                <div class="x flex-wrap space-x-4 lg:space-x-2 items-center justify-between">
-                                    <span class="text-xs">DIFF:&nbsp;{{ review.rating_difficulty ?? 'N/A' }}</span>
-                                    <span class="text-xs">GAME:&nbsp;{{ review.rating_gameplay ?? 'N/A' }}</span>
-                                    <span class="text-xs">VIS:&nbsp;{{ review.rating_visuals ?? 'N/A' }}</span>
-                                    <span class="text-xs">ALL:&nbsp;{{ review.rating_overall ?? 'N/A' }}</span>
+                    <img v-if="0" alt="" src="https://i.profile.gd/AmoungPequeno.png">
+                    <div v-if="0" class="x space-x-2 items-center rounded-md bg-ui-900">
+                        <div class="aspect-square bg-ui-700 rounded-l-md p-4 x justify-center items-center">
+                            <img class="w-12" alt="" src="https://img.ngfiles.com/defaults/icon-audio.png?f1707337412">
+                        </div>
+                        <div class="y w-full p-2">
+                            <div class="y leading-tight">
+                                <div class="x justify-between">
+                                    <span class="text-xl font-bold">Chaoz Fantasy</span>
+                                    <span class="text-xs underline">Newgrounds</span>
                                 </div>
-                                <p class="text-sm">{{ review.review }}</p>
-                            </Link>
-                            <Pagination class="py-2" :list="reviews" :small="true"/>
+                                <span>ParagonX9</span>
+                            </div>
                         </div>
                     </div>
                 </div>

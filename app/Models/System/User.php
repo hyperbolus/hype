@@ -4,6 +4,7 @@ namespace App\Models\System;
 
 use App\FilterBuilder;
 use App\Models\Connection;
+use App\Models\Content\Playlist;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
@@ -129,9 +130,7 @@ class User extends Authenticatable implements MustVerifyEmail
     */
     public function scopeProfile(Builder $query): void
     {
-
         $query->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits', 'banned_at']);
-
     }
 
     public function ips(): HasMany
@@ -204,5 +203,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function videos(): HasMany {
         return $this->hasMany(Video::class);
+    }
+
+    public function playlists(): HasMany {
+        return $this->hasMany(Playlist::class, 'owner_id');
     }
 }
