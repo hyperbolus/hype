@@ -54,7 +54,7 @@ Route::domain(config('app.domains.profile'))->group(function () {
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 //Route::get('/news', [HomeController::class, 'news'])->name('news');
-Route::get('/levels', [HomeController::class, 'levels'])->name('levels');
+Route::get('/levels__', [HomeController::class, 'levels'])->name('levels');
 Route::get('/levels/random', [LevelController::class, 'random'])->name('levels.random');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware(['auth', 'verified']);
@@ -163,7 +163,8 @@ Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('posts.ed
 Route::post('/post/{post}/edit', [PostController::class, 'update'])->name('posts.update');
 Route::post('/post/{post}/like', [ReactionController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
 
-Route::get('/reviews', [LevelController::class, 'index'])->name('levels.index');
+Route::get('/levels', [LevelController::class, 'index'])->name('levels.index');
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('reviews.show');
 
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');

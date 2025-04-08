@@ -7,15 +7,24 @@ use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Review;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function index(): Responsable
     {
-        //
+        return page('Reviews/Index', [
+            'reviews' => sorting(Review::class)
+                ->filters()
+                ->with(['author', 'level'])
+                ->orderBy('id')
+                ->paginatorOptions(10, 1, 30)
+                ->paginate(),
+            'sorting' => sorting(Review::class)->filters()
+        ])->meta('Level Reviews', 'Hear the latest thoughts on levels');
     }
 
     public function create()
