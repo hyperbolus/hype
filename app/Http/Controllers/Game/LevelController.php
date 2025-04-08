@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Game;
 
+use App\Actions\CalculateRatings;
 use App\Actions\Hydrate;
+use App\FilterBuilder;
 use App\Http\Controllers\Controller;
 use App\Models\Content\CrowdVote;
 use App\Models\Content\Review;
@@ -10,9 +12,9 @@ use App\Models\Content\Tag;
 use App\Models\Game\Level;
 use App\Models\Game\LevelReplay;
 use App\Models\Media;
-use App\Models\System\User;
 use Hashids\Hashids;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -29,65 +31,41 @@ class LevelController extends Controller
      */
     public function index(Request $request): Response
     {
-        $attributes = [
-            'id',
-            'rating_overall',
-            'rating_gameplay',
-            'rating_visuals',
-            'rating_difficulty',
-            'reviews_count',
-            'created_at',
-        ];
 
-        $directions = [
-            'DESC',
-            'ASC',
-        ];
-
-        $sorting = [
-            'sortBy' => $request->integer('sortBy', 5),
-            'sortDir' => $request->integer('sortDir', 0),
-            'filter' => $request->integer('filter', 0),
-        ];
-
-        $sorting['sortBy'] = $sorting['sortBy'] < count($attributes) ? $sorting['sortBy'] : 0;
-        $sorting['sortDir'] = $sorting['sortDir'] < count($directions) ? $sorting['sortDir'] : 0;
-        $sorting['filter'] = $sorting['filter'] < 4 ? $sorting['filter'] : 0;
-        // TODO: be more explicit about unauthenticated attempt to use filters
-
-        $levels = Level::query();
+        $levels = sorting(Level::query()->withCount('reviews'), 'rating_overall');
 
         if (auth()->check()) {
-            /**
-             * @var User $user
-             */
-            $user = auth()->user();
-
-            if ($sorting['filter'] === 1) {
-                $levels = $user->reviewedLevels();
-            } else if ($sorting['filter'] === 2) {
-                $levels = $levels->whereDoesntHave('reviews', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                });
-            } else if ($sorting['filter'] === 3) {
-                $levels = $levels->whereHas('replays')->whereDoesntHave('approvedReplays');
-            }
+            $user = $request->user();
 
             $levels->with(['reviews' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
-            }]);
+            }])->filters([
+                'reviewed' => function (FilterBuilder $q) use ($user) {
+                    $q->whereHas('reviews', function (Builder $q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    });
+                },
+                'unreviewed' => function (FilterBuilder $q) use ($user) {
+                    $q->whereDoesntHave('reviews', function (Builder $q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    });
+                },
+                'unapproved_replays' => function (FilterBuilder $q) {
+                    $q->whereHas('replays')->whereDoesntHave('approvedReplays');
+                }
+            ]);
         }
 
-        if ($sorting['sortBy'] !== 5) $levels->whereNotNull('levels.' . $attributes[$sorting['sortBy']]);
+        if (in_array($request->string('sortBy'), ['rating_overall', 'rating_overall', 'rating_overall', 'rating_overall'])) {
+            $levels->whereNotNull('levels.' . $request->string('sortBy'));
+            $levels->orderBy('reviews_count', 'desc');
+        }
 
         return Inertia::render('Levels/Index', [
-            'levels' => $levels
-                ->withCount('reviews')
-                ->orderBy($attributes[$sorting['sortBy']], $directions[$sorting['sortDir']])
-                ->orderBy('id') // TODO: Break ties so it's not random (which for some reason it is? maybe study)
-                ->paginate(10)
-                ->appends($sorting),
-            'filters' => $sorting,
+            'levels' => $levels->orderBy('id')
+                ->paginatorOptions(10, 1, 30)
+                ->paginate(),
+            'sorting' => $levels,
             'recent_reviews' => Review::query()
                 ->whereNotNull('review')
                 ->whereNot('review', '=', '')
@@ -101,7 +79,7 @@ class LevelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): Responsable
+    public function show(Request $request, $id): Responsable
     {
         $level = Hydrate::level($id)->load([
             'images',
@@ -126,25 +104,23 @@ class LevelController extends Controller
             return $replay;
         });
 
+        $reviews = sorting(Review::query()->where('level_id', $level->id))->with(['author']);
+
         return page('Levels/Show', [
-            'level' => $level,
-            'reviews' => $level->reviews()
-                ->latest()
-                ->whereNotNull('review')
-                ->whereNot('review', '')
-                ->with('author')
-                ->paginate(5)
+            'level' => $level->loadCount(['reviewsOnly', 'ratingsOnly']),
+            'reviews' => $reviews
+                ->filters()
+                ->paginatorOptions(10, 1, 50)
+                ->paginate()
                 ->withPath(route('levels.reviews.show', $id)),
             'review' => auth()->check() ? Review::query()
                 ->where('level_id', $id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
+            'sorting' => sorting(Review::class)->filters()
         ])->meta($level->name, $level->description)
             ->breadcrumbs([
-                [
-                    'text' => 'Levels',
-                    'url' => route('levels.index'),
-                ]
+                crumb('Levels', route('levels.index'))
             ]);
     }
 
@@ -173,26 +149,28 @@ class LevelController extends Controller
         ]);
     }
 
-    public function reviews(Level $level): Responsable {
+    public function reviews(Level $level): Responsable
+    {
         return page('Levels/Sections/Reviews', [
             'level' => $level,
-            'reviews' => $level->reviews()
-                ->latest()
-                ->whereNotNull('review')
-                ->whereNot('review', '')
+            'reviews' => sorting(Review::query()->where('level_id', $level->id))
                 ->with('author')
-                ->paginate(5),
+                ->filters()
+                ->paginatorOptions(10, 1, 50)
+                ->paginate(),
             'review' => auth()->check() ? Review::query()
                 ->where('level_id', $level->id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
+            'sorting' => sorting(Review::class)->filters()
         ])->meta('Reviews', $level->description)->breadcrumbs([
             crumb('Levels', route('levels.index')),
             crumb($level->name, route('levels.show', $level)),
         ]);
     }
 
-    public function replays(Level $level) {
+    public function replays(Level $level)
+    {
         return page('Levels/Sections/Replays', [
             'level' => $level,
             'replays' => $level->replays()
@@ -217,7 +195,8 @@ class LevelController extends Controller
         ]);
     }
 
-    public function videos(Level $level) {
+    public function videos(Level $level)
+    {
         return page('Levels/Sections/Videos', [
             'level' => $level,
             'videos' => $level->videos()
@@ -228,7 +207,8 @@ class LevelController extends Controller
         ]);
     }
 
-    public function view(Level $level): Responsable {
+    public function view(Level $level): Responsable
+    {
         // TODO: put hydration here?
         $res = Http::get('https://history.geometrydash.eu/api/v1/level/' . $level->id)->json();
         $records = [];

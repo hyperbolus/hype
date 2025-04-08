@@ -7,17 +7,21 @@ import Lightbox from "@/Components/Lightbox.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
 import Input from "@/Jetstream/Input.vue";
 import route from 'ziggy-js'
-import {displayRating, isAuthenticated} from "@/util.js";
+import {isAuthenticated} from "@/util.js";
 import {onMounted, ref} from "vue";
 import Errors from "@/Components/Errors.vue";
 import LevelReview from "@/Components/LevelReview.vue";
 import TipTap from "@/Components/TipTap.vue";
 import {useEventListener} from "@vueuse/core";
+import QueryFooter from "@/Components/QueryFooter.vue";
+import Sorting from "@/Components/Sorting.vue";
+import RatingOverview from "@/Components/RatingOverview.vue";
 
 const props = defineProps({
     level: Object,
     review: Object,
     reviews: Object,
+    sorting: Object,
 })
 
 const form = useForm({
@@ -82,28 +86,7 @@ onMounted(() => {
     <Layout :level="level">
         <div class="y !mt-0 bg-ui-950 border border-ui-900 rounded-lg px-4 py-2 gap-2">
             <h2 class="font-bold text-2xl">Average Ratings</h2>
-            <div class="x pane justify-between">
-                <div class="y">
-                    <span class="text-xs uppercase">Reviews</span>
-                    <span class="text-xl font-bold">{{ reviews.total }}</span>
-                </div>
-                <div class="y">
-                    <span class="text-xs uppercase">Difficulty</span>
-                    <span class="text-xl font-bold">{{ displayRating(level.rating_difficulty, 2) }}<span class="text-xs text-ui-600">/100</span></span>
-                </div>
-                <div class="y">
-                    <span class="text-xs uppercase">Overall</span>
-                    <span class="text-xl font-bold">{{ displayRating(level.rating_overall, 2) }}<span class="text-xs text-ui-600">/10</span></span>
-                </div>
-                <div class="y">
-                    <span class="text-xs uppercase">Gameplay</span>
-                    <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay, 2) }}<span class="text-xs text-ui-600">/10</span></span>
-                </div>
-                <div class="y">
-                    <span class="text-xs uppercase">Visuals</span>
-                    <span class="text-xl font-bold">{{ displayRating(level.rating_visuals, 2) }}<span class="text-xs text-ui-600">/10</span></span>
-                </div>
-            </div>
+            <RatingOverview :level="level"/>
             <details v-if="isAuthenticated()" class="pane">
                 <summary>
                     <span class="text-xl cursor-pointer">{{ props.review ? 'Edit Your' : 'Submit' }} Rating</span>
@@ -172,10 +155,14 @@ onMounted(() => {
             <div v-else class="y pane">
                 <h2 class="text-xl"><Link class="underline" :href="route('auth::login')">Log in</Link> to submit a review</h2>
             </div>
-            <h2 class="font-bold text-2xl">Reviews</h2>
+            <div class="y md:flex-row items-center gap-2 justify-between">
+                <h2 class="font-bold text-2xl">Reviews</h2>
+                <Sorting :sorting="sorting" :url="route('levels.reviews.show', level.id)"/>
+            </div>
             <Pagination :list="reviews"/>
             <div v-if="reviews.data.length === 0" class="pane">This level has no reviews. Be the first!</div>
             <LevelReview :key="review.id" v-for="review in reviews.data" :review="review"/>
+            <QueryFooter :sorting="sorting" :url="route('levels.reviews.show', level.id)" :results="reviews"/>
             <Pagination :list="reviews"/>
         </div>
     </Layout>

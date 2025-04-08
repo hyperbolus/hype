@@ -5,18 +5,27 @@ import Carousel from "@/Components/Carousel.vue";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
 import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
-import {displayRating} from "@/util.js";
+import {isAuthenticated} from "@/util.js";
 import {ref} from "vue";
 import LevelReview from "@/Components/LevelReview.vue";
 import ReplayTicket from "@/Components/ReplayTicket.vue";
+import Input from "@/Jetstream/Input.vue";
+import Button from "@/Jetstream/Button.vue";
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import {useClipboard} from "@vueuse/core";
+import Lightbox from "@/Components/Lightbox.vue";
+import Errors from "@/Components/Errors.vue";
+import getYouTubeID from "get-youtube-id";
+import Sorting from "@/Components/Sorting.vue";
+import QueryFooter from "@/Components/QueryFooter.vue";
+import RatingOverview from "@/Components/RatingOverview.vue";
 
 const props = defineProps({
     level: Object,
     review: Object,
     reviews: Object,
+    sorting: Object
 })
 
 const form = useForm({
@@ -63,39 +72,34 @@ const { copied, copy } = useClipboard({source, legacy: true})
                     <Carousel v-else :images="level.images"/>
                 </template>
                 <h2 class="font-bold text-2xl">Overview</h2>
-                <div class="x pane justify-between">
-                    <div class="y">
-                        <span class="text-xs uppercase">Reviews</span>
-                        <span class="text-xl font-bold">{{ reviews.total }}</span>
-                    </div>
-                    <div class="y">
-                        <span class="text-xs uppercase">Difficulty</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_difficulty, 2) }}<span class="text-xs text-ui-600">/100</span></span>
-                    </div>
-                    <div class="y">
-                        <span class="text-xs uppercase">Overall</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_overall, 2) }}<span class="text-xs text-ui-600">/10</span></span>
-                    </div>
-                    <div class="y">
-                        <span class="text-xs uppercase">Gameplay</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay, 2) }}<span class="text-xs text-ui-600">/10</span></span>
-                    </div>
-                    <div class="y">
-                        <span class="text-xs uppercase">Visuals</span>
-                        <span class="text-xl font-bold">{{ displayRating(level.rating_visuals, 2) }}<span class="text-xs text-ui-600">/10</span></span>
-                    </div>
+                <RatingOverview :level="level"/>
+                <div class="x items-center justify-between">
+                    <h2 class="font-bold text-2xl">Reviews</h2>
+                    <Sorting :sorting="sorting" :url="route('levels.reviews.show', level.id)"/>
                 </div>
-                <h2 class="font-bold text-2xl">Reviews</h2>
                 <Pagination :list="reviews"/>
-                <div v-if="reviews.data.length === 0" class="pane">
-                    This level has no reviews. Be the first!
-                </div>
+                <div v-if="reviews.data.length === 0" class="pane">This level has no reviews. Be the first!</div>
                 <LevelReview v-for="review in reviews.data" :review="review"/>
+                <QueryFooter :sorting="sorting" :url="route('levels.reviews.show', level.id)" :results="reviews"/>
                 <Pagination :list="reviews"/>
             </div>
             <div class="y space-y-2 md:w-1/4">
                 <div class="w-full space-y-2">
                     <h2 class="font-bold text-2xl">Info</h2>
+                    <div class="y space-y-2 pane">
+                        <div class="x justify-between">
+                            <span>All</span>
+                            <span>{{ level.reviews_only_count + level.ratings_only_count }}</span>
+                        </div>
+                        <div class="x justify-between">
+                            <span>Reviews Only</span>
+                            <span>{{ level.reviews_only_count }}</span>
+                        </div>
+                        <div class="x justify-between">
+                            <span>Ratings Only</span>
+                            <span>{{ level.ratings_only_count }}</span>
+                        </div>
+                    </div>
                     <div class="y space-y-2 pane">
                         <div class="x justify-between items-center">
                             <span>ID</span>
