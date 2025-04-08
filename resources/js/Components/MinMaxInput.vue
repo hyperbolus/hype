@@ -32,8 +32,9 @@ const commit = () => {
             <span>{{ maxV }}</span>
         </div>
         <div class="relative w-full pb-2">
-            <input @keyup.enter="commit" @mouseup="commit" @touchend="commit" v-if="!disabled" class="w-full z-20 absolute h-1 bg-transparent pointer-events-none" v-model="a" @input="update" :step="step" :min="min" :max="max" type="range" :disabled="disabled"/>
-            <input @keyup.enter="commit" @mouseup="commit" @touchend="commit" v-if="!disabled" class="w-full z-20 absolute h-1 bg-transparent pointer-events-none" v-model="b" @input="update" :step="step" :min="min" :max="max" type="range"  :disabled="disabled"/>
+            <!-- TODO: grab the blue bar to drag both of the knobs around maybe -->
+            <input @keyup.enter="commit" @mouseup="commit" @touchend="commit" v-if="!disabled" class="w-full z-20 absolute h-1 bg-transparent appearance-none pointer-events-none" v-model="a" @input="update" :step="step" :min="min" :max="max" type="range" :disabled="disabled"/>
+            <input @keyup.enter="commit" @mouseup="commit" @touchend="commit" v-if="!disabled" class="w-full z-20 absolute h-1 bg-transparent appearance-none pointer-events-none" v-model="b" @input="update" :step="step" :min="min" :max="max" type="range"  :disabled="disabled"/>
             <div class="z-10 relative rounded-full bg-ui-950 px-2 overflow-hidden">
                 <div class="p-0.5 bg-blue-500 rounded-full" :class="{'invisible': disabled}" :style="`width:${(maxV - minV) / (max - min) * 100}%;margin-left:${(minV - min) / (max - min) * 100}%;`"></div>
             </div>
@@ -41,7 +42,11 @@ const commit = () => {
     </div>
 </template>
 <style scoped>
-input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
+input[type=range]::-moz-range-thumb {
     @apply bg-ui-700 border-none cursor-pointer pointer-events-auto
+}
+
+input[type=range]::-webkit-slider-thumb {
+    @apply bg-ui-700 border-none cursor-pointer pointer-events-auto appearance-none p-1 w-4 h-4 rounded-full
 }
 </style>
