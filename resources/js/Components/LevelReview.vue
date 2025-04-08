@@ -36,7 +36,7 @@ const remove = () => {
     <div class="y items-center pane !px-2 relative z-0">
         <div v-if="review.level" class="absolute inset-0 rounded-md bg-center bg-cover [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.4)_100%);]" :style="`background-image: url(${review.level.banner_url ?? 'https://raw.githubusercontent.com/cdc-sys/level-thumbnails/refs/heads/main/thumbs/' + review.level.id + '.png'})`"></div>
         <div class="z-10 flex flex-col md:flex-row gap-2 items-center w-full justify-between">
-            <Link :href="route('levels.show', review.level.id)" v-if="review.level" class="x items-center space-x-2 px-2">
+            <Link :href="route('levels.show', review.level.id)" v-if="review.level" class="x items-center space-x-2">
                 <img class="h-14" :src="face(review.level)" alt=""/>
                 <div class="y">
                     <h2 class="font-bold text-2xl">{{ review.level.name }}</h2>
