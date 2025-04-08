@@ -95,7 +95,7 @@ const remove = () => {
                                     <ReportModal :reportable_id="review.id" :reportable_type="42" @click.stop class="cursor-auto"/>
                                 </template>
                             </Lightbox>
-                            <div v-if="isAdmin() || isUser(review.author.id)" @click="remove" class="text-red-500 hover:text-white hover:bg-red-500 last:rounded-b px-2 py-1">Delete</div>
+                            <div v-if="isAdmin() || isUser(review.user_id)" @click="remove" class="text-red-500 hover:text-white hover:bg-red-500 last:rounded-b px-2 py-1">Delete</div>
                         </template>
                     </Dropdown>
                 </div>
