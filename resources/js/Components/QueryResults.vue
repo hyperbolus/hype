@@ -8,7 +8,11 @@ const props = defineProps({
     results: Object,
     sorting: Object,
     containerClasses: [String, Object],
-    url: String
+    url: String,
+    delay: {
+        default: 40,
+        type: Number
+    }
 });
 </script>
 <template>
@@ -22,7 +26,7 @@ const props = defineProps({
         <div class="pane text-center italic text-ui-500" v-else-if="results.data.length === 0 && results.total > 0">"You just blow in from stupid town?"</div>
         <!-- TODO: add setting if user wants animation either in footer or as a global website setting -->
         <transition-group v-if="results.data.length > 0" enter-from-class="opacity-0 -translate-x-6" enter-to-class="opacity-100 translate-x-0" appear name="fade" tag="div" :class="containerClasses">
-            <div v-for="(item, index) in results.data" :key="index" :style="`transition-delay: ${index * 50}ms;`">
+            <div v-for="(item, index) in results.data" :key="index" :style="`transition-delay: ${index * delay}ms;`">
                 <slot :item="item" :index="index"/>
             </div>
         </transition-group>
