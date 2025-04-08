@@ -30,12 +30,20 @@ function setFilter(value) {
 }
 
 const search = () => {
-    router.get((props.url ?? usePage().url) + '?' + new URLSearchParams({
-        sortBy: sortBy.value,
-        sortDir: sortDir.value,
-        filter: filter.value,
-        perPage: props.sorting.perPage,
-    }).toString())
+    let url = new URL('https://penis.com' + usePage().url);
+    let query = new URLSearchParams(url.search);
+
+    query.set('sortBy', sortBy.value);
+    query.set('sortDir', sortDir.value);
+    query.set('filter', filter.value);
+    query.set('perPage', props.sorting.perPage);
+
+    // TODO: add sortby default pruning (theres another todo in filter builder)
+    if (query.get('sortDir') === 'desc') query.delete('sortDir');
+    if (query.get('filter') === 'all') query.delete('filter');
+    if (query.get('perPage') === props.sorting.paginator.default) query.delete('perPage');
+
+    router.get(url.pathname + '?' + query.toString())
 }
 
 const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').replaceAll(' At', ' Date').replaceAll('Id', 'ID')
