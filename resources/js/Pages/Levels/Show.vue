@@ -58,6 +58,20 @@ const submit = () => {
 
 const source = ref(props.level.id)
 const { copied, copy } = useClipboard({source, legacy: true})
+
+const videoForm = useForm({
+    level_id: props.level.id,
+    video_id: ''
+})
+
+const submitVideo = () => {
+    videoForm.transform(data => ({
+        ...data,
+        video_id: getYouTubeID(videoForm.video_id),
+    })).post(route('videos.store'), {
+        onFinish: () => videoForm.reset('video_id'),
+    });
+}
 </script>
 <template>
     <Layout :level="level" :tags="true">
@@ -128,7 +142,21 @@ const { copied, copy } = useClipboard({source, legacy: true})
                     </div>
                     <div class="x items-center justify-between">
                         <h2 class="font-bold text-2xl">Videos</h2>
-                        <span class="!hidden pane !py-1 cursor-pointer">Submit</span>
+                        <Lightbox>
+                            <span class="pane !py-1 cursor-pointer">Submit</span>
+                            <template #content>
+                                <div @click.stop v-if="isAuthenticated()" class="glass p-4 text-ui-200">
+                                    <form @submit.prevent="submitVideo" class="space-y-2">
+                                        <Input v-model="videoForm.video_id" type="text" placeholder="YouTube Video Link" required/>
+                                        <Errors/>
+                                        <Button>Add</Button>
+                                    </form>
+                                </div>
+                                <div @click.stop v-else class="pane text-ui-200">
+                                    <span>You must <Link class="underline" :href="route('auth::login')">log in</Link> to submit a video</span>
+                                </div>
+                            </template>
+                        </Lightbox>
                     </div>
                     <div v-if="level.videos.length === 0" class="pane">No videos available</div>
                     <VideoLightbox v-for="video in level.videos" :video="video" class="w-full"/>
