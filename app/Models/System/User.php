@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\FilterBuilder;
 use App\Models\Connection;
 use App\Models\Content\Post;
 use App\Models\Content\Review;
@@ -13,6 +14,7 @@ use App\Models\Game\LevelReplay;
 use App\Models\IP;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
+use App\Traits\Sortable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasRoles;
     use Impersonate;
     use Searchable;
+    use Sortable;
 
     /**
      * The attributes that are mass assignable.
@@ -68,6 +71,20 @@ class User extends Authenticatable implements MustVerifyEmail
         'reputation' => 'integer',
         'signature_visibility' => 'boolean'
     ];
+
+    public function getSortableAttributes(): array
+    {
+        return [
+            'id',
+            'name' => function(FilterBuilder $q) {
+                $q->orderByRaw('LOWER(name) ' . $q->getSortDir());
+            },
+            'reputation',
+            'credits',
+            'reviews_count',
+            'created_at'
+        ];
+    }
 
     /**
      * Send the password reset notification.

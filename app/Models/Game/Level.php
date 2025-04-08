@@ -5,7 +5,7 @@ namespace App\Models\Game;
 use App\Models\Content\Review;
 use App\Models\Content\Tag;
 use App\Models\Content\Video;
-use App\Models\Game\IdeHelperLevel;
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +19,7 @@ class Level extends Model
 {
     use HasFactory;
     use Searchable;
+    use Sortable;
 
     protected $fillable = [
         'rating_difficulty',
@@ -27,9 +28,34 @@ class Level extends Model
         'rating_overall'
     ];
 
+    public function getSortableAttributes(): array
+    {
+        return [
+            'id',
+            'rating_overall',
+            'rating_gameplay',
+            'rating_visuals',
+            'rating_difficulty',
+            'reviews_count',
+            'created_at',
+        ];
+    }
+
     public function toSearchableArray(): array
     {
         return $this->toArray();
+    }
+
+    public function ratingsOnly(): HasMany
+    {
+        return $this->hasMany(Review::class, 'level_id')->where(function ($q) {
+            $q->whereNull('review')->orWhere('review', '');
+        });
+    }
+
+    public function reviewsOnly(): HasMany
+    {
+        return $this->hasMany(Review::class, 'level_id')->whereNotNull('review')->whereNot('review', '');
     }
 
     public function reviews(): HasMany

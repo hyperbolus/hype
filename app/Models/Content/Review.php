@@ -2,8 +2,10 @@
 
 namespace App\Models\Content;
 
+use App\FilterBuilder;
 use App\Models\Game\Level;
 use App\Models\System\User;
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +19,7 @@ class Review extends Model
 {
     use HasFactory;
     use Searchable;
+    use Sortable;
 
     protected $fillable = [
         'rating_gameplay',
@@ -27,6 +30,29 @@ class Review extends Model
         'level_id',
         'user_id',
     ];
+
+    public function getSortableAttributes(): array
+    {
+        return [
+            'rating_gameplay',
+            'rating_visuals',
+            'rating_difficulty',
+            'rating_overall',
+            'created_at'
+        ];
+    }
+
+    public function getSortableFilters(): array
+    {
+        return [
+            'ratings_only' => function (FilterBuilder $q) {
+                $q->whereIn('review', [null, '']);
+            },
+            'reviews_only' => function (FilterBuilder $q) {
+                $q->whereNotNull('review')->whereNot('review', '');
+            },
+        ];
+    }
 
     public function toSearchableArray(): array
     {
