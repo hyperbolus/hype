@@ -17,9 +17,10 @@ const promptPerPage = () => {
         filter: props.sorting.filter,
     };
 
-    if (!isNaN(parseInt(perPage))) params.perPage = Math.min(props.sorting.paginator.max, Math.max(props.sorting.paginator.min, parseInt(perPage)));
-
-    router.get(props.url + '?' + new URLSearchParams(params).toString());
+    if (!isNaN(parseInt(perPage))) {
+        params.perPage = Math.min(props.sorting.paginator.max, Math.max(props.sorting.paginator.min, parseInt(perPage)));
+        router.get(props.url + '?' + new URLSearchParams(params).toString());
+    }
 }
 </script>
 <template>
