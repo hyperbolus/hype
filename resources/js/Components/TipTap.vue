@@ -178,7 +178,7 @@ const addVideoURL = ref('');
 </template>
 <style>
 div[data-youtube-video] > iframe {
-    @apply rounded-lg aspect-video h-[20rem]
+    @apply rounded-lg aspect-video max-h-[20rem] w-full
 }
 
 .rounded > .ProseMirror {
