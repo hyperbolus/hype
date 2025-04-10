@@ -1,5 +1,9 @@
 <script setup>
+import {Link} from '@inertiajs/vue3'
+import route from "ziggy-js";
+
 const props = defineProps({
+    user: Object,
     curve: Object
 });
 </script>
@@ -7,7 +11,7 @@ const props = defineProps({
     <div class="y pane !pl-2">
         <h1 class="px-2">Rating Curve</h1>
         <div class="flex flex-col-reverse">
-            <div v-for="(count, score) in curve" class="x items-center group">
+            <Link v-for="(count, score) in curve" :href="`${route('users.reviews', user.id)}?overall=${score}-${score}`" class="x items-center group">
                 <span class="text-sm text-ui-500 w-5 mr-2 text-center">{{ score }}</span>
                 <div class="x items-center w-full">
                     <div class="bg-ui-800 rounded overflow-hidden grow">
@@ -16,7 +20,7 @@ const props = defineProps({
                     <!-- TODO: make it so blue bar does not change and is proportionally correct instead of shrinking and being inaccurate -->
                     <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden text-sm">{{ count }}&nbsp;Ratings</div>
                 </div>
-            </div>
+            </Link>
         </div>
     </div>
 </template>

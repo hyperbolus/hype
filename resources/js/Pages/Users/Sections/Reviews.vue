@@ -3,7 +3,6 @@ import LevelReview from "@/Components/LevelReview.vue";
 import RatingsCurve from "@/Components/RatingsCurve.vue";
 import UserLayout from "@/Pages/Users/Partials/UserLayout.vue";
 import MinMaxInput from "@/Components/MinMaxInput.vue";
-import Icon from "@/Components/Icon.vue";
 import QueryResults from "@/Components/QueryResults.vue";
 import {router, useForm, usePage} from "@inertiajs/vue3";
 import Accordion from "@/Components/Accordion.vue";
@@ -46,7 +45,7 @@ const search = () => {
 <template>
     <UserLayout :profile="profile" container-classes="y md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <div class="y space-y-4 md:w-1/3 xl:w-1/4 relative z-00">
-            <RatingsCurve :curve="curve"/>
+            <RatingsCurve :user="profile" :curve="curve"/>
             <Accordion :open="true" title="Filters">
                 <div class="y">
                     <span>Difficulty</span>

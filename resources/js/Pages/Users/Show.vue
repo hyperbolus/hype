@@ -40,7 +40,7 @@ const tab = ref(0);
                         <span v-else>{{ new Date(profile.created_at).toLocaleDateString() }}</span>
                     </div>
                 </div>
-                <RatingsCurve :curve="curve"/>
+                <RatingsCurve :user="profile" :curve="curve"/>
             </div>
             <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 md:w-1/2 lg:w-3/4">
                 <div class="y space-y-4 lg:w-1/2">
