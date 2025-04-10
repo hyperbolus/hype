@@ -26,9 +26,12 @@ class SearchController extends Controller
 
     public function username(Request $request): Collection
     {
-        $except = (int) \request('except') ?? null;
-
-        return User::query()->select(['id', 'name'])->where('name', 'LIKE', '%'.\request('name').'%')->whereNot('id', '=', $except)->get();
+        return User::query()
+            ->select(['id', 'name'])
+            ->where('name', 'LIKE', '%' . $request->string('name') . '%')
+            ->whereNot('id', '=', $request->integer('except') ?? null)
+            ->limit(100)
+            ->get();
     }
 
     public function tagname(Request $request): Collection

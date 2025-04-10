@@ -58,7 +58,7 @@ const searchName = async () => {
                     <Input @input="searchName" v-model="username" type="text" placeholder="User"/>
                     <Dropdown align="left" ref="dropdown">
                         <template #content>
-                            <ul>
+                            <ul class="max-h-64 overflow-y-auto">
                                 <li class="px-2 py-1 opacity-75 italic" v-if="users.length === 0">No Results</li>
                                 <li class="px-2 py-1 hover:bg-ui-700" v-for="user in users" @click="message.recipient_id = user.id; username = user.name">{{ user.name }}</li>
                             </ul>
