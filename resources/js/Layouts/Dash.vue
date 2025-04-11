@@ -54,7 +54,7 @@ onBeforeMount(() => {
                 </div>
             </div>
             <slot v-else/>
-            <div v-if="!isAuthenticated()" class="mb-2">
+            <div v-if="false && isAuthenticated()" class="mb-2">
                 <div class="w-[728px] h-[90px] bg-blue-500"></div>
                 <span class="text-sm">Don't want to see ads? <Link class="underline" :href="route('auth::login')">Sign in.</Link></span>
             </div>
