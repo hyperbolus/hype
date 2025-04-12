@@ -12,15 +12,12 @@
 
     <link rel="icon" type="image/svg+xml" href="/icon.svg"/>
     <link rel="manifest" href="/site.webmanifest">
-    <!-- TODO: -->
-    <!-- <link rel="canonical" href="https://example.com/dresses/green-dresses" /> -->
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    @if($page['props']['__meta_canonical'])<link rel="canonical" href="{{ $page['props']['__meta_canonical'] }}" />@endif
+    @if($page['props']['sorting'] && request()->getQueryString())<meta name="robots" content="noindex">@endif
 
-    <!-- Fonts -->
+    <title inertia>Hyperbolus</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-    <!-- Scripts -->
     @routes
     @vite('resources/js/app.js')
     @inertiaHead
