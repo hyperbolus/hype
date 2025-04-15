@@ -3,7 +3,9 @@
 namespace App;
 
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageBuilder implements Responsable
 {
@@ -43,11 +45,9 @@ class PageBuilder implements Responsable
         return $this;
     }
 
-    public function toResponse($request): \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+    public function toResponse($request): JsonResponse|Response
     {
-        if ($this->title) {
-            $this->breadcrumbs[] = crumb($this->title, $request->url());
-        }
+        if ($this->title) $this->breadcrumbs[] = crumb($this->title, $request->url());
 
         return Inertia::render($this->component, [
             ...$this->props,
