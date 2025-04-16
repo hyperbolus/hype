@@ -13,8 +13,8 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg"/>
     <link rel="manifest" href="/site.webmanifest">
 
-    @if($page['props']['__meta_canonical'])<link rel="canonical" href="{{ $page['props']['__meta_canonical'] }}" />@endif
-    @if($page['props']['sorting'] && request()->getQueryString())<meta name="robots" content="noindex">@endif
+    @if(array_key_exists('__meta_canonical', $page['props']))<link rel="canonical" href="{{ $page['props']['__meta_canonical'] }}" />@endif
+    @if(array_key_exists('sorting', $page['props']) && request()->getQueryString())<meta name="robots" content="noindex">@endif
 
     <title inertia>Hyperbolus</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
