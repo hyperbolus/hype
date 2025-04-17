@@ -9,8 +9,10 @@ import {Link} from '@inertiajs/vue3'
 import route from "ziggy-js"
 import Avatar from "@/Components/Avatar.vue";
 import UserFlag from "@/Components/UserFlag.vue";
-import {isAuthenticated} from "@/util.js";
+import {isAuthenticated, isUser} from "@/util.js";
 import UserTitle from "@/Components/UserTitle.vue";
+import { Cropper } from 'vue-advanced-cropper';
+import 'vue-advanced-cropper/dist/style.css';
 
 const props = defineProps({
     profile: Object,
@@ -44,12 +46,21 @@ const isOnline = (time) => {
                 <div class="x items-end justify-between">
                     <div class="x items-end">
                         <div class="x relative shrink-0 shadow-lg justify-center items-center rounded-full -mb-16 z-10 mr-4">
-                            <div v-if="1" class="x items-center justify-center absolute z-10 w-full h-full rounded-full opacity-0 cursor-pointer hover:opacity-100 bg-black/50">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                                </svg>
-                            </div>
-                            <Avatar class="relative z-0" width="w-40" :user="profile"/>
+                            <Lightbox v-if="false && isUser(profile.id)">
+                                <div v-if="isUser(profile.id)" class="x items-center justify-center absolute z-10 w-full h-full rounded-full opacity-0 cursor-pointer hover:opacity-100 bg-black/50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                                    </svg>
+                                </div>
+                                <Avatar class="relative z-0" width="w-40" :user="profile"/>
+                                <template #content>
+                                    <div @click.stop class="y space-x-2 p-4 bg-ui-900 text-ui-200 shadow-xl w-full md:w-[32rem] lg:w-[48rem]">
+                                        <h1 class="text-2xl font-bold">Change Avatar</h1>
+                                        <Cropper class="w-fit" :src="profile.avatar_url"/>
+                                    </div>
+                                </template>
+                            </Lightbox>
+                            <Avatar v-else class="relative z-0" width="w-40" :user="profile"/>
                         </div>
                         <div class="leading-none text-ui-200">
                             <div class="x items-center space-x-2 font-bold text-2xl">
