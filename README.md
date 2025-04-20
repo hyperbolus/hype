@@ -9,12 +9,6 @@
 # About
 Hype is a CMS catered to features of specific games such the case for Geometry Dash integrations allowing the site to pull data from official servers and act as an authority to link user's accounts
 
-Current sites powered by this software:
-- https://hyperbolus.net - Geometry Dash
-    - https://profile.gd
-- https://hyperdodger.com - Soundodger
-- https://userlevels.com - The Impossible Game 1 & 2
-
 ## Stack
 The current codebase is a multi-tenant one meant for hosting several "sites" on a single installation.
 
@@ -34,7 +28,7 @@ Setup mostly as a standard Laravel app plus Laravel Tenancy, however no support 
 Whether you're a game dev or community leader, reach out to see if Hype would be a good fit for your community
 
 # Contributing
-We are currently not accepting code contributions, although you can still request features and report bugs
+We are currently not accepting code contributions, although you can still request features and report bugs in the [Discord](https://discord.gg/JJc8nndmFE)
 
 # License
 Hype is licensed under the AGPL-3.0
