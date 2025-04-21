@@ -17,8 +17,6 @@ The current codebase is a multi-tenant one meant for hosting several "sites" on 
 - Reviews and ratings
 - Profiles
 - Messaging
-- Cosmetics
-- Community workshop for mods
 - Other random game specific stuff
 
 # Usage
