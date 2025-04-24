@@ -34,9 +34,9 @@ const form = useForm({
 });
 
 const blanks = ref({
-    difficulty: false,
-    gameplay: false,
-    visuals: false
+    difficulty: true,
+    gameplay: true,
+    visuals: true
 });
 
 const submitting = ref(false);
@@ -129,20 +129,20 @@ onMounted(() => {
 
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between">
                             <span>Difficulty Rating: {{ blanks.difficulty ? '-' : form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></span>
-                            <span class="x items-center"><Checkbox v-model="blanks.difficulty" class="mr-2"/>Leave Empty</span>
+                            <span class="x items-center"><Checkbox :checked="blanks.difficulty" v-model="blanks.difficulty" class="mr-2"/>Leave Empty</span>
                         </div>
                         <input :disabled="blanks.difficulty" class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
 
                         <h1 class="text-lg font-bold mt-2">Additional Scores (optional)</h1>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between">
                             <span>Gameplay Rating: {{ blanks.gameplay ? '-' : form.rating_gameplay }}<span class="opacity-50 text-xs">/10</span></span>
-                            <span class="x items-center"><Checkbox v-model="blanks.gameplay" class="mr-2"/>Leave Empty</span>
+                            <span class="x items-center"><Checkbox :checked="blanks.gameplay" v-model="blanks.gameplay" class="mr-2"/>Leave Empty</span>
                         </div>
                         <input :disabled="blanks.gameplay" class="w-full" v-model.number="form.rating_gameplay" type="range" min="0" max="10" step="1"/>
 
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between">
                             <span>Visuals Rating: {{ blanks.visuals ? '-' : form.rating_visuals }}<span class="opacity-50 text-xs">/10</span></span>
-                            <span class="x items-center"><Checkbox v-model="blanks.visuals" class="mr-2"/>Leave Empty</span>
+                            <span class="x items-center"><Checkbox :checked="blanks.visuals" v-model="blanks.visuals" class="mr-2"/>Leave Empty</span>
                         </div>
                         <input :disabled="blanks.visuals" class="w-full" v-model.number="form.rating_visuals" type="range" min="0" max="10" step="1"/>
                     </div>
