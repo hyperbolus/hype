@@ -45,7 +45,7 @@ class CalculateRatings
             ->get();
 
         $reviews = Review::query()
-            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id'])
+            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id', 'user_id'])
             ->get()
             ->mapToGroups(fn (Review $review) => [$review->level_id => $review]);
 
@@ -72,7 +72,7 @@ class CalculateRatings
     public static function level(Level $level): void
     {
         $reviews = Review::query()
-            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id'])
+            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id', 'user_id'])
             ->where('level_id', '=', $level->id)
             ->get()
             ->keyBy('id');
@@ -101,21 +101,24 @@ class CalculateRatings
         ];
 
         $reviews->map(function (Review $review) use (&$counts, &$scores) {
+            $deweighted = in_array($review->user_id, [5977, 5799, 6570]);
+            $weight = $deweighted ? 0 : 1;
+
             if ($review->rating_difficulty !== null) {
-                $counts['rating_difficulty']++;
-                $scores['rating_difficulty'] += $review->rating_difficulty;
+                $counts['rating_difficulty'] += $weight;
+                $scores['rating_difficulty'] += $review->rating_difficulty * $weight;
             }
             if ($review->rating_gameplay !== null) {
-                $counts['rating_gameplay']++;
-                $scores['rating_gameplay'] += $review->rating_gameplay;
+                $counts['rating_gameplay'] += $weight;
+                $scores['rating_gameplay'] += $review->rating_gameplay * $weight;
             }
             if ($review->rating_visuals !== null) {
-                $counts['rating_visuals']++;
-                $scores['rating_visuals'] += $review->rating_visuals;
+                $counts['rating_visuals'] += $weight;
+                $scores['rating_visuals'] += $review->rating_visuals * $weight;
             }
             if ($review->rating_overall !== null) {
-                $counts['rating_overall']++;
-                $scores['rating_overall'] += $review->rating_overall;
+                $counts['rating_overall'] += $weight;
+                $scores['rating_overall'] += $review->rating_overall * $weight;
             }
         });
 
