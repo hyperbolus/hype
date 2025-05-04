@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\System\Auth;
 
+use App\Models\IP;
 use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
 use App\Rules\AllowedUserNamespace;
@@ -83,6 +84,10 @@ class RegisteredUserController extends Controller
             [
                 'name.regex' => 'Usernames must be alphanumeric (no spaces or symbols except underscores)',
             ])->validate();
+
+        $ips = IP::query()->whereIn('address', $request->ips())->get();
+
+        if ($ips->count() > 0) throw ValidationException::withMessages(['name' => 'Making alt accounts is prohibited. If you think this is an error open a ticket on the Discord.']);
 
         // TODO: which takes priority? first visit or explicit registration invite?
         $referrer_id = request('invite');
