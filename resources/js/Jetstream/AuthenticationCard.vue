@@ -15,15 +15,11 @@ onBeforeMount(() => {
 const dark = isDark;
 </script>
 <template>
-    <div class="min-h-screen relative flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-ui-900 text-ui-200">
+    <div class="min-h-screen relative flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-ui-1000 text-ui-200">
         <div class="static z-20">
             <slot name="logo" />
         </div>
-
-        <div class="absolute z-0 h-full w-full bg-rainbow" style="mask-size: 8rem;" :style="`mask-image: url('${patternBG}?');`"></div>
-
-        <div class="z-10 absolute inset-0 bg-ui-1000/10 border-r-2 border-ui-700 translate-x-[-50%] -skew-x-[20deg] backdrop-blur-lg">d</div>
-
+        <div class="absolute z-0 h-full w-full bg-ui-900" style="mask-size: 8rem;" :style="`mask-image: url('${patternBG}');`"></div>
         <div class="z-20 static w-full sm:max-w-md mt-6 px-6 py-4 bg-ui-800 shadow-md overflow-hidden sm:rounded-lg">
             <slot />
         </div>
