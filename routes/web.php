@@ -122,9 +122,9 @@ Route::get('/groups', function () {
 })->name('groups.index');
 
 Route::get('/news', [\App\Http\Controllers\ArticleController::class, 'index'])->name('news');
-Route::get('/news/{article}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
-Route::get('/articles/new', [\App\Http\Controllers\ArticleController::class, 'create'])->name('articles.create');
-Route::post('/articles/new', [\App\Http\Controllers\ArticleController::class, 'store'])->name('articles.store');
+//Route::get('/news/{article}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
+//Route::get('/articles/new', [\App\Http\Controllers\ArticleController::class, 'create'])->name('articles.create');
+//Route::post('/articles/new', [\App\Http\Controllers\ArticleController::class, 'store'])->name('articles.store');
 
 Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
 Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('profiles.show');
@@ -139,17 +139,17 @@ Route::get('/user/{user:id}/videos', [UserController::class, 'videos'])->name('u
 
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
 Route::get('/user/{user:id}/reputation', [ReputationLogController::class, 'index'])->name('reputation.show');
-Route::post('/user/{user:id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified']);
+Route::post('/user/{user:id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified', 'throttle:10,5']);
 Route::delete('/user/{user:id}/reputation', [ReputationLogController::class, 'destroy'])->name('reputation.destroy')->middleware(['auth', 'verified']); // TODO: finish this
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{user:id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
-Route::delete('/user/comment/{comment:id}', [ProfileCommentController::class, 'destroy'])->name('user.comments.destroy')->middleware(['auth', 'verified', 'throttle:10,10']);
+Route::delete('/user/comment/{comment:id}', [ProfileCommentController::class, 'destroy'])->name('user.comments.destroy')->middleware(['auth', 'verified', 'throttle:50,10']);
 
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
 
 Route::get('/thread/create', [ThreadController::class, 'create'])->name('threads.create')->middleware(['auth', 'verified']);
-Route::post('/thread/create', [ThreadController::class, 'store'])->name('threads.store')->middleware(['auth', 'verified']);
+Route::post('/thread/create', [ThreadController::class, 'store'])->name('threads.store')->middleware(['auth', 'verified', 'throttle:5,10']);
 Route::get('/thread/{thread}', [ThreadController::class, 'show'])->name('threads.show');
 Route::patch('/thread/{thread}/lock', [ThreadController::class, 'lock'])->name('threads.lock')->middleware(['auth', 'verified']);
 Route::get('/thread/{thread}/edit', [ThreadController::class, 'edit'])->name('threads.edit')->middleware(['auth', 'verified']);
@@ -157,7 +157,7 @@ Route::post('/thread/{thread}/edit', [ThreadController::class, 'update'])->name(
 Route::delete('/thread/{thread}', [ThreadController::class, 'destroy'])->name('threads.destroy')->middleware(['auth', 'verified']);
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware(['auth', 'verified']);
-Route::post('/posts/create', [PostController::class, 'store'])->name('posts.store')->middleware(['auth', 'verified']);
+Route::post('/posts/create', [PostController::class, 'store'])->name('posts.store')->middleware(['auth', 'verified', 'throttle:30,10']);
 Route::get('/post/{post}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 Route::post('/post/{post}/edit', [PostController::class, 'update'])->name('posts.update');
@@ -208,7 +208,7 @@ Route::post('/playlist/{playlist}/submit', [PlaylistSubmissionController::class,
 
 Route::get('/inbox', [MessageController::class, 'index'])->name('inbox.index')->middleware(['auth', 'verified']);
 Route::get('/inbox/new', [MessageController::class, 'create'])->name('inbox.create')->middleware(['auth', 'verified']);
-Route::post('/inbox/new', [MessageController::class, 'store'])->name('inbox.store')->middleware(['auth', 'verified']);
+Route::post('/inbox/new', [MessageController::class, 'store'])->name('inbox.store')->middleware(['auth', 'verified', 'throttle:40,10']);
 Route::get('/inbox/{id}', [MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
 Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
 
@@ -221,9 +221,9 @@ Route::get('/styles/new', [StyleController::class, 'create'])->name('styles.crea
 Route::post('/styles/new', [StyleController::class, 'store'])->name('styles.store');
 
 Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
-Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified']);
+Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified', 'throttle:20,10']);
 
-Route::post('/reviews/create', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified']);
+Route::post('/reviews/create', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified', 'throttle:30,10']);
 Route::delete('/reviews/{review:id}/delete', [ReviewController::class, 'destroy'])->name('reviews.destroy')->middleware(['auth', 'verified']);
 
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index')->middleware(['role:admin', 'auth', 'verified']);
@@ -234,12 +234,12 @@ Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+//Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
 Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
 Route::get('/stencils/new/interstitial', [StencilController::class, 'interstitial'])->name('stencils.interstitial');
 Route::get('/stencils/new', [StencilController::class, 'create'])->middleware(['auth', 'verified'])->name('stencils.create');
-Route::post('/stencils/new', [StencilController::class, 'store'])->middleware(['auth', 'verified'])->name('stencils.store');
+Route::post('/stencils/new', [StencilController::class, 'store'])->middleware(['auth', 'verified', 'throttle:25,10'])->name('stencils.store');
 Route::get('/stencil/{stencil}', [StencilController::class, 'show'])->name('stencils.show');
 
 //Route::get('/notifications')->middleware(['auth'])->name('notifications.index');
@@ -251,19 +251,19 @@ Route::get('/tools/music', [\App\Http\Controllers\ToolsController::class, 'music
 
 //Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
 
-Route::get('/guide', function () {
-    return page('Guide');
-})->name('guide');
-
-Route::get('/guide/{page}', function (string $page) {
-    $page = rtrim($page, '/');
-    $page = str_replace('/', ' ', $page);
-    $page = ucwords($page);
-    $page = str_replace(' ', '/', $page);
-    if (str_contains($page, '..')) abort(404);
-    if (!file_exists(base_path() . '/resources/js/Pages/Guide/' . $page . '.vue')) abort(404);
-    return page('Guide/' . $page);
-})->where('page', '.*')->name('guide.show');
+//Route::get('/guide', function () {
+//    return page('Guide');
+//})->name('guide');
+//
+//Route::get('/guide/{page}', function (string $page) {
+//    $page = rtrim($page, '/');
+//    $page = str_replace('/', ' ', $page);
+//    $page = ucwords($page);
+//    $page = str_replace(' ', '/', $page);
+//    if (str_contains($page, '..')) abort(404);
+//    if (!file_exists(base_path() . '/resources/js/Pages/Guide/' . $page . '.vue')) abort(404);
+//    return page('Guide/' . $page);
+//})->where('page', '.*')->name('guide.show');
 
 Route::impersonate();
 
