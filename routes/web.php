@@ -64,7 +64,7 @@ Route::get('/download/{id}', [DownloadController::class, '__invoke'])->name('dow
 
 Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:admin']], function () {
     Route::get('/', [AdminController::class, 'show'])->name('system.home');
-    Route::post('/', AdminController::class);
+    Route::post('/', [AdminController::class, '__invoke']);
 
     Route::get('/users', [AdminUserController::class, 'show'])->name('system.users');
     Route::post('/users', AdminUserController::class);
@@ -239,7 +239,7 @@ Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+Route::post('/media/upload', [\App\Http\Controllers\System\UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
 Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
 Route::get('/stencils/new/interstitial', [StencilController::class, 'interstitial'])->name('stencils.interstitial');
