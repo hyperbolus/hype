@@ -87,9 +87,6 @@ Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'passw
 });
 
 Route::group(['prefix' => '/moderation', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:moderator']], function () {
-//    Route::get('/', [AdminController::class, 'show'])->name('system.home');
-//    Route::post('/', AdminController::class);
-
     Route::get('/reports', [ReportController::class, 'index'])->name('moderation.reports.index');
     Route::get('/report/{report:id}', [ReportController::class, 'show'])->name('moderation.reports.show');
     Route::patch('/report/{report:id}', [ReportController::class, 'update'])->name('moderation.reports.update');
