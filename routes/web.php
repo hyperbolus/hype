@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminForumController;
+use App\Http\Controllers\Admin\AdminPermissionController;
+use App\Http\Controllers\Admin\AdminSettingController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Content\ForumController;
 use App\Http\Controllers\Content\LevelTagController;
 use App\Http\Controllers\Content\LevelTagVoteController;
@@ -11,11 +16,6 @@ use App\Http\Controllers\Content\ReviewController;
 use App\Http\Controllers\Content\StyleController;
 use App\Http\Controllers\Content\ThreadController;
 use App\Http\Controllers\Content\VideoController;
-use App\Http\Controllers\Dashboard\AdminController;
-use App\Http\Controllers\Dashboard\AdminForumController;
-use App\Http\Controllers\Dashboard\AdminPermissionController;
-use App\Http\Controllers\Dashboard\AdminSettingController;
-use App\Http\Controllers\Dashboard\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardConnectionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DownloadController;
@@ -25,11 +25,11 @@ use App\Http\Controllers\Game\ProfileController;
 use App\Http\Controllers\Game\RouletteController;
 use App\Http\Controllers\Game\StencilController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Moderation\ReportController;
 use App\Http\Controllers\System\MessageController;
 use App\Http\Controllers\System\NameChangeController;
 use App\Http\Controllers\System\NotificationController;
 use App\Http\Controllers\System\ProfileCommentController;
-use App\Http\Controllers\System\ReportController;
 use App\Http\Controllers\System\ReputationLogController;
 use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\System\UserController;
@@ -85,6 +85,17 @@ Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'passw
     Route::get('/cosmetics', [AdminPermissionController::class, 'show'])->name('system.cosmetics');
     Route::post('/cosmetics', AdminPermissionController::class);
 });
+
+Route::group(['prefix' => '/moderation', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:moderator']], function () {
+//    Route::get('/', [AdminController::class, 'show'])->name('system.home');
+//    Route::post('/', AdminController::class);
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('moderation.reports.index');
+    Route::get('/report/{report:id}', [ReportController::class, 'show'])->name('moderation.reports.show');
+    Route::patch('/report/{report:id}', [ReportController::class, 'update'])->name('moderation.reports.update');
+});
+
+Route::post('/reports/new', [ReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
 
 Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'home'])->name('settings.home');
@@ -226,15 +237,12 @@ Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.s
 Route::post('/reviews/create', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified', 'throttle:30,10']);
 Route::delete('/reviews/{review:id}/delete', [ReviewController::class, 'destroy'])->name('reviews.destroy')->middleware(['auth', 'verified']);
 
-Route::get('/reports', [ReportController::class, 'index'])->name('reports.index')->middleware(['role:admin', 'auth', 'verified']);
-Route::post('/reports/new', [ReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
-
 Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette');
 
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
 
-//Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
+Route::post('/media/upload', [UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 
 Route::get('/stencils', [StencilController::class, 'index'])->name('stencils.index');
 Route::get('/stencils/new/interstitial', [StencilController::class, 'interstitial'])->name('stencils.interstitial');
