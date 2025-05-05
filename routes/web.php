@@ -67,23 +67,23 @@ Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'passw
     Route::post('/', [AdminController::class, '__invoke']);
 
     Route::get('/users', [AdminUserController::class, 'show'])->name('system.users');
-    Route::post('/users', AdminUserController::class);
+    Route::post('/users', [AdminUserController::class, '__invoke']);
 
     Route::get('/settings', [AdminSettingController::class, 'show'])->name('system.settings');
-    Route::post('/settings', AdminSettingController::class);
+    Route::post('/settings', [AdminSettingController::class, '__invoke']);
 
     Route::get('/permissions', [AdminPermissionController::class, 'show'])->name('system.permissions');
-    Route::post('/permissions', AdminPermissionController::class);
+    Route::post('/permissions', [AdminPermissionController::class, '__invoke']);
 
     Route::get('/forums', [AdminForumController::class, 'index'])->name('system.forums');
     Route::get('/forum/{forum}', [AdminForumController::class, 'show'])->name('system.forums.show');
-    Route::post('/forums', AdminForumController::class);
+    Route::post('/forums', [AdminForumController::class, '__invoke']);
 
     Route::get('/groups', [AdminPermissionController::class, 'show'])->name('system.groups');
-    Route::post('/groups', AdminPermissionController::class);
+    Route::post('/groups', [AdminPermissionController::class, '__invoke']);
 
     Route::get('/cosmetics', [AdminPermissionController::class, 'show'])->name('system.cosmetics');
-    Route::post('/cosmetics', AdminPermissionController::class);
+    Route::post('/cosmetics', [AdminPermissionController::class, '__invoke']);
 });
 
 Route::group(['prefix' => '/moderation', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:moderator']], function () {
