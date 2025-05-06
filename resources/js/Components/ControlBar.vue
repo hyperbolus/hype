@@ -4,7 +4,7 @@ import Avatar from '@/Components/Avatar.vue'
 import Dropdown from '@/Jetstream/Dropdown.vue'
 import { Link } from '@inertiajs/vue3'
 import route from 'ziggy-js'
-import {logout, isDark, toggleDark} from '@/util.js'
+import {logout, isDark, toggleDark, isAdmin, isModerator} from '@/util.js'
 import {ref} from "vue";
 import {useSettingsStore} from "@/stores/settings.ts";
 import Icon from "@/Components/Icon.vue";
@@ -54,7 +54,7 @@ const instantLogout = useStorage('instantLogout', false)
             </span>
             <Icon class="w-5" size="24" name="chat-bubble-oval-left"/>
         </Link>
-        <Link v-if="$page.props.user.roles.includes('admin')" :href="route('reports.index')">
+        <Link v-if="isModerator() || isAdmin()" :href="route('moderation.reports.index')">
             <Icon class="w-5" size="24" name="exclamation-triangle"/>
         </Link>
         <Dropdown class="shrink-0">
