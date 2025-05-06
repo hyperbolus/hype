@@ -20,12 +20,12 @@ class UploadController extends BaseController
      *
      * @param Request $request
      *
-     * @return JsonResponse
-     *
      * @throws UploadMissingFileException
      * @throws UploadFailedException
      */
     public function upload(Request $request) {
+        return false;
+
         // create the file receiver
         $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
 
