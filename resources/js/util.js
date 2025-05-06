@@ -34,6 +34,9 @@ export const isAdmin = () => {
     return isAuthenticated() && usePage().props.user.roles.includes('admin')
 }
 
+export const isModerator = () => {
+    return isAuthenticated() && usePage().props.user.roles.includes('moderator')
+}
 export const isAuthenticated = () => {
     return usePage().props.auth;
 }
