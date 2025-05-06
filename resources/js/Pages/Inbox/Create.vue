@@ -6,7 +6,6 @@ import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import {ref} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
-import Textbox from "@/Components/Textbox.vue";
 import Errors from "@/Components/Errors.vue";
 
 const props = defineProps({

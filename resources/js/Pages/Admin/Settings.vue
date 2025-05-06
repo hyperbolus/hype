@@ -5,7 +5,6 @@ import Button from "@/Jetstream/Button.vue";
 import {useForm} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import Pagination from "@/Components/Pagination.vue";
-import Textbox from "@/Components/Textbox.vue";
 
 const props = defineProps({
     settings: Object
