@@ -44,9 +44,9 @@ const remove = () => {
                 </div>
             </Link>
             <div v-else class="x items-center space-x-2 px-2">
-                <Avatar width="w-10 shrink-0" :user="review.author"/>
+                <Avatar v-if="review.author" width="w-10 shrink-0" :user="review.author"/>
                 <div class="y">
-                    <Username :user="review.author"/>
+                    <Username v-if="review.author" :user="review.author"/>
                     <Timestamp class="w-fit text-sm text-ui-500" position="right" :time="review.created_at"/>
                 </div>
             </div>
