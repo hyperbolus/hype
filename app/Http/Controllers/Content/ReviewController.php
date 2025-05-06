@@ -59,6 +59,7 @@ class ReviewController extends Controller
         $level->loadCount('reviews');
 
         CalculateRatings::level($level);
+        CalculateRatings::rankings(true);
 
         return redirect()->back();
     }
@@ -90,6 +91,7 @@ class ReviewController extends Controller
         $level = $review->level;
         $review->forceDelete();
         CalculateRatings::level($level);
+        CalculateRatings::rankings(true);
 
         return back();
     }

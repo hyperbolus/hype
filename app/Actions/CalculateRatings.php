@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Models\Content\Review;
 use App\Models\Game\Level;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class CalculateRatings
 {
@@ -24,6 +25,54 @@ class CalculateRatings
         } else {
             return $avg;
         }
+    }
+
+    public static function rankings(bool $force = false)
+    {
+        $rankings = Cache::get('levels:rankings');
+
+        if (!$rankings || $force) {
+            $top100 = Level::query()
+                ->select(['id', 'name', 'rating_overall'])
+                ->withCount('reviews')
+                ->orderBy('rating_overall', 'desc')
+                ->orderBy('reviews_count', 'desc')
+                ->limit(150) // TODO: might need an increase for ties over 100 barrier
+                ->get();
+
+            for ($i = 0; $i < $top100->count(); $i++) {
+                if ($i > 0 && $top100[$i]['rating_overall'] === $top100[$i - 1]['rating_overall']) {
+                    $rank = $top100[$i - 1]['rank'];
+                } else {
+                    $rank = $i + 1;
+                }
+                $top100[$i] = [
+                    'id' => $top100[$i]->id,
+                    'rating_overall' => $top100[$i]['rating_overall'],
+                    'rank' => $rank,
+                ];
+            }
+
+            Cache::put('levels:rankings', $top100, now()->addHour());
+            $rankings = $top100;
+        }
+
+        return $rankings;
+    }
+
+    public static function rank(int $id, bool $force = false): array
+    {
+        $rankings = self::rankings($force);
+
+        if ($rankings->where('id', $id)->count() > 0) {
+            $rank = $rankings->where('id', $id)->first()['rank'];
+            return [
+                'rank' => $rankings->where('id', $id)->first()['rank'],
+                'joint_ranked' => $rankings->where('rank', $rank)->count()
+            ];
+        }
+
+        return [];
     }
 
     public static function all(): void

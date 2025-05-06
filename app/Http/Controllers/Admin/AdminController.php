@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Admin;
 
 use App\Actions\CalculateRatings;
 use App\Actions\MacroMetadata;
@@ -27,6 +27,7 @@ class AdminController extends Controller
                 break;
             case 'recalculate ratings':
                 CalculateRatings::all();
+                CalculateRatings::rankings(true);
                 break;
             case 'update macros':
                 MacroMetadata::all();
