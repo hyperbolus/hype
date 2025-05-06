@@ -34,9 +34,9 @@ const form = useForm({
 });
 
 const blanks = ref({
-    difficulty: true,
-    gameplay: true,
-    visuals: true
+    difficulty: props.review ? !props.review.rating_difficulty : true,
+    gameplay: props.review ? !props.review.rating_gameplay : true,
+    visuals: props.review ? !props.review.rating_visuals : true
 });
 
 const submitting = ref(false);
