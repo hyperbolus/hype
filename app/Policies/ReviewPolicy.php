@@ -9,6 +9,6 @@ class ReviewPolicy
 {
     public function destroy(User $user, Review $review): bool
     {
-        return $user->id === $review->user_id;
+        return $user->id === $review->user_id || $user->hasRole(['admin', 'moderator']);
     }
 }
