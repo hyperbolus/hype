@@ -24,7 +24,7 @@ const props = defineProps({
                     </thead>
                     <tbody class="text-center">
                     <tr v-for="ban in bans.data" class="even:bg-ui-900">
-                        <td class="x items-center justify-center mt-0.5 px-2"><Username :user="ban.bannable"/></td>
+                        <td class="px-2"><Username :user="ban.bannable"/></td>
                         <td class="px-2" :class="{'text-ui-600 italic': !ban.comment}">{{ ban.comment ?? 'No reason specified' }}</td>
                         <td class="px-2"><Timestamp position="left" :time="ban.created_at"/></td>
                         <td class="px-2">
