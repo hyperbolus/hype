@@ -13,7 +13,7 @@ class Ban extends Model
 {
     public function creator(): MorphTo
     {
-        return $this->morphTo('created_by');
+        return $this->morphTo(__FUNCTION__, 'created_by_type', 'created_by_id');
     }
 
     public function bannable(): MorphTo
