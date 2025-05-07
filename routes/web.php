@@ -26,6 +26,7 @@ use App\Http\Controllers\Game\RouletteController;
 use App\Http\Controllers\Game\StencilController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Moderation\ReportController;
+use App\Http\Controllers\System\BanController;
 use App\Http\Controllers\System\MessageController;
 use App\Http\Controllers\System\NameChangeController;
 use App\Http\Controllers\System\NotificationController;
@@ -152,6 +153,8 @@ Route::delete('/user/{user:id}/reputation', [ReputationLogController::class, 'de
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{user:id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
 Route::delete('/user/comment/{comment:id}', [ProfileCommentController::class, 'destroy'])->name('user.comments.destroy')->middleware(['auth', 'verified', 'throttle:50,10']);
+
+Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
 
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
