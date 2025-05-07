@@ -11,7 +11,7 @@ class BanController extends Controller
     public function index(): Responsable
     {
         return page('Bans/Index', [
-            'bans' => sorting(Ban::class)->with(['bannable', 'creator'])->paginate(),
+            'bans' => Ban::query()->with(['bannable', 'creator'])->get(),
             'sorting' => sorting(Ban::class),
         ])->meta('Bans', 'View banned users');
     }
