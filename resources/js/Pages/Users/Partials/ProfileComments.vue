@@ -63,7 +63,7 @@ const deleteComment = (id) => {
                         <ReportModal :reportable_id="comment.id" :reportable_type="23" @click.stop class="cursor-auto"/>
                     </template>
                 </Lightbox>
-                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAuthenticated() && (isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id))">
+                <div @click="deleteComment(comment.id)" class="rounded p-1 text-red-500 bg-ui-800 hover:bg-red-500 hover:text-white cursor-pointer" v-if="isAuthenticated() && (isModerator() || isAdmin() || [comment.commenter_id, comment.user_id].includes(getUser().id))">
                     <Icon class="w-4" name="x-mark"/>
                 </div>
             </div>

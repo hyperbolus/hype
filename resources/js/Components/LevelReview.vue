@@ -4,7 +4,7 @@ import Username from "@/Components/Username.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import {Link, useForm} from "@inertiajs/vue3";
 import ReportModal from "@/Components/ReportModal.vue";
-import {displayRating, face, isAdmin, isAuthenticated, isUser} from "@/util.js";
+import {displayRating, face, isAdmin, isAuthenticated, isModerator, isUser} from "@/util.js";
 import route from "ziggy-js";
 import TipTap from "@/Components/TipTap.vue";
 import Timestamp from "@/Components/Timestamp.vue";
@@ -95,7 +95,7 @@ const remove = () => {
                                     <ReportModal :reportable_id="review.id" :reportable_type="42" @click.stop class="cursor-auto"/>
                                 </template>
                             </Lightbox>
-                            <div v-if="isAdmin() || isUser(review.user_id)" @click="remove" class="text-red-500 hover:text-white hover:bg-red-500 last:rounded-b px-2 py-1">Delete</div>
+                            <div v-if="isModerator() || isAdmin() || isUser(review.user_id)" @click="remove" class="text-red-500 hover:text-white hover:bg-red-500 last:rounded-b px-2 py-1">Delete</div>
                         </template>
                     </Dropdown>
                 </div>
