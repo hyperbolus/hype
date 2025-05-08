@@ -6,7 +6,7 @@ import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import Lightbox from "@/Components/Lightbox.vue";
 import ReportModal from "@/Components/ReportModal.vue";
-import {getUser, isAdmin, isAuthenticated} from "@/util.js";
+import {getUser, isAdmin, isAuthenticated, isModerator} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
