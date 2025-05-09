@@ -9,8 +9,8 @@ const props = defineProps({
 // TODO: use calculation to figure out when to use small logic!!!
 
 const promptPage = () => {
-    let page = prompt('Jump to page number:')
-    if (!page || !Number.isInteger(page)) return;
+    let page = prompt('Jump to page number:');
+    if (!page || !Number.isInteger(parseInt(page))) return;
     let first = props.list.first_page_url.toString();
     let url = first.substring(0, first.length - 1) + page;
     router.get(url);
