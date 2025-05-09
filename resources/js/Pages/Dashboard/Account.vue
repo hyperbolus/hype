@@ -44,7 +44,15 @@ const changePassword = () => {
 
 </script>
 <template>
-    <dashboard-layout title="Home">
+    <dashboard-layout>
+        <div class="y pane space-y-2">
+            <h2 class="font-bold text-xl">Username</h2>
+            <div>
+                <span class="block font-medium text-sm text-ui-300">Username</span>
+                <Input disabled v-model="profile.name" class="mt-1 text-ui-600 cursor-not-allowed" type="email" placeholder="Email"/>
+                <span class="text-sm text-ui-500">NOTE: Changing usernames is not currently supported</span>
+            </div>
+        </div>
         <form @submit.prevent="changeEmail" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Change Email</h2>
             <div>
