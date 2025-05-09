@@ -17,30 +17,19 @@ const form = useForm({
 })
 </script>
 <template>
-    <app-layout title="Edit Playlists">
-        <template #breadcrumbs>
-            <Link :href="route('playlists.index')">Playlists</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <Link :href="route('playlists.show', playlist)">{{ playlist.title }}</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <Link :href="$page.props.url">Edit</Link>
-        </template>
+    <app-layout>
         <div class="y">
-            <form @submit.prevent="form.post(route('playlists.update', playlist))" class="y space-y-2 p-2 bg-ui-900">
+            <form @submit.prevent="form.post(route('playlists.update', playlist))" class="y space-y-2 p-2 bg-ui-900 rounded-md">
                 <label>
-                    Playlist Title
+                    <span class="text-sm">Playlist Title</span>
                     <Input type="text" v-model="form.title"/>
                 </label>
                 <label>
-                    Description
+                    <span class="text-sm">Description</span>
                     <textarea v-model="form.description" class="textbox"></textarea>
                 </label>
                 <label>
-                    Visbility
+                    <span class="text-sm">Visibility</span>
                     <select v-model="form.visibility" class="block py-1 px-3 w-full border-none focus:ring-0 focus:outline-none rounded bg-ui-950">
                         <option value="public">Public</option>
                         <option value="unlisted">Unlisted</option>
@@ -48,7 +37,7 @@ const form = useForm({
                     </select>
                 </label>
                 <label>
-                    Submission Permissions
+                    <span class="text-sm">Submission Permissions</span>
                     <select v-model="form.collaboration" class="block py-1 px-3 w-full border-none focus:ring-0 focus:outline-none rounded bg-ui-950">
                         <option value="public">Everyone (public)</option>
                         <option disabled value="invite">Invite Only (Coming Soon)</option>

@@ -35,19 +35,8 @@ const searchID = async () => {
 }
 </script>
 <template>
-    <app-layout title="Home">
-        <template #breadcrumbs>
-            <Link :href="route('playlists.index')">Playlists</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <Link :href="route('playlists.show', playlist)">{{ playlist.title }}</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <span>Submit</span>
-        </template>
-        <div class="flex flex-col lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
+    <app-layout>
+        <div class="flex flex-col w-full space-y-4">
             <h2 class="mx-2 font-bold text-2xl">Submit Level to {{ playlist.title }}</h2>
             <div class="flex flex-col space-y-2 pane">
                 <label class="flex flex-col">
@@ -61,10 +50,10 @@ const searchID = async () => {
                     <p>{{ searchResult.description }}</p>
                 </template>
                 <span v-else-if="validID === false" class="text-red-500">Invalid ID!</span>
-                <div @click="searchID" class="rounded w-fit cursor-pointer border border-ui-700 px-2 py-1 bg-neutral-800">Check</div>
+                <div @click="searchID" class="button w-fit">Check</div>
             </div>
             <div class="flex justify-center gap-2">
-                <button :disabled="form.processing" @click="submit" class="rounded px-2 py-1 w-fit select-none cursor-pointer hover:opacity-50 transition bg-ui-800 border border-neutral-600">Submit Level</button>
+                <button :disabled="form.processing" @click="submit" class="button">Submit Level</button>
             </div>
         </div>
     </app-layout>

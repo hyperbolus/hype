@@ -6,13 +6,10 @@ use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Playlist;
 use App\Models\Content\PlaylistSubmission;
-use App\Models\System\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class PlaylistSubmissionController extends Controller
 {
@@ -24,13 +21,17 @@ class PlaylistSubmissionController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function create(Playlist $playlist): Response
+    public function create(Playlist $playlist): Responsable
     {
         $this->authorize('create', [PlaylistSubmission::class, $playlist]);
 
-        return Inertia::render('Submissions/Create', [
+        return page('Submissions/Create', [
             'playlist' => $playlist,
-        ]);
+        ])->meta('Submit', 'Add a level to a playlist')
+            ->breadcrumbs([
+                crumb('Playlists', route('playlists.index')),
+                crumb($playlist->title, route('playlists.show', $playlist->id)),
+            ]);
     }
 
     /**
