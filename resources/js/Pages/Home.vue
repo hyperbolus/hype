@@ -21,6 +21,7 @@ const props = defineProps({
     newest_user: Object,
     frontpage_article: Object,
     daily_chat: Object,
+    online: Object
 });
 </script>
 <template>
@@ -58,6 +59,11 @@ const props = defineProps({
                 <h2 class="font-bold text-2xl">Recent Videos</h2>
                 <div class="grid grid-cols-3 gap-4">
                     <VideoLightbox v-for="video in recent_videos" :video="video" class="w-full"/>
+                </div>
+                <h2 class="font-bold text-2xl">Who's Online</h2>
+                <div class="pane">
+                    <span v-for="user in online"><Username :card="false" :badge="false" :user="user"/>, </span>
+                    <span class="text-ui-600">Guests</span>
                 </div>
             </div>
         </div>
