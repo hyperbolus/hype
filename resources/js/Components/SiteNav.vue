@@ -31,7 +31,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                             <template #content>
                                 <div class="y">
                                     <div class="p-2" :class="node.type === 'list' ? 'y space-y-2' : 'grid grid-cols-2 gap-2'">
-                                        <Link :href="route(child.route)" v-for="(child, key) in node.children" :key="key" class="block relative group/nav-link">
+                                        <Link :href="route(child.route)" v-for="(child, key) in node.children" :key="key" class="block relative group/nav-link" :class="{'last:col-span-2': node.children.length % 2}">
                                             <div class="x space-x-3 h-full items-center py-2 px-4">
                                                 <Icon class="w-6 w-6 group-hover/nav-link:[filter:drop-shadow(0_0_3px_rgb(103_232_249))]" :name="child.icon" size="20" type="solid"/>
                                                 <div class="y">
