@@ -25,6 +25,7 @@ use App\Http\Controllers\Game\ProfileController;
 use App\Http\Controllers\Game\RouletteController;
 use App\Http\Controllers\Game\StencilController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Moderation\ModerationDashboardController;
 use App\Http\Controllers\Moderation\ReportController;
 use App\Http\Controllers\System\BanController;
 use App\Http\Controllers\System\MessageController;
@@ -88,6 +89,8 @@ Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'passw
 });
 
 Route::group(['prefix' => '/moderation', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:moderator']], function () {
+    Route::get('/', [ModerationDashboardController::class, 'index'])->name('moderation.dashboard');
+    Route::post('/ban', [ModerationDashboardController::class, 'ban'])->name('moderation.ban');
     Route::get('/reports', [ReportController::class, 'index'])->name('moderation.reports.index');
     Route::get('/report/{report:id}', [ReportController::class, 'show'])->name('moderation.reports.show');
     Route::patch('/report/{report:id}', [ReportController::class, 'update'])->name('moderation.reports.update');
