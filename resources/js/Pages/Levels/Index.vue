@@ -53,10 +53,6 @@ const level_id = ref(null)
                 </svg>
                 <p class="relative">Levels must have at least 5 reviews before their average scores are calculated</p>
             </div>
-            <div class="x items-center space-x-1 rounded-md px-2 py-1 border border-amber-500 bg-amber-500/10">
-                <Icon size="24" type="outline" class="w-8 text-amber-500 shrink-0" name="exclamation-circle"/>
-                <span class="inline">Looking for recent reviews? <Link :href="route('reviews.index')" class="underline text-ui-200">Check out the new review portal!</Link></span>
-            </div>
         </div>
     </app-layout>
 </template>
