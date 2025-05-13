@@ -18,6 +18,7 @@ class UserController extends Controller
     {
         return page('Users/Index', [
             'users' => sorting(User::profile()->withCount('reviews'))
+                ->where('created_at', '<', now()->subDay())
                 ->paginatorOptions(18, 1, 18 * 2)
                 ->paginate(),
             'sorting' => sorting(User::class),
