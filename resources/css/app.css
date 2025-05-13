@@ -48,3 +48,35 @@
         linear-gradient(to right, #1A212D 1px, transparent 1px),
         linear-gradient(to bottom, #1A212D 1px, transparent 1px);
 }
+
+@layer base {
+    :root {
+        --color-ui-50:   249 250 252;
+        --color-ui-100:  235 239 245;
+        --color-ui-200:  220 226 236;
+        --color-ui-300:  194 205 223;
+        --color-ui-400:  162 174 195;
+        --color-ui-500:  115 127 147;
+        --color-ui-600:  78  87  107;
+        --color-ui-700:  49  56  74 ;
+        --color-ui-800:  37  44  59 ;
+        --color-ui-900:  26  33  45 ;
+        --color-ui-950:  20  25  36 ;
+        --color-ui-1000: 15  20  28 ;
+    }
+
+    .theme-soundodger {
+        --color-ui-50:   252 249 251;
+        --color-ui-100:  244 240 243;
+        --color-ui-200:  234 227 231;
+        --color-ui-300:  219 210 216;
+        --color-ui-400:  195 182 190;
+        --color-ui-500:  162 145 154;
+        --color-ui-600:  116 99  109;
+        --color-ui-700:  84  66  76 ;
+        --color-ui-800:  63  48  56 ;
+        --color-ui-900:  47  35  42 ;
+        --color-ui-950:  35  25  30 ;
+        --color-ui-1000: 26  17  22 ;
+    }
+}

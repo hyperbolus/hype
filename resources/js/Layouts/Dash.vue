@@ -41,7 +41,7 @@ onBeforeMount(() => {
 
 </script>
 <template>
-    <div ref="base" class="y relative items-center text-ui-300 min-h-screen grow overflow-x-hidden">
+    <div ref="base" class="y relative items-center text-ui-300 min-h-screen grow overflow-x-hidden" :class="getGame() === 'soundodger' ? 'theme-soundodger' : ''">
         <Head v-if="title"><title>{{ title }}</title></Head>
         <NetworkNav/>
         <SiteNav/>
