@@ -13,6 +13,12 @@ export const getGame = () => {
     return useSettingsStore().settings['game'] ? useSettingsStore().settings['game']['value'] : '';
 }
 
+export const siteName = () => {
+    switch (getGame()) {
+        case 'geometrydash': return 'Hyperbolus';
+        case 'soundodger': return 'Hyperdodger';
+    }
+}
 export const toggleDark = () => {
     useToggle(isDark.value)
 }
