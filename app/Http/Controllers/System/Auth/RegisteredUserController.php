@@ -87,7 +87,7 @@ class RegisteredUserController extends Controller
 
         $ips = IP::query()->whereIn('address', $request->ips())->get();
 
-        if (\Str::contains(request('email'), 'wkgames') || \Str::contains(request('name'), 'wkgames')) throw ValidationException::withMessages(['name' => 'Fuck off.']);
+        if (\Str::contains(request('email'), 'wkgames') || \Str::contains(request('name'), 'wkgames')) throw ValidationException::withMessages(['name' => 'Proxy registration is temporarily disabled']);
 
         if ($ips->count() > 0) throw ValidationException::withMessages(['name' => 'Making alt accounts is prohibited. If you think this is an error open a ticket on the Discord.']);
 

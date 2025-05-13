@@ -24,6 +24,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('password.confirm')->middleware('auth');
 Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->middleware('auth');
 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('patreon')->redirect();
+});
+
+
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('patreon')->user();
+    dd($user);
+});
+
 Route::name('auth::')->group(function () {
     Route::get('/auth/banned', function (\Illuminate\Http\Request $request) {
         if ($request->user()->banned_at === null) return redirect('/');
@@ -39,7 +50,7 @@ Route::name('auth::')->group(function () {
 
         Route::get('/auth/register', [RegisteredUserController::class, 'create'])->name('register');
 
-        Route::post('/auth/register', [RegisteredUserController::class, 'store'])->name('register.store');
+        Route::post('/auth/register', [RegisteredUserController::class, 'store'])->name('register.store')->middleware('throttle:3,30');
     });
 
     Route::post('/auth/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout')->middleware('auth');
