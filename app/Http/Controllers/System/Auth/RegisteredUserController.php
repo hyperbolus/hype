@@ -74,6 +74,8 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        throw ValidationException::withMessages(['name' => 'Account creation is temporarily disabled. Please join the Discord for more info.']);
+        
         Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'indisposable'],
             'name' => ['required', 'string', 'min:3', 'max:24', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/', new AllowedUserNamespace],
