@@ -47,6 +47,8 @@ class PageBuilder implements Responsable
 
     public function toResponse($request): JsonResponse|Response
     {
+        $this->breadcrumbs = array_filter($this->breadcrumbs, fn ($crumb) => $crumb['show']);
+
         if ($this->title) $this->breadcrumbs[] = crumb($this->title, $request->url());
 
         return Inertia::render($this->component, [

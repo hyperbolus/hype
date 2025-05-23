@@ -65,9 +65,9 @@ if (! function_exists('clampRange')) {
 }
 
 if (! function_exists('crumb')) {
-    function crumb(string $text, ?string $url = null): array
+    function crumb(string $text, ?string $url = null, bool $show = true): array
     {
-        return ['text' => $text, 'url' => $url];
+        return ['text' => $text, 'url' => $url, 'show' => $show];
     }
 }
 
