@@ -5,35 +5,27 @@ import route from 'ziggy-js'
 import Avatar from "@/Components/Avatar.vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import Pagination from "@/Components/Pagination.vue";
+import ForumTicket from "@/Components/ForumTicket.vue";
+import {isAuthenticated} from "@/util.js";
 
 defineProps({
     forum: Object,
     threads: Object
 })
-
 </script>
 <template>
-    <app-layout title="Forums">
-        <template #breadcrumbs>
-            <Link :href="route('forums.index')">Forums</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <span>{{ forum.name }}</span>
-        </template>
+    <app-layout>
         <div class="y w-full space-y-2">
             <div>
                 <h2 class="mx-2 font-bold text-2xl">{{ forum.name }}</h2>
                 <p class="text-sm mx-2">{{ forum.description }}</p>
             </div>
+            <ForumTicket v-for="subforum in forum.children" :forum="subforum"/>
             <div class="flex justify-between">
-                <div class="w-full"></div>
-                <div v-if="$page.props.auth" class="w-full flex justify-end">
-                    <Link v-if="!forum.group_id || forum.group_id === $page.props.user.primary_group_id" :href="route('threads.create') + '?fid=' + forum.id" class="button">Create Thread</Link>
+                <div>
+                    <Link v-if="forum.parent && !forum.parent.category" :href="route('forums.show', forum.parent.slug)" class="button">Back to {{ forum.parent.name }}</Link>
                 </div>
-            </div>
-            <div v-for="subforum in forum.children" class="flex-col space-y-2">
-                <h2 class="font-bold text-2xl">{{ subforum.name }}</h2>
+                <Link v-if="isAuthenticated() && (!forum.group_id || forum.group_id === $page.props.user.primary_group_id)" :href="route('threads.create') + '?fid=' + forum.id" class="button">Create Thread</Link>
             </div>
             <div v-if="threads.data.length === 0">
                 <span>no threads ;(</span>

@@ -25,11 +25,11 @@ const props = defineProps({
             </Link>
             <div class="x items-center text-center gap-2">
                 <div class="y">
-                    <h2>{{ forum.posts_count }}</h2>
+                    <h2>{{ forum.posts_count ?? '-' }}</h2>
                     <p class="text-xs">Posts</p>
                 </div>
                 <div class="y">
-                    <h2>{{ forum.threads_count }}</h2>
+                    <h2>{{ forum.threads_count ?? '-' }}</h2>
                     <p class="text-xs">Threads</p>
                 </div>
             </div>

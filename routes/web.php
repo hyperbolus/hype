@@ -160,7 +160,7 @@ Route::delete('/user/comment/{comment:id}', [ProfileCommentController::class, 'd
 Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
 
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
-Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forums.show');
+Route::get('/forum/{slug}', [ForumController::class, 'show'])->name('forums.show');
 
 Route::get('/thread/create', [ThreadController::class, 'create'])->name('threads.create')->middleware(['auth', 'verified']);
 Route::post('/thread/create', [ThreadController::class, 'store'])->name('threads.store')->middleware(['auth', 'verified', 'throttle:5,10']);
