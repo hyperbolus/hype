@@ -14,8 +14,8 @@ class ForumController extends Controller
         $forums = Forum::query()
             ->where('parent_id', '=', null)
             ->orderBy('priority', 'ASC')
-            ->with(['lastPost.author', 'children' => function($q) {
-                $q->withCount(['posts', 'threads']);
+            ->with(['children' => function($q) {
+                $q->withCount(['posts', 'threads'])->with(['lastPost.author']);
             }])->get();
 
         return page('Forums', [
@@ -36,7 +36,7 @@ class ForumController extends Controller
             ->with([
                 'parent',
                 'children' => function($q) {
-                    $q->withCount(['posts', 'threads'])->with('lastPost.author');
+                    $q->withCount(['posts', 'threads'])->with(['lastPost.author']);
                 },
             ])
             ->where('slug', $slug)
