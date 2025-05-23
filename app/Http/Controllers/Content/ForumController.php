@@ -15,7 +15,7 @@ class ForumController extends Controller
             ->where('parent_id', '=', null)
             ->orderBy('priority', 'ASC')
             ->with(['children' => function($q) {
-                $q->withCount(['posts', 'threads'])->with(['lastPost.author']);
+                $q->withCount(['posts', 'threads'])->with(['lastPost.author', 'children']);
             }])->get();
 
         return page('Forums', [

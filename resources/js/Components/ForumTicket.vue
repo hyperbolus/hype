@@ -22,6 +22,13 @@ const props = defineProps({
             <Link :href="route('forums.show', forum.slug)" class="y justify-center py-2 grow">
                 <h2 class="text-lg">{{ forum.name }}</h2>
                 <p class="text-sm break-all">{{ forum.description }}</p>
+                <div v-if="forum.children?.length > 0" class="flex flex-wrap text-sm gap-1">
+                    <span>Subforums:</span>
+                    <div v-for="(subform, index) in forum.children">
+                        <Link :href="route('forums.show', subform.slug)" class="text-white">{{ subform.name }}</Link>
+                        <span v-if="index < forum.children.length - 1">,</span>
+                    </div>
+                </div>
             </Link>
             <div class="x items-center text-center gap-2">
                 <div class="y">
