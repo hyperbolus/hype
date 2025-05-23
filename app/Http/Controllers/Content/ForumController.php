@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Forum;
-use App\Models\Content\Post;
 use App\Models\Content\Thread;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,30 +17,9 @@ class ForumController extends Controller
         $forums = Forum::query()
             ->where('parent_id', '=', null)
             ->orderBy('priority', 'ASC')
-            ->with(['children'])->get();
-
-        foreach ($forums as $forum) {
-            $forum->children->map(function (Forum $forum) {
-                $key = 'forums:'.$forum->id.':post_count';
-                $data = Cache::get($key);
-                if ($data === null) {
-                    $forum->loadCount('posts');
-                    Cache::put($key, $forum->posts_count, now()->addHour());
-                } else {
-                    $forum['posts_count'] = $data;
-                }
-
-                $key = 'forums:'.$forum->id.':thread_count';
-                $data = Cache::get($key);
-                if ($data === null) {
-                    $forum->loadCount('threads');
-                    Cache::put($key, $forum->threads_count, now()->addHour());
-                } else {
-                    $forum['threads_count'] = $data;
-                }
-                $forum->load('lastPost.author');
-            });
-        }
+            ->with(['lastPost.author', 'children' => function($q) {
+                $q->withCount(['posts', 'threads']);
+            }])->get();
 
         return page('Forums', [
             'forums' => $forums,
