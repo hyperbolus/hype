@@ -12,7 +12,6 @@ const game = getGame();
             <div class="y space-y-2 items-center justify-between lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full text-ui-600">
                 <span v-if="game === 'geometrydash'" class="text-center md:text-left text-sm">Hyperbolus is not affiliated with RobTopGames AB or Geometry Dash</span>
                 <span v-if="game === 'soundodger'" class="text-center md:text-left text-sm">Hyperdodger is not affiliated with Studio Bean or Soundodger</span>
-                <span class="text-center md:text-left text-sm">This site uses IP2Location.io <a target="_blank" class="text-ui-500 underline" href="https://www.ip2location.io">IP geolocation</a> web service</span>
                 <div class="x flex-wrap gap-y-2 gap-x-4">
                     <Link :href="route('about')">About</Link>
                     <Link :href="route('bans.index')">Bans</Link>
