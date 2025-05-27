@@ -70,7 +70,7 @@ task('launch', [
     'deploy:release',
     //'fix:folders',
     'rsync', // Deploy code & built assets
-    'deploy:secrets', // Deploy secrets
+    //'deploy:secrets', // Deploy secrets
     'deploy:shared',
     'deploy:writable',
     'deploy:vendors',
