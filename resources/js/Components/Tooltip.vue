@@ -43,6 +43,9 @@ const positioning = () => {
         case 'top-right':
             style = 'left-full bottom-full translate-x-[-25%]';
             break;
+        case 'top-left':
+            style = 'right-full bottom-full translate-x-[25%]';
+            break;
     }
 
     return style;
@@ -64,6 +67,7 @@ const positioning = () => {
                 <slot v-else name="content"/>
                 <template v-if="caret">
                     <div v-if="position === 'top-right'" class="z-10 absolute border-[8px] border-b-0 -bottom-0 left-[calc(25%-0.75rem)] border-transparent border-t-ui-1000"></div>
+                    <div v-if="position === 'top-left'" class="z-10 absolute border-[8px] border-b-0 -bottom-0 right-[calc(25%-0.75rem)] border-transparent border-t-ui-1000"></div>
                     <div v-if="position === 'top'" class="z-10 absolute border-[8px] border-b-0 -bottom-0 border-transparent border-t-ui-1000"></div>
                     <div v-if="position === 'bottom'" class="z-10 absolute border-[8px] border-t-0 -top-0 border-transparent border-b-ui-1000"></div>
                     <div v-if="position === 'right'" class="z-10 absolute border-[8px] border-l-0 -left-0 border-transparent border-r-ui-1000"></div>

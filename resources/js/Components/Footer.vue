@@ -28,7 +28,7 @@ const game = getGame();
                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
-                    <span>Connected via <Tooltip message="I named my servers after different pokémon :P" inline>Alakazam</Tooltip></span>
+                    <span>Connected via <Tooltip position="top-left" message="I named my servers after different pokémon :P" inline>Alakazam</Tooltip></span>
                 </div>
             </div>
         </div>
