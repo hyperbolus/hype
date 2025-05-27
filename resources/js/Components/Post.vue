@@ -68,7 +68,7 @@ const sendLike = () => {
     <div :id="`~post/${post.id}`" class="y pane !p-0 border border-ui-700">
         <div class="flex flex-col md:flex-row">
             <div v-if="postbit" class="relative rounded-tl-lg bg-ui-800 !bg-opacity-50 shrink-0 items-center md:border-r border-r-ui-700">
-                <div class="flex md:flex-col relative z-10 gap-4 p-4">
+                <div class="flex md:flex-col z-10 gap-4 p-4 sticky top-0">
                     <div v-if="user.postbit_url" class="absolute rounded-tl-lg -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
                         <span class="x items-center gap-2"><UserFlag :user="user"/><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
