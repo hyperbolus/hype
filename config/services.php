@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'ipapi_is' => [
+        'secret' => env('IPAPI_SECRET'),
+        'endpoint' => env('IPAPI_ENDPOINT', 'https://api.ipapi.is'),
+    ],
 ];
