@@ -20,6 +20,8 @@ const message = useForm({
 })
 
 const sendMessage = () => {
+    if (!message.body || message.processing) return;
+
     message.post(route('inbox.store'), {
         errorBag: 'default',
         preserveScroll: true,
@@ -49,9 +51,16 @@ const msgClasses = (msg, i) => {
 
     return classes;
 }
+
+const keypress = (e) => {
+    if (!e.shiftKey && e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+    }
+}
 </script>
 <template>
-    <app-layout title="Messages">
+    <app-layout title="Messages" slot-classes="!px-0">
         <template #breadcrumbs>
             <Link :href="route('inbox.index')">Inbox</Link>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
@@ -73,18 +82,22 @@ const msgClasses = (msg, i) => {
             <Pagination :list="messages"/>
             <div class="y space-y-1">
                 <div class="y" :class="{'items-end': message.recipient_id === recipient.id}" v-for="(message, i) in messages.data">
-                    <p class="y px-4 py-2 rounded-3xl max-w-3/4 w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
+                    <p class="y px-4 py-2 rounded-3xl max-w-[80%] break-all w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
                     <span v-if="message.sender_id !== messages.data[i + 1]?.sender_id" class="text-ui-400 text-ui-600"><Timestamp position="bottom" :time="message.created_at"/></span>
                 </div>
             </div>
             <Pagination :list="messages"/>
-            <form @submit.prevent="sendMessage" class="y pane space-y-2 !pb-4">
-                <label class="y">
-                    <span class="my-1">Message</span>
-                    <textarea v-model="message.body" placeholder="Required" class="resize-none resize-y w-full placeholder-ui-600 pane border-none !bg-ui-950"></textarea>
-                </label>
-                <Button class="w-fit">Send Message</Button>
-            </form>
+            <div class="x pane space-x-2 !px-3">
+                <div class="grow relative">
+                    <textarea @keydown="keypress" rows="1" v-model="message.body" placeholder="Start writing" class="px-1 py-1 resize-none break-all absolute overflow-hidden inset-0 border-none placeholder-ui-600 bg-transparent focus-visible:ring-0"></textarea>
+                    <div aria-hidden="true" class="invisible whitespace-pre-wrap break-all px-1 py-1">{{ message.body }}&ZeroWidthSpace;</div>
+                </div>
+                <button :disabled="message.processing" @click="sendMessage" class="w-fit transition-colors" :class="{'text-ui-600': message.processing}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </app-layout>
 </template>
