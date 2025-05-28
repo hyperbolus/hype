@@ -13,18 +13,15 @@ class Hydrate
         $level = Level::query()->find($id);
 
         // TODO: Find some heuristic for updating levels, maybe more frequently if in mod queue
-        if ($level === null) {
+        if (!$level || !$level->last_fetched_at || $level->last_fetched_at < now()->subWeek()->timestamp) {
             $res = Http::get('https://gdbrowser.com/api/level/'.$id)->json();
 
             if ($res == -1) {
-                if ($abort) {
-                    abort(400, 'Invalid Level ID');
-                }
-
+                if ($abort) abort(400, 'Invalid Level ID');
                 return null;
             }
 
-            $level = new Level();
+            if (!$level) $level = new Level();
             $level->id = $id;
             $level->name = $res['name'];
             $level->creator = $res['author'];
@@ -70,7 +67,7 @@ class Hydrate
             $level->downloads = $res['downloads'];
             $level->likes = $res['likes'];
             $level->length = $lengths[strtolower($res['length'])];
-
+            $level->last_fetched_at = now();
             $level->save();
 
             // Get defaults from database
