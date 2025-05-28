@@ -66,7 +66,7 @@ Route::name('auth::')->group(function () {
         ->name('verification.verify');
 
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware(['auth', 'throttle:6,1'])
+        ->middleware(['auth', 'throttle:3,5'])
         ->name('verification.send');
     //</editor-fold>
 
@@ -86,7 +86,7 @@ Route::name('auth::')->group(function () {
     Route::middleware('guest')->name('password.')->group(function () {
         Route::get('/auth/forgot-password', [PasswordResetLinkController::class, 'create'])->name('request');
 
-        Route::post('/auth/forgot-password', [PasswordResetLinkController::class, 'store'])->name('email');
+        Route::post('/auth/forgot-password', [PasswordResetLinkController::class, 'store'])->name('email')->middleware(['throttle:3,5']);
 
         Route::get('/auth/reset-password/{token}', [NewPasswordController::class, 'create'])->name('reset');
 
