@@ -28,6 +28,8 @@ const form = useForm({
 });
 
 const submit = () => {
+    if (navigator.webdriver || document.hasOwnProperty('$cdc_asdjflasutopfhvcZLmcfl_')) return;
+
     form.post(route('auth::register'), {
         onFinish: () => {
             form.reset('password', 'password_confirmation')
