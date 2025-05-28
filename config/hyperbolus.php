@@ -28,6 +28,7 @@ return [
         'style' => 61,
     ],
 
+    'staff_webhook_url' => env('STAFF_WEBHOOK_URL'),
     'patreon_token' => env('PATREON_TOKEN'),
     'youtube_token' => env('YOUTUBE_TOKEN'),
     'gd_username' => env('GD_USERNAME'),

@@ -7,6 +7,7 @@ use App\Models\System\ReputationLog;
 use App\Models\System\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -52,7 +53,62 @@ class ReputationLogController extends Controller
             'reason' => $request->string('reason'),
         ]);
 
+        $old = $user->reputation;
         $user->recalculateReputation();
+
+
+        if ($old > -10 && $user->reputation < -10) {
+            Http::post(config('hyperbolus.staff_webhook_url'), [
+                "embeds" => [
+                    [
+                        "title" => 'Low Reputation Alert',
+                        "description" => 'A user has recently received a high amount of negative reps',
+                        "color" => 12648430,
+                        "author" => [
+                            "name" => "System (#0)"
+                        ],
+                        "fields" => [
+                            [
+                                "name" => "ID",
+                                "value" => $user->id,
+                                "inline" => true
+                            ],
+                            [
+                                "name" => "Name",
+                                "value" => $user->name,
+                                "inline" => true
+                            ],
+                            [
+                                "name" => "Rep",
+                                "value" => $user->reputation,
+                                "inline" => true
+                            ],
+                            [
+                                "name" => "Creation Date",
+                                "value" => $user->created_at->toDateString(),
+                                "inline" => true
+                            ],
+                            [
+                                "name" => "Last Seen",
+                                "value" => "<t:" . $user->last_seen->timestamp . ":f>",
+                                "inline" => true
+                            ],
+                            [
+                                "name" => "Actions",
+                                "value" => "[Profile](" . route('users.show', $user->id) . ") • [Mod View](" . route('moderation.users.show', $user->id) . ") • [System View](" . route('system.users.show', $user->id) . ")",
+                                "inline" => false
+                            ],
+                        ],
+                        "footer" => [
+                            "text" => "Hype"
+                        ],
+                        "timestamp" => now()
+                    ]
+                ],
+                "components" => []
+            ]);
+        }
+
         $user->save();
 
         return back();
