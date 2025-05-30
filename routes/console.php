@@ -13,4 +13,4 @@
 
 Schedule::call(function () {
     \App\Security::updateTorBlockList();
-})->daily();
+})->everySixHours();
