@@ -14,9 +14,13 @@ class Hydrate
 
         // TODO: Find some heuristic for updating levels, maybe more frequently if in mod queue
         if (!$level || !$level->last_fetched_at || $level->last_fetched_at < now()->subWeek()->timestamp) {
+            if ($level && $level->id <= 20) return $level;
+
             $res = Http::get('https://gdbrowser.com/api/level/'.$id)->json();
 
             if ($res == -1) {
+                if ($level) return $level;
+
                 if ($abort) abort(400, 'Invalid Level ID');
                 return null;
             }
