@@ -99,7 +99,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function recalculateReputation() {
-        $this->reputation = ReputationLog::query()->where('recipient_id', $this->id)->sum('reputation');
+        $this->reputation = ReputationLog::query()
+            ->whereHas('sender', function ($q) {
+                $q->whereNull('banned_at');
+            })
+            ->where('recipient_id', $this->id)
+            ->sum('reputation');
     }
 
     public function toSearchableArray(): array

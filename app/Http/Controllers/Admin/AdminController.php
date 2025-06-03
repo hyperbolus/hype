@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\CalculateRatings;
+use App\Actions\CalculateReputation;
 use App\Actions\MacroMetadata;
 use App\Models\System\User;
 use App\Notifications\Announcement;
@@ -28,6 +29,9 @@ class AdminController extends Controller
             case 'recalculate ratings':
                 CalculateRatings::all();
                 CalculateRatings::rankings(true);
+                break;
+            case 'recalculate reputations':
+                CalculateReputation::all();
                 break;
             case 'update macros':
                 MacroMetadata::all();
