@@ -138,6 +138,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits', 'banned_at']);
     }
 
+    public function reputation(): HasMany
+    {
+        return $this->hasMany(ReputationLog::class, 'recipient_id');
+    }
+
+    public function reputes(): HasMany
+    {
+        return $this->hasMany(ReputationLog::class, 'recipient_id');
+    }
+
     public function ips(): HasMany
     {
         return $this->hasMany(IP::class);
