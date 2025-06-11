@@ -80,7 +80,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'name' => function(FilterBuilder $q) {
                 $q->orderByRaw('LOWER(name) ' . $q->getSortDir());
             },
-            'reputation',
+            'reputation' => function(FilterBuilder $q) {
+                $q->where('reputation', '>', 0)
+                    ->orderBy('reputation', $q->getSortDir());
+            },
             'credits',
             'reviews_count',
             'created_at'
