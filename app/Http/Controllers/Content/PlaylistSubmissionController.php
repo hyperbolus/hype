@@ -68,8 +68,15 @@ class PlaylistSubmissionController extends Controller
         //
     }
 
-    public function destroy(PlaylistSubmission $playlistSubmission)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(PlaylistSubmission $submission)
     {
-        //
+        $this->authorize('destroy', [PlaylistSubmission::class, $submission->playlist]);
+
+        $submission->delete();
+
+        return back();
     }
 }

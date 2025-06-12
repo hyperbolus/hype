@@ -1,14 +1,20 @@
 <script setup>
-import {Link} from '@inertiajs/vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import AppLayout from "@/Layouts/Dash.vue";
 import Username from "@/Components/Username.vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
-import {getUser, isAuthenticated} from "@/util.js";
+import {getUser, isAuthenticated, isUser} from "@/util.js";
 
 const props = defineProps({
     playlist: Object
 })
+
+const deleteSubmission = (id) => {
+    useForm({}).delete(route('submissions.destroy', id), {
+        preserveScroll: true
+    })
+}
 </script>
 <template>
     <app-layout>
@@ -28,10 +34,11 @@ const props = defineProps({
             <div class="pane" v-if="playlist.submissions.length === 0">This playlist has no levels</div>
 
             <div v-for="submission in playlist.submissions" class="bg-ui-800 rounded-lg">
-                <div class="px-2 py-1">
+                <div class="x items-center justify-between px-2 py-1">
                     <span>Submitted By: {{ submission.submitter ? submission.submitter.name : 'Anonymous'  }}</span>
+                    <span v-if="isUser(playlist.id)" @click="deleteSubmission(submission.id)" class="text-red-500 underline cursor-pointer">Delete</span>
                 </div>
-                <LevelTicket :level="submission.level"/>
+                <LevelTicket v-if="submission.level" :level="submission.level"/>
             </div>
         </div>
     </app-layout>

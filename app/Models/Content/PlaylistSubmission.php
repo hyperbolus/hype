@@ -19,6 +19,11 @@ class PlaylistSubmission extends Model
         'accepted' => 'boolean',
     ];
 
+    public function playlist(): BelongsTo
+    {
+        return $this->belongsTo(Playlist::class, 'playlist_id');
+    }
+
     public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class, 'level_id')->withCount(['reviews']);

@@ -209,6 +209,7 @@ Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->n
 
 Route::get('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'create'])->name('submissions.create');
 Route::post('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'store'])->name('submissions.store');
+Route::delete('/playlist-submission/{submission:id}', [PlaylistSubmissionController::class, 'destroy'])->name('submissions.destroy')->middleware(['auth', 'verified']);;
 
 //Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');
 //Route::get('/contests/create', [ContestController::class, 'create'])->name('contests.create')->middleware(['auth', 'verified']);

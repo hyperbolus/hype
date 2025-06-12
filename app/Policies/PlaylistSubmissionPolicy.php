@@ -17,4 +17,10 @@ class PlaylistSubmissionPolicy
         };
 
     }
+
+    public function destroy(User $user, Playlist $playlist): bool
+    {
+        return $user->id === $playlist->owner_id;
+
+    }
 }
