@@ -41,14 +41,14 @@ class PlaylistSubmissionController extends Controller
     {
         $this->authorize('create', [PlaylistSubmission::class, $playlist]);
 
+        Hydrate::level($request->input('level_id'));
+
         $submission = new PlaylistSubmission();
         $submission->submitter_id = auth()->check() ? auth()->id() : null;
         $submission->playlist_id = $playlist->id;
         $submission->level_id = $request->integer('level_id');
         $submission->server_id = 0;
         $submission->save();
-
-        Hydrate::level($request->input('level_id'));
 
         return redirect()->route('playlists.show', $playlist);
     }
