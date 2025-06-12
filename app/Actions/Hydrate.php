@@ -57,7 +57,7 @@ class Hydrate
 
             $level->difficulty = $difficulties[strtolower($res['difficulty'])];
             $level->featured = $res['featured'];
-            $level->epic = $res['epic'];
+            $level->epic = $res['epicValue'];
             $level->coins_verified = $res['verifiedCoins'];
             $level->coins = $res['coins'];
             $level->stars = $res['stars'];
