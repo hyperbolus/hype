@@ -28,6 +28,10 @@ class Level extends Model
         'rating_overall'
     ];
 
+    protected $casts = [
+        'last_fetched_at' => 'datetime',
+    ];
+
     public function getSortableAttributes(): array
     {
         return [
