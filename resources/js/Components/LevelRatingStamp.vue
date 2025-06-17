@@ -9,11 +9,18 @@ const props = defineProps({
 
 const hovered = ref(false);
 const reviewed = props.level.reviews && props.level.reviews.length;
+
+const list = {
+    'rating_difficulty': 'DIFFICULTY',
+    'rating_overall': 'OVERALL',
+    'rating_gameplay': 'GAMEPLAY',
+    'rating_visuals': 'VISUALS',
+};
 </script>
 <template>
-    <div  class="x z-10 md:-translate-x-8 justify-center sm:w-fit sm:skew-x-12 sm:rounded-tr-lg bg-ui-800">
-        <div class="grid items-end sm:-skew-x-12 grid-cols-4 sm:grid-cols-5 md:ml-8 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
-            <div class="hidden sm:flex flex-col">
+    <div class="relative z-10 justify-center sm:w-fit">
+        <div class="z-10 relative grid items-end grid-cols-4 sm:grid-cols-5 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
+            <div class="y">
                 <Tooltip v-if="isAuthenticated()" @mouseenter="hovered = true" @mouseleave="hovered = false" class="group" position="top-right" :message="level.reviews && level.reviews.length ? 'You Reviewed This' : 'You Haven\'t Reviewed This'">
                     <div class="x items-center">
                         <span class="text-xs uppercase">Reviews</span>
@@ -28,25 +35,16 @@ const reviewed = props.level.reviews && props.level.reviews.length;
                 </Tooltip>
                 <div v-else class="y">
                     <span class="text-xs uppercase">Reviews</span>
-                    <span class="text-lg font-bold">{{ level.reviews_count }}</span>
+                    <span class="text-lg font-bold">{{ level.reviews_count }}<span class="text-xs text-ui-600">/100</span></span>
                 </div>
             </div>
-            <div class="y">
-                <span class="text-xs uppercase">Difficulty</span>
-                <span class="text-lg font-bold" :class="{'text-green-500': reviewed && hovered}">{{ displayRating(reviewed && hovered ? level.reviews[0].rating_difficulty : level.rating_difficulty) }}<span class="text-xs text-ui-600">/100</span></span>
+            <div v-for="(rating, key) in list" class="y">
+                <span class="text-xs uppercase">{{ rating }}</span>
+                <span class="text-lg font-bold" :class="{'text-green-500': reviewed && hovered}">{{ displayRating(reviewed && hovered ? level.reviews[0][key] : level[key]) }}<span class="text-xs text-ui-600">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
             </div>
-            <div class="y">
-                <span class="text-xs uppercase">Overall</span>
-                <span class="text-lg font-bold" :class="{'text-green-500': reviewed && hovered}">{{ displayRating(reviewed && hovered ? level.reviews[0].rating_overall : level.rating_overall) }}<span class="text-xs text-ui-600">/10</span></span>
-            </div>
-            <div class="y">
-                <span class="text-xs uppercase">Gameplay</span>
-                <span class="text-lg font-bold" :class="{'text-green-500': reviewed && hovered}">{{ displayRating(reviewed && hovered ? level.reviews[0].rating_gameplay : level.rating_gameplay) }}<span class="text-xs text-ui-600">/10</span></span>
-            </div>
-            <div class="y">
-                <span class="text-xs uppercase">Visuals</span>
-                <span class="text-lg font-bold" :class="{'text-green-500': reviewed && hovered}">{{ displayRating(reviewed && hovered ? level.reviews[0].rating_visuals : level.rating_visuals) }}<span class="text-xs text-ui-600">/10</span></span>
-            </div>
+        </div>
+        <div class="absolute z-0 inset-0 overflow-hidden rounded-bl-lg rounded-br-lg sm:rounded-br-none">
+            <div class="h-full md:-translate-x-4 sm:skew-x-12 sm:rounded-tr-lg bg-ui-800"></div>
         </div>
     </div>
 </template>
