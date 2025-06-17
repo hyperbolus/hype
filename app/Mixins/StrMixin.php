@@ -32,4 +32,32 @@ class StrMixin
             return $trimmed . '...';
         };
     }
+
+    public function deleet(): callable
+    {
+        return function (string $string): string {
+            return Str::replace(
+                ['1', '3', '5', '8', '0'],
+                ['l', 'e', 's', 'b', 'o'],
+                $string
+            );
+        };
+    }
+
+    public function scan(): callable
+    {
+        return function (string $haystack, string $needle): bool {
+            $haystack = mb_str_split(Str::lower($haystack));
+
+            $index = 0;
+            $target = Str::length($needle);
+            foreach ($haystack as $char) {
+                if ($char === $needle[$index]) {
+                    if (++$index === $target) break;
+                }
+            }
+
+            return $index === Str::length($needle);
+        };
+    }
 }
