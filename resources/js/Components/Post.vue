@@ -85,7 +85,7 @@ const sendLike = () => {
                         <div class="pane !px-3 space-y-1 w-full h-fit text-xs backdrop-blur-sm">
                             <div class="flex justify-between">
                                 <span>Reputation:</span>
-                                <span :class="repColor(user.reputation)">{{ user.reputation }}</span>
+                                <Link :href="route('reputation.show', user.id)" :class="repColor(user.reputation)">{{ user.reputation }}</Link>
                             </div>
                             <div class="flex justify-between">
                                 <span>Posts:</span>
