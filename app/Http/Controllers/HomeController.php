@@ -98,6 +98,12 @@ class HomeController extends Controller
             ->meta('About Hyperbolus', 'Read all about our coooool fucking backstory');
     }
 
+    public function contact(): Responsable
+    {
+        return page('Contact')
+            ->meta('Contact Us', 'Talk to the site staff');
+    }
+
     public function levels(): Response
     {
         $featured = Cache::get('levels.featured');

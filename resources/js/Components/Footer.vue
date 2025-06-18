@@ -14,6 +14,7 @@ const game = getGame();
                 <span v-if="game === 'soundodger'" class="text-center md:text-left text-sm">Hyperdodger is not affiliated with Studio Bean or Soundodger</span>
                 <div class="x flex-wrap gap-y-2 gap-x-4">
                     <Link :href="route('about')">About</Link>
+                    <Link :href="route('contact')">Contact</Link>
                     <Link :href="route('bans.index')">Bans</Link>
                     <Link :href="route('legal.terms')">Terms of Service</Link>
                     <Link :href="route('legal.privacy')">Privacy</Link>

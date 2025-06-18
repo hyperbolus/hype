@@ -55,6 +55,7 @@ Route::domain(config('app.domains.profile'))->group(function () {
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 //Route::get('/news', [HomeController::class, 'news'])->name('news');
 Route::get('/levels__', [HomeController::class, 'levels'])->name('levels');
 Route::get('/levels/random', [LevelController::class, 'random'])->name('levels.random');
