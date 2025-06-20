@@ -93,19 +93,41 @@ export const difficulties = [
 ];
 
 export const face = (level) => {
-    if (!level.difficulty) {
-        return `https://browser.gdps.io/assets/difficulties/${difficulties[0].toLowerCase()}.png`
-    }
+    if (!level.difficulty) return `https://browser.gdps.io/assets/difficulties/${difficulties[0].toLowerCase()}.png`
 
     let name = difficulties[level.difficulty].toLowerCase().split(' ').reverse().join('-')
 
-    if (level.epic) {
+    if (level.epic > 2) {
+        name += '-mythic'
+    } else if (level.epic > 1) {
+        name += '-legendary'
+    } else if (level.epic > 0) {
         name += '-epic'
     } else if (level.featured) {
         name += '-featured'
     }
 
     return `https://browser.gdps.io/assets/difficulties/${name}.png`;
+};
+
+export const difficulty = (level) => {
+    let difficulty = '';
+
+    if (level.epic > 2) {
+        difficulty += 'Mythic ';
+    } else if (level.epic > 1) {
+        difficulty += 'Legendary ';
+    } else if (level.epic > 0) {
+        difficulty += 'Epic ';
+    } else if (level.featured) {
+        difficulty += 'Featured ';
+    }
+
+    difficulty += difficulties[level.difficulty];
+
+    difficulty += level.stars > 0 ? ` ${level.stars} ★` : ' (unrated)';
+
+    return difficulty;
 };
 
 export const trimAtWord = (string, max) => {
