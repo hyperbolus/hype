@@ -237,7 +237,8 @@ Route::get('/styles/new', [StyleController::class, 'create'])->name('styles.crea
 Route::post('/styles/new', [StyleController::class, 'store'])->name('styles.store');
 
 Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
-Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified', 'throttle:20,10']);
+Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified', 'throttle:10,10']);
+Route::delete('/video/{video:id}', [VideoController::class, 'destroy'])->name('videos.destroy')->middleware(['auth', 'verified']);
 
 Route::post('/reviews/create', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified', 'throttle:30,10']);
 Route::delete('/reviews/{review:id}/delete', [ReviewController::class, 'destroy'])->name('reviews.destroy')->middleware(['auth', 'verified']);

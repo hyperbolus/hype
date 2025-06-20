@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Content;
 use App\Actions\Hydrate;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Video;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -52,8 +53,15 @@ class VideoController extends Controller
         //
     }
 
-    public function destroy(Video $video)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(Video $video): RedirectResponse
     {
-        //
+        $this->authorize('destroy', Video::class);
+
+        $video->delete();
+
+        return back();
     }
 }
