@@ -1,9 +1,10 @@
 <script setup>
-import {Link} from "@inertiajs/vue3";
-import {face} from "@/util.js";
+import {Link, useForm} from "@inertiajs/vue3";
+import {face, isAdmin} from "@/util.js";
 import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import route from "ziggy-js";
+import {useFileDialog} from "@vueuse/core";
 
 const props = defineProps({
     level: Object,
@@ -13,6 +14,26 @@ const props = defineProps({
     }
 })
 
+const banner = useForm({
+    action: 'update banner',
+    content: null
+})
+
+const { open: openBannerFile, onChange } = useFileDialog({
+    accept: 'image/*',
+    multiple: false,
+    directory: false
+})
+
+onChange((files) => {
+    if (files.length !== 1) return;
+
+    banner.content = files[0];
+
+    banner.post(route('levels.update', props.level), {
+        errorBag: 'changeBanner',
+    })
+})
 </script>
 <template>
     <div>
@@ -69,6 +90,26 @@ const props = defineProps({
                         <div class="rounded-bl-lg">
                             <LevelRatingStamp v-if="showRatings" :level="level"/>
                         </div>
+                    </div>
+                </div>
+                <div v-if="isAdmin()" @click.stop class="absolute right-0 top-0 h-full z-10 overflow-hidden">
+                    <div class="y justify-between relative -right-[100%] group-hover/ticket:right-0 transition-[right] p-2 h-full">
+                        <Link v-if="level.reviews && level.reviews.length" :href="route('reviews.show', level.reviews[0].id)" class="block p-2 bg-ui-800 border border-ui-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" :class="{'text-amber-500': !!level.reviews[0].rating_difficulty + !!level.reviews[0].rating_gameplay + !!level.reviews[0].rating_visuals + !!level.reviews[0].rating_overall < 4}">
+                                <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                            </svg>
+                        </Link>
+                        <div @click="openBannerFile" v-if="isAdmin()" class="block cursor-pointer p-2 bg-ui-800 border border-ui-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
+                                <path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="block cursor-pointer p-2 bg-ui-800 border border-ui-700 rounded-md invisible">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/50 -z-10"></div>
                     </div>
                 </div>
                 <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]">
