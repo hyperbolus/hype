@@ -11,9 +11,11 @@ import Timestamp from "@/Components/Timestamp.vue";
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
+import {ref} from "vue";
 
 const props = defineProps({
-    review: Object
+    review: Object,
+    level: Object
 });
 
 const list = {
@@ -22,6 +24,10 @@ const list = {
     'rating_visuals': 'VISUALS',
     'rating_gameplay': 'GAMEPLAY',
 };
+
+const hovering = ref(false);
+
+const lvl = ref(props.review.level ?? props.level ?? false);
 
 const removeForm = useForm({});
 
@@ -50,9 +56,17 @@ const remove = () => {
                     <Timestamp class="w-fit text-sm text-ui-500" position="right" :time="review.created_at"/>
                 </div>
             </div>
-            <div class="x space-x-2 items-stretch h-full text-sm text-ui-400">
-                <div v-for="(item, key) in list" class="y items-end justify-center bg-ui-950 rounded-md px-2 py-1">
-                    <span class="font-bold text-2xl">{{ displayRating(review[key], 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
+            <div @mouseenter="hovering = true" @mouseleave="hovering = false" class="x space-x-2 items-stretch h-full text-sm text-ui-400">
+                <span class="[text-orientation:mixed] [writing-mode:sideways-lr] text-center text-xs tracking-tighter transition-opacity duration-100" :class="{'opacity-0': !hovering}">AVERAGE</span>
+                <div v-for="(item, key) in list" class="y items-end justify-center bg-ui-950 rounded-md px-2 py-1 first-of-type:!ml-0.5">
+                    <div class="x items-center">
+                        <template v-if="!hovering && lvl && review[key]">
+                            <Icon v-if="lvl[key] && review[key] > lvl[key] + 0.5 || review[key] < lvl[key] - 0.5" name="arrow-up" class="size-4 mr-0.5" :class="{'rotate-180': review[key] < lvl[key],'text-green-500': review[key] > lvl[key] + 2.5, 'text-red-500': review[key] < lvl[key] - 2.5}"/>
+                            <Icon v-else-if="review[key] && !lvl[key]" name="plus" class="size-4 mr-0.5 invisible"/>
+                            <span v-else class="font-bold text-lg px-1">&thickapprox;</span>
+                        </template>
+                        <span class="font-bold text-2xl">{{ displayRating(hovering ? lvl[key] : review[key], 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
+                    </div>
                     <span class="text-xs">{{ item }}</span>
                 </div>
             </div>

@@ -161,7 +161,7 @@ onMounted(() => {
             </div>
             <Pagination :list="reviews"/>
             <div v-if="reviews.data.length === 0" class="pane">This level has no reviews. Be the first!</div>
-            <LevelReview :key="review.id" v-for="review in reviews.data" :review="review"/>
+            <LevelReview :key="review.id" v-for="review in reviews.data" :review="review" :level="level"/>
             <QueryFooter :sorting="sorting" :url="route('levels.reviews.show', level.id)" :results="reviews"/>
             <Pagination :list="reviews"/>
         </div>
