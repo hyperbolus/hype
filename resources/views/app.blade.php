@@ -19,8 +19,8 @@
     <title inertia>Hyperbolus</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     @routes
-    @vite('resources/js/app.js')
     @inertiaHead
+    @vite('resources/js/app.js')
 </head>
 <body id="body" class="font-sans antialiased dark bg-ui-950">
 @inertia

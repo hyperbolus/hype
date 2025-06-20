@@ -2,7 +2,9 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build && vite build --ssr resources/js/ssr.js"
+        "dev-ssr": "vite build --watch --ssr resources/js/ssr.js",
+        "build": "vue-tsc --noEmit && vite build && vite build --ssr resources/js/ssr.js",
+        "build-ssr": "vue-tsc --noEmit && vite build --ssr resources/js/ssr.js"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.9",

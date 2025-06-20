@@ -21,6 +21,9 @@ export default defineConfig({
     ssr: {
         noExternal: ['@inertiajs/server'],
     },
+    build: {
+        chunkSizeWarningLimit: 800
+    },
     resolve: {
         alias: [{
             find: '@',
