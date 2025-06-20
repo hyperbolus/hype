@@ -1,3 +1,67 @@
+<script setup>
+import {ref, watch} from 'vue'
+import {Link} from '@inertiajs/vue3';
+import AppLayout from "./Layout.vue";
+import JetLabel from "@/Jetstream/Label.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import {useForm} from "@inertiajs/vue3";
+import axios from "axios";
+
+const props = defineProps({
+    page: Number
+});
+
+const page = ref(props.page ?? 0);
+
+const stage = ref([
+    false,
+    false,
+    false
+]);
+
+const form = useForm({
+    type: null,
+    method: null,
+    user: this.$page.props.user.id,
+    code: '',
+    username: '',
+    password: '',
+});
+
+const usernameInput = ref('');
+const passwordInput = ref('');
+const formMessage = ref('');
+
+const submit = () => {
+    axios.post('/proxy/login', {
+        username: this.form.username,
+        password: this.form.password,
+        user: this.form.user
+    }).then((response) => {
+        if (response.data.status === 'success') {
+            this.page = 3;
+        } else {
+            this.formMessage = `Login failed. Error: ${response.data.reason} Try again.`;
+        }
+    })
+    /*this.form.post('/proxy/login', {
+            onFinish: () => {
+                this.form.reset('password');
+                this.passwordInput = '';
+            },
+    })*/
+}
+
+watch(usernameInput, (val) => {
+    form.username = val;
+    stage[2] = !!(val && this.form.password);
+})
+watch(passwordInput, (val) => {
+    // TODO: add asterisk thingy workaround stupid fuck browsers i am your god
+    form.password = val;
+    stage[2] = !!(this.form.username && val);
+});
+</script>
 <template>
     <app-layout>
         <div class="rounded-lg bg-ui-800 p-4 cursor-auto text-ui-300">
@@ -73,7 +137,7 @@
             </div>
             <div v-if="page === 3">
                 <p class="mx-32 text-green-400">Success! Your account {{ form.username }} has been linked.</p>
-                <h6 class="underline text-center"><Link href="/">Return Home</Link></h6>
+                <h6 class="underline text-center"><Link href="/public">Return Home</Link></h6>
             </div>
             <div v-if="page !== 3" class="mt-4 flex flex-row justify-between">
                 <button v-if="page !== 0" @click="page--" class="rounded bg-ui-600 py-1 px-2 shadow hover:shadow-md transition-shadow">&lt; Back</button>
@@ -91,80 +155,3 @@
         </div>
     </app-layout>
 </template>
-<script>
-import {defineComponent} from 'vue'
-import {Head as DocumentHead, Link} from '@inertiajs/vue3';
-import AppLayout from "@/Pages/Link/Layout.vue";
-import JetLabel from "@/Jetstream/Label.vue";
-import JetInput from "@/Jetstream/Input.vue";
-import InputError from "@/Jetstream/InputError.vue";
-
-export default defineComponent({
-    props: {
-        page: Number
-    },
-    components: {
-        InputError,
-        Link,
-        JetLabel,
-        JetInput,
-        AppLayout
-    },
-    data() {
-        return {
-            page: this.$page.props.page ?? 0,
-            stage: [
-                false,
-                false,
-                false
-            ],
-            form: this.$inertia.form({
-                type: null,
-                method: null,
-                user: this.$page.props.user.id,
-                code: '',
-                username: '',
-                password: '',
-            }),
-            usernameInput: '',
-            passwordInput: '',
-            formMessage: '',
-        }
-    },
-    methods: {
-        submit() {
-            axios.post('/proxy/login', {
-                username: this.form.username,
-                password: this.form.password,
-                user: this.form.user
-            }).then((response) => {
-                if (response.data.status === 'success') {
-                    this.page = 3;
-                } else {
-                    this.formMessage = `Login failed. Error: ${response.data.reason} Try again.`;
-                }
-            })
-            /*this.form.post('/proxy/login', {
-                    onFinish: () => {
-                        this.form.reset('password');
-                        this.passwordInput = '';
-                    },
-            })*/
-        }
-    },
-    watch: {
-        usernameInput(val) {
-            this.form.username = val;
-            this.stage[2] = !!(val && this.form.password);
-        },
-        passwordInput(val) {
-            // TODO: add asterisk thingy workaround stupid fuck browsers i am your god
-            this.form.password = val;
-            this.stage[2] = !!(this.form.username && val);
-        },
-        loginResponse() {
-
-        }
-    }
-})
-</script>

@@ -1,7 +1,9 @@
+<script setup>
+import {Link} from '@inertiajs/vue3'
+import AppLayout from "./Layout.vue";
+</script>
 <template>
-    <document-head title="Home"/>
-
-    <app-layout>
+    <app-layout title="Home">
         <template #build>
             <div style="display: none;">
                 <span>build</span>
@@ -38,16 +40,3 @@
         </div>
     </app-layout>
 </template>
-<script>
-import {defineComponent} from 'vue'
-import {Head as DocumentHead, Link} from '@inertiajs/vue3';
-import AppLayout from "@/Pages/Link/Layout.vue";
-
-export default defineComponent({
-    components: {
-        AppLayout,
-        DocumentHead,
-        Link,
-    },
-})
-</script>
