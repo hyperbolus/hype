@@ -27,6 +27,7 @@ class ReputationLogController extends Controller
         return Inertia::render('Users/Reputation', [
             'profile' => $user,
             'reps' => ReputationLog::query()
+                ->latest()
                 ->where('recipient_id', $user->id)
                 ->with('sender')
                 ->paginate(25),
