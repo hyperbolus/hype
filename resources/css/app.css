@@ -49,6 +49,10 @@
         linear-gradient(to bottom, #1A212D 1px, transparent 1px);
 }
 
+#nprogress div.bar {
+    background: linear-gradient(#67e8f9, #34d399) !important;
+}
+
 @layer base {
     :root {
         --color-ui-50:   249 250 252;

@@ -63,8 +63,3 @@ onBeforeMount(() => {
         <Footer/>
     </div>
 </template>
-<style>
-#nprogress div.bar {
-    background: linear-gradient(#67e8f9, #34d399) !important;
-}
-</style>
