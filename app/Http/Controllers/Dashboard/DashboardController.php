@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\System\User;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -129,9 +130,12 @@ class DashboardController extends Controller
         return back();
     }
 
-    public function home(): Response
+    public function home(): Responsable
     {
-        return Inertia::render('Dashboard/Home');
+        return page('Dashboard/Home', [
+            'profile' => auth()->user()
+        ])
+            ->meta('Settings', 'Manage your account');
     }
 
     public function account(): Response

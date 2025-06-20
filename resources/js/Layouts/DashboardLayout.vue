@@ -2,26 +2,40 @@
 import AppLayout from "@/Layouts/Dash.vue";
 import { Link } from '@inertiajs/vue3';
 import route from "ziggy-js";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     title: String
 });
 
+const links = [
+    {
+        title: 'Home',
+        route: 'settings.home',
+        icon: 'home'
+    },
+    {
+        title: 'Account Settings',
+        route: 'settings.account',
+        icon: 'cog'
+    },
+    {
+        title: 'Edit Profile',
+        route: 'settings.profile',
+        icon: 'user-circle'
+    },
+]
 </script>
 <template>
-    <app-layout :title="title + ' - Dashboard'">
-        <template #breadcrumbs>
-            <span>Admin</span>
-        </template>
-        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl w-full gap-4 p-4">
-            <div class="flex flex-col space-y-4 md:w-1/3">
-                <div class="y pane !px-0 !py-0 divide-y divide-ui-700">
-                    <Link :href="route('settings.home')" class="p-2">Home</Link>
-                    <Link :href="route('settings.account')" class="p-2">Account Settings</Link>
-                    <Link :href="route('settings.profile')" class="p-2">Edit Profile</Link>
-                </div>
+    <app-layout :decorations="false" :title="title + ' - Dashboard'">
+        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 py-4">
+            <div class="flex flex-col md:w-1/4 space-y-2 px-2 md:px-0">
+                <Link v-for="link in links" :href="route(link.route)" :class="{ 'text-blue-500': route().current(link.route) }" class="x items-center space-x-2 pane transition-colors hover:bg-ui-800">
+                    <Icon :name="link.icon" class="size-6"/>
+                    <span>{{ link.title }}</span>
+                </Link>
             </div>
-            <div class="flex flex-col space-y-2 md:w-2/3">
+            <div class="flex flex-col space-y-2 md:w-3/4 border border-ui-900/75 bg-ui-950 md:rounded-md p-2">
                 <slot/>
             </div>
         </div>
