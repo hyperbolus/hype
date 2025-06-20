@@ -18,9 +18,9 @@ const list = {
 };
 </script>
 <template>
-    <div class="relative z-10 justify-center sm:w-fit">
+    <div class="relative z-10 justify-center w-full sm:w-fit">
         <div class="z-10 relative grid items-end grid-cols-4 sm:grid-cols-5 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
-            <div class="y">
+            <div class="hidden sm:flex flex-col">
                 <Tooltip v-if="isAuthenticated()" @mouseenter="hovered = true" @mouseleave="hovered = false" class="group" position="top-right" :message="level.reviews && level.reviews.length ? 'You Reviewed This' : 'You Haven\'t Reviewed This'">
                     <div class="x items-center">
                         <span class="text-xs uppercase">Reviews</span>
