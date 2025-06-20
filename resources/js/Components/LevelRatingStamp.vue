@@ -35,7 +35,7 @@ const list = {
                 </Tooltip>
                 <div v-else class="y">
                     <span class="text-xs uppercase">Reviews</span>
-                    <span class="text-lg font-bold">{{ level.reviews_count }}<span class="text-xs text-ui-600">/100</span></span>
+                    <span class="text-lg font-bold">{{ level.reviews_count }}</span>
                 </div>
             </div>
             <div v-for="(rating, key) in list" class="y">
