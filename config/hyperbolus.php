@@ -11,6 +11,7 @@ return [
         40 => \App\Models\Game\Level::class,
         41 => \App\Models\Game\LevelReplay::class,
         42 => \App\Models\Content\Review::class,
+        43 => \App\Models\Content\Video::class,
 
         61 => \App\Models\Forge\Style::class,
     ],
