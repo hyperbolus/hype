@@ -64,9 +64,9 @@ const remove = () => {
                 <span class="[text-orientation:mixed] [writing-mode:sideways-lr] text-center text-xs tracking-tighter" :class="{'invisible': !hovering}">AVERAGE</span>
                 <div v-for="(item, key) in list" class="y items-end justify-center bg-ui-950 rounded-md px-2 py-1 first-of-type:!ml-0.5">
                     <div class="x items-center">
-                        <template v-if="!hovering && lvl && review[key]">
-                            <Icon v-if="lvl[key] && review[key] > lvl[key] + 0.5 || review[key] < lvl[key] - 0.5" name="arrow-up" class="size-4 mr-0.5" :class="{'rotate-180': review[key] < lvl[key],'text-green-500': review[key] > lvl[key] + 2.5, 'text-red-500': review[key] < lvl[key] - 2.5}"/>
-                            <Icon v-else-if="review[key] && !lvl[key]" name="plus" class="size-4 mr-0.5 invisible"/>
+                        <template v-if="!hovering && lvl && review[key] !== null">
+                                <Icon v-if="lvl[key] !== null && review[key] > lvl[key] + 0.5 || review[key] < lvl[key] - 0.5" name="arrow-up" class="size-4 mr-0.5" :class="{'rotate-180': review[key] < lvl[key],'text-green-500': review[key] > lvl[key] + 2.5, 'text-red-500': review[key] < lvl[key] - 2.5}"/>
+                            <Icon v-else-if="review[key] !== null && !lvl[key]" name="plus" class="size-4 mr-0.5 invisible"/>
                             <span v-else class="font-bold text-lg px-1">&thickapprox;</span>
                         </template>
                         <span class="font-bold text-2xl">{{ displayRating(hovering ? lvl[key] : review[key], hovering ? 2 : 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
