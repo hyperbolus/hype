@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Intervention\Image\Facades\Image;
@@ -111,19 +110,7 @@ class DashboardController extends Controller
                 $user->save();
                 break;
             case 'update flag':
-                $request->validate([
-                    // TODO: better way?
-                   'content' => Rule::in([
-                       ...$this->flags[0],
-                       ...$this->flags[1],
-                       ...$this->flags[2],
-                       ...$this->flags[3],
-                       ...$this->flags[4],
-                       ...$this->flags[5],
-                       ...$this->flags[6]
-                   ])
-                ]);
-                $user->flag = $request->string('content');
+                $user->flag = in_array($request->string('content'), array_merge(...$this->flags)) ? $request->string('content') : null;
                 $user->save();
                 break;
         }
