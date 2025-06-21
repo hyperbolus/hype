@@ -17,6 +17,7 @@ use Intervention\Image\Facades\Image;
 class DashboardController extends Controller
 {
     private array $flags = [
+        ["Pride", "Lesbian", "Bisexual", "Transgender", "Pansexual", "Genderfluid", "NonBinary", "Agender", "Aromantic", "Intersex", "Asexual", "CSSource"],
         ["DZ", "AO", "BJ", "BW", "BF", "BI", "CM", "CV", "CF", "TD", "CD", "DJ", "EG", "GQ", "ER", "ET", "GA", "GM", "GH", "GN", "GW", "CI", "KE", "LS", "LR", "LY", "MG", "MW", "ML", "MR", "MU", "YT", "MA", "MZ", "NA", "NE", "NG", "CG", "RE", "RW", "SH", "ST", "SN", "SC", "SL", "SO", "ZA", "SS", "SD", "SR", "SZ", "TG", "TN", "UG", "TZ", "EH", "YE", "ZM", "ZW"],
         ["AI", "AG", "AR", "AW", "BS", "BB", "BQ", "BZ", "BM", "BO", "VG", "BR", "CA", "KY", "CL", "CO", "KM", "CR", "CU", "CW", "DM", "DO", "EC", "SV", "FK", "GF", "GL", "GD", "GP", "GT", "GY", "HT", "HN", "JM", "MQ", "MX", "MS", "NI", "PA", "PY", "PE", "PR", "BL", "KN", "LC", "PM", "VC", "SX", "TT", "TC", "US", "VI", "UY", "VE"],
         ["AB", "AF", "AZ", "BD", "BT", "BN", "KH", "CN", "GE", "HK", "IN", "ID", "JP", "KZ", "LA", "MO", "MY", "MV", "MN", "MM", "NP", "KP", "MP", "PW", "PG", "PH", "SG", "KR", "LK", "TW", "TJ", "TH", "TL", "TM", "VN"],

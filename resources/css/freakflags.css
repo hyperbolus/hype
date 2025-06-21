@@ -6,6 +6,10 @@ For complete information visit: www.freakflagsprite.com
 
 ******************************************************/
 
+/*
+pride flags added by me :3
+ */
+
 .fflag {
     background-image:url(../images/flagSprite42.png);
     background-repeat:no-repeat;
@@ -264,6 +268,20 @@ For complete information visit: www.freakflagsprite.com
 .fflag-JR {background-position:center 54.099%}
 .fflag-OLY {background-position:center 54.32%}
 .fflag-UN {background-position:center 54.54%}
+
+.fflag-Pride {background-position:center 54.9855%}
+.fflag-Lesbian {background-position:center 55.2100%}
+.fflag-Bisexual {background-position:center 55.4290%}
+.fflag-Transgender {background-position:center 55.6500%}
+.fflag-Pansexual {background-position:center 55.8745%}
+.fflag-Genderfluid {background-position:center 56.0965%}
+.fflag-NonBinary {background-position:center 56.3175%}
+.fflag-Agender {background-position:center 56.5440%}
+.fflag-Aromantic {background-position:center 56.7598%}
+.fflag-Intersex {background-position:center 56.9783%}
+.fflag-Asexual {background-position:center 57.2090%}
+
+.fflag-CSSource {background-position:center 57.4280%}
 
 .fflag.ff-sm {width: 18px;height: 11px}
 .fflag.ff-md {width: 27px;height: 17px}
