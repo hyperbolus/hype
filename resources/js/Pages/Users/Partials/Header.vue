@@ -75,7 +75,7 @@ const isOnline = (time) => {
             </div>
         </div>
     </div>
-    <div class="x justify-center w-full bg-ui-900 items-center px-4 py-2">
+    <div class="x justify-center w-full bg-ui-900 items-center px-4 py-2 z-0">
         <div class="y mt-12 sm:mt-0 sm:pl-44 z-10 w-full lg:max-w-5xl xl:max-w-6xl">
             <span><span class="text-sm font-bold mr-1 uppercase" :class="isOnline(profile.last_seen) ? 'text-green-500' : 'text-red-500'">{{ isOnline(profile.last_seen) ? 'ON' : 'OFF' }}LINE</span> Last seen <Timestamp :time="profile.last_seen"/></span>
             <span>Time spent online: <Timestamp :time="profile.time_online" :length="true"/></span>
