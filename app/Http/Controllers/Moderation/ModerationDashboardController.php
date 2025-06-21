@@ -4,15 +4,10 @@ namespace App\Http\Controllers\Moderation;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ban;
-use App\Models\Content\Post;
-use App\Models\Content\Review;
-use App\Models\System\ProfileComment;
 use App\Models\System\Report;
 use App\Models\System\User;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class ModerationDashboardController extends Controller
 {
@@ -59,7 +54,7 @@ class ModerationDashboardController extends Controller
         $ban->created_by_id = $request->user()->id;
         $ban->created_by_type = 1;
         $ban->comment = $request->string('reason');
-        $ban->expired_at = $request->string('expired_at');
+        if ($request->has('expired_at')) $ban->expired_at = $request->string('expired_at');
         $ban->save();
 
         return back();
