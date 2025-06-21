@@ -61,7 +61,7 @@ const remove = () => {
                 </div>
             </div>
             <div @mouseenter="hovering = true" @mouseleave="hovering = false" class="x space-x-2 items-stretch h-full text-sm text-ui-400">
-                <span class="[text-orientation:mixed] [writing-mode:sideways-lr] text-center text-xs tracking-tighter transition-opacity duration-100" :class="{'opacity-0': !hovering}">AVERAGE</span>
+                <span class="[text-orientation:mixed] [writing-mode:sideways-lr] text-center text-xs tracking-tighter" :class="{'invisible': !hovering}">AVERAGE</span>
                 <div v-for="(item, key) in list" class="y items-end justify-center bg-ui-950 rounded-md px-2 py-1 first-of-type:!ml-0.5">
                     <div class="x items-center">
                         <template v-if="!hovering && lvl && review[key]">
@@ -69,7 +69,7 @@ const remove = () => {
                             <Icon v-else-if="review[key] && !lvl[key]" name="plus" class="size-4 mr-0.5 invisible"/>
                             <span v-else class="font-bold text-lg px-1">&thickapprox;</span>
                         </template>
-                        <span class="font-bold text-2xl">{{ displayRating(hovering ? lvl[key] : review[key], 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
+                        <span class="font-bold text-2xl">{{ displayRating(hovering ? lvl[key] : review[key], hovering ? 2 : 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
                     </div>
                     <span class="text-xs">{{ item }}</span>
                 </div>
