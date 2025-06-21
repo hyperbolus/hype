@@ -5,7 +5,6 @@ import Input from "@/Jetstream/Input.vue";
 import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import {ref} from "vue";
-import Toggle from "@/Components/Toggle.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
 import Errors from "@/Components/Errors.vue";
 
@@ -95,7 +94,16 @@ const changeFlag = () => {
 }
 
 const intlDisplay = new Intl.DisplayNames(['en'], { type: 'region' });
-const intlCountry = (flag) => {
+const intlCountry = (group, flag) => {
+    if (group === 0) {
+        switch (flag) {
+            case "CSSource":
+                return "Counter-Strike: Source"
+            default:
+                return flag;
+        }
+    }
+
     switch (flag) {
         case "JR":
             return "Jolly Roger"
@@ -106,21 +114,24 @@ const intlCountry = (flag) => {
 const intlGroup = (index) => {
     switch (index) {
         case 0:
-            return "Africa";
+            return "Pride";
         case 1:
-            return "America";
+            return "Africa";
         case 2:
-            return "Asia";
+            return "America";
         case 3:
-            return "Europe";
+            return "Asia";
         case 4:
-            return "Middle East";
+            return "Europe";
         case 5:
-            return "Oceania";
+            return "Middle East";
         case 6:
+            return "Oceania";
+        case 7:
             return "Other";
     }
 }
+
 </script>
 <template>
     <dashboard-layout title="Home">
@@ -146,11 +157,11 @@ const intlGroup = (index) => {
             <Button class="w-fit">Change Postbit Background</Button>
         </form>
         <form @submit.prevent="changeFlag" class="y pane space-y-2">
-            <h2 class="font-bold text-xl">Country Flag <span class="fflag ff-sm" :class="`fflag-${flag.content}`"></span></h2>
+            <h2 class="font-bold text-xl">Flag <span class="fflag ff-md" :class="`fflag-${flag.content}`"></span></h2>
             <select v-model="flag.content" class="border-0 rounded-lg bg-ui-800">
                 <option :value="null">None</option>
                 <optgroup v-for="(group, index) in flags" :label="intlGroup(index)">
-                    <option v-for="flag in group" :value="flag">{{ intlCountry(flag) }}</option>
+                    <option v-for="flag in group" :value="flag">{{ intlCountry(index, flag) }}</option>
                 </optgroup>
             </select>
             <Errors bag="changeFlag"/>
