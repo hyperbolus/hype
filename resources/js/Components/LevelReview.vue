@@ -12,6 +12,7 @@ import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import {ref} from "vue";
+import UserFlag from "@/Components/UserFlag.vue";
 
 const props = defineProps({
     review: Object,
@@ -52,7 +53,10 @@ const remove = () => {
             <div v-else class="x items-center space-x-2 px-2">
                 <Avatar v-if="review.author" width="w-10 shrink-0" :user="review.author"/>
                 <div class="y">
-                    <Username v-if="review.author" :user="review.author"/>
+                    <div class="x items-center space-x-2" v-if="review.author">
+                        <Username :user="review.author"/>
+                        <UserFlag size="sm" :user="review.author"/>
+                    </div>
                     <Timestamp class="w-fit text-sm text-ui-500" position="right" :time="review.created_at"/>
                 </div>
             </div>
@@ -78,7 +82,7 @@ const remove = () => {
                 <div class="x items-center relative px-2 py-0.5 rounded-md bg-ui-800">
                     <div class="x space-x-2 items-center">
                         <Username :user="review.author"/>
-                        <Timestamp class="w-fit text-sm text-ui-500" position="right" :time="review.created_at"/>
+                        <Timestamp class="w-fit text-sm text-ui-500" :time="review.created_at"/>
                     </div>
                 </div>
             </div>
