@@ -67,7 +67,7 @@ const search = () => {
         </div>
         <div class="y space-y-4 md:w-2/3 xl:w-3/4">
             <QueryResults :sorting="sorting" title="Reviews" :results="reviews" v-slot="{ item }" container-classes="y space-y-2">
-                <LevelReview :review="item"/>
+                <LevelReview :review="item" :weight="profile.weight"/>
             </QueryResults>
         </div>
     </UserLayout>

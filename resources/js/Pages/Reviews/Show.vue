@@ -1,4 +1,4 @@
-<script setup>
+Z<script setup>
 import {Link} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import AppLayout from "@/Layouts/Dash.vue";
@@ -7,10 +7,13 @@ import {displayRating} from "@/util.js";
 import Avatar from "@/Components/Avatar.vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
 import TipTap from "@/Components/TipTap.vue";
+import WeightBadge from "@/Components/WeightBadge.vue";
 
 const props = defineProps({
     review: Object
-})
+});
+
+const weight = props.review.weight ?? props.review.author?.weight ?? 0;
 </script>
 <template>
     <app-layout>
@@ -33,9 +36,12 @@ const props = defineProps({
             <LevelTicket :level="review.level" :show-ratings="false"/>
             <div class="x gap-2">
                 <div class="y w-2/3 h-full">
-                    <div class="x items-center space-x-2 bg-ui-800 rounded-t w-fit p-2 ml-2">
-                        <Avatar class="w-6" :user="review.author"/>
-                        <span><Username :user="review.author"/> says...</span>
+                    <div class="x justify-between items-center">
+                        <div class="x items-center space-x-2 bg-ui-800 rounded-t w-fit p-2 ml-2">
+                            <Avatar class="w-6" :user="review.author"/>
+                            <span><Username :user="review.author"/> says...</span>
+                        </div>
+                        <WeightBadge :weight="weight"/>
                     </div>
                     <div class="pane border border-ui-700 grow">
                         <p v-if="!review.review" class="italic text-ui-600 text-center">User has not left a written review</p>

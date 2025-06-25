@@ -13,10 +13,12 @@ import Tooltip from "@/Components/Tooltip.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import {ref} from "vue";
 import UserFlag from "@/Components/UserFlag.vue";
+import WeightBadge from "@/Components/WeightBadge.vue";
 
 const props = defineProps({
     review: Object,
-    level: Object
+    level: Object,
+    weight: Number
 });
 
 const list = {
@@ -38,6 +40,8 @@ const remove = () => {
         preserveScroll: true
     });
 };
+
+const weight = props.review.weight ?? props.review.author?.weight ?? props.weight ?? 0;
 </script>
 <template>
     <div class="y items-center pane !px-2 relative z-0">
@@ -77,16 +81,18 @@ const remove = () => {
         </div>
         <TipTap v-if="review.review" :key="review.id" class="z-10 rounded-md bg-ui-800/90 px-2 py-1 w-full mt-2" :editable="false" v-model="review.review"/>
         <div class="z-10 y sm:flex-row justify-between items-center w-full gap-2 mt-2">
-            <div v-if="review.level && review.author" class="x space-x-2 items-center">
-                <Avatar width="w-7" :user="review.author"/>
-                <div class="x items-center relative px-2 py-0.5 rounded-md bg-ui-800">
-                    <div class="x space-x-2 items-center">
-                        <Username :user="review.author"/>
-                        <Timestamp class="w-fit text-sm text-ui-500" :time="review.created_at"/>
+            <div class="x space-x-2 items-center">
+                <template v-if="review.level && review.author">
+                    <Avatar width="w-7" :user="review.author"/>
+                    <div class="x items-center relative px-2 py-0.5 rounded-md bg-ui-800">
+                        <div class="x space-x-2 items-center">
+                            <Username :user="review.author"/>
+                            <Timestamp class="w-fit text-sm text-ui-500" :time="review.created_at"/>
+                        </div>
                     </div>
-                </div>
+                </template>
+                <WeightBadge :weight="weight"/>
             </div>
-            <div v-else></div>
             <div class="x gap-2 items-end">
                 <div v-if="0" class="x space-x-2 items-center bg-ui-800 px-2 py-1 rounded-md">
                     <span class="text-sm text-ui-500">Comments (0)</span>

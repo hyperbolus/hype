@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Models\Content\Review;
 use App\Models\Game\Level;
+use App\Models\System\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -93,17 +94,23 @@ class CalculateRatings
             ->whereHas('reviews')
             ->get();
 
+        $users = User::query()
+            ->select(['id', 'weight', 'banned_at'])
+            ->whereHas('reviews')
+            ->get()
+            ->keyBy('id');
+
         $reviews = Review::query()
-            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id', 'user_id'])
+            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'weight', 'level_id', 'user_id'])
             ->get()
             ->mapToGroups(fn (Review $review) => [$review->level_id => $review]);
 
         $updates = [];
         $empty = collect();
 
-        $levels->map(function (Level $level) use (&$updates, &$reviews, &$empty) {
+        $levels->map(function (Level $level) use (&$updates, &$users, &$reviews, &$empty) {
             if ($level->reviews_count >= 5) {
-                $results = self::filter($reviews[$level->id] ?? $empty);
+                $results = self::filter($reviews[$level->id] ?? $empty, $users);
                 $results['id'] = $level->id;
                 $updates[] = $results;
             }
@@ -121,19 +128,25 @@ class CalculateRatings
     public static function level(Level $level): void
     {
         $reviews = Review::query()
-            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'level_id', 'user_id'])
+            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'weight', 'level_id', 'user_id'])
             ->where('level_id', '=', $level->id)
             ->get()
             ->keyBy('id');
 
-        $level->update(self::filter($reviews));
+        $users = User::query()
+            ->select(['id', 'weight', 'banned_at'])
+            ->whereHas('reviews')
+            ->get();
+
+        $level->update(self::filter($reviews, $users));
     }
 
     /**
      * @param Collection $reviews
+     * @param Collection $users
      * @return array
      */
-    private static function filter(Collection $reviews): array
+    private static function filter(Collection $reviews, Collection $users): array
     {
         $counts = [
             'rating_difficulty' => 0,
@@ -149,9 +162,13 @@ class CalculateRatings
             'rating_overall' => 0,
         ];
 
-        $reviews->map(function (Review $review) use (&$counts, &$scores) {
-            $deweighted = in_array($review->user_id, [5977, 5799, 6570]);
-            $weight = $deweighted ? 0 : 1;
+        $reviews->map(function (Review $review) use (&$counts, &$scores, &$users) {
+            $weight = 0;
+            if ($users->has($review->user_id)) {
+                $user = $users->get($review->user_id);
+                $weight = $user->banned_at === null ? $user->weight : 0;
+            }
+            $weight = $review->weight ?? $weight;
 
             if ($review->rating_difficulty !== null) {
                 $counts['rating_difficulty'] += $weight;

@@ -13,7 +13,7 @@ const props = defineProps({
         <div class="x justify-between items-center space-x-2">
             <h1 class="px-2">Rating Curve</h1>
             <Tooltip message="This user's ratings do not affect site-wide level averages">
-                <span v-if="[5977, 5799, 6570].includes(user.id)" class="rounded bg-red-500 text-white text-xs font-bold px-1">DEWEIGHTED</span>
+                <span v-if="user.weight === 0" class="rounded bg-red-500 text-white text-xs font-bold px-1">DEWEIGHTED</span>
             </Tooltip>
         </div>
         <div class="flex flex-col-reverse">
