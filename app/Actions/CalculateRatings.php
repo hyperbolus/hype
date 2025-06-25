@@ -136,7 +136,8 @@ class CalculateRatings
         $users = User::query()
             ->select(['id', 'weight', 'banned_at'])
             ->whereHas('reviews')
-            ->get();
+            ->get()
+            ->keyBy('id');
 
         $level->update(self::filter($reviews, $users));
     }
