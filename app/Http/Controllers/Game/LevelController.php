@@ -52,6 +52,12 @@ class LevelController extends Controller
                 },
                 'unapproved_replays' => function (FilterBuilder $q) {
                     $q->whereHas('replays')->whereDoesntHave('approvedReplays');
+                },
+                'only_platformers' => function (FilterBuilder $q) {
+                    $q->where('length', '-1');
+                },
+                'only_classic' => function (FilterBuilder $q) {
+                    $q->whereNot('length', '-1');
                 }
             ]);
         }
