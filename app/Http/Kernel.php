@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AuthenticateSession::class, // From Jetstream
             \App\Http\Middleware\HandleInertiaRequests::class,
 
+            \App\Http\Middleware\LogoutDeleted::class,
             \App\Http\Middleware\UserActivity::class,
             \App\Http\Middleware\LogIP::class,
             \App\Http\Middleware\Unbanned::class
