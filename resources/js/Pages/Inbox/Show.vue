@@ -82,7 +82,7 @@ const keypress = (e) => {
             <Pagination :list="messages"/>
             <div class="y space-y-1">
                 <div class="y" :class="{'items-end': message.recipient_id === recipient.id}" v-for="(message, i) in messages.data">
-                    <p class="y px-4 py-2 rounded-3xl max-w-[80%] break-all w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
+                    <p class="y px-4 py-2 rounded-3xl max-w-[80%] break-words whitespace-break-spaces w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
                     <span v-if="message.sender_id !== messages.data[i + 1]?.sender_id" class="text-ui-400 text-ui-600"><Timestamp position="bottom" :time="message.created_at"/></span>
                 </div>
             </div>
