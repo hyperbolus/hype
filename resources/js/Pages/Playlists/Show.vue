@@ -36,7 +36,7 @@ const deleteSubmission = (id) => {
             <div v-for="submission in playlist.submissions" class="bg-ui-800 rounded-lg">
                 <div class="x items-center justify-between px-2 py-1">
                     <span>Submitted By: {{ submission.submitter ? submission.submitter.name : 'Anonymous'  }}</span>
-                    <span v-if="isUser(playlist.id)" @click="deleteSubmission(submission.id)" class="text-red-500 underline cursor-pointer">Delete</span>
+                    <span v-if="isUser(playlist.owner_id)" @click="deleteSubmission(submission.id)" class="text-red-500 underline cursor-pointer">Delete</span>
                 </div>
                 <LevelTicket v-if="submission.level" :level="submission.level"/>
             </div>
