@@ -39,7 +39,9 @@ Route::name('auth::')->group(function () {
     Route::get('/auth/banned', function (\Illuminate\Http\Request $request) {
         if ($request->user()->banned_at === null) return redirect('/');
 
-        return page('Auth/Banned');
+        return page('Auth/Banned', [
+            'ban' => \App\Models\Ban::query()->latest()->where('bannable_id', $request->user()->id)->first()
+        ]);
     })->middleware(['auth'])->name('banned');
 
     //<editor-fold desc="Authentication">
