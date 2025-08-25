@@ -9,6 +9,7 @@ import {isAdmin, isAuthenticated, isNotUser, isUser} from "@/util.js";
 import Avatar from "@/Components/Avatar.vue";
 import UserTitle from "@/Components/UserTitle.vue";
 import {useTimeAgo} from "@vueuse/core";
+import {onBeforeMount, ref} from "vue";
 
 const props = defineProps({
     profile: Object,
@@ -34,6 +35,14 @@ const repColor = (rep, positive, negative) => {
     if (rep > 0) return positive;
     return '';
 }
+
+const hidden = ref([]);
+
+onBeforeMount(() => {
+    for (let i = 0; i < props.reps.data.length; i++) {
+        hidden.value.push(props.reps.data[i].sender.banned_at !== null)
+    }
+})
 </script>
 <template>
     <app-layout title="Reputation Log">
@@ -59,13 +68,20 @@ const repColor = (rep, positive, negative) => {
             </div>
             <Pagination :list="reps"/>
             <div v-if="reps.data.length > 0" class="pane !px-0 !py-0 divide-y divide-ui-700">
-                <div v-for="rep in reps.data" class="x items-center py-4 px-4">
+                <div v-for="(rep, i) in reps.data" class="x items-center py-4 px-4 relative">
+                    <div v-if="hidden[i]" class="y space-y-2 items-center justify-center absolute inset-0 z-10 bg-ui-1000/75 backdrop-blur-sm">
+                        <p>This user is banned. Their score does not affect {{ profile.name }}'s reputation.</p>
+                        <button @click="hidden[i] = false" class="px-2 py-1 rounded-md bg-ui-800">Show</button>
+                    </div>
                     <div class="x items-center p-2 w-8 h-8 rounded mr-4 bg-ui-800" :class="{'!bg-red-600': rep.reputation < 0, '!bg-green-600': rep.reputation > 0, 'text-white': rep.reputation !== 0}">
                         <span class="text-center w-full">{{ rep.reputation > 0 ? '+' : '' }}{{ rep.reputation }}</span>
                     </div>
                     <div class="y w-full">
                         <div class="x justify-between">
-                            <Username class="text-xs" :user="rep.sender"/>
+                            <div class="x items-center space-x-1">
+                                <Username class="text-xs" :user="rep.sender"/>
+                                <span v-if="rep.sender.banned_at !== null" class="text-sm text-ui-600">(banned)</span>
+                            </div>
                             <span class="text-sm text-ui-600">{{ useTimeAgo(rep.created_at) }}</span>
                         </div>
                         <span class="text-sm">{{ rep.reason ?? 'none' }}</span>
@@ -73,6 +89,7 @@ const repColor = (rep, positive, negative) => {
                 </div>
             </div>
             <p v-else class="pane text-center italic text-ui-500">User has no reputation</p>
+            <Pagination :list="reps"/>
         </div>
         <div class="flex flex-col space-y-4 md:w-3/4">
             <h2 class="mx-2 font-bold text-2xl">Give Reputation</h2>
