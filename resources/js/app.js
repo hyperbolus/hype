@@ -1,5 +1,5 @@
 import '../css/app.css';
-import { createSSRApp, h } from 'vue';
+import { createSSRApp, createApp, h } from 'vue';
 import {createInertiaApp} from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from "ziggy-js/dist/vue.m"
@@ -13,7 +13,7 @@ createInertiaApp({
     title: (title) => `${title}${appName ? ' - ' + appName : ''}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        let _app = createSSRApp({ render: () => h(App, props) })
+        let _app = createApp({ render: () => h(App, props) })
         _app.config.globalProperties.$route = route
 
         return _app
