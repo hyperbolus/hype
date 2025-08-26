@@ -69,7 +69,7 @@ onBeforeMount(() => {
             <Pagination :list="reps"/>
             <div v-if="reps.data.length > 0" class="pane !px-0 !py-0 divide-y divide-ui-700">
                 <div v-for="(rep, i) in reps.data" class="x items-center py-4 px-4 relative">
-                    <div v-if="hidden[i]" class="y space-y-2 items-center justify-center absolute inset-0 z-10 bg-ui-1000/75 backdrop-blur-sm">
+                    <div v-if="hidden[i]" class="y space-y-2 items-center justify-center absolute inset-0 z-10 bg-ui-1000/75 backdrop-blur-sm p-2">
                         <p>This user is banned. Their score does not affect {{ profile.name }}'s reputation.</p>
                         <button @click="hidden[i] = false" class="px-2 py-1 rounded-md bg-ui-800">Show</button>
                     </div>
