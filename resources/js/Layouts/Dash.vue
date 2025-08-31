@@ -36,12 +36,11 @@ onBeforeMount(() => {
     // Required for global cache on first load
     useSettingsStore()
     useStatisticsStore()
-
 });
 
 </script>
 <template>
-    <div ref="base" class="y relative items-center text-ui-300 min-h-screen grow overflow-x-clip" :class="getGame() === 'soundodger' ? 'theme-soundodger' : ''">
+    <div ref="base" class="y relative items-center text-ui-200 min-h-screen grow overflow-x-clip" :class="getGame() === 'soundodger' ? 'theme-soundodger' : ''">
         <Head v-if="title"><title>{{ title }}</title></Head>
         <NetworkNav/>
         <SiteNav/>
