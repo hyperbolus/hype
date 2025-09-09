@@ -9,7 +9,7 @@ const props = defineProps({
     }
 })
 
-const errors = computed(() => props.bag === null ? usePage().props.errors : usePage().props.errors[props.bag.value])
+const errors = computed(() => props.bag === null ? usePage().props.errors : usePage().props.errors[props.bag])
 const hasErrors = computed(() => props.bag === null ? Object.keys(errors).length > 0 : usePage().props.errors.hasOwnProperty(props.bag));
 </script>
 <template>
