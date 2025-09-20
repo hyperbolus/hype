@@ -1,6 +1,6 @@
 <script setup>
 import {onBeforeMount} from 'vue';
-import {Head, Link} from '@inertiajs/vue3';
+import {Head, Link, usePage} from '@inertiajs/vue3';
 import NetworkNav from "@/Components/NetworkNav.vue";
 import SiteNav from "@/Components/SiteNav.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
@@ -13,7 +13,10 @@ import route from "ziggy-js";
 import {getGame, isAuthenticated} from "@/util.js";
 
 const props = defineProps({
-    title: String,
+    title: {
+        type: String,
+        default: usePage().props?.__meta_title ?? ''
+    },
     decorations: {
         type: Boolean,
         default: true
