@@ -1,10 +1,9 @@
 <script setup>
-import {Link, useForm, usePage} from '@inertiajs/vue3';
+import {Link} from '@inertiajs/vue3';
 import route from "ziggy-js";
 import Post from "@/Components/Post.vue";
-import PostPad from "@/Components/PostPad.vue";
 import AppLayout from "@/Layouts/Dash.vue";
-import {ref} from "vue"
+import Username from "@/Components/Username.vue";
 
 const props = defineProps({
     post: Object
@@ -27,7 +26,7 @@ const props = defineProps({
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-2xl">Viewing Post from {{ post.thread.title }}</h2>
-                    <span class="text-sm">Thread by {{ post.thread.author.name }}, {{ new Date(post.thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Thread ID: {{ post.thread.id }}</span>
+                    <span class="text-sm">Thread by <Username :user="post.thread.author"/>, {{ new Date(post.thread.created_at).toISOString().replace('T', ', ').replace('.000Z', '') }}, Thread ID: {{ post.thread.id }}</span>
                 </div>
                 <div class="space-x-2">
                     <Link class="button" :href="route('threads.show', post.thread)">Back to Thread</Link>
