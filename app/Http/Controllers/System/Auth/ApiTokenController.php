@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\System\Auth;
 
-use App\Yggdrasil;
+use App\Hype;
 use function back;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,8 +27,8 @@ class ApiTokenController extends Controller
                     'last_used_ago' => optional($token->last_used_at)->diffForHumans(),
                 ];
             }),
-            'availablePermissions' => Yggdrasil::$permissions,
-            'defaultPermissions' => Yggdrasil::$defaultPermissions,
+            'availablePermissions' => Hype::$permissions,
+            'defaultPermissions' => Hype::$defaultPermissions,
         ];
 
         return Inertia::render('API/Index', $data);
@@ -48,7 +48,7 @@ class ApiTokenController extends Controller
 
         $token = $request->user()->createToken(
             $request->name,
-            Yggdrasil::validPermissions($request->input('permissions', []))
+            Hype::validPermissions($request->input('permissions', []))
         )->accessToken;
 
         return back()->with('flash', [
@@ -73,7 +73,7 @@ class ApiTokenController extends Controller
         $token = $request->user()->tokens()->where('id', $tokenId)->firstOrFail();
 
         $token->forceFill([
-            'scopes' => Yggdrasil::validPermissions($request->input('permissions', [])),
+            'scopes' => Hype::validPermissions($request->input('permissions', [])),
         ])->save();
 
         return back(303);

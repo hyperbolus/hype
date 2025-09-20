@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\System\Auth;
 
-use App\Yggdrasil;
+use App\Hype;
 use function back;
 use function config;
 use function event;
@@ -80,7 +80,7 @@ class NewPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
                 Validator::make($request->all(), [
-                    'password' => Yggdrasil::passwordRules(),
+                    'password' => Hype::passwordRules(),
                 ])->validate();
 
                 $user->forceFill([

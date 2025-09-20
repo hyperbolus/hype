@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Yggdrasil;
+use App\Hype;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
-class YggdrasilServiceProvider extends ServiceProvider
+class HypeServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -66,9 +66,9 @@ class YggdrasilServiceProvider extends ServiceProvider
      */
     protected function configurePermissions(): void
     {
-        Yggdrasil::defaultApiTokenPermissions(['read']);
+        Hype::defaultApiTokenPermissions(['read']);
 
-        Yggdrasil::permissions([
+        Hype::permissions([
             'create',
             'read',
             'update',

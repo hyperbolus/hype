@@ -5,7 +5,7 @@ namespace App\Http\Controllers\System\Auth;
 use App\Events\TwoFactorAuthenticationDisabled;
 use App\Events\TwoFactorAuthenticationEnabled;
 use App\Providers\TwoFactorAuthenticationProvider;
-use App\Yggdrasil;
+use App\Hype;
 use function back;
 use function encrypt;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +34,7 @@ class TwoFactorAuthenticationController extends Controller
             // TODO: cleaner way to do this? maybe i should kept the og code?
             'two_factor_secret' => encrypt((new TwoFactorAuthenticationProvider(new Google2FA()))->generateSecretKey()),
             'two_factor_recovery_codes' => encrypt(json_encode(Collection::times(8, function () {
-                return Yggdrasil::generateRecoveryCode();
+                return Hype::generateRecoveryCode();
             })->all())),
         ])->save();
 

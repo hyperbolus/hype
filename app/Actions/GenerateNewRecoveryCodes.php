@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Events\RecoveryCodesGenerated;
-use App\Yggdrasil;
+use App\Hype;
 use Illuminate\Support\Collection;
 
 class GenerateNewRecoveryCodes
@@ -18,7 +18,7 @@ class GenerateNewRecoveryCodes
     {
         $user->forceFill([
             'two_factor_recovery_codes' => encrypt(json_encode(Collection::times(8, function () {
-                return Yggdrasil::generateRecoveryCode();
+                return Hype::generateRecoveryCode();
             })->all())),
         ])->save();
 

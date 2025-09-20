@@ -7,7 +7,7 @@ use App\Models\System\User;
 use App\Providers\RouteServiceProvider;
 use App\Rules\AllowedUserNamespace;
 use App\Security;
-use App\Yggdrasil;
+use App\Hype;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
@@ -82,7 +82,7 @@ class RegisteredUserController extends Controller
         Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'indisposable'],
             'name' => ['required', 'string', 'min:3', 'max:24', 'unique:users', 'regex:/^[a-zA-Z0-9_]*$/', new AllowedUserNamespace],
-            'password' => Yggdrasil::passwordRules(),
+            'password' => Hype::passwordRules(),
             'terms' => ['required', 'accepted'],
             'agecheck' => ['required', 'accepted'],
         ], [

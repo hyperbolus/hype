@@ -6,7 +6,7 @@ use App\Rules\Password;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Pure;
 
-class Yggdrasil
+class Hype
 {
     /**
      * The permissions that exist within the application.

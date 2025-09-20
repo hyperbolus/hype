@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Providers\TwoFactorAuthenticationProvider;
-use App\Yggdrasil;
+use App\Hype;
 use BaconQrCode\Renderer\Color\Rgb;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
@@ -45,7 +45,7 @@ trait TwoFactorAuthenticatable
         $this->forceFill([
             'two_factor_recovery_codes' => encrypt(str_replace(
                 $code,
-                Yggdrasil::generateRecoveryCode(),
+                Hype::generateRecoveryCode(),
                 decrypt($this->two_factor_recovery_codes)
             )),
         ])->save();

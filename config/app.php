@@ -207,7 +207,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\YggdrasilServiceProvider::class,
+        App\Providers\HypeServiceProvider::class,
         App\Providers\MixinServiceProvider::class,
 
     ],

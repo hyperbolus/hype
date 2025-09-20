@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\System\Auth;
 
 use function __;
-use App\Yggdrasil;
+use App\Hype;
 use function back;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -30,7 +30,7 @@ class PasswordController extends Controller
 
         Validator::make($request->all(), [
             'current_password' => ['required', 'string'],
-            'password' => Yggdrasil::passwordRules(),
+            'password' => Hype::passwordRules(),
         ])->after(function ($validator) use ($user, $input) {
             if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
                 $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
