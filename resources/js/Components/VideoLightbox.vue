@@ -20,7 +20,9 @@ const remove = () => {
 </script>
 <template>
     <Lightbox class="w-full">
-        <img class="w-full aspect-video object-cover rounded glass" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt=""/>
+        <div class="rounded-lg overflow-hidden">
+            <img class="w-full aspect-video object-cover hover:scale-105 transition-transform duration-100" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt=""/>
+        </div>
         <template #content>
             <div class="y space-y-2">
                 <div class="relative box !px-0 !py-0">
