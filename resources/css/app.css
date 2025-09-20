@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    @apply font-sans antialiased dark bg-ui-950 text-ui-200;
+}
+
 .x {
     @apply flex flex-row;
 }

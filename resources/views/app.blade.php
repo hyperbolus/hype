@@ -22,7 +22,7 @@
     @inertiaHead
     @vite('resources/js/app.js')
 </head>
-<body id="body" class="font-sans antialiased dark bg-ui-950">
+<body id="body">
 @inertia
 </body>
 </html>
