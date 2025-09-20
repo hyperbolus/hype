@@ -41,7 +41,7 @@ const remove = () => {
     });
 };
 
-const weight = props.review.weight ?? props.review.author?.weight ?? props.weight ?? 0;
+const weight = props.review.weight ?? props.review.author?.weight ?? props.weight ?? 1;
 
 const expanded = ref(false);
 const long = ref(false);
