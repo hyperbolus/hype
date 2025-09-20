@@ -73,6 +73,34 @@ class User extends Authenticatable implements MustVerifyEmail
         'signature_visibility' => 'boolean'
     ];
 
+    /**
+     * Attributes with variable visibility
+     */
+    protected array $controlled = [];
+
+    protected static function booted()
+    {
+        static::retrieved(function (User $user) {
+            foreach ($user->controlled as $field => $vis) {
+                $visibility = $user->getAttribute($vis);
+                if ($visibility === 1) $user->makeVisible($field);
+                $user->makeVisible($field);
+            }
+        });
+    }
+
+    /**
+     * Make controllable hidden fields visible to the user itself
+     *
+     * @return $this
+     */
+    public function itsMe(): static
+    {
+        if (auth()->id() === $this->id) foreach ($this->controlled as $field => $vis) $this->makeVisible($field);
+
+        return $this;
+    }
+
     public function getSortableAttributes(): array
     {
         return [

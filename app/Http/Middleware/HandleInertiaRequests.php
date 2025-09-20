@@ -83,7 +83,7 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
 
-                return array_merge($request->user()->toArray(), [
+                return array_merge($request->user()->itsMe()->toArray(), [
                     'impersonating' => app('impersonate')->isImpersonating(),
                     'two_factor_enabled' => !is_null($request->user()->two_factor_secret),
                     //'linked_accounts' => $request->user()->accounts,
