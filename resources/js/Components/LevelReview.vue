@@ -11,7 +11,7 @@ import Timestamp from "@/Components/Timestamp.vue";
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
-import {nextTick, onMounted, ref, useTemplateRef, watch} from "vue";
+import {ref, useTemplateRef, watch} from "vue";
 import UserFlag from "@/Components/UserFlag.vue";
 import WeightBadge from "@/Components/WeightBadge.vue";
 import {useElementSize} from "@vueuse/core";
@@ -91,11 +91,11 @@ watch(height, () => {
                 </div>
             </div>
         </div>
-        <div v-if="review.review" class="mt-2 bg-ui-800/90 rounded-lg w-full relative px-2 py-1">
-            <div :class="{'max-h-48 overflow-hidden': !expanded, '[mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0.1)_85%,rgba(0,0,0,0)_100%);]': long && !expanded}">
+        <div v-if="review.review" class="y items-center mt-2 bg-ui-800/90 rounded-lg w-full relative px-2 py-1">
+            <div class="w-full" :class="{'max-h-48 overflow-hidden': !expanded, '[mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0.1)_85%,rgba(0,0,0,0)_100%);]': long && !expanded}">
                 <TipTap :key="review.id" ref="body" :editable="false" v-model="review.review"/>
             </div>
-            <button v-if="!expanded && long" @click="expanded = true" class="w-full py-1 text-white absolute bottom-0 z-20">Read More</button>
+            <button v-if="long" @click="expanded = !expanded" class="py-1 z-20 bg-ui-600 px-2 py-1 rounded text-xs my-1" :class="{'absolute bottom-1 tracking-widest uppercase': !expanded}">{{ expanded ? 'ok umm,, now please stop reading' : 'read' }} more...</button>
         </div>
         <div class="z-10 y sm:flex-row justify-between items-center w-full gap-2 mt-2">
             <div class="x space-x-2 items-center">
