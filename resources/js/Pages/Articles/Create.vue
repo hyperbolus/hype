@@ -23,7 +23,7 @@ const postData = ref({
 const submit = () => {
     form.transform((data) => ({
         ...data,
-        post: postData.value
+        content: postData.value.body
     })).post(route('articles.create'))
 }
 </script>

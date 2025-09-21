@@ -149,6 +149,8 @@ export const trimAtWord = (string, max) => {
     return trimmed + '...';
 }
 
+export const readingTime = (text, wpm = 200) => Math.ceil(text.split(/\s+/).length / wpm);
+
 export const toHHMMSS = (n) => {
     n = n | 0;
     let hours = Math.floor(n / 3600);

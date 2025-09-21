@@ -135,9 +135,9 @@ Route::get('/groups', function () {
 })->name('groups.index');
 
 Route::get('/news', [\App\Http\Controllers\ArticleController::class, 'index'])->name('news');
-//Route::get('/news/{article}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
-//Route::get('/articles/new', [\App\Http\Controllers\ArticleController::class, 'create'])->name('articles.create');
-//Route::post('/articles/new', [\App\Http\Controllers\ArticleController::class, 'store'])->name('articles.store');
+Route::get('/news/{article:slug}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
+Route::get('/articles/new', [\App\Http\Controllers\ArticleController::class, 'create'])->name('articles.create')->middleware(['role:admin']);
+Route::post('/articles/new', [\App\Http\Controllers\ArticleController::class, 'store'])->name('articles.store')->middleware(['role:admin']);
 
 Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
 Route::get('/profile/{profile:name}', [ProfileController::class, 'show'])->name('profiles.show');
