@@ -7,7 +7,6 @@ use App\Models\Content\Tag;
 use App\Models\System\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,7 +29,7 @@ class SearchController extends Controller
             ->select(['id', 'name'])
             ->where('name', 'LIKE', '%' . $request->string('name') . '%')
             ->whereNot('id', '=', $request->integer('except') ?? null)
-            ->limit(100)
+            ->limit(50)
             ->get();
     }
 
