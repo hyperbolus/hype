@@ -31,7 +31,9 @@ const isOnline = (time) => {
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl py-4 px-4">
                 <div class="x w-full gap-2 justify-between">
                     <div v-if="isAuthenticated()" class="x gap-2">
-                        <Link v-if="profile.id !== $page.props.user.id" :href="route('inbox.create') + '?to=' + profile.id" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
+                        <template v-if="!isUser(profile.id)">
+                            <Link :href="route('inbox.show', profile)" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
+                        </template>
                         <Link v-else :href="route('settings.profile')" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Edit Profile</Link>
                     </div>
                     <div class="x gap-2">

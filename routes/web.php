@@ -222,11 +222,10 @@ Route::delete('/playlist-submission/{submission:id}', [PlaylistSubmissionControl
 //Route::get('/files', [LevelTagController::class, 'index'])->name('files.index');
 //Route::post('/files/create', [LevelTagController::class, 'store'])->name('files.store')->middleware(['auth', 'verified', 'role:admin']);
 
-Route::get('/inbox', [MessageController::class, 'index'])->name('inbox.index')->middleware(['auth', 'verified']);
-Route::get('/inbox/new', [MessageController::class, 'create'])->name('inbox.create')->middleware(['auth', 'verified']);
+Route::get('/inbox', [MessageController::class, 'show'])->name('inbox.index')->middleware(['auth', 'verified']);
+Route::get('/inbox/{user:id}', [MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
 Route::post('/inbox/new', [MessageController::class, 'store'])->name('inbox.store')->middleware(['auth', 'verified', 'throttle:40,10']);
-Route::get('/inbox/{id}', [MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
-Route::delete('/inbox/{id}', [MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
+Route::delete('/message/{message:id}', [MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
 
 //Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
 //Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');
