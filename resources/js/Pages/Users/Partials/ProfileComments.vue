@@ -8,6 +8,7 @@ import Lightbox from "@/Components/Lightbox.vue";
 import ReportModal from "@/Components/ReportModal.vue";
 import {getUser, isAdmin, isAuthenticated, isModerator} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
+import Button from "@/Jetstream/Button.vue";
 
 const props = defineProps({
     profile: Object,
@@ -35,7 +36,7 @@ const deleteComment = (id) => {
 }
 </script>
 <template>
-    <div class="y h-fit md:rounded-b-lg bg-ui-900 lg:w-1/2 divide-y divide-ui-700">
+    <div class="y h-fit md:rounded-lg bg-ui-900 lg:w-1/2 divide-y divide-ui-700">
         <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Profile Comments</div>
         <div v-if="comments.data.length === 0" class="px-4 py-2">
             Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="isAuthenticated()">Be the first!</span>
