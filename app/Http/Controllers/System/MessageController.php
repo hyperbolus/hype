@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\System\Message;
 use App\Models\System\User;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,9 @@ class MessageController extends Controller
     public function show(Request $request, User $user = null): Responsable
     {
         $id = $request->user()->id;
+
+        if ($id === $user->id) abort(400);
+
         $messages = [];
 
         if ($user) {
@@ -77,6 +81,8 @@ class MessageController extends Controller
 
         $validator->validate();
 
+        if ($request->user()->id === $request->integer('recipient_id')) abort(400);
+
         $msg = new Message();
         $msg->sender_id = $request->user()->id;
         $msg->recipient_id = $request->integer('recipient_id');
@@ -91,12 +97,12 @@ class MessageController extends Controller
         //
     }
 
-    public function destroy(Request $request, Message $message)
+    public function destroy(Request $request, Message $message): JsonResponse
     {
         if ($message->sender_id !== $request->user()->id) abort(403);
 
         $message->delete();
 
-        return response('', 200);
+        return response('', 200)->json();
     }
 }
