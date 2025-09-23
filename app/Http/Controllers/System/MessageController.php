@@ -49,7 +49,7 @@ class MessageController extends Controller
         foreach ($conversations->items() as $convo) $unread[] = $convo->id;
 
         $unread = Message::query()
-            ->where('recipient_id', $request->user()->id)
+            ->where('recipient_id', $id)
             ->whereNull('read_at')
             ->whereIn('id', $unread)
             ->get()
@@ -59,7 +59,7 @@ class MessageController extends Controller
             'conversations' => $conversations,
             'unread' => $unread,
             'messages' => $messages,
-            'recipient' => $user
+            'recipient' => $user->withBlocks(),
         ])->meta($user ? 'Conversation with ' . $user->name : 'Messages', 'Chat with other users on Hyperbolus')
             ->breadcrumbs($user ? [crumb('Inbox', route('inbox.index'))] : []);
     }
@@ -80,6 +80,8 @@ class MessageController extends Controller
         ]);
 
         $validator->validate();
+
+        if ($request->user()->isBlockedBy($request->integer('recipient_id'))) abort(403, 'user has blocked you');
 
         if ($request->user()->id === $request->integer('recipient_id')) abort(400);
 

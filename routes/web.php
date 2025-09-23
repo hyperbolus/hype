@@ -27,6 +27,8 @@ use App\Http\Controllers\Game\StencilController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Moderation\ModerationDashboardController;
 use App\Http\Controllers\Moderation\ReportController;
+use App\Http\Controllers\RelationshipController;
+use App\Http\Controllers\Dashboard\DashboardRelationshipController;
 use App\Http\Controllers\System\BanController;
 use App\Http\Controllers\System\MessageController;
 use App\Http\Controllers\System\NameChangeController;
@@ -103,6 +105,8 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'home'])->name('settings.home');
     Route::post('/', DashboardController::class)->name('settings.update');
     Route::get('/account', [DashboardController::class, 'account'])->name('settings.account');
+
+    Route::get('/relationships', [DashboardRelationshipController::class, 'show'])->name('settings.relationships')->middleware(['verified']);
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile')->middleware(['verified']);
 
@@ -226,6 +230,9 @@ Route::get('/inbox', [MessageController::class, 'show'])->name('inbox.index')->m
 Route::get('/inbox/{user:id}', [MessageController::class, 'show'])->name('inbox.show')->middleware(['auth', 'verified']);
 Route::post('/inbox/new', [MessageController::class, 'store'])->name('inbox.store')->middleware(['auth', 'verified', 'throttle:40,10']);
 Route::delete('/message/{message:id}', [MessageController::class, 'destroy'])->name('inbox.destroy')->middleware(['auth', 'verified']);
+
+Route::post('/relationships/new', [RelationshipController::class, 'store'])->name('relationships.store')->middleware(['auth', 'verified']);
+Route::delete('/relationship/{user:id}', [RelationshipController::class, 'destroy'])->name('relationships.destroy')->middleware(['auth', 'verified']);
 
 //Route::get('/mods', [ModController::class, 'index'])->name('mods.index');
 //Route::get('/mod/{mod}', [ModController::class, 'show'])->name('mods.show');

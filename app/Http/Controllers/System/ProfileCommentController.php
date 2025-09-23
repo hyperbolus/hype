@@ -17,9 +17,11 @@ class ProfileCommentController extends Controller
             'user_id' => 'required|exists:App\Models\System\User,id'
         ]);
 
+        if ($request->user()->isBlockedBy($request->integer('user_id'))) abort(403, 'This user has blocked you');
+
         $comment = new ProfileComment();
         $comment->user_id = $request->integer('user_id');
-        $comment->commenter_id = auth()->id();
+        $comment->commenter_id = $request->user()->id;
         $comment->body = $request->string('body');
         $comment->save();
 

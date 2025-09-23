@@ -15,15 +15,20 @@ const links = [
         icon: 'home'
     },
     {
-        title: 'Account Settings',
-        route: 'settings.account',
-        icon: 'cog'
-    },
-    {
         title: 'Edit Profile',
         route: 'settings.profile',
         icon: 'user-circle'
     },
+    {
+        title: 'Relationships',
+        route: 'settings.relationships',
+        icon: 'users'
+    },
+    {
+        title: 'Account Settings',
+        route: 'settings.account',
+        icon: 'cog'
+    }
 ]
 </script>
 <template>

@@ -1,29 +1,27 @@
 <script setup>
 import AppLayout from "@/Layouts/Dash.vue";
 import Pagination from "@/Components/Pagination.vue";
-import {Link, useForm, usePage} from "@inertiajs/vue3";
+import {Link, router, useForm} from "@inertiajs/vue3";
 import Avatar from "@/Components/Avatar.vue";
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Timestamp from "@/Components/Timestamp.vue";
-import {nextTick, onMounted, ref, useTemplateRef, watch} from "vue";
+import {onMounted, ref, useTemplateRef, watch} from "vue";
 import {useElementSize} from "@vueuse/core";
 import Lightbox from "@/Components/Lightbox.vue";
-import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
 import {getUser} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
-import Errors from "@/Components/Errors.vue";
 import axios from "axios";
 
 const props = defineProps({
     conversations: Object,
     messages: Object,
     recipient: Object,
-    unread: Object,
+    unread: Object
 });
 
-// todo: add other buttons next to delete button etc also blocking muteing and menu buttons on convo cards and header
+// todo: add other buttons next to delete button etc also muteing and menu buttons on convo cards and header
 
 const msgs = ref(props.messages.data);
 const page = ref(props.messages.current_page)
@@ -257,7 +255,9 @@ const deleteMessage = (id) => {
                             </div>
                         </div>
                     </div>
-                    <div class="x pane space-x-2 m-2">
+                    <p v-if="recipient.blocked" class="pane !bg-red-500 font-bold text-white text-center m-2 text-ui-500">You are blocking this user. <u class="cursor-pointer" @click="router.delete(route('relationships.destroy', recipient.id))">Unblock</u></p>
+                    <p v-if="recipient.blocking" class="pane text-center m-2 text-ui-500">You cannot message this user because they blocked you</p>
+                    <div v-else-if="!recipient.blocking" class="x pane space-x-2 m-2">
                         <div class="grow relative">
                             <textarea @keydown="keypress" rows="1" v-model="message.body" placeholder="Start writing" class="px-1 py-1 resize-none break-all absolute overflow-hidden inset-0 border-none placeholder-ui-600 bg-transparent focus-visible:ring-0"></textarea>
                             <div aria-hidden="true" class="invisible whitespace-pre-wrap break-all px-1 py-1">{{ message.body }}&ZeroWidthSpace;</div>

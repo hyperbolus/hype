@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Enums\RelationshipType;
 use App\FilterBuilder;
 use App\Models\Connection;
 use App\Models\Content\Playlist;
@@ -13,6 +14,7 @@ use App\Models\Forge\Mod;
 use App\Models\Game\Level;
 use App\Models\Game\LevelReplay;
 use App\Models\IP;
+use App\Models\Relationship;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use App\Traits\Sortable;
@@ -118,6 +120,32 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function isBlocking(int|User|null $user): bool
+    {
+        if ($user instanceof User) $user = $user->id;
+
+        return Relationship::exists(RelationshipType::Block, $this->id, $user);
+    }
+
+    public function isBlockedBy(int|User|null $user): bool
+    {
+        if ($user instanceof User) $user = $user->id;
+
+        return Relationship::exists(RelationshipType::Block, $user, $this->id);
+    }
+
+    public function withBlocks(?User $user = null): self
+    {
+        if (!auth()->check()) return $this;
+
+        if (!$user) $user = request()->user();
+
+        $this->setAttribute('blocked', $this->isBlockedBy($user));
+        $this->setAttribute('blocking', $this->isBlocking($user));
+
+        return $this;
+    }
+
     /**
      * Send the password reset notification.
      *
@@ -167,6 +195,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeProfile(Builder $query): void
     {
         $query->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits', 'banned_at']);
+    }
+
+    public function blockedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'relationships', 'from_id', 'to_id');
     }
 
     public function reputation(): HasMany
