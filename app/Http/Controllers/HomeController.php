@@ -69,7 +69,7 @@ class HomeController extends Controller
                 ->latest()
                 ->limit(6)
                 ->get(),
-            'newest_user' => User::query()->latest()->first(),
+            'newest_user' => User::query()->whereNotNull('email_verified_at')->latest()->first(),
             'online' => User::query()->latest('last_seen')->where('last_seen', '>', now()->subMinutes(30))->get()
             //'daily_chat' => $dcr
         ])->meta('Home', 'Hyperbolus, your home for Geometry Dash');
