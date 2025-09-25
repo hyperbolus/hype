@@ -1,6 +1,6 @@
 <script setup>
 import {EditorContent, useEditor,} from '@tiptap/vue-3'
-import {computed, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {Underline} from "@tiptap/extension-underline";
 import {Youtube} from "@tiptap/extension-youtube";
 import {TextAlign} from "@tiptap/extension-text-align";
@@ -31,13 +31,6 @@ const props = defineProps({
     max: Number
 })
 
-const source = ref(false);
-
-const editable = ref(props.editable);
-watch(editable, (old, current) => {
-    editor.value.setEditable(current);
-})
-
 const emit = defineEmits(['update:modelValue'])
 const extensions = [
     StarterKit,
@@ -57,11 +50,26 @@ const editor = useEditor({
     extensions: extensions,
     content: props.modelValue,
     onUpdate: () => {
-        emit('update:modelValue', editor.value.getHTML())
+        if (!mutating.value) emit('update:modelValue', editor.value.getHTML())
+        mutating.value = false;
     },
     onCreate: () => {
-        editor.value.setEditable(editable.value);
+        editor.value.setEditable(props.editable)
     }
+})
+
+const source = ref(false);
+
+// used to prevent runaway event loops
+const mutating = ref(false);
+
+watch(() => props.editable, (v) => {
+    if (editor.value) editor.value.setEditable(v)
+}, {immediate: true})
+
+watch(() => props.modelValue, (v) => {
+    mutating.value = true;
+    editor.value.commands.setContent(v);
 })
 
 const addLinkURL = ref('');
@@ -79,13 +87,6 @@ const addSpoiler = () => {
 }
 
 const addVideoURL = ref('');
-
-// const v = computed(() => {
-//     return props.modelValue
-// })
-// watch(v, () => {
-//     editor.value.commands.setContent(props.modelValue, false)
-// });
 </script>
 <template>
     <div class="y items-center">
