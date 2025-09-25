@@ -157,11 +157,12 @@ export const toHHMMSS = (n) => {
     let minutes = Math.floor((n - (hours * 3600)) / 60);
     let seconds = n - (hours * 3600) - (minutes * 60);
 
-    if (hours < 10) hours = "0" + hours;
-    if (minutes < 10) minutes = "0" + minutes;
-    if (seconds < 10) seconds = "0" + seconds;
+    let time = '';
+    if (hours > 0) time += `${hours}:`.padStart(3, '0')
+    time += `${minutes}:`.padStart(hours > 0 ? 3 : 2, '0')
+    time += `${seconds}`.padStart(2, '0')
 
-    return hours + ':' + minutes + ':' + seconds;
+    return time;
 }
 
 export const readonly = (e, reset) => {

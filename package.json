@@ -55,6 +55,7 @@
         "reading-time": "^1.5.0",
         "resumablejs": "^1.1.0",
         "tippy.js": "^6.3.7",
-        "vue-advanced-cropper": "^2.8.9"
+        "vue-advanced-cropper": "^2.8.9",
+        "vue-virtual-scroller": "2.0.0-beta.8"
     }
 }
