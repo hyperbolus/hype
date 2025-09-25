@@ -4,15 +4,16 @@ import ReportModal from "@/Components/ReportModal.vue";
 import Stats from "@/Pages/Users/Partials/Stats.vue";
 import Timestamp from "@/Components/Timestamp.vue";
 import soundparty from '@/../images/soundparty.jpg'
-import sparkle from '@/../images/sparkle_4.gif'
-import {Link} from '@inertiajs/vue3'
+import {Link, router} from '@inertiajs/vue3'
 import route from "ziggy-js"
 import Avatar from "@/Components/Avatar.vue";
-import UserFlag from "@/Components/UserFlag.vue";
 import {isAuthenticated, isUser} from "@/util.js";
 import UserTitle from "@/Components/UserTitle.vue";
-import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
+import Username from "@/Components/Username.vue";
+import Dropdown from "@/Jetstream/Dropdown.vue";
+import Icon from "@/Components/Icon.vue";
+import Tooltip from "@/Components/Tooltip.vue";
 
 const props = defineProps({
     profile: Object,
@@ -29,47 +30,49 @@ const isOnline = (time) => {
     <div class="y w-full items-center bg-center bg-cover" :style="`background-image: url('${profile.banner_url ?? soundparty}');`" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 55px -25px inset;">
         <div class="x h-64 justify-center lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full w-full bg-cover bg-center">
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl py-4 px-4">
-                <div class="x w-full gap-2 justify-between">
-                    <div v-if="isAuthenticated()" class="x gap-2">
-                        <template v-if="!isUser(profile.id)">
-                            <Link :href="route('inbox.show', profile)" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Message</Link>
-                        </template>
-                        <Link v-else :href="route('settings.profile')" class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Edit Profile</Link>
-                    </div>
-                    <div class="x gap-2">
-                        <Lightbox>
-                            <span class="cursor-pointer text-xs rounded bg-ui-800 px-2 pb-1 pt-1.5 uppercase">Report</span>
-                            <template #content>
-                                <ReportModal :reportable_id="profile.id" :reportable_type="1" @click.stop class="cursor-auto"/>
+                <div class="x w-full gap-2 justify-end">
+                    <Link v-if="isUser(profile.id)" :href="route('settings.profile')" class="bg-ui-900/50 p-2.5 rounded-full">
+                        <Icon class="size-5 text-white" name="pencil"/>
+                    </Link>
+                    <template v-else-if="isAuthenticated()">
+                        <Link v-if="!profile.blocking && !profile.blocked" :href="route('inbox.show', profile)" class="bg-ui-900/75 p-2.5 rounded-full">
+                            <Icon class="size-5 text-white" name="envelope"/>
+                        </Link>
+                        <Dropdown>
+                            <template #trigger>
+                                <div class="bg-ui-900/75 p-2.5 rounded-full">
+                                    <Icon class="size-5 text-white" name="ellipsis-horizontal"/>
+                                </div>
                             </template>
-                        </Lightbox>
-                    </div>
+                            <template #content>
+                                <div class="y">
+                                    <Lightbox v-if="!isUser(profile.id)">
+                                        <div class="px-2 py-1 hover:bg-ui-800 w-full">Report</div>
+                                        <template #content>
+                                            <ReportModal :reportable_id="profile.id" :reportable_type="1" @click.stop class="cursor-auto"/>
+                                        </template>
+                                    </Lightbox>
+                                    <div v-if="false" class="px-2 py-1 hover:bg-ui-800">Add Friend</div>
+                                    <div v-if="profile.blocked" @click="router.delete(route('relationships.destroy', profile.id))" class="px-2 py-1 hover:bg-ui-800">Unblock</div>
+                                    <div v-else @click="router.post(route('relationships.store'), {user_id: profile.id})" class="px-2 py-1 hover:bg-ui-800">Block</div>
+                                </div>
+                            </template>
+                        </Dropdown>
+                    </template>
                 </div>
                 <div class="x items-end justify-between">
                     <div class="x items-end">
                         <div class="x relative shrink-0 shadow-lg justify-center items-center rounded-full -mb-16 z-10 mr-4">
-                            <Lightbox v-if="false && isUser(profile.id)">
-                                <div v-if="isUser(profile.id)" class="x items-center justify-center absolute z-10 w-full h-full rounded-full opacity-0 cursor-pointer hover:opacity-100 bg-black/50">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                                    </svg>
-                                </div>
-                                <Avatar class="relative z-0" width="w-40" :user="profile"/>
-                                <template #content>
-                                    <div @click.stop class="y space-x-2 p-4 bg-ui-900 text-ui-200 shadow-xl w-full md:w-[32rem] lg:w-[48rem]">
-                                        <h1 class="text-2xl font-bold">Change Avatar</h1>
-                                        <Cropper class="w-fit" :src="profile.avatar_url"/>
-                                    </div>
-                                </template>
-                            </Lightbox>
-                            <Avatar v-else class="relative z-0" width="w-40" :user="profile"/>
+                            <Avatar class="relative z-0" width="w-40" :user="profile"/>
                         </div>
                         <div class="leading-none text-ui-200">
                             <div class="x items-center space-x-2 font-bold text-2xl">
-                                <UserFlag size="md" :user="profile"/>
-                                <span class="bg-cover bg-center" :class="{'line-through': profile.banned_at}" :style="profile.primary_group_id === 1 ? `background-image: url('${sparkle}');text-shadow: black 0 1px 3px;color:rgb(255,75,75);` : ''">{{ profile.name }}</span>
+                                <Username :user="profile" :card="false" :flag="true"/>
+                                <Tooltip v-if="profile.blocking" message="This user has blocked you">
+                                    <Icon name="no-symbol" class="size-5 text-red-500"/>
+                                </Tooltip>
                             </div>
-                            <UserTitle :user="profile"/>
+                            <p><UserTitle :user="profile"/><span v-if="profile.pronouns"> &middot; {{ profile.pronouns }}</span><span v-if="profile.location"> &middot; {{ profile.location }}</span></p>
                         </div>
                     </div>
                     <Stats :profile="profile"/>
@@ -77,8 +80,8 @@ const isOnline = (time) => {
             </div>
         </div>
     </div>
-    <div class="x justify-center w-full bg-ui-900 items-center px-4 py-2 z-0">
-        <div class="y mt-12 sm:mt-0 sm:pl-44 z-10 w-full lg:max-w-5xl xl:max-w-6xl">
+    <div class="x justify-center w-full bg-ui-900 items-center py-2 z-0">
+        <div class="y px-4 mt-12 sm:mt-0 sm:pl-48 z-10 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
             <span><span class="text-sm font-bold mr-1 uppercase" :class="isOnline(profile.last_seen) ? 'text-green-500' : 'text-red-500'">{{ isOnline(profile.last_seen) ? 'ON' : 'OFF' }}LINE</span> Last seen <Timestamp :time="profile.last_seen"/></span>
             <span>Time spent online: <Timestamp :time="profile.time_online" :length="true"/></span>
         </div>

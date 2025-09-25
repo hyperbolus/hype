@@ -27,6 +27,14 @@ export const logout = () => {
     router.post(route('auth::logout'));
 }
 
+export const isSameDay = (date) => {
+    if (!(date instanceof Date)) date = new Date(date);
+    let today = new Date();
+    return today.getMonth() === date.getMonth() && today.getDate() === date.getDate();
+}
+
+export const capitalize = (str = '') => str.split(' ').map(str => str.charAt(0).toUpperCase() + str.slice(1)).join(' ');
+
 export const ordinal = (n) => {
     const category = new Intl.PluralRules("en", {type: "ordinal"}).select(n);
     return n + {
@@ -36,6 +44,10 @@ export const ordinal = (n) => {
         other: "th"
     }[category];
 }
+
+export const writtenNumber = (n = 0) => ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n]
+
+export const yearsSince = (date) => Math.floor((new Date() - new Date(date)) / (1000 * 60 * 60 * 24 * 365.25));
 export const isAdmin = () => {
     return isAuthenticated() && usePage().props.user.roles.includes('admin')
 }
@@ -61,6 +73,23 @@ export const isNotUser = (id) => {
 
 export const displayRating = (rating, digits = 1) => {
     return rating === null ? '-' : rating.toFixed(digits);
+}
+
+const hexToRgb = (hex = '#000000') => {
+    // Remove the '#' if it exists
+    hex = hex.replace("#", "");
+
+    // Handle short form hex (e.g., "abc")
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+
+    // Convert hex to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    return `rgb(${r}, ${g}, ${b})`;
 }
 
 export const xor = (str, key) => {

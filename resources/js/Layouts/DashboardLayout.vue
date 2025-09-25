@@ -28,11 +28,16 @@ const links = [
         title: 'Account Settings',
         route: 'settings.account',
         icon: 'cog'
-    }
+    },
+    // {
+    //     title: 'Connections',
+    //     route: 'settings.connections',
+    //     icon: 'key'
+    // },
 ]
 </script>
 <template>
-    <app-layout :decorations="false" :title="title + ' - Dashboard'">
+    <app-layout :decorations="false">
         <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 py-4">
             <div class="flex flex-col md:w-1/4 space-y-2 px-2 md:px-0">
                 <Link v-for="link in links" :href="route(link.route)" :class="{ 'text-blue-500': route().current(link.route) }" class="x items-center space-x-2 pane transition-colors hover:bg-ui-800">

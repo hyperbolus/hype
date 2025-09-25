@@ -17,6 +17,7 @@ import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
 import Icon from "@/Components/Icon.vue";
 import {getUser, isAuthenticated} from "@/util.js";
+import Tooltip from "@/Components/Tooltip.vue";
 
 const props = defineProps({
     modelValue: {
@@ -26,7 +27,8 @@ const props = defineProps({
     editable: {
         type: Boolean,
         default: true,
-    }
+    },
+    max: Number
 })
 
 const source = ref(false);
@@ -189,6 +191,10 @@ const addVideoURL = ref('');
         </div>
         <editor-content class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
         <pre v-if="source" class="p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</pre>
+        <div v-if="editable" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
+            <span>{{ modelValue.split(' ').length }} Words</span>
+            <span>{{ modelValue.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
+        </div>
     </div>
 </template>
 <style>

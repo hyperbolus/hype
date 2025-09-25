@@ -59,8 +59,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'email',
         'referrer_id',
+
+        // Toggleable Visibility
         'location',
         'birthday',
+        'pronouns',
+        'weight',
+
+        // Relations
         'ips'
     ];
 
@@ -72,13 +78,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_seen' => 'datetime',
         'time_online' => 'integer',
         'reputation' => 'integer',
-        'signature_visibility' => 'boolean'
+        'signature_visibility' => 'boolean',
+
+        'location_visibility' => 'integer',
+        'birthday_visibility' => 'integer',
+        'pronoun_visibility' => 'integer',
+        'weight_visibility' => 'integer',
     ];
 
     /**
      * Attributes with variable visibility
      */
-    protected array $controlled = [];
+    protected array $controlled = [
+        'location' => 'location_visibility',
+        'birthday' => 'birthday_visibility',
+        'pronouns' => 'pronouns_visibility',
+        'weight' => 'weight_visibility',
+    ];
 
     protected static function booted()
     {
