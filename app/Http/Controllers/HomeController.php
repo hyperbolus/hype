@@ -17,15 +17,19 @@ use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function home()
+    public function home(): Responsable
     {
         $fpa = Setting::query()->where('key', '=', 'frontpage_article')->first();
 
         if ($fpa) {
-            $q = Article::query()->find($fpa);
+            $fpa = Article::query()->find($fpa->value);
         } else {
-            $q = Article::query()->latest()->first();
+            $fpa = Article::query()->latest()->first();
         }
+
+        $fpl = Setting::query()->where('key', '=', 'frontpage_level')->first();
+
+        if ($fpl) $fpl = Level::query()->withCount(['reviews'])->find($fpl->value);
 
 //        $dcr = Http::asForm()->withUserAgent('')
 //            ->post('https://www.boomlings.com/database/getGJComments21.php', [
@@ -47,7 +51,8 @@ class HomeController extends Controller
 //        }
 
         return page('Home', [
-            'frontpage_article' => $q,
+            'frontpage_article' => $fpa,
+            'frontpage_level' => $fpl,
             'recent_articles' => Article::query()
                 ->latest()
                 ->whereNot('id', '=', $q->id ?? 0)
@@ -67,7 +72,7 @@ class HomeController extends Controller
                 ->get(),
             'recent_videos' => Video::query()
                 ->latest()
-                ->limit(6)
+                ->limit(3)
                 ->get(),
             'newest_user' => User::query()->whereNotNull('email_verified_at')->latest()->first(),
             'online' => User::query()->latest('last_seen')->where('last_seen', '>', now()->subMinutes(30))->get()

@@ -3,15 +3,17 @@ import StatsPanel from "@/Components/StatsPanel.vue";
 import AppLayout from "@/Layouts/Dash.vue";
 import DiscordInvite from "@/Components/DiscordInvite.vue";
 import Username from "@/Components/Username.vue";
-import banner from "@/../images/Article22UpdateBanner.jpg"
-import {useTimeAgo} from "@vueuse/core";
 import route from "ziggy-js";
 import {Link} from "@inertiajs/vue3";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
-import ReviewSummary from "@/Components/ReviewSummary.vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
 import Icon from "@/Components/Icon.vue";
+import LevelTicket from "@/Components/LevelTicket.vue";
+import LevelReview from "@/Components/LevelReview.vue";
+import Timestamp from "@/Components/Timestamp.vue";
+import NewsArticle from "@/Components/NewsArticle.vue";
+import ComboBox from "@/Components/ComboBox.vue";
 
 const props = defineProps({
     recent_posts: Object,
@@ -20,46 +22,34 @@ const props = defineProps({
     recent_videos: Object,
     newest_user: Object,
     frontpage_article: Object,
+    frontpage_level: Object,
     daily_chat: Object,
     online: Object
 });
 </script>
 <template>
     <app-layout title="Home">
-        <div class="y space-y-2 md:w-2/3">
+        <div class="y space-y-2 md:w-3/4">
             <div class="y space-y-2">
-                <Link v-if="frontpage_article" :href="route('articles.show', frontpage_article.slug)" class="block relative aspect-video rounded overflow-hidden">
-                    <div class="absolute inset-0 hover:scale-105 transition-transform bg-contain" :style="`background-image: url(${banner});`"></div>
-                    <div class="absolute bottom-0 p-4" style="text-shadow: black 1px 1px 5px">
-                        <h2 class="font-bold text-3xl">{{ frontpage_article.title }}</h2>
-                        <p>{{ frontpage_article.blurb }}</p>
-                    </div>
-                </Link>
-                <div v-if="recent_articles.length > 0" class="x space-x-2">
-                    <Link v-for="article in recent_articles" :href="route('articles.show', article.slug)" class="relative w-1/2 aspect-video rounded overflow-hidden">
-                        <div class="absolute inset-0 hover:scale-105 transition-transform bg-contain" :style="`background-image: url(${banner});`"></div>
-                        <div class="absolute bottom-0 p-2" style="text-shadow: black 1px 1px 5px">
-                            <h2 class="font-bold text-lg">{{ article.title }}</h2>
-                        </div>
-                    </Link>
+                <div v-if="frontpage_article" class="x justify-between space-x-2">
+                    <h2 class="font-bold text-2xl">News</h2>
+                    <Link :href="route('news')" class="button">More News</Link>
                 </div>
-                <h2 class="font-bold text-2xl">Recent Forum Posts</h2>
-                <div class="pane y !p-0 divide-y divide-ui-800">
-                    <Link v-for="thread in recent_posts" :href="route('threads.show', thread.slug)" class="x px-4 py-2 items-center justify-between">
-                        <span class="y">
-                            <span class="font-bold">{{ thread.title }}</span>
-                            <Username class="text-sm" :user="thread.author"/>
-                        </span>
-                        <span class="y items-end">
-                            <Username :user="thread.last_post.author"/>
-                            <span class="text-sm">{{ useTimeAgo(thread.last_post.created_at).value }}</span>
-                        </span>
-                    </Link>
+                <NewsArticle v-if="frontpage_article" class="w-full" :article="frontpage_article"/>
+
+                <h2 v-if="frontpage_level" class="font-bold text-2xl">Featured Level</h2>
+                <div v-if="frontpage_level" class="rounded-lg bg-white border-2 border-white !mb-4 [box-shadow:#ffff_0_0_2px_0,#ffaf2b_0_0_15px_0px;]">
+                    <LevelTicket :level="frontpage_level"/>
                 </div>
-                <h2 class="font-bold text-2xl">Recent Videos</h2>
-                <div class="grid grid-cols-3 gap-4">
-                    <VideoLightbox v-for="video in recent_videos" :video="video" class="w-full"/>
+
+                <div class="x justify-between items-center space-x-2">
+                    <h2 class="font-bold text-2xl">Recent Level Reviews</h2>
+                    <Link :href="route('reviews.index')" class="button">More</Link>
                 </div>
+                <div class="y space-y-2">
+                    <LevelReview v-for="review in recent_reviews" :review="review"/>
+                </div>
+
                 <h2 class="font-bold text-2xl">Who's Online</h2>
                 <div class="pane">
                     <span v-for="user in online"><Username :card="false" :badge="false" :user="user"/>, </span>
@@ -67,7 +57,7 @@ const props = defineProps({
                 </div>
             </div>
         </div>
-        <div class="y space-y-2 md:w-1/3">
+        <div class="y space-y-2 md:w-1/4">
             <h2 v-if="false" class="font-bold text-2xl">Daily Chat</h2>
             <div v-if="false" class="y pane !px-0 !py-0 border border-ui-700">
                 <div class="x space-x-2 items-center bg-ui-950 rounded-t-lg justify-between border-b border-ui-700 p-2">
@@ -103,16 +93,36 @@ const props = defineProps({
                     <input class="rounded-b-lg border-0 bg-ui-950 w-full placeholder-ui-600" placeholder="Chat..."/>
                 </div>
             </div>
-            <h2 class="font-bold text-2xl">Recent Level Reviews</h2>
-            <div class="pane y !p-0 divide-y divide-ui-800">
-                <ReviewSummary v-for="review in recent_reviews" :review="review" :decorations="false"/>
+
+            <div class="x justify-between items-center space-x-2">
+                <h2 class="font-bold text-2xl">Forum Activity</h2>
+                <Link :href="route('forums.index')" class="button">More</Link>
             </div>
-            <DiscordInvite code="JJc8nndmFE"/>
+            <div class="pane !p-0 divide-y divide-ui-700">
+                <div class="px-4 py-2" v-if="recent_posts.length === 0">No activity</div>
+                <div v-for="thread in recent_posts" class="y px-4 py-2 space-y-1">
+                    <Link v-if="thread" :href="route('posts.show', thread.last_post)" class="font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{{ thread.title }}</Link>
+                    <span class="text-sm italic opacity-50" v-else>Deleted Post</span>
+                    <div class="x items-center text-xs"><Username :user="thread.last_post.author"/><span class="px-1">&bull;</span><Timestamp :time="thread.last_post.created_at"/></div>
+                </div>
+            </div>
+
+            <div class="x justify-between items-center space-x-2">
+                <h2 class="font-bold text-2xl">Recent Videos</h2>
+                <Link :href="route('videos.index')" class="button">More</Link>
+            </div>
+            <div class="grid grid-cols-1 gap-2">
+                <VideoLightbox v-for="video in recent_videos" :video="video" class="w-full"/>
+            </div>
+
             <StatsPanel/>
+
             <div v-if="newest_user" class="pane x justify-between items-center">
                 <span>Newest User</span>
                 <Username :user="newest_user"/>
             </div>
+
+            <DiscordInvite code="JJc8nndmFE"/>
         </div>
     </app-layout>
 </template>
