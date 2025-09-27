@@ -19,6 +19,7 @@
         "laravel/framework": "^11.0",
         "laravel/passport": "^v12.0",
         "laravel/scout": "^10.2",
+        "laravel/socialite": "^5.20",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "3.0",
         "meilisearch/meilisearch-php": "^1.4",
@@ -26,10 +27,13 @@
         "pion/laravel-chunk-upload": "^1.5",
         "pragmarx/google2fa": "^8.0",
         "propaganistas/laravel-disposable-email": "^2.4",
+        "pusher/pusher-php-server": "^7.2",
         "rybakit/msgpack": "^0.9.1",
+        "socialiteproviders/discord": "^4.2",
+        "socialiteproviders/patreon": "^5.0",
         "spatie/laravel-permission": "^6.0",
         "stancl/tenancy": "^3.7",
-        "tightenco/ziggy": "^v1.4.3"
+        "tightenco/ziggy": "^v1.8.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^v3.0",
