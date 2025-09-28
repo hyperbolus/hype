@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\System;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\System\Message;
 use App\Models\System\User;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -18,7 +17,7 @@ class MessageController extends Controller
     {
         $id = $request->user()->id;
 
-        if ($id === $user->id) abort(400);
+        if ($id === $user?->id) abort(400);
 
         $messages = [];
 
@@ -56,10 +55,10 @@ class MessageController extends Controller
             ->keyBy('id');
 
         return page('Chat', [
-            'conversations' => $conversations,
-            'unread' => $unread,
-            'messages' => $messages,
-            'recipient' => $user->withBlocks(),
+            'conversations' => fn () => $conversations,
+            'unread' => fn () => $unread,
+            'messages' => fn () => $messages,
+            'recipient' => fn () => $user?->withBlocks(),
         ])->meta($user ? 'Conversation with ' . $user->name : 'Messages', 'Chat with other users on Hyperbolus')
             ->breadcrumbs($user ? [crumb('Inbox', route('inbox.index'))] : []);
     }
@@ -67,7 +66,7 @@ class MessageController extends Controller
     /**
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $validator = Validator::make($request->input(), [
             'recipient_id' => 'required|exists:users,id|not_in:'.$request->user()->id,
@@ -91,7 +90,10 @@ class MessageController extends Controller
         $msg->body = $request->string('body');
         $msg->save();
 
-        return redirect()->route('inbox.show', $request->input('recipient_id'));
+        MessageSent::dispatch($request->integer('recipient_id'), $msg);
+        MessageSent::dispatch($request->user()->id, $msg);
+
+        return response('', 200);
     }
 
     public function update(Request $request, Message $message)
@@ -99,12 +101,12 @@ class MessageController extends Controller
         //
     }
 
-    public function destroy(Request $request, Message $message): JsonResponse
+    public function destroy(Request $request, Message $message)
     {
         if ($message->sender_id !== $request->user()->id) abort(403);
 
         $message->delete();
 
-        return response('', 200)->json();
+        return response('', 200);
     }
 }

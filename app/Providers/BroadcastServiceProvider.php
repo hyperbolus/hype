@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 class BroadcastServiceProvider extends ServiceProvider
 {
@@ -14,8 +17,18 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Broadcast::routes();
+        Broadcast::routes([
+            'middleware' => [
+                'web',
+                InitializeTenancyByDomain::class,
+                PreventAccessFromCentralDomains::class
+            ]
+        ]);
 
-        //require base_path('routes/channels.php');
+        Route::middleware([
+            'web',
+            InitializeTenancyByDomain::class,
+            PreventAccessFromCentralDomains::class,
+        ])->group(base_path('routes/channels.php'));
     }
 }

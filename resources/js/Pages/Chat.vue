@@ -6,7 +6,7 @@ import Avatar from "@/Components/Avatar.vue";
 import Username from "@/Components/Username.vue";
 import route from 'ziggy-js'
 import Timestamp from "@/Components/Timestamp.vue";
-import {onMounted, ref, useTemplateRef, watch} from "vue";
+import {onMounted, onUnmounted, ref, useTemplateRef, watch} from "vue";
 import {useElementSize} from "@vueuse/core";
 import Lightbox from "@/Components/Lightbox.vue";
 import Input from "@/Jetstream/Input.vue";
@@ -21,7 +21,9 @@ const props = defineProps({
     unread: Object
 });
 
-// todo: add other buttons next to delete button etc also muteing and menu buttons on convo cards and header
+// todo@later: add other buttons next to delete button etc also muteing and menu buttons on convo cards and header
+const convos = ref(props.conversations);
+const unreads = ref(props.unread);
 
 const msgs = ref(props.messages.data);
 const page = ref(props.messages.current_page)
@@ -32,26 +34,36 @@ const message = useForm({
 })
 
 const appendingMsg = ref(false);
+const sendingMsg = ref(false);
+const pending = ref(null);
 
 const sendMessage = () => {
-    if (!message.body || message.processing) return;
+    if (!message.body || sendingMsg.value) return;
+    // probably only one pending message can be sent at a time?
+    // todo@later: discord style where you can keep sending
+    sendingMsg.value = true;
 
-    message.post(route('inbox.store'), {
-        replace: true,
-        errorBag: 'default',
-        onSuccess: (e) => {
-            appendingMsg.value = true;
-            updatePercentScroll();
+    updatePercentScroll();
+
+    pending.value = 0;
+    msgs.value.unshift({
+        id: -1,
+        sender_id: getUser().id,
+        recipient_id: props.recipient.id,
+        body: message.body,
+        updated_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+    })  ;
+
+    axios.post(route('inbox.store'), {
+        recipient_id: message.recipient_id,
+        body: message.body
+    }).then(res => {
+        if (res.status !== 200) {
+            msgs.value.splice(pending.value, 1);
+            sendingMsg.value = false;
+        } else {
             message.body = null;
-            let newList = e.props.messages.data;
-
-            if (msgs.value.length > 0) {
-                for (const msg in newList) {
-                    if (newList[msg].id === msgs.value[0].id) msgs.value = [...newList.slice(0, msg), ...msgs.value];
-                }
-            } else {
-                msgs.value = newList;
-            }
         }
     })
 }
@@ -81,7 +93,13 @@ const msgClasses = (msg, i) => {
 
     if (msg.sender_id === msgs.value[i + 1]?.sender_id) classes += other ? 'rounded-tl' : 'rounded-tr';
 
-    classes += other ? ' bg-ui-700 rounded-bl' : ' text-white bg-blue-500 rounded-br';
+    classes += other ? ' rounded-bl' : ' rounded-br';
+
+    if (msg.id === -1) {
+        classes += other ? ' bg-ui-700/50 text-ui-400' : ' bg-blue-500/50 text-ui-300';
+    } else {
+        classes += other ? ' bg-ui-700' : ' bg-blue-500 text-white';
+    }
 
     return classes;
 }
@@ -99,6 +117,33 @@ const percentScrolled = ref(1);
 const scrollTop = ref(0);
 
 onMounted(() => {
+    Echo.private(`conversations.${getUser().id}`)
+        .listen('MessageSent', (e) => {
+            // if currently focused convo
+            if ([e.message.recipient_id, e.message.sender_id].includes(props.recipient?.id)) {
+                appendingMsg.value = true;
+                updatePercentScroll();
+
+                if (pending.value !== null) msgs.value.splice(pending.value, 1); // delete pending ghost
+                msgs.value.unshift(e.message);
+
+                pending.value = null;
+                sendingMsg.value = false;
+            } else {
+                fetch('.', {
+                    headers: {
+                        "X-Inertia": true,
+                        "X-Inertia-Partial-Component": 'Chat',
+                        "X-Inertia-Partial-Data": 'conversations,unread',
+                    }
+                }).then(res => res.json())
+                    .then(data => {
+                        convos.value = data.props.conversations;
+                        unreads.value = data.props.unread;
+                    });
+            }
+        });
+
     if (!props.recipient) return;
 
     const { height } = useElementSize(messageContainer);
@@ -123,8 +168,14 @@ onMounted(() => {
 
         appendingMsg.value = false;
         fetching.value = false;
-    })
+    });
 });
+
+onUnmounted(() => {
+    if (!props.recipient) return;
+
+    Echo.leave(`conversations.${getUser().id}`);
+})
 
 const fetching = ref(false);
 
@@ -199,20 +250,20 @@ const deleteMessage = (id) => {
                         </template>
                     </Lightbox>
                 </div>
-                <Pagination :list="conversations"/>
-                <div v-if="conversations.total === 0" class="pane text-center italic text-ui-500">damn nobody wanna talk to u fr (0 messages)</div>
+                <Pagination :list="convos"/>
+                <div v-if="convos.total === 0" class="pane text-center italic text-ui-500">damn nobody wanna talk to u fr (0 messages)</div>
                 <div class="relative grow overflow-y-auto overflow-x-hidden scroller">
                     <div class="y absolute inset-0">
-                        <Link v-for="conversation in conversations.data" :href="route('inbox.show', other(conversation).id)" class="x justify-between items-center p-4 space-x-2 hover:bg-ui-900 transition-colors" :class="{'bg-ui-800': recipient?.id === other(conversation).id}">
+                        <Link v-for="conversation in convos.data" :href="route('inbox.show', other(conversation).id)" :key="other(conversation).id" class="x justify-between items-center p-4 space-x-2 hover:bg-ui-900 transition-colors" :class="{'bg-ui-800': recipient?.id === other(conversation).id}">
                             <Avatar class="shrink-0" width="w-10" :user="other(conversation)"/>
                             <div class="y grow">
                                 <div class="x items-center space-x-2">
                                     <Username :href="false" :card="false" :user="other(conversation)"/>
                                     <Timestamp position="right" class="text-ui-500 text-sm" :time="conversation.created_at"/>
                                 </div>
-                                <p class="line-clamp-1 text-ui-500 overflow-hidden">{{ conversation.body }}</p>
+                                <p class="line-clamp-1 text-ui-500 overflow-hidden">{{ recipient && other(conversation).id === recipient.id && msgs ? msgs[0].body : conversation.body }}</p>
                             </div>
-                            <span v-show="unread.hasOwnProperty(conversation.id)" class="flex h-3 w-3 relative">
+                            <span v-show="unreads.hasOwnProperty(conversation.id)" class="flex h-3 w-3 relative">
                             <span class="animate-ping absolute inline-flex bg-blue-500 rounded-full h-full w-full opacity-75"></span>
                             <span class="inline-flex bg-blue-500 rounded-full h-3 w-3"></span>
                         </span>
@@ -241,12 +292,15 @@ const deleteMessage = (id) => {
                             <div ref="messageContainer" class="flex flex-col-reverse">
                                 <div class="y mb-1 relative group" :class="{'items-end': !isOther(message)}" v-for="(message, i) in msgs">
                                     <div class="flex items-center w-full justify-end" :class="{'flex-row-reverse': isOther(message)}">
-                                        <div v-if="!isOther(message)" v-show="!deleting" @click="deleteMessage(message.id)" class="p-2 hidden group-hover:block text-ui-600 hover:text-red-500 cursor-pointer transition-colors">
+                                        <div v-if="!isOther(message) && message.id !== -1" v-show="!deleting" @click="deleteMessage(message.id)" class="p-2 hidden group-hover:block text-ui-600 hover:text-red-500 cursor-pointer transition-colors">
                                             <Icon name="trash" class="size-5"/>
                                         </div>
                                         <p class="y px-4 py-2 rounded-3xl max-w-[80%] break-words whitespace-break-spaces w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
                                     </div>
-                                    <span v-if="message.sender_id !== msgs[i - 1]?.sender_id" class="text-ui-400 text-ui-600"><Timestamp :position="isOther(message) ? 'right' : 'left'" :time="message.created_at"/></span>
+                                    <div v-if="message.sender_id !== msgs[i - 1]?.sender_id" class="text-ui-400 text-ui-600">
+                                        <span v-if="message.id === -1" >Pending...</span>
+                                        <Timestamp v-else :position="isOther(message) ? 'right' : 'left'" :time="message.created_at"/>
+                                    </div>
                                 </div>
                                 <p v-if="page === messages.last_page" class="border-b border-ui-700 pb-1 text-ui-500 w-full text-center mb-4">Start of conversation</p>
                                 <div v-else class="y items-center pb-4 pt-10">
@@ -262,7 +316,7 @@ const deleteMessage = (id) => {
                             <textarea @keydown="keypress" rows="1" v-model="message.body" placeholder="Start writing" class="px-1 py-1 resize-none break-all absolute overflow-hidden inset-0 border-none placeholder-ui-600 bg-transparent focus-visible:ring-0"></textarea>
                             <div aria-hidden="true" class="invisible whitespace-pre-wrap break-all px-1 py-1">{{ message.body }}&ZeroWidthSpace;</div>
                         </div>
-                        <button :disabled="message.processing" @click="sendMessage" class="w-fit transition-colors" :class="{'text-ui-600': message.processing}">
+                        <button :disabled="sendingMsg" @click="sendMessage" class="w-fit transition-colors" :class="{'text-ui-600': sendingMsg}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                             </svg>
