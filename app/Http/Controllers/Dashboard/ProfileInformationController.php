@@ -44,7 +44,7 @@ class ProfileInformationController extends Controller
         $user->location = $request->string('location');
         $user->location_visibility = $request->boolean('location_visibility');
 
-        $user->birthday = $request->string('birthday');
+        $user->birthday = $request->date('birthday');
         $user->birthday_visibility = $request->boolean('birthday_visibility');
 
         $user->bio = $request->string('bio');

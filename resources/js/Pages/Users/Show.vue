@@ -47,6 +47,10 @@ const serviceColor = ['text-white', 'text-cyan-300','text-fuchsia-300', 'text-am
                             <span v-else>{{ field.value ?? profile[key] }}</span>
                         </div>
                     </template>
+                    <div v-if="profile.birthday" class="x justify-between p-2">
+                        <span class="capitalize">Birthday</span>
+                        <span>{{ new Date(profile.birthday).toLocaleDateString() }} ({{ yearsSince(profile.birthday) }}yo)</span>
+                    </div>
                 </div>
                 <p v-if="profile.birthday && isSameDay(profile.birthday)" class="pane font-bold text-center !mt-2 text-fuchsia-300">Happy Birthday!!!</p>
                 <p v-if="profileAge > 0" class="pane font-bold text-center !mt-2" :class="serviceColor">{{ capitalize(writtenNumber(profileAge)) }} Years of Service</p>
