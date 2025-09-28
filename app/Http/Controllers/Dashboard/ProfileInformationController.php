@@ -22,7 +22,7 @@ class ProfileInformationController extends Controller
             'pronouns' => ['string', 'max:32', 'nullable'],
             'pronouns_visibility' => ['integer', Rule::in([0, 1])],
 
-            'flag' => [Rule::in(array_merge(...Hype::$flags))],
+            'flag' => [Rule::in(array_merge(...Hype::$flags)), 'nullable'],
 
             'location' => ['string', 'max:32', 'nullable'],
             'location_visibility' => ['integer', Rule::in([0, 1])],
