@@ -19,20 +19,20 @@ class ProfileInformationController extends Controller
         $user = $request->user();
 
         $user->update($request->validate([
-            'pronouns' => ['string', 'max:32'],
+            'pronouns' => ['string', 'max:32', 'nullable'],
             'pronouns_visibility' => ['integer', Rule::in([0, 1])],
 
             'flag' => [Rule::in(array_merge(...Hype::$flags))],
 
-            'location' => ['string', 'max:32'],
+            'location' => ['string', 'max:32', 'nullable'],
             'location_visibility' => ['integer', Rule::in([0, 1])],
 
-            'birthday' => ['date'],
+            'birthday' => ['date', 'nullable'],
             'birthday_visibility' => ['integer', Rule::in([0, 1])],
 
-            'bio' => ['string', 'max:2000'],
+            'bio' => ['string', 'max:2000', 'nullable'],
 
-            'signature' => ['string', 'max:200'],
+            'signature' => ['string', 'max:200', 'nullable'],
             'signature_visibility' => ['integer', Rule::in([0, 1])],
         ]));
 
