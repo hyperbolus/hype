@@ -102,7 +102,6 @@ class User extends Authenticatable implements MustVerifyEmail
             foreach ($user->controlled as $field => $vis) {
                 $visibility = $user->getAttribute($vis);
                 if ($visibility === 1) $user->makeVisible($field);
-                $user->makeVisible($field);
             }
         });
     }
