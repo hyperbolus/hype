@@ -30,14 +30,14 @@ const profileForm = useForm({
     location: profile.value.location,
     location_visibility: profile.value.location_visibility|0,
 
-    birthday: new Date(profile.value.birthday).toISOString().slice(0,10),
+    birthday: profile.value.birthday ? new Date(profile.value.birthday).toISOString().slice(0,10) : null,
     birthday_visibility: profile.value.birthday_visibility|0,
-    //age_visibility: profile.value.flag,
+    //age_visibility: profile.value.flag, todo@later year only birthday
 
     bio: profile.value.bio ?? '',
 
     signature: profile.value.signature ?? '',
-    signature_visibility: profile.value.signature_visibility|0,
+    signature_visibility: profile.value.signature_visibility,
 });
 
 const imageForm = useForm({
@@ -311,7 +311,10 @@ onUnmounted(() => {
             </div>
             <div v-for="(field, key) in fields" class="flex flex-col md:flex-row space-y-1 md:space-y-0 md:space-x-2 mt-2">
                 <div class="y w-full" :class="{'md:w-1/2': field.visibility}">
-                    <span class="mt-2 capitalize text-sm px-2">{{ key }}</span>
+                    <div class="x justify-between mt-2 capitalize text-sm px-2">
+                        <span>{{ key }}</span>
+                        <button @click="profileForm[key] = null" class="text-ui-500 hover:text-white hover:underline">Reset</button>
+                    </div>
                     <Input v-if="field.type === 'field'" v-model="profileForm[key]" type="text" :placeholder="field.placeholder ?? capitalize(key)"/>
                     <input v-if="field.type === 'date'" v-model="profileForm[key]" type="date" class="px-2 py-1 bg-ui-800 rounded-lg border-none w-full"/>
                     <Textbox v-if="field.type === 'area'" v-model="profileForm[key]" :max="field.max" :placeholder="field.placeholder ?? capitalize(key)"/>
