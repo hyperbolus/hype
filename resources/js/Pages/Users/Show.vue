@@ -6,6 +6,7 @@ import ProfileComments from "@/Pages/Users/Partials/ProfileComments.vue";
 import Header from "@/Pages/Users/Partials/Header.vue";
 import RatingsCurve from "@/Components/RatingsCurve.vue";
 import {capitalize, isSameDay, writtenNumber, yearsSince} from "@/util.js";
+import TipTap from "@/Components/TipTap.vue";
 
 const props = defineProps({
     profile: Object,
@@ -55,7 +56,7 @@ const serviceColor = ['text-white', 'text-cyan-300','text-fuchsia-300', 'text-am
                 <div class="y space-y-4 lg:w-1/2">
                     <div class="y md:rounded-lg bg-ui-900 divide-y divide-ui-700">
                         <div class="md:rounded-t-lg bg-ui-800 px-2 py-1">Bio</div>
-                        <p class="px-4 py-2 text-sm whitespace-pre-wrap" v-if="profile.bio">{{ profile.bio }}</p>
+                        <TipTap v-if="profile.bio && profile.bio !== '<p></p>'" :editable="false" v-model="profile.bio"/>
                         <span v-else class="opacity-50 italic px-4 py-2">This user didn't write anything</span>
                     </div>
                     <div v-if="profile.signature" class="y md:rounded-lg bg-ui-900 divide-y divide-ui-700">
