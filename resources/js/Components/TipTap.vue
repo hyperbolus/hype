@@ -50,7 +50,10 @@ const editor = useEditor({
     extensions: extensions,
     content: props.modelValue,
     onUpdate: () => {
-        if (!mutating.value) emit('update:modelValue', editor.value.getHTML())
+        if (!mutating.value) {
+            changing.value = true;
+            emit('update:modelValue', editor.value.getHTML())
+        }
         mutating.value = false;
     },
     onCreate: () => {
@@ -60,8 +63,8 @@ const editor = useEditor({
 
 const source = ref(false);
 
-// used to prevent runaway event loops
-const mutating = ref(false);
+const changing = ref(false); // internal change, don't reset cursor position and stuff
+const mutating = ref(false); // external change, used to prevent runaway event loops
 
 watch(() => props.editable, (v) => {
     if (editor.value) editor.value.setEditable(v)
@@ -69,7 +72,8 @@ watch(() => props.editable, (v) => {
 
 watch(() => props.modelValue, (v) => {
     mutating.value = true;
-    editor.value.commands.setContent(v);
+    if (!changing.value) editor.value.commands.setContent(v);
+    changing.value = false;
 })
 
 const addLinkURL = ref('');
