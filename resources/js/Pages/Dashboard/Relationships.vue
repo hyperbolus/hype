@@ -18,6 +18,7 @@ const props = defineProps({
         <div class="y">
             <h2 class="font-bold mx-2">Blocked Users</h2>
             <div class="y space-y-2 bg-ui-900 p-2 rounded-lg">
+                <span v-if="sent.length === 0" class="italic text-ui-500">You've got 0 opps</span>
                 <div class="x space-x-2 justify-between items-center p-2 bg-ui-800 rounded-md" v-for="user in sent">
                     <div class="x space-x-2 items-center">
                         <Avatar :user="user"/>
