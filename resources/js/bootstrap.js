@@ -22,9 +22,9 @@ window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    key: 'hyperbolus',
     cluster: '',
-    wsHost: import.meta.env.VITE_PUSHER_HOST,
+    wsHost: 'hyperbolus.net',
     wsPath: '/gateway',
     wsPort: 80,
     wssPort: 443,
