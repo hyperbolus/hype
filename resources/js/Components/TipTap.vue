@@ -53,8 +53,9 @@ const editor = useEditor({
         if (!mutating.value) {
             changing.value = true;
             emit('update:modelValue', editor.value.getHTML())
+        } else {
+            mutating.value = false;
         }
-        mutating.value = false;
     },
     onCreate: () => {
         editor.value.setEditable(props.editable)
@@ -71,9 +72,12 @@ watch(() => props.editable, (v) => {
 }, {immediate: true})
 
 watch(() => props.modelValue, (v) => {
-    mutating.value = true;
-    if (!changing.value) editor.value.commands.setContent(v);
-    changing.value = false;
+    if (!changing.value) {
+        mutating.value = true;
+        editor.value.commands.setContent(v);
+    } else {
+        changing.value = false;
+    }
 })
 
 const addLinkURL = ref('');
