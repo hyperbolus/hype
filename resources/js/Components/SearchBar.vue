@@ -135,7 +135,7 @@ const results = computed(() => {
                     </div>
                     <div class="y px-2" v-if="searches[lastQuery].results[1].hits.length > 0">
                         <span class="text-xs text-ui-500 font-bold uppercase">Users</span>
-                        <Username v-for="hit in searches[lastQuery].results[1].hits" :user="hit"/>
+                        <Username v-for="hit in searches[lastQuery].results[1].hits" :card="false" :key="hit.id" :user="hit"/>
                     </div>
                 </div>
             </div>
