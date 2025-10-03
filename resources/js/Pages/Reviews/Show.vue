@@ -13,7 +13,7 @@ const props = defineProps({
     review: Object
 });
 
-const weight = props.review.weight ?? props.review.author?.weight ?? 0;
+const weight = props.review.weight ?? props.review.author?.weight ?? props.weight ?? 1;
 </script>
 <template>
     <app-layout>
