@@ -30,7 +30,7 @@ class ProfileInformationController extends Controller
             'birthday' => ['date', 'nullable'],
             'birthday_visibility' => ['integer', Rule::in([0, 1])],
 
-            'bio' => ['string', 'max:2000', 'nullable'],
+            'bio' => ['string', 'max:4000', 'nullable'],
 
             'signature' => ['string', 'max:200', 'nullable'],
             'signature_visibility' => ['integer', Rule::in([0, 1])],
