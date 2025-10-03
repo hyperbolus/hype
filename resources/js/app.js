@@ -24,6 +24,6 @@ createInertiaApp({
             .mixin({ methods: { route: window.route } })
             .mount(el);
     },
-    progress: { color: '#34d399' }
+    progress: { color: '#34d399', delay: 350 }
 }).then();
 
