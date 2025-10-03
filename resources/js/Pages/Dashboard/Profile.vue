@@ -13,6 +13,7 @@ import TipTap from "@/Components/TipTap.vue";
 import {capitalize, getUser, invisiblePixel} from "@/util.js";
 import {useFileDialog} from "@vueuse/core";
 import route from "ziggy-js";
+import Checkbox from "@/Jetstream/Checkbox.vue";
 
 const props = defineProps({
     flags: Object
@@ -329,6 +330,10 @@ onUnmounted(() => {
                     </select>
                 </div>
             </div>
+            <label class="x space-x-2 items-center px-2">
+                <Checkbox v-model="profileForm['signature_visibility']"/>
+                <span>Show signature by default</span>
+            </label>
             <Errors bag="profile"/>
             <div class="x space-x-2 items-center mt-2">
                 <Button @click="saveProfile" class="w-fit" :disabled="!profileForm.isDirty || profileForm.processing">Save</Button>
