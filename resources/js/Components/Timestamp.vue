@@ -53,19 +53,7 @@ const timeLength = (seconds) => {
 
     return time;
 }
-
-const result = ref(null)
-
-onBeforeMount(() => {
-    result.value = props.length ? timeLength(props.time) : useTimeAgo(props.time)
-})
-
 </script>
 <template>
-    <template v-if="length">
-        {{ result }}
-    </template>
-    <Tooltip v-else :position="position" class="select-none inline-block" container-class="text-ui-400" :message="new Date(time).toLocaleString()">
-        {{ result }}
-    </Tooltip>
+    <Tooltip :position="position" class="select-none inline-block" container-class="text-ui-400" :message="length ? `${time}s` : new Date(time).toLocaleString()">{{ length ? timeLength(time) : useTimeAgo(time) }}</Tooltip>
 </template>

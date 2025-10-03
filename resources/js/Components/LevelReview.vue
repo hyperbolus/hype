@@ -59,13 +59,15 @@ watch(height, () => {
     <div class="y items-center pane !px-2 relative z-0">
         <div v-if="review.level" class="absolute inset-0 rounded-md bg-center bg-cover [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.4)_100%);]" :style="`background-image: url(${review.level.banner_url ?? 'https://levelthumbs.prevter.me/thumbnail/' + review.level.id + '/small'})`"></div>
         <div class="z-10 flex flex-col md:flex-row gap-2 items-center w-full justify-between">
-            <Link :href="route('levels.show', review.level.id)" v-if="review.level" class="x items-center space-x-2">
-                <img class="h-14" :src="face(review.level)" alt=""/>
+            <div v-if="review.level" class="x items-center space-x-2">
+                <Link :href="route('levels.show', review.level.id)">
+                    <img class="h-14" :src="face(review.level)" alt=""/>
+                </Link>
                 <div class="y">
-                    <h2 class="font-bold text-2xl">{{ review.level.name }}</h2>
+                    <Link :href="route('levels.show', review.level.id)" class="font-bold text-2xl">{{ review.level.name }}</Link>
                     <Link :href="route('profiles.show', review.level.creator)" class="w-fit">{{ review.level.creator }}</Link>
                 </div>
-            </Link>
+            </div>
             <div v-else class="x items-center space-x-2 px-2">
                 <Avatar v-if="review.author" width="w-10 shrink-0" :user="review.author"/>
                 <div class="y">

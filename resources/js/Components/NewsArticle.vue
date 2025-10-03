@@ -19,11 +19,11 @@ const props = defineProps({
             <div class="absolute inset-0 hover:scale-105 transition-transform bg-cover bg-center" :style="`background-image: url(${article.banner ?? banner});`"></div>
         </Link>
         <div class="y px-2 py-2" :class="{'absolute z-10 backdrop-blur-sm bg-ui-1000/50': card, 'bottom-0 h-fit w-full rounded-b-lg pt-1': small, 'rounded m-2 inset-0': !small && card, 'justify-between space-y-2': !small, 'md:pl-4 grow': !card}">
-            <Link :href="route('articles.show', article.slug)" class="y">
+            <div class="y">
                 <span v-if="article.tagline && !small" class="tracking-widest uppercase text-xs mt-1 md:mt-0" :class="card ? 'text-ui-100' : 'text-ui-400'">{{ article.tagline }}</span>
                 <Link :href="route('articles.show', article.slug)" class="font-bold" :class="small ? 'px-1' : 'text-2xl'">{{ article.title }}</Link>
-                <span v-if="article.blurb && !small" class="mt-2">{{ article.blurb }} <u>read more...</u></span>
-            </Link>
+                <Link :href="route('articles.show', article.slug)" v-if="article.blurb && !small" class="mt-2">{{ article.blurb }} <u>read more...</u></Link>
+            </div>
             <div class="x space-x-2 items-end justify-between">
                 <div class="x space-x-2 items-center shrink-0 -mb-1">
                     <Avatar v-if="!small" :user="article.author"/>

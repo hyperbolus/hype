@@ -11,9 +11,12 @@ const props = defineProps({
 
 const card = ref(null)
 const open = ref(false)
+const mounted = ref(false);
 
 onMounted(() => {
-    if (props.image) card.value.style.setProperty('--url', `url('${bg}')`)
+    if (props.image) card.value.style.setProperty('--url', `url('${bg}')`);
+
+    mounted.value = true;
 })
 
 const lerp = (min, max, alpha) => {
@@ -53,7 +56,7 @@ const close = () => {
     <div class="cursor-pointer" @click="open = true">
         <img v-if="image" class="rounded" :class="classes" :alt="alt" :src="image"/>
         <slot/>
-        <teleport to="#body">
+        <teleport v-if="mounted" to="#teleports">
             <div @mousemove="tilt" ref="container" @click="open = false" class="cursor-pointer cursor-none items-center justify-center z-[100] fixed inset-0 bg-ui-1000/50" :class="open ? 'flex' : 'hidden'">
                 <transition
                     enter-active-class="transition ease-out duration-200"

@@ -46,31 +46,31 @@ const resumable = ref(new Resumable({
 }))
 
 onMounted(() => {
-    resumable.value.assignBrowse(dropbox.value)
-    resumable.value.assignDrop(dropbox.value)
+    resumable.value.assignBrowse(dropbox.value);
+    resumable.value.assignDrop(dropbox.value);
+
+    resumable.value.on('fileAdded', function(file, event){
+        filelist.value[file.uniqueIdentifier] = {
+            'name': file.fileName,
+            'size': file.size,
+            'progress': file.progress()
+        }
+        resumable.value.upload()
+    })
+    resumable.value.on('fileSuccess', function(file, message){
+        console.log('file_success')
+    })
+    resumable.value.on('fileError', function(file, message){
+        console.log('file_error')
+    })
+    resumable.value.on('fileProgress', function(file, message){
+        filelist.value[file.uniqueIdentifier]['progress'] = file.progress()
+        progress.value = resumable.value.progress()
+    })
 })
 
 const filelist = ref({})
 const progress = ref(0)
-
-resumable.value.on('fileAdded', function(file, event){
-    filelist.value[file.uniqueIdentifier] = {
-        'name': file.fileName,
-        'size': file.size,
-        'progress': file.progress()
-    }
-    resumable.value.upload()
-})
-resumable.value.on('fileSuccess', function(file, message){
-    console.log('file_success')
-})
-resumable.value.on('fileError', function(file, message){
-    console.log('file_error')
-})
-resumable.value.on('fileProgress', function(file, message){
-    filelist.value[file.uniqueIdentifier]['progress'] = file.progress()
-    progress.value = resumable.value.progress()
-})
 </script>
 <template>
     <div class="pane !p-0 border border-ui-700">
