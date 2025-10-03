@@ -1,23 +1,20 @@
 <script setup>
 import {EditorContent, useEditor,} from '@tiptap/vue-3'
 import {ref, watch} from "vue";
-import {Underline} from "@tiptap/extension-underline";
 import {Youtube} from "@tiptap/extension-youtube";
 import {TextAlign} from "@tiptap/extension-text-align";
-import {Placeholder} from "@tiptap/extension-placeholder";
 import {TextStyle} from "@tiptap/extension-text-style";
-import {Color} from "@tiptap/extension-color";
-import {CharacterCount} from "@tiptap/extension-character-count";
+import {CharacterCount, Placeholder} from "@tiptap/extensions";
 import {Image} from "@tiptap/extension-image";
-import {Link} from "@tiptap/extension-link";
 import {StarterKit} from "@tiptap/starter-kit";
-import { HSpoiler } from "@/Components/TipTap/Extensions.js";
+import {HSpoiler} from "@/Components/TipTap/Extensions.js";
 
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
 import Icon from "@/Components/Icon.vue";
 import {getUser, isAuthenticated} from "@/util.js";
 import Tooltip from "@/Components/Tooltip.vue";
+import {generateHTML, generateJSON} from "@tiptap/html";
 
 const props = defineProps({
     modelValue: {
@@ -34,21 +31,23 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const extensions = [
     StarterKit,
-    Underline,
     Youtube,
     TextAlign,
     TextStyle,
     Placeholder,
     Image,
-    Color,
-    Link,
     CharacterCount,
     HSpoiler,
     // TODO: Mentions
 ];
+
+const mounted = ref(false);
+
 const editor = useEditor({
     extensions: extensions,
-    content: props.modelValue,
+    content: generateJSON(props.modelValue, extensions),
+    immediatelyRender: true,
+    // element: null,
     onUpdate: () => {
         if (!mutating.value) {
             changing.value = true;
@@ -58,9 +57,12 @@ const editor = useEditor({
         }
     },
     onCreate: () => {
-        editor.value.setEditable(props.editable)
+        mounted.value = true;
+        editor.value.setEditable(props.editable);
+        // console.log('peep[ee')
+        // console.log(generateHTML(editor.value.getJSON(), extensions))
     }
-})
+});
 
 const source = ref(false);
 
@@ -198,7 +200,10 @@ const addVideoURL = ref('');
                 </Dropdown>
             </div>
         </div>
-        <editor-content class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
+        <editor-content v-if="mounted" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
+        <div v-else-if="modelValue" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert">
+            <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(modelValue, extensions), extensions)"></div>
+        </div>
         <pre v-if="source" class="p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</pre>
         <div v-if="editable" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
             <span>{{ modelValue.split(' ').length }} Words</span>
@@ -206,45 +211,3 @@ const addVideoURL = ref('');
         </div>
     </div>
 </template>
-<style>
-div[data-youtube-video] > iframe {
-    @apply rounded-lg aspect-video max-h-[20rem] w-full
-}
-
-.rounded > .ProseMirror {
-    padding: 0.5rem 0.75rem !important;
-}
-.ProseMirror-focused {
-    outline: none;
-}
-
-.ProseMirror p.is-editor-empty:first-child::before {
-    opacity: 0.5;
-    content: 'Write something nice...';
-    float: left;
-    height: 0;
-    pointer-events: none;
-}
-
-
-.ProseMirror li > p {
-    display: inline;
-}
-
-.ProseMirror li > ol, .ProseMirror li > ul {
-    margin-left: 1rem;
-}
-
-.ProseMirror a {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.ProseMirror ol { list-style-type: decimal;}
-.ProseMirror ol ol { list-style-type: lower-alpha;}
-.ProseMirror ol ol ol {list-style-type: lower-roman;}
-
-.ProseMirror ul { list-style-type: disc ;}
-.ProseMirror ul ul { list-style-type: circle ;}
-.ProseMirror ul ul ul {list-style-type: square ;}
-</style>

@@ -88,3 +88,44 @@ body {
         --color-ui-1000: 26  17  22 ;
     }
 }
+
+div[data-youtube-video] > iframe {
+    @apply rounded-lg aspect-video max-h-[20rem] w-full
+}
+
+.rounded > .ProseMirror {
+    padding: 0.5rem 0.75rem !important;
+}
+.ProseMirror-focused {
+    outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    opacity: 0.5;
+    content: 'Write something nice...';
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+
+.ProseMirror li > p {
+    display: inline;
+}
+
+.ProseMirror li > ol, .ProseMirror li > ul {
+    margin-left: 1rem;
+}
+
+.ProseMirror a {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ProseMirror ol { list-style-type: decimal;}
+.ProseMirror ol ol { list-style-type: lower-alpha;}
+.ProseMirror ol ol ol {list-style-type: lower-roman;}
+
+.ProseMirror ul { list-style-type: disc ;}
+.ProseMirror ul ul { list-style-type: circle ;}
+.ProseMirror ul ul ul {list-style-type: square ;}
