@@ -1,4 +1,4 @@
-import {useDark, useToggle} from "@vueuse/core";
+import {useDark, useStorage, useToggle} from "@vueuse/core";
 import {ref} from "vue";
 import {router, usePage} from "@inertiajs/vue3";
 import route from "ziggy-js";
@@ -8,6 +8,28 @@ import {useSettingsStore} from "@/stores/settings.ts";
 //     selector: '#body'
 // }));
 export const isDark = ref(true);
+
+
+export const GDPR_VERSION = 1;
+export const GDPR_KEY = 'HYPE::GDPR_ACK';
+export const getGDPR = () => {
+    let consent = useStorage(GDPR_KEY, {
+        version: GDPR_VERSION,
+        data: {
+            tracking: false,
+            targeting: false
+        },
+        dismissed: false
+    });
+
+    // perform update checks here
+
+    return consent;
+}
+
+export const promptGDPR = () => {
+    getGDPR().value.dismissed = false;
+}
 
 export const getGame = () => {
     return useSettingsStore().settings['game'] ? useSettingsStore().settings['game']['value'] : '';

@@ -11,6 +11,7 @@ import {useSettingsStore} from "@/stores/settings.ts";
 import {useStatisticsStore} from "@/stores/statistics.ts";
 import route from "ziggy-js";
 import {getGame, isAuthenticated} from "@/util.js";
+import CookieConsent from "@/Components/CookieConsent.vue";
 
 const props = defineProps({
     title: {
@@ -63,5 +64,6 @@ onBeforeMount(() => {
             </div>
         </div>
         <Footer/>
+        <CookieConsent/>
     </div>
 </template>
