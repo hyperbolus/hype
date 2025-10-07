@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'gtag_id' => env('GTAG_ID'),
+    'adsense_client' => env('ADSENSE_CLIENT'),
+
     'morph_map' => [
         1 => \App\Models\System\User::class,
         11 => \App\Models\Content\Tag::class,
@@ -15,6 +18,7 @@ return [
 
         61 => \App\Models\Forge\Style::class,
     ],
+
     'named_morph_map' => [
         'user' => 1,
         'tag' => 11,

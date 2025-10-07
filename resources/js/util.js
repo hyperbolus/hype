@@ -1,5 +1,5 @@
 import {useDark, useStorage, useToggle} from "@vueuse/core";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {router, usePage} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import {useSettingsStore} from "@/stores/settings.ts";
@@ -22,7 +22,36 @@ export const getGDPR = () => {
         dismissed: false
     });
 
-    // perform update checks here
+    if (window.gtag) {
+        let tracking = consent.value.data.tracking ? 'granted' : 'denied';
+        let targeting = consent.value.data.targeting ? 'granted' : 'denied';
+        window.gtag('consent', 'update', {
+            'ad_personalization': targeting,
+            'ad_user_data': tracking,
+            'ad_storage': tracking,
+            'analytics_storage': tracking,
+        });
+
+        // Updated consents, we need to ask again
+        if (consent.value.version < GDPR_VERSION) consent.value.dismissed = false;
+
+        watch(consent, (v, old) => {
+            let tracking = v.data.tracking ? 'granted' : 'denied';
+            let targeting = v.data.targeting ? 'granted' : 'denied';
+
+            console.log(`GTAG - tracking: ${tracking} targeting: ${targeting}`)
+
+            if (v.data.tracking !== old.data.tracking) window.gtag('consent', 'update', {
+                'ad_user_data': tracking,
+                'ad_storage': tracking,
+                'analytics_storage': tracking,
+            });
+
+            if (v.data.targeting !== old.data.targeting) window.gtag('consent', 'update', {
+                'ad_personalization': targeting,
+            });
+        })
+    }
 
     return consent;
 }

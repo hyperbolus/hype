@@ -27,7 +27,7 @@ const close = () => {
     <div v-show="!consent.dismissed" class="space-y-2 pane border border-ui-700 shadow-xl md:w-full md:max-w-xl fixed bottom-2 left-2 right-2 md:left-4 md:bottom-4 md:right-auto z-50">
         <div class="x items-center justify-between">
             <h2 class="text-2xl font-bold">GDPR Cookie Consent</h2>
-            <Icon @click="close" name="x-mark" class="size-6 cursor-pointer"/>
+            <Icon v-if="false" @click="close" name="x-mark" class="size-6 cursor-pointer"/>
         </div>
         <p>{{ siteName() }} uses cookies and local browser storage to enable basic functionality of the site. If we make any changes to these options we will ask for your consent again.</p>
         <div class="x space-x-2 items-center">

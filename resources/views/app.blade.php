@@ -16,6 +16,32 @@
     @if(array_key_exists('__meta_canonical', $page['props']))<link rel="canonical" href="{{ $page['props']['__meta_canonical'] }}" />@endif
     @if(array_key_exists('sorting', $page['props']) && request()->getQueryString())<meta name="robots" content="noindex">@endif
 
+    @if(config('hyperbolus.gtag_id'))
+        <!-- Google -->
+        <script>
+            window.gtag = (..._) => {
+                console.log('GTAG PUSH', _)
+                window.dataLayer.push(_)
+            };
+            window.dataLayer = [
+                'consent', 'default', {
+                    'ad_user_data': 'denied',
+                    'ad_personalization': 'denied',
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied',
+                    'wait_for_update': 500,
+                },
+                'js', new Date(),
+                'config', '{{ config('hyperbolus.gtag_id') }}'
+            ];
+        </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('hyperbolus.gtag_id') }}"></script>
+    @endif
+
+    @if(config('hyperbolus.adsense_client'))
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('hyperbolus.adsense_client') }}" crossorigin="anonymous"></script>
+    @endif
+
     <title inertia>Hyperbolus</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     @routes
