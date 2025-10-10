@@ -39,8 +39,6 @@ export const getGDPR = () => {
             let tracking = v.data.tracking ? 'granted' : 'denied';
             let targeting = v.data.targeting ? 'granted' : 'denied';
 
-            console.log(`GTAG - tracking: ${tracking} targeting: ${targeting}`)
-
             if (v.data.tracking !== old.data.tracking) window.gtag('consent', 'update', {
                 'ad_user_data': tracking,
                 'ad_storage': tracking,

@@ -8,7 +8,7 @@ const props = defineProps({
     cta: Boolean
 });
 
-const client = import.meta.env.VITE_ADSENSE_CLIENT;
+const client = 'ca-pub-2489473638447569';
 const dev = import.meta.env.DEV;
 
 const style = computed(() => {

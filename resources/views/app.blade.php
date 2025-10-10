@@ -19,21 +19,18 @@
     @if(config('hyperbolus.gtag_id'))
         <!-- Google -->
         <script>
-            window.gtag = (..._) => {
-                console.log('GTAG PUSH', _)
-                window.dataLayer.push(_)
-            };
             window.dataLayer = [
-                'consent', 'default', {
+                ['consent', 'default', {
                     'ad_user_data': 'denied',
                     'ad_personalization': 'denied',
                     'ad_storage': 'denied',
                     'analytics_storage': 'denied',
                     'wait_for_update': 500,
-                },
-                'js', new Date(),
-                'config', '{{ config('hyperbolus.gtag_id') }}'
+                }],
+                ['js', new Date()],
+                ['config', '{{ config('hyperbolus.gtag_id') }}']
             ];
+            window.gtag = (..._) => window.dataLayer.push(_);
         </script>
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('hyperbolus.gtag_id') }}"></script>
     @endif
@@ -48,7 +45,7 @@
     @inertiaHead
     @vite('resources/js/app.js')
 </head>
-<body id="body" class="dark">
+<body id="body" class="">
 <div data-allow-mismatch id="teleports"></div>
 @inertia
 </body>
