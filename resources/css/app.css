@@ -59,6 +59,21 @@ body {
 
 @layer base {
     :root {
+        --color-ui-1000: 249 250 252;
+        --color-ui-950:  235 239 245;
+        --color-ui-900:  220 226 236;
+        --color-ui-800:  194 205 223;
+        --color-ui-700:  162 174 195;
+        --color-ui-600:  115 127 147;
+        --color-ui-500:  78  87  107;
+        --color-ui-400:  49  56  74 ;
+        --color-ui-300:  37  44  59 ;
+        --color-ui-200:  26  33  45 ;
+        --color-ui-100:  20  25  36 ;
+        --color-ui-50:   15  20  28 ;
+    }
+
+    :root .dark {
         --color-ui-50:   249 250 252;
         --color-ui-100:  235 239 245;
         --color-ui-200:  220 226 236;
@@ -86,6 +101,51 @@ body {
         --color-ui-900:  47  35  42 ;
         --color-ui-950:  35  25  30 ;
         --color-ui-1000: 26  17  22 ;
+    }
+
+    .theme-soundodger .dark {
+        --color-ui-1000: 252 249 251;
+        --color-ui-950:  244 240 243;
+        --color-ui-900:  234 227 231;
+        --color-ui-800:  219 210 216;
+        --color-ui-700:  195 182 190;
+        --color-ui-600:  162 145 154;
+        --color-ui-500:  116 99  109;
+        --color-ui-400:  84  66  76 ;
+        --color-ui-300:  63  48  56 ;
+        --color-ui-200:  47  35  42 ;
+        --color-ui-100:  35  25  30 ;
+        --color-ui-50:   26  17  22 ;
+    }
+
+    .theme-wiki .dark {
+        --color-ui-1000: 9   9   11 ;
+        --color-ui-950:  24  24  27 ;
+        --color-ui-900:  39  39  42 ;
+        --color-ui-800:  63  63  70 ;
+        --color-ui-700:  82  82  91 ;
+        --color-ui-600:  113 113 122;
+        --color-ui-500:  161 161 170;
+        --color-ui-400:  212 212 216;
+        --color-ui-300:  228 228 231;
+        --color-ui-200:  244 244 245;
+        --color-ui-100:  250 250 250;
+        --color-ui-50:   255 255 255;
+    }
+
+    .theme-wiki {
+        --color-ui-50:   9   9   11 ;
+        --color-ui-100:  24  24  27 ;
+        --color-ui-200:  39  39  42 ;
+        --color-ui-300:  63  63  70 ;
+        --color-ui-400:  82  82  91 ;
+        --color-ui-500:  113 113 122;
+        --color-ui-600:  161 161 170;
+        --color-ui-700:  212 212 216;
+        --color-ui-800:  228 228 231;
+        --color-ui-900:  244 244 245;
+        --color-ui-950:  250 250 250;
+        --color-ui-1000: 255 255 255;
     }
 }
 
