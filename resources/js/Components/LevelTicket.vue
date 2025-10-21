@@ -113,7 +113,7 @@ onChange((files) => {
             </div>
         </div>
         <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]">
-            <div class="absolute inset-0 -md:w-4/5 group-hover/ticket:scale-105 transition-transform bg-cover bg-center opacity-80" :style="`background-image:url('${level.banner_url ?? ('https://levelthumbs.prevter.me/thumbnail/' + level.id + '/small')}');`"></div>
+            <img loading="lazy" class="absolute top-1/2 w-full -translate-y-1/2 -md:w-4/5 group-hover/ticket:scale-105 transition-transform" :src="level.banner_url ?? ('https://levelthumbs.prevter.me/thumbnail/' + level.id + '/small')" alt="">
         </div>
     </div>
 </template>
