@@ -71,14 +71,7 @@ class LevelController extends Controller
             'levels' => $levels->orderBy('id')
                 ->paginatorOptions(10, 1, 30)
                 ->paginate(),
-            'sorting' => $levels,
-            'recent_reviews' => Review::query()
-                ->whereNotNull('review')
-                ->whereNot('review', '=', '')
-                ->latest()
-                ->limit(10)
-                ->with(['author', 'level'])
-                ->get()
+            'sorting' => $levels
         ]);
     }
 
