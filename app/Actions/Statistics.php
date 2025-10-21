@@ -10,21 +10,22 @@ class Statistics
 {
     public static function all(): array
     {
-        return [
-            'users' => self::count(\App\Models\System\User::class),
-            'threads' => self::count(\App\Models\Content\Thread::class),
-            'posts' => self::count(\App\Models\Content\Post::class),
-            'levels' => self::count(\App\Models\Game\Level::class),
-            'reviews' => self::count(\App\Models\Content\Review::class),
-            'videos' => self::count(\App\Models\Content\Video::class),
-            'playlists' => self::count(\App\Models\Content\Playlist::class),
-            'macros' => self::count(\App\Models\Game\LevelReplay::class),
-            //'nongs' => self::count(\App\Models\Content\Song::class),
-        ];
+        return self::count([
+            'users' => \App\Models\System\User::class,
+            'threads' => \App\Models\Content\Thread::class,
+            'posts' => \App\Models\Content\Post::class,
+            'levels' => \App\Models\Game\Level::class,
+            'reviews' => \App\Models\Content\Review::class,
+            'videos' => \App\Models\Content\Video::class,
+            'playlists' => \App\Models\Content\Playlist::class,
+            'macros' => \App\Models\Game\LevelReplay::class,
+        ]);
     }
 
     public static function patreon()
     {
+        return [];
+
         $patreon = Cache::get('statistics:patreon');
         if (! $patreon) {
             try {
@@ -42,16 +43,23 @@ class Statistics
         return $patreon;
     }
 
-    public static function count($model)
+    public static function count(array|string $models)
     {
-        $table = app($model)->getTable();
-        $key = 'statistics:'.$table;
-        $value = Cache::get($key);
-        if ($value === null) {
-            $value = (new $model)->count();
-            Cache::put($key, $value, 300);
-        }
+        // Takes many or one, if one put it in an array
+        if (!is_array($models)) $models = [$models];
 
-        return $value;
+        // get the cache names
+        $keys = array_map(fn ($model) => 'statistics:' . app($model)->getTable(), $models);
+
+        // fetch all at once, misses will be null
+        $values = Cache::many(array_values($keys));
+
+        // fetch count for misses
+        foreach ($models as $name => $model) $values[$keys[$name]] = $models[$name] = (int) ($values[$keys[$name]] ?: (new $model)->count());
+
+        // cache our new values
+        Cache::putMany(array_filter($values, fn ($v) => is_null($v)), 600);
+
+        return $models;
     }
 }
