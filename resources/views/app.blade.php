@@ -13,6 +13,10 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg"/>
     <link rel="manifest" href="/site.webmanifest">
 
+    <link rel="preconnect" href="https://hyperbolus.b-cdn.net/" crossorigin />
+    <link rel="preconnect" href="https://storage-dashnet.b-cdn.net/" crossorigin />
+    <link rel="dns-prefetch" href="https://levelthumbs.prevter.me/" crossorigin />
+
     @if(array_key_exists('__meta_canonical', $page['props']))<link rel="canonical" href="{{ $page['props']['__meta_canonical'] }}" />@endif
     @if(array_key_exists('sorting', $page['props']) && request()->getQueryString())<meta name="robots" content="noindex">@endif
 
