@@ -76,6 +76,8 @@ export const logout = () => {
     router.post(route('auth::logout'));
 }
 
+export const cdn = (path) => (usePage().props.app.asset_url ?? '') + path
+
 export const isSameDay = (date) => {
     if (!(date instanceof Date)) date = new Date(date);
     let today = new Date();

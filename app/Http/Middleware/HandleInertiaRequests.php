@@ -72,6 +72,7 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'asset_url' => config('app.asset_url'),
         ];
 
         return array_merge(parent::share($request), array_filter([
