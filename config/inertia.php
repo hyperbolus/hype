@@ -18,7 +18,7 @@ return [
 
     'ssr' => [
 
-        'enabled' => true,
+        'enabled' => env('SSR_ENABLE', false),
 
         'url' => 'http://127.0.0.1:13714/render',
 
