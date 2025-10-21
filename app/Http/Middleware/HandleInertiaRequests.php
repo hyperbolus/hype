@@ -66,6 +66,12 @@ class HandleInertiaRequests extends Middleware
 
                 return $settings;
             })(),
+            // TODO: This is for SSR, try to see if we can forego this entirely because its BIG
+            'ziggy' => function () use ($request) {
+                return array_merge((new Ziggy)->toArray(), [
+                    'location' => $request->url(),
+                ]);
+            },
         ];
 
         return array_merge(parent::share($request), array_filter([
@@ -105,11 +111,6 @@ class HandleInertiaRequests extends Middleware
                 })->all();
             },
             'auth' => auth()->check(),
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
-                    'location' => $request->url(),
-                ]);
-            },
         ]));
     }
 }

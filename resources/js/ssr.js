@@ -15,7 +15,7 @@ createServer((page) => createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.globEager('./Pages/**/*.vue')),
     setup({ App, props, plugin }) {
         let _app = createSSRApp({render: () => h(App, props)});
-        globalThis.Ziggy = props.initialPage.props.ziggy;
+        globalThis.Ziggy = props.initialPage.props.app.ziggy;
 
         return _app
             .use(plugin)
