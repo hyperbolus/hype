@@ -49,7 +49,7 @@
     @inertiaHead
     @vite('resources/js/app.js')
 </head>
-<body id="body" class="">
+<body id="body" class="dark">
 <div data-allow-mismatch id="teleports"></div>
 @inertia
 </body>
