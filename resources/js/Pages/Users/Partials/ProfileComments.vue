@@ -41,7 +41,7 @@ const deleteComment = (id) => {
         <div v-if="comments.data.length === 0" class="px-4 py-2">
             Nobody has commented on {{ profile.name }}'s profile yet. <span v-if="isAuthenticated()">Be the first!</span>
         </div>
-        <div v-else v-for="comment in comments.data" class="x space-x-3 justify-between p-3">
+        <div v-else v-for="comment in comments.data" :key="comment.id" class="x space-x-3 justify-between p-3">
             <div class="y items-center space-y-4 justify-between">
                 <Avatar class="w-8" :user="comment.commenter"/>
                 <div class="!hidden x w-fit justify-center p-1 rounded bg-ui-800">
