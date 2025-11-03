@@ -81,7 +81,7 @@ class HandleInertiaRequests extends Middleware
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
                     'csrf' => csrf_token(),
-                    'request_time' => microtime(true) - LARAVEL_START,
+//                    'request_time' => microtime(true) - LARAVEL_START,
                     ...$firstLoad,
                 ];
             },

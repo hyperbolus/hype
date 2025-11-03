@@ -23,3 +23,7 @@ _ide_helper_models.php
 .pnpm-debug.log
 /bootstrap/ssr
 .rnd
+
+**/caddy
+frankenphp
+frankenphp-worker.php
