@@ -27,6 +27,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('discord', \SocialiteProviders\Discord\Provider::class);
+            $event->extendSocialite('patreon', \SocialiteProviders\Patreon\Provider::class);
+        });
     }
 
     /**

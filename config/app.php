@@ -198,6 +198,7 @@ return [
          */
         Lab404\Impersonate\ImpersonateServiceProvider::class,
         App\Providers\TenancyServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
 
         /*
          * Application Service Providers...
