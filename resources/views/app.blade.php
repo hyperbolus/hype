@@ -39,8 +39,29 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('hyperbolus.gtag_id') }}"></script>
     @endif
 
+    <script>
+        window.as_loaded = null;
+    </script>
+
     @if(config('hyperbolus.adsense_client'))
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('hyperbolus.adsense_client') }}" crossorigin="anonymous"></script>
+        <script>
+            window.as_loaded = false;
+
+            (() => {
+                let script = document.createElement('script');
+                script.async = true;
+                script.crossOrigin = 'anonymous';
+                script.addEventListener('load', () => {
+                    let pushLen = window.adsbygoogle?.push.toString().length;
+                    window.as_loaded = pushLen < 20 && pushLen > 14;
+                });
+                script.addEventListener('error', () => {
+                    window.as_loaded = false;
+                });
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('hyperbolus.adsense_client') }}';
+                document.head.after(script);
+            })();
+        </script>
     @endif
 
     <title inertia>Hyperbolus</title>
