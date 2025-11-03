@@ -19,6 +19,11 @@ class LogIP
      */
     public function handle(Request $request, Closure $next): Response
     {
+        return $next($request);
+    }
+
+    public function terminate(Request $request, Response $response): void
+    {
         if (auth()->check()) {
             /**
              * @var User $user
@@ -36,7 +41,5 @@ class LogIP
             $ip->last_seen_at = now();
             $ip->save();
         }
-
-        return $next($request);
     }
 }
