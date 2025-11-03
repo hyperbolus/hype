@@ -3,16 +3,16 @@ import {onBeforeMount} from 'vue';
 import {Head, Link, usePage} from '@inertiajs/vue3';
 import NetworkNav from "@/Components/NetworkNav.vue";
 import SiteNav from "@/Components/SiteNav.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
+import Breadcrumbs from "../Components/Breadcrumbs.vue";
 import Footer from "@/Components/Footer.vue";
 import patternBGSD from "@/../images/soundshine.svg"
 import patternBG from "@/../images/card_background_outline.svg"
 import {useSettingsStore} from "@/stores/settings.ts";
 import {useStatisticsStore} from "@/stores/statistics.ts";
-import route from "ziggy-js";
 import {getGame, isAuthenticated} from "@/util.js";
 import CookieConsent from "@/Components/CookieConsent.vue";
-import AdUnit from "@/Components/AdUnit.vue";
+import AdUnit from "../Components/AdUnit.vue";
+import ABPlea from "../Components/ABPlea.vue";
 
 const props = defineProps({
     title: {
@@ -50,10 +50,12 @@ onBeforeMount(() => {
         <NetworkNav/>
         <SiteNav/>
         <div class="y relative grow items-center w-full">
+            <AdUnit v-if="!isAuthenticated()" :cta="false" type="banner" slot-key="2978602886" ad-style="height:90px;min-width:400px;width:100%;" class="mt-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
+            <ABPlea :fullwidth="fullwidth"/>
             <Breadcrumbs :fullwidth="fullwidth"><slot name="breadcrumbs"/></Breadcrumbs>
             <div v-if="background" class="absolute -z-10 h-full w-full bg-ui-900" style="mask-size: 8rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
             <div class="absolute -z-20 h-full w-full bg-ui-1000"></div>
-            <div v-if="decorations" class="x justify-center w-full my-4">
+            <div v-if="decorations" class="x justify-center w-full my-2">
                 <AdUnit v-if="!true" type="skyscraper" slot-key="idk" class="hidden 2xl:block sticky top-2"/>
                 <div class="flex flex-col flex-grow shadow-xl bg-ui-950 border-y md:border-x border-ui-900/75 md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 p-2 md:p-4 md:mx-4 md:rounded-lg">
                     <slot/>
@@ -61,7 +63,7 @@ onBeforeMount(() => {
                 <AdUnit v-if="!true" type="skyscraper" slot-key="idk"  class="hidden 2xl:block sticky top-2"/>
             </div>
             <slot v-else/>
-            <AdUnit v-if="!isAuthenticated()" :cta="true" type="banner" slot-key="4229314886" class="mb-2"/>
+            <AdUnit v-if="!isAuthenticated()" :cta="true" type="banner" slot-key="4229314886" ad-style="min-height:50px;min-width:400px;width:100%;" class="mb-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
         </div>
         <Footer/>
         <CookieConsent/>

@@ -1,36 +1,46 @@
 <script setup>
-import {computed, onMounted} from "vue";
+import {computed, nextTick, onMounted, ref} from "vue";
 import {Link} from '@inertiajs/vue3';
 
 const props = defineProps({
     slotKey: String,
     type: String,
-    cta: Boolean
+    cta: Boolean,
+    adStyle: String
 });
 
 const client = 'ca-pub-2489473638447569';
 const dev = import.meta.env.DEV;
 
 const style = computed(() => {
+    if (props.adStyle) return '';
     if (props.type === 'banner') return 'w-[300px] sm:w-[468px] md:w-[728px] lg:w-[970px]';
     if (props.type === 'skyscraper') return 'w-[160px]';
 });
 
 const height = computed(() => {
+    if (props.adStyle) return '';
     if (props.type === 'banner') return 'h-[100px]';
     if (props.type === 'skyscraper') return 'h-[600px]';
 });
 
+const mounted = ref(false);
+
 onMounted(() => {
+    mounted.value = true;
+
     if (dev) return;
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+
+    nextTick(() => {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+    })
 });
 </script>
 <template>
     <div class="shrink-0 text-sm text-ui-500 h-fit" :class="{'hidden': !client}">
-        <span class="text-sm">Advertisement</span>
+        <span v-if="cta" class="text-sm">Advertisement</span>
         <div :class="{[style]: true, [height]: dev, 'border border-red-500 bg-red-500/25': dev}">
-            <ins class="adsbygoogle block"
+            <ins :style="adStyle" class="block" :class="{'adsbygoogle': mounted}"
                  :data-ad-client="client"
                  :data-ad-slot="slotKey"
                  data-ad-format="auto"

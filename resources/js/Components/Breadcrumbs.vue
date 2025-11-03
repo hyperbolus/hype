@@ -11,7 +11,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <div class="x justify-center w-full" :class="fullwidth ? 'bg-ui-950' : 'mt-4'">
+    <div class="x justify-center w-full" :class="fullwidth ? 'bg-ui-950' : 'mt-2'">
         <div class="x items-start gap-2 justify-between w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl text-xs px-4" :class="fullwidth ? '' : 'border-y border-ui-800 bg-ui-900 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl md:mx-4 md:rounded-lg md:border-x'">
             <div class="x flex-wrap gap-2 py-2">
                 <Link :href="route('home')">{{ siteName() }}</Link>
