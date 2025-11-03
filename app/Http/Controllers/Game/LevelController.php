@@ -71,7 +71,8 @@ class LevelController extends Controller
             'levels' => $levels->orderBy('id')
                 ->paginatorOptions(10, 1, 30)
                 ->paginate(),
-            'sorting' => $levels
+            'sorting' => $levels,
+            'curve' => cacheOr('statistics:level-curve', fn () => Review::curve(), 600),
         ]);
     }
 
@@ -117,7 +118,8 @@ class LevelController extends Controller
                 ->where('level_id', $id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
-            'sorting' => sorting(Review::class)->filters()
+            'sorting' => sorting(Review::class)->filters(),
+            'curve' => Review::curve($level),
         ])->meta($level->name, $level->description)
             ->breadcrumbs([
                 crumb('Levels', route('levels.index'))
@@ -162,7 +164,8 @@ class LevelController extends Controller
                 ->where('level_id', $level->id)
                 ->where('user_id', auth()->id())
                 ->first() : null,
-            'sorting' => sorting(Review::class)->filters()
+            'sorting' => sorting(Review::class)->filters(),
+            'curve' => Review::curve($level),
         ])->meta('Reviews', $level->description)->breadcrumbs([
             crumb('Levels', route('levels.index')),
             crumb($level->name, route('levels.show', $level)),

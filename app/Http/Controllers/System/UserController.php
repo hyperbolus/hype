@@ -26,28 +26,6 @@ class UserController extends Controller
 
     public function show(User $user): Responsable
     {
-        // TODO: add all ratings and condense into single query
-        $counts = $user->reviews()
-            ->selectRaw('rating_overall, COUNT(*) as count')
-            ->groupBy('rating_overall')
-            ->get()
-            ->keyBy('rating_overall')
-            ->map(fn(Review $review) => $review->count);
-
-        $curve = [
-            0 => $counts[0] ?? 0,
-            1 => $counts[1] ?? 0,
-            2 => $counts[2] ?? 0,
-            3 => $counts[3] ?? 0,
-            4 => $counts[4] ?? 0,
-            5 => $counts[5] ?? 0,
-            6 => $counts[6] ?? 0,
-            7 => $counts[7] ?? 0,
-            8 => $counts[8] ?? 0,
-            9 => $counts[9] ?? 0,
-            10 => $counts[10] ?? 0,
-        ];
-
         // TODO: appends
         return page('Users/Show', [
             'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews', 'names']),
@@ -57,7 +35,7 @@ class UserController extends Controller
                 ->where('user_id', $user->id)
                 ->with('level')
                 ->paginate(5, ['*'], 'reviews'),
-            'curve' => $curve
+            'curve' => Review::curve($user)
         ])->meta($user->name, $user->bio ?? 'This user has no bio.')
             ->breadcrumbs([
                 crumb('Users', route('users.index'))
@@ -66,28 +44,6 @@ class UserController extends Controller
 
     public function reviews(Request $request, User $user): Responsable
     {
-        // TODO: add all ratings and condense into single query
-        $counts = $user->reviews()
-            ->selectRaw('rating_overall, COUNT(*) as count')
-            ->groupBy('rating_overall')
-            ->get()
-            ->keyBy('rating_overall')
-            ->map(fn(Review $review) => $review->count);
-
-        $curve = [
-            0 => $counts[0] ?? 0,
-            1 => $counts[1] ?? 0,
-            2 => $counts[2] ?? 0,
-            3 => $counts[3] ?? 0,
-            4 => $counts[4] ?? 0,
-            5 => $counts[5] ?? 0,
-            6 => $counts[6] ?? 0,
-            7 => $counts[7] ?? 0,
-            8 => $counts[8] ?? 0,
-            9 => $counts[9] ?? 0,
-            10 => $counts[10] ?? 0,
-        ];
-
         $reviews = Review::query()->where('user_id', $user->id);
 
         $ranges = [
@@ -114,7 +70,7 @@ class UserController extends Controller
                 ->append($ranges)
                 ->paginatorOptions(10, 1, 30)
                 ->paginate(),
-            'curve' => $curve,
+            'curve' => Review::curve($user),
             'sorting' => sorting(Review::class)->filters()->append($ranges)
         ])->meta('Reviews', $user->name . '\'s Level Reviews')
             ->breadcrumbs([

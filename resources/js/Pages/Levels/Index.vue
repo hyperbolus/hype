@@ -9,12 +9,13 @@ import {ref} from "vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
 import Sorting from "@/Components/Sorting.vue";
 import QueryFooter from "@/Components/QueryFooter.vue";
-import Icon from "@/Components/Icon.vue";
+import RatingsCurve from "@/Components/RatingsCurve.vue";
 
 const props = defineProps({
     levels: Object,
     sorting: Object,
-    recent_reviews: Object
+    recent_reviews: Object,
+    curve: Object
 })
 
 const level_id = ref(null)
@@ -53,6 +54,7 @@ const level_id = ref(null)
                 </svg>
                 <p class="relative">Levels must have at least 5 reviews before their average scores are calculated</p>
             </div>
+            <RatingsCurve :curve="curve"/>
         </div>
     </app-layout>
 </template>

@@ -20,13 +20,15 @@ import getYouTubeID from "get-youtube-id";
 import Sorting from "@/Components/Sorting.vue";
 import QueryFooter from "@/Components/QueryFooter.vue";
 import RatingOverview from "@/Components/RatingOverview.vue";
+import RatingsCurve from "@/Components/RatingsCurve.vue";
 
 const props = defineProps({
     level: Object,
     ranking: Object,
     review: Object,
     reviews: Object,
-    sorting: Object
+    sorting: Object,
+    curve: Object
 })
 
 const form = useForm({
@@ -148,6 +150,7 @@ const submitVideo = () => {
                         </svg>
                         <span class="font-bold cursor-pointer">Download Level</span>
                     </div>
+                    <RatingsCurve :model="level" :curve="curve"/>
                     <div class="x items-center justify-between">
                         <h2 class="font-bold text-2xl">Videos</h2>
                         <Lightbox>
