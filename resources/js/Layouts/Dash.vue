@@ -50,7 +50,7 @@ onBeforeMount(() => {
         <NetworkNav/>
         <SiteNav/>
         <div class="y relative grow items-center w-full">
-            <AdUnit v-if="!isAuthenticated()" :cta="false" type="banner" slot-key="2978602886" ad-style="height:90px;min-width:400px;width:100%;" class="mt-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
+            <AdUnit v-if="!isAuthenticated() && !fullwidth" :cta="false" type="banner" slot-key="2978602886" ad-style="height:90px;min-width:400px;width:100%;" class="mt-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
             <ABPlea :fullwidth="fullwidth"/>
             <Breadcrumbs :fullwidth="fullwidth"><slot name="breadcrumbs"/></Breadcrumbs>
             <div v-if="background" class="absolute -z-10 h-full w-full bg-ui-900" style="mask-size: 8rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
