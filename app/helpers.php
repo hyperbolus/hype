@@ -1,5 +1,19 @@
 <?php
 
+if (! function_exists('cacheOr')) {
+    function cacheOr(string $key, callable $default, $ttl = null): mixed
+    {
+        $value = Cache::get($key);
+
+        if ($value === null) {
+            $value = $default();
+            Cache::put($key, $value, $ttl);
+        }
+
+        return $value;
+    }
+}
+
 if (! function_exists('meta')) {
     function meta(string $title = null, string $description = null): array
     {
