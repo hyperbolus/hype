@@ -4,7 +4,11 @@ namespace App;
 
 use App\Rules\Password;
 use Illuminate\Support\Str;
+use Imagick;
+use ImagickDraw;
+use ImagickPixel;
 use JetBrains\PhpStorm\Pure;
+use matthieumastadenis\couleur\colors\HexRgb;
 
 class Hype
 {
@@ -110,5 +114,37 @@ class Hype
     public static function validPermissions(array $permissions): array
     {
         return array_values(array_intersect($permissions, static::$permissions));
+    }
+
+    /**
+     * @throws \ImagickException
+     * @throws \ImagickDrawException
+     */
+    public static function generateAvatar(string $name): Imagick
+    {
+        $initials = strtoupper(substr($name, 0, 2));
+
+        $image = new Imagick();
+        $draw = new ImagickDraw();
+
+        srand(crc32($name));
+
+        // brat: #8ACE00
+        $bg = new HexRgb('ff', 'de', 'ad');
+
+        // convert to oklab rotate hue than convert back to closest css color then hex string
+        $bg = $bg->toOkLch()->change(hue: rand(0, 360))->toCss()->toHexRgb()->stringify();
+
+        $image->newImage(250, 250, $bg);
+        $image->setImageFormat('jpg');
+        $image->setImageCompressionQuality(90);
+
+        $draw->setGravity(Imagick::GRAVITY_CENTER);
+        $draw->setFont('Helvetica');
+        $draw->setFontSize(105);
+        $draw->setFillColor(new ImagickPixel());
+        $image->annotateImage($draw, 0, 0, 0, $initials);
+
+        return $image;
     }
 }
