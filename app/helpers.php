@@ -15,7 +15,7 @@ if (! function_exists('cacheOr')) {
 }
 
 if (! function_exists('meta')) {
-    function meta(string $title = null, string $description = null): array
+    function meta(?string $title = null, ?string $description = null): array
     {
         return [
             '__meta_title' => $title,
