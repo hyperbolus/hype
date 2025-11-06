@@ -108,7 +108,7 @@ class LevelController extends Controller
 
         return page('Levels/Show', [
             'level' => $level->loadCount(['reviewsOnly', 'ratingsOnly']),
-            'ranking' => CalculateRatings::rank($id, true),
+            'ranking' => CalculateRatings::rank($id),
             'reviews' => $reviews
                 ->filters()
                 ->paginatorOptions(10, 1, 50)
