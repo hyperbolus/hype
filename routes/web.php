@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminForumController;
-use App\Http\Controllers\Admin\AdminPermissionController;
-use App\Http\Controllers\Admin\AdminSettingController;
-use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Content\ForumController;
 use App\Http\Controllers\Content\LevelTagController;
 use App\Http\Controllers\Content\LevelTagVoteController;
@@ -16,10 +11,20 @@ use App\Http\Controllers\Content\ReviewController;
 use App\Http\Controllers\Content\StyleController;
 use App\Http\Controllers\Content\ThreadController;
 use App\Http\Controllers\Content\VideoController;
-use App\Http\Controllers\Dashboard\DashboardConnectionsController;
-use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\Dashboard\ProfileImageController;
-use App\Http\Controllers\Dashboard\ProfileInformationController;
+use App\Http\Controllers\Dashboards\Admin\AdminForumController;
+use App\Http\Controllers\Dashboards\Admin\AdminHomeController;
+use App\Http\Controllers\Dashboards\Admin\AdminPermissionController;
+use App\Http\Controllers\Dashboards\Admin\AdminSettingController;
+use App\Http\Controllers\Dashboards\Admin\AdminUserController;
+use App\Http\Controllers\Dashboards\Moderation\ModerationBanController;
+use App\Http\Controllers\Dashboards\Moderation\ModerationController;
+use App\Http\Controllers\Dashboards\Moderation\ModerationIPController;
+use App\Http\Controllers\Dashboards\Moderation\ModerationReportController;
+use App\Http\Controllers\Dashboards\User\DashboardConnectionsController;
+use App\Http\Controllers\Dashboards\User\DashboardController;
+use App\Http\Controllers\Dashboards\User\DashboardRelationshipController;
+use App\Http\Controllers\Dashboards\User\ProfileImageController;
+use App\Http\Controllers\Dashboards\User\ProfileInformationController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Game\LevelController;
 use App\Http\Controllers\Game\LevelReplayController;
@@ -27,10 +32,7 @@ use App\Http\Controllers\Game\ProfileController;
 use App\Http\Controllers\Game\RouletteController;
 use App\Http\Controllers\Game\StencilController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Moderation\ModerationDashboardController;
-use App\Http\Controllers\Moderation\ReportController;
 use App\Http\Controllers\RelationshipController;
-use App\Http\Controllers\Dashboard\DashboardRelationshipController;
 use App\Http\Controllers\System\BanController;
 use App\Http\Controllers\System\MessageController;
 use App\Http\Controllers\System\NameChangeController;
@@ -70,8 +72,10 @@ Route::get('/download/{id}', [DownloadController::class, '__invoke'])->name('dow
 //Route::get('/upload', function (Request $request) {})->middleware(['auth']);
 
 Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:admin']], function () {
-    Route::get('/', [AdminController::class, 'show'])->name('system.home');
-    Route::post('/', [AdminController::class, '__invoke']);
+    Route::get('/', [AdminHomeController::class, 'show'])->name('system.home');
+
+    Route::get('/scripts', [\App\Http\Controllers\Dashboards\Admin\AdminScriptController::class, 'show'])->name('system.scripts');
+    Route::get('/script/{script}/run', [\App\Http\Controllers\Dashboards\Admin\AdminScriptController::class, '__invoke'])->name('system.scripts.run');
 
     Route::get('/users', [AdminUserController::class, 'show'])->name('system.users');
     Route::post('/users', [AdminUserController::class, '__invoke']);
@@ -83,25 +87,30 @@ Route::group(['prefix' => '/system', 'middleware' => ['auth', 'verified', 'passw
     Route::post('/permissions', [AdminPermissionController::class, '__invoke']);
 
     Route::get('/forums', [AdminForumController::class, 'index'])->name('system.forums');
-    Route::get('/forum/{forum}', [AdminForumController::class, 'show'])->name('system.forums.show');
     Route::post('/forums', [AdminForumController::class, '__invoke']);
 
     Route::get('/groups', [AdminPermissionController::class, 'show'])->name('system.groups');
     Route::post('/groups', [AdminPermissionController::class, '__invoke']);
 
-    Route::get('/cosmetics', [AdminPermissionController::class, 'show'])->name('system.cosmetics');
-    Route::post('/cosmetics', [AdminPermissionController::class, '__invoke']);
 });
 
 Route::group(['prefix' => '/moderation', 'middleware' => ['auth', 'verified', 'password.confirm', 'role:moderator']], function () {
-    Route::get('/', [ModerationDashboardController::class, 'index'])->name('moderation.dashboard');
-    Route::post('/ban', [ModerationDashboardController::class, 'ban'])->name('moderation.ban');
-    Route::get('/reports', [ReportController::class, 'index'])->name('moderation.reports.index');
-    Route::get('/report/{report:id}', [ReportController::class, 'show'])->name('moderation.reports.show');
-    Route::patch('/report/{report:id}', [ReportController::class, 'update'])->name('moderation.reports.update');
+    Route::get('/', [ModerationController::class, 'index'])->name('moderation.home');
+
+    Route::get('/ips', [ModerationIPController::class, 'index'])->name('moderation.ip.index');
+    Route::get('/users', [ModerationController::class, 'ban'])->name('moderation.users.index');
+
+    Route::get('/bans', [ModerationBanController::class, 'index'])->name('moderation.bans.index');
+    Route::post('/bans/new', [ModerationBanController::class, 'store'])->name('moderation.bans.store');
+
+    Route::get('/reports', [ModerationReportController::class, 'index'])->name('moderation.reports.index');
+    Route::get('/report/{report:id}', [ModerationReportController::class, 'show'])->name('moderation.reports.show');
+    Route::patch('/report/{report:id}', [ModerationReportController::class, 'update'])->name('moderation.reports.update');
+
+    Route::inertia('/user/{user:id}', 'Forge')->name('moderation.users.show');
 });
 
-Route::post('/reports/new', [ReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
+Route::post('/reports/new', [ModerationReportController::class, 'store'])->name('reports.store')->middleware(['auth', 'verified']);
 
 Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'home'])->name('settings.home');

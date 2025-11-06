@@ -54,7 +54,7 @@ const instantLogout = useStorage('instantLogout', false)
             </span>
             <Icon class="w-5" size="24" name="chat-bubble-oval-left"/>
         </Link>
-        <Link v-if="isModerator() || isAdmin()" :href="route('moderation.dashboard')">
+        <Link v-if="isModerator() || isAdmin()" :href="route('moderation.home')">
             <Icon class="w-5" size="24" name="exclamation-triangle"/>
         </Link>
         <Dropdown class="shrink-0">

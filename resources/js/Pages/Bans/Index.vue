@@ -2,10 +2,13 @@
 import AppLayout from "@/Layouts/Dash.vue";
 import Timestamp from "@/Components/Timestamp.vue";
 import Username from "@/Components/Username.vue";
+import {useForm} from "@inertiajs/vue3";
+import route from "ziggy-js";
 
 const props = defineProps({
     bans: Object
 });
+
 </script>
 <template>
     <app-layout>

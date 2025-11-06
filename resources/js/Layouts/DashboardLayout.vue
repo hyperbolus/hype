@@ -1,51 +1,37 @@
 <script setup>
-import AppLayout from "@/Layouts/Dash.vue";
-import { Link } from '@inertiajs/vue3';
+import {Link, usePage} from '@inertiajs/vue3';
 import route from "ziggy-js";
-import Icon from "@/Components/Icon.vue";
+import AppLayout from "@/Layouts/Dash.vue";
+import Icon from "../Components/Icon.vue";
+import {computed} from "vue";
 
-const props = defineProps({
-    title: String
+defineProps({
+    showTitle: {
+        type: Boolean,
+        default: true,
+    },
+    containerClass: String
 });
 
-const links = [
-    {
-        title: 'Home',
-        route: 'settings.home',
-        icon: 'home'
-    },
-    {
-        title: 'Edit Profile',
-        route: 'settings.profile',
-        icon: 'user-circle'
-    },
-    {
-        title: 'Relationships',
-        route: 'settings.relationships',
-        icon: 'users'
-    },
-    {
-        title: 'Account Settings',
-        route: 'settings.account',
-        icon: 'cog'
-    },
-    // {
-    //     title: 'Connections',
-    //     route: 'settings.connections',
-    //     icon: 'key'
-    // },
-]
+const links = computed(() => {
+    let out = {}, links = usePage().props.__meta_links;
+
+    for (let link in links) if (!links[link].hidden) out[link] = links[link];
+
+    return out;
+});
 </script>
 <template>
-    <app-layout :decorations="false">
-        <div class="flex flex-col md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-4 py-4">
-            <div class="flex flex-col md:w-1/4 space-y-2 px-2 md:px-0">
-                <Link v-for="link in links" :href="route(link.route)" :class="{ 'text-blue-500': route().current(link.route) }" class="x items-center space-x-2 pane transition-colors hover:bg-ui-800">
+    <app-layout :title="$page.props.__meta_title + ' - Admin'" :decorations="false">
+        <div class="y md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-2 py-2">
+            <div class="y md:w-1/4 space-y-2 px-2 md:px-0">
+                <Link v-for="(link, key) in links" :href="route(key)" :class="{ 'text-blue-500': route().current(key) }" class="x items-center space-x-2 pane transition-colors hover:bg-ui-800">
                     <Icon :name="link.icon" class="size-6"/>
                     <span>{{ link.title }}</span>
                 </Link>
             </div>
-            <div class="flex flex-col space-y-2 md:w-3/4 border border-ui-900/75 bg-ui-950 md:rounded-md p-2">
+            <div class="y space-y-2 md:w-3/4 border border-ui-900/75 bg-ui-950 md:rounded-md p-4" :class="containerClass">
+                <h1 v-if="showTitle" class="text-4xl font-bold">{{ $page.props.__meta_title }}</h1>
                 <slot/>
             </div>
         </div>
