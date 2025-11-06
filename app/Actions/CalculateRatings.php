@@ -106,15 +106,14 @@ class CalculateRatings
             ->mapToGroups(fn (Review $review) => [$review->level_id => $review]);
 
         $updates = [];
-        $empty = collect();
 
-        $levels->map(function (Level $level) use (&$updates, &$users, &$reviews, &$empty) {
-            if ($level->reviews_count >= 5) {
-                $results = self::filter($reviews[$level->id] ?? $empty, $users);
-                $results['id'] = $level->id;
+        for ($i = 0, $count = count($levels); $i < $count; $i++) {
+            if ($levels[$i]->reviews_count >= 5) {
+                $results = self::filter($reviews[$levels[$i]->id] ?? null, $users);
+                $results['id'] = $levels[$i]->id;
                 $updates[] = $results;
             }
-        });
+        }
 
         Level::withoutTimestamps(function () use (&$updates) {
             Level::query()->upsert(
@@ -143,11 +142,11 @@ class CalculateRatings
     }
 
     /**
-     * @param Collection $reviews
+     * @param Collection|null $reviews
      * @param Collection $users
      * @return array
      */
-    private static function filter(Collection $reviews, Collection $users): array
+    private static function filter(?Collection $reviews, Collection $users): array
     {
         $counts = [
             'rating_difficulty' => 0,
@@ -162,6 +161,8 @@ class CalculateRatings
             'rating_visuals' => 0,
             'rating_overall' => 0,
         ];
+
+        if ($reviews) return $scores;
 
         $reviews->map(function (Review $review) use (&$counts, &$scores, &$users) {
             $weight = 0;
