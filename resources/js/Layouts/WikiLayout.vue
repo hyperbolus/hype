@@ -78,8 +78,9 @@ onBeforeMount(() => {
                 </aside>
                 <div class="y grow space-y-2">
                     <article class="y space-y-2 p-6 grow">
-                        <div class="border-b border-ui-700 pb-1">
-                            <h1 class="text-3xl font-serif">{{ namespace === 'Page' ? '' : (namespace + ':') }}{{ title ?? $page.props?.__meta_title }}</h1>
+                        <div class="x space-x-1.5 items-center border-b border-ui-700 pb-1">
+                            <span class="text-xl font-bold uppercase rounded px-2 py-0.5 bg-ui-800" v-if="namespace !== 'Page'">{{ namespace }}</span>
+                            <h1 class="text-3xl font-serif">{{ title ?? $page.props?.__meta_title }}</h1>
                         </div>
                         <slot/>
                     </article>
