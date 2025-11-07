@@ -21,6 +21,9 @@ import {
 } from "@vueuse/core";
 import ComboBox from "@/Components/ComboBox.vue";
 import DiscordInvite from "@/Components/DiscordInvite.vue";
+import dashify from '../../../images/dashify.svg'
+import {promptGDPR} from "../../util";
+import CookieConsent from "../../Components/CookieConsent.vue";
 
 const props = defineProps({ library: String });
 
@@ -528,6 +531,7 @@ const deletePlaylist = (i) => {
 <template>
     <div @click="contextMenu.open = false" ref="base" class="y relative items-center text-ui-200 min-h-[100dvh] grow overflow-x-clip" :class="getGame() === 'soundodger' ? 'theme-soundodger' : ''">
         <Head><title>{{ $page.props.__meta_title }}</title></Head>
+        <CookieConsent/>
         <audio @timeupdate="updatePosition" @canplay="canPlay" @ended="audioPlaying = false" ref="audio" class="hidden" :muted="true" :autoplay="false"></audio>
         <!-- Context Menu -->
         <div class="absolute inset-0 z-40 pointer-events-none" :class="{'invisible': !contextMenu.open}">
@@ -801,6 +805,19 @@ const deletePlaylist = (i) => {
                             <h2 class="font-bold text-2xl">Tags</h2>
                             <div class="flex flex-wrap gap-2 mt-1">
                                 <span v-for="(tag, i) in lib.tags" class="text-sm rounded-full bg-ui-800 px-2 py-0.5">{{ tag }}</span>
+                            </div>
+                            <div class="border-t border-ui-700"></div>
+                            <div class="x justify-center space-x-2 text-blue-500">
+                                <Link :href="route('about')">About</Link>
+                                <Link :href="route('contact')">Contact</Link>
+                                <Link :href="route('bans.index')">Bans</Link>
+                                <Link :href="route('legal.terms')">Terms of Service</Link>
+                                <Link :href="route('legal.privacy')">Privacy</Link>
+                                <button @click="promptGDPR()">Cookies</button>
+                            </div>
+                            <div class="y space-y-2 text-sm text-ui-500 items-center">
+                                <img class="w-64 bg-green-500 rounded-xl" :src="dashify" alt="">
+                                <p>Neither Hyperbolus nor the music library browser are affiliated with Geometry Dash, RobTopGames AB, NoCopyrightSounds or any of the artists included in the Geometry Dash Muisc Library</p>
                             </div>
                         </div>
                     </div>
