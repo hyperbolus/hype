@@ -41,6 +41,7 @@ use App\Http\Controllers\System\ProfileCommentController;
 use App\Http\Controllers\System\ReputationLogController;
 use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\System\UserController;
+use App\Http\Controllers\Wiki\WikiPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -286,19 +287,10 @@ Route::get('/tools/music', [\App\Http\Controllers\ToolsController::class, 'music
 
 //Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
 
-//Route::get('/guide', function () {
-//    return page('Guide');
-//})->name('guide');
-//
-//Route::get('/guide/{page}', function (string $page) {
-//    $page = rtrim($page, '/');
-//    $page = str_replace('/', ' ', $page);
-//    $page = ucwords($page);
-//    $page = str_replace(' ', '/', $page);
-//    if (str_contains($page, '..')) abort(404);
-//    if (!file_exists(base_path() . '/resources/js/Pages/Guide/' . $page . '.vue')) abort(404);
-//    return page('Guide/' . $page);
-//})->where('page', '.*')->name('guide.show');
+Route::get('/wiki/random', [WikiPageController::class, 'random'])->name('wiki.random');
+Route::get('/wiki/{path?}', [WikiPageController::class, 'show'])->where(['path' => '(.*)'])->name('wiki');
+Route::post('/wiki/new', [WikiPageController::class, 'store'])->name('wiki.store')->middleware(['role:admin']);
+Route::patch('/wiki/{page:id}', [WikiPageController::class, 'update'])->name('wiki.update')->middleware(['role:admin']);
 
 Route::impersonate();
 

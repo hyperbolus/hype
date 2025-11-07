@@ -49,6 +49,11 @@ const editor = useEditor({
     immediatelyRender: true,
     // element: null,
     onUpdate: () => {
+        if (editability.value) {
+            editability.value = false;
+            return;
+        }
+
         if (!mutating.value) {
             changing.value = true;
             emit('update:modelValue', editor.value.getHTML())
@@ -58,6 +63,7 @@ const editor = useEditor({
     },
     onCreate: () => {
         mounted.value = true;
+        editability.value = true;
         editor.value.setEditable(props.editable);
     }
 });
@@ -66,13 +72,15 @@ const source = ref(false);
 
 const changing = ref(false); // internal change, don't reset cursor position and stuff
 const mutating = ref(false); // external change, used to prevent runaway event loops
+const editability = ref(false); // external change of editable
 
 watch(() => props.editable, (v) => {
+    editability.value = true;
     if (editor.value) editor.value.setEditable(v)
-}, {immediate: true})
+})
 
 watch(() => props.modelValue, (v) => {
-    if (!changing.value) {
+    if (!changing.value && editor.value) {
         mutating.value = true;
         editor.value.commands.setContent(v);
     } else {

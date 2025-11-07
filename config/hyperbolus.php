@@ -17,6 +17,8 @@ return [
         43 => \App\Models\Content\Video::class,
 
         61 => \App\Models\Forge\Style::class,
+
+        70 => \App\Models\WikiPage::class,
     ],
 
     'named_morph_map' => [
