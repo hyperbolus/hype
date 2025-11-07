@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 
 class ProfileImageController extends Controller
 {
@@ -29,18 +30,16 @@ class ProfileImageController extends Controller
             'image' => ['required', 'mimes:jpeg,jpg,png,webp,gif', 'max:3000'],
         ]);
 
+
         $file = $request->file('image');
-        $img = Image::make($file);
+        $img = ImageManager::imagick()->read($file);
 
         // Server-side cropping and re-encoding
-        if ($request->string('kind') == 'avatar') {
-            $min = min($img->getWidth(), $img->getHeight());
-            $img->resizeCanvas($min, $min)->resize(250, 250);
-        }
+        if ($request->string('kind') == 'avatar') $img->resize(250, 250);
 
         // Save new image to disk
         $path = 'avatars/'.$file->hashName();
-        $disk->put($path, $img->stream()->detach(), 'public');
+        $disk->put($path, $img->toJpeg(80), 'public');
 
         // Delete old image if no other occurrences
         if (User::query()->where($key, $url)->count() === 0) $disk->delete(parse_url($url, PHP_URL_PATH));
