@@ -173,10 +173,11 @@ Route::get('/user/{user:id}/videos', [UserController::class, 'videos'])->name('u
 Route::get('/user/{id}/names', [NameChangeController::class, 'index'])->name('names.show');
 Route::get('/user/{user:id}/reputation', [ReputationLogController::class, 'index'])->name('reputation.show');
 Route::post('/user/{user:id}/reputation', [ReputationLogController::class, 'store'])->name('reputation.store')->middleware(['auth', 'verified', 'throttle:10,5']);
-Route::delete('/user/{user:id}/reputation', [ReputationLogController::class, 'destroy'])->name('reputation.destroy')->middleware(['auth', 'verified']); // TODO: finish this
 Route::get('/user/{id}/reviews', [ReputationLogController::class, 'index'])->name('user.reviews.show');
 Route::post('/user/{user:id}/comments', [ProfileCommentController::class, 'store'])->name('user.comments.store')->middleware(['auth', 'verified', 'throttle:10,10']);
 Route::delete('/user/comment/{comment:id}', [ProfileCommentController::class, 'destroy'])->name('user.comments.destroy')->middleware(['auth', 'verified', 'throttle:50,10']);
+
+Route::delete('/reputation/{rep:id}', [ReputationLogController::class, 'destroy'])->name('reputation.destroy')->middleware(['auth', 'verified']);
 
 Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
 

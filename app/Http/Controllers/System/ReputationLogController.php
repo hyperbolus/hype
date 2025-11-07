@@ -120,19 +120,12 @@ class ReputationLogController extends Controller
         //
     }
 
-    public function destroy(Request $request, User $user): RedirectResponse
+    public function destroy(ReputationLog $rep): RedirectResponse
     {
-        $rep = ReputationLog::query()
-            ->where('sender_id', $request->user()->id)
-            ->where('recipient_id', $user->id)
-            ->first();
+        $this->authorize('destroy', $rep);
 
-        if ($rep) {
-            $rep->delete();
-
-            $user->recalculateReputation();
-            $user->save();
-        }
+        $rep->delete();
+        $rep->recipient->recalculateReputation(true);
 
         return back();
     }

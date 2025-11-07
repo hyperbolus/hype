@@ -10,6 +10,7 @@ import Avatar from "@/Components/Avatar.vue";
 import UserTitle from "@/Components/UserTitle.vue";
 import {useTimeAgo} from "@vueuse/core";
 import {onBeforeMount, ref} from "vue";
+import Icon from "../../Components/Icon.vue";
 
 const props = defineProps({
     profile: Object,
@@ -26,8 +27,8 @@ const submit = () => {
     form.post(route('reputation.store', props.profile.id))
 }
 
-const deleteReputation = () => {
-    form.delete(route('reputation.destroy', props.profile.id))
+const deleteReputation = (id) => {
+    form.delete(route('reputation.destroy', id))
 }
 
 const repColor = (rep, positive, negative) => {
@@ -77,12 +78,15 @@ onBeforeMount(() => {
                         <span class="text-center w-full">{{ rep.reputation > 0 ? '+' : '' }}{{ rep.reputation }}</span>
                     </div>
                     <div class="y w-full">
-                        <div class="x justify-between">
-                            <div class="x items-center space-x-1">
+                        <div class="x space-x-2 justify-between">
+                            <div class="x items-center space-x-1 grow">
                                 <Username class="text-xs" :user="rep.sender"/>
                                 <span v-if="rep.sender.banned_at !== null" class="text-sm text-ui-600">(banned)</span>
                             </div>
                             <span class="text-sm text-ui-600">{{ useTimeAgo(rep.created_at) }}</span>
+                            <button v-if="isAdmin" @click="deleteReputation(rep.id)" class="bg-ui-800 rounded p-1.5 text-red-500 hover:text-white hover:bg-red-500">
+                                <Icon class="size-4" name="trash"/>
+                            </button>
                         </div>
                         <span class="text-sm">{{ rep.reason ?? 'none' }}</span>
                     </div>
@@ -99,7 +103,7 @@ onBeforeMount(() => {
             </div>
             <p v-if="!isAuthenticated()" class="pane">You must be logged in to give reputation</p>
             <p v-if="isUser(profile.id)" class="pane">You cannot give yourself reputation</p>
-            <div v-if="isNotUser(profile.id)" class="pane">
+            <div v-if="isNotUser(profile.id)" class="pane !pb-4">
                 <span class="text-sm font-bold">Reputation</span>
                 <select v-model.number="form.reputation" class="mb-1 block rounded p-1 border-ui-700 bg-ui-800 pl-2 pr-8"  :class="repColor(form.reputation, 'text-green-500', 'text-red-500')">
                     <option v-if="isAdmin()" value="3" class="text-green-400">+3</option>
@@ -115,7 +119,7 @@ onBeforeMount(() => {
                 <span class="block text-sm" :class="{'text-amber-500': form.reason.length > 200, 'text-red-500': form.reason.length > 250}">{{form.reason.length}}/250</span>
                 <div class="x space-x-2 mt-2">
                     <Button @click="submit" :disabled="form.reason.length > 250 || form.reason.length === 0">{{ rep ? 'Edit' : 'Submit' }}</Button>
-                    <button v-if="rep" @click="deleteReputation" class="button text-red-500 hover:bg-red-500 hover:text-white">Delete</button>
+                    <button v-if="rep" @click="deleteReputation(rep.id)" class="button text-red-500 hover:bg-red-500 hover:text-white">Delete</button>
                 </div>
             </div>
         </div>

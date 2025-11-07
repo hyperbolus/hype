@@ -172,13 +172,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new ResetPassword($token));
     }
 
-    public function recalculateReputation() {
+    public function recalculateReputation(bool $save = false) {
         $this->reputation = ReputationLog::query()
             ->whereHas('sender', function ($q) {
                 $q->whereNull('banned_at');
             })
             ->where('recipient_id', $this->id)
             ->sum('reputation');
+
+        if ($save) $this->save();
     }
 
     public function toSearchableArray(): array
