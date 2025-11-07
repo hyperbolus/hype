@@ -7,7 +7,7 @@ import {TextStyle} from "@tiptap/extension-text-style";
 import {CharacterCount, Placeholder} from "@tiptap/extensions";
 import {Image} from "@tiptap/extension-image";
 import {StarterKit} from "@tiptap/starter-kit";
-import {HSpoiler} from "@/Components/TipTap/Extensions.js";
+import {Spoiler} from "@/Components/TipTap/Extensions.js";
 
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
@@ -37,7 +37,7 @@ const extensions = [
     Placeholder,
     Image,
     CharacterCount,
-    HSpoiler,
+    Spoiler,
     // TODO: Mentions
 ];
 
@@ -59,8 +59,6 @@ const editor = useEditor({
     onCreate: () => {
         mounted.value = true;
         editor.value.setEditable(props.editable);
-        // console.log('peep[ee')
-        // console.log(generateHTML(editor.value.getJSON(), extensions))
     }
 });
 
@@ -89,11 +87,6 @@ const addLink = () => {
     editor.value.commands.insertContent(`<a href="${addLinkURL.value}" spellcheck="false">${addLinkText.value ? addLinkText.value : addLinkURL.value}</a>`)
     addLinkURL.value = '';
     addLinkText.value = '';
-}
-
-// TODO: smart insertion, make it work like a mark
-const addSpoiler = () => {
-    editor.value.commands.insertContent(`<h-spoiler><p>Spoiler Text</p></h-spoiler> `)
 }
 
 const addVideoURL = ref('');
@@ -145,7 +138,7 @@ const addVideoURL = ref('');
                 <Icon title="Undo" @click="editor.chain().focus().undo().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="arrow-uturn-left"/>
                 <Icon title="Redo" @click="editor.chain().focus().undo().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="arrow-uturn-right"/>
                 <Icon title="Source" @click="source = !source" v-if="isAuthenticated() && getUser().roles.includes('admin')" :class="{ 'bg-ui-700': source }" class="mx-2 my-1 w-5" size="24" type="outline" name="code-bracket"/>
-                <Icon title="Spoiler" @click="addSpoiler" class="mx-2 my-1 w-5" size="24" type="outline" name="eye-slash"/>
+                <Icon title="Spoiler" @click="editor.chain().focus().toggleSpoiler().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="eye-slash"/>
 
                 <div class="py-3 border-x border-ui-700"></div>
 

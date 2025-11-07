@@ -1,38 +1,36 @@
-import { mergeAttributes, Node } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import {Mark} from '@tiptap/core'
+import {VueMarkViewRenderer} from '@tiptap/vue-3'
 
-import Spoiler from './Spoiler.vue'
+import SpoilerComponent from './Spoiler.vue'
 
-export const HSpoiler = Node.create({
-    name: 'h-spoiler',
-
-    group: 'inline',
-
-    inline: true,
-
-    content: 'text*',
-
-    addAttributes() {
-        return {
-            visible: {
-                default: false,
-            },
-        }
-    },
+export const Spoiler = Mark.create({
+    name: 'spoiler',
 
     parseHTML() {
         return [
-            {
-                tag: 'h-spoiler',
-            },
+            { tag: 'spoiler' }
         ]
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['h-spoiler', mergeAttributes(HTMLAttributes), 0]
+        return ['spoiler', HTMLAttributes, 0]
     },
 
-    addNodeView() {
-        return VueNodeViewRenderer(Spoiler)
+    addMarkView() {
+        return VueMarkViewRenderer(SpoilerComponent)
+    },
+
+    addCommands() {
+        return {
+            setSpoiler: () => ({ commands }) => {
+                return commands.setMark(this.name)
+            },
+            toggleSpoiler: () => ({ commands }) => {
+                return commands.toggleMark(this.name)
+            },
+            unsetSpoiler: () => ({ commands }) => {
+                return commands.unsetMark(this.name)
+            },
+        }
     },
 })
