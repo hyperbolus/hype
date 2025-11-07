@@ -2,11 +2,16 @@
 import AppLayout from '@/Layouts/Dash.vue'
 import {Link, useForm} from '@inertiajs/vue3';
 import Button from "@/Jetstream/Button.vue";
-import {ref} from "vue";
+import {ref, useTemplateRef} from "vue";
 import route from "ziggy-js";
 
 const props = defineProps({
     level: Object
+})
+
+const video = useForm({
+    action: 'update preview',
+    content: null
 })
 
 const banner = useForm({
@@ -14,11 +19,18 @@ const banner = useForm({
     content: null
 })
 
-const bannerPreview = ref(null)
+const bannerPreview = useTemplateRef('banner_preview')
+const videoPreview = useTemplateRef('video_preview')
 
 const changeBanner = () => {
     banner.post(route('levels.update', props.level), {
         errorBag: 'changeBanner',
+    })
+}
+
+const changeVideo = () => {
+    video.post(route('levels.update', props.level), {
+        errorBag: 'changeVideo',
     })
 }
 
@@ -28,18 +40,7 @@ const previewImage = (e, form, ref) => {
 }
 </script>
 <template>
-    <app-layout title="Home">
-        <template #breadcrumbs>
-            <Link :href="route('levels.index')">Levels</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <Link :href="route('levels.show', level.id)">{{ level.id }}</Link>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-            </svg>
-            <span>Edit</span>
-        </template>
+    <app-layout>
         <div class="y space-y-4 w-2/3">
             <h2 class="font-bold text-2xl">Edit</h2>
             <form @submit.prevent="changeBanner" class="y pane space-y-2">
@@ -47,13 +48,29 @@ const previewImage = (e, form, ref) => {
                 <img class="max-h-32 self-start object-scale-down" ref="banner_preview" :src="level.banner_url" alt="Banner"/>
                 <input type="file" @input="previewImage($event, banner, $refs.banner_preview)"/>
                 <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                    <li v-for="(error, key) in $page.props.errors.changeBanner" :key="key">
-                        {{ error }}
-                    </li>
+                    <li v-for="(error, key) in $page.props.errors.changeBanner" :key="key">{{ error }}</li>
                 </ul>
                 <div class="x items-center pb-2">
                     <Button class="w-fit">Change Level Banner</Button>
                     <div class="x ml-2 text-green-500 opacity-0 transition-all" :class="{'!opacity-100': !banner.isDirty && banner.recentlySuccessful}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-0.5">
+                            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Done!</span>
+                    </div>
+                </div>
+            </form>
+
+            <form @submit.prevent="changeVideo" class="y pane space-y-2">
+                <h2 class="font-bold text-xl">Preview Video</h2>
+                <video class="max-h-64 self-start object-scale-down" ref="video_preview" :src="level.preview_url" controls></video>
+                <input @input="previewImage($event, video, $refs.video_preview)" type="file"/>
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    <li v-for="(error, key) in $page.props.errors.changeVideo" :key="key">{{ error }}</li>
+                </ul>
+                <div class="x items-center pb-2">
+                    <Button class="w-fit">Change Level Preview</Button>
+                    <div class="x ml-2 text-green-500 opacity-0 transition-all" :class="{'!opacity-100': !video.isDirty && video.recentlySuccessful}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-0.5">
                             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
                         </svg>
