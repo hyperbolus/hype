@@ -8,11 +8,9 @@ import {CharacterCount, Placeholder} from "@tiptap/extensions";
 import {Image} from "@tiptap/extension-image";
 import {StarterKit} from "@tiptap/starter-kit";
 import {Spoiler} from "@/Components/TipTap/Extensions.js";
-
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
 import Icon from "@/Components/Icon.vue";
-import {getUser, isAuthenticated} from "@/util.js";
 import Tooltip from "@/Components/Tooltip.vue";
 import {generateHTML, generateJSON} from "@tiptap/html";
 
@@ -145,7 +143,9 @@ const addVideoURL = ref('');
 
                 <Icon title="Undo" @click="editor.chain().focus().undo().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="arrow-uturn-left"/>
                 <Icon title="Redo" @click="editor.chain().focus().undo().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="arrow-uturn-right"/>
-                <Icon title="Source" @click="source = !source" v-if="isAuthenticated() && getUser().roles.includes('admin')" :class="{ 'bg-ui-700': source }" class="mx-2 my-1 w-5" size="24" type="outline" name="code-bracket"/>
+                <button title="Source" class="px-2 py-0.5 rounded" @click="source = !source" :class="{ 'bg-ui-700': source }">
+                    <Icon class="size-5 my-1" size="24" type="outline" name="code-bracket"/>
+                </button>
                 <Icon title="Spoiler" @click="editor.chain().focus().toggleSpoiler().run()" class="mx-2 my-1 w-5" size="24" type="outline" name="eye-slash"/>
 
                 <div class="py-3 border-x border-ui-700"></div>
@@ -205,7 +205,7 @@ const addVideoURL = ref('');
         <div v-else-if="modelValue" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert">
             <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(modelValue, extensions), extensions)"></div>
         </div>
-        <pre v-if="source" class="p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</pre>
+        <textarea readonly v-if="source" class="bg-ui-900 border-transparent focus-visible:ring-0 focus-visible:border-transparent !border-t-ui-700 p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</textarea>
         <div v-if="editable" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
             <span>{{ modelValue.split(' ').length }} Words</span>
             <span>{{ modelValue.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
