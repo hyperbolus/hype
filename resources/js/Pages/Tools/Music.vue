@@ -2,7 +2,7 @@
 import prettyBytes from "pretty-bytes";
 import Tooltip from "@/Components/Tooltip.vue";
 import Input from "@/Jetstream/Input.vue";
-import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
+import {computed, onBeforeMount, ref, watch} from "vue";
 import {getGame, toHHMMSS} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
 import ControlBar from "@/Components/ControlBar.vue";
@@ -411,7 +411,7 @@ watch(tab, (value) => {
 })
 
 watch(() => config.value.urls.files, () => {
-    if (!config.value.oggDisclaimer && document.createElement('audio').canPlayType("audio/ogg") !== 'probably') {
+    if (!config.value.oggDisclaimer && document.createElement('audio').canPlayType("audio/ogg") === '') {
         alert('Your device may not support OGG playback. For best experience, view this page on desktop running a modern browser.');
         config.value.oggDisclaimer = true;
     }
@@ -468,7 +468,7 @@ const openContextMenu = (e, id) => {
     e.preventDefault();
 };
 
-const songInfoOpen = ref(true);
+const songInfoOpen = ref(false);
 
 const { copy: toClipboard } = useClipboard({ source: '', legacy: true });
 
@@ -641,11 +641,11 @@ const deletePlaylist = (i) => {
             <div class="x grow lg:px-2 gap-2 z-0 relative">
                 <!-- Side Navigation -->
                 <div class="flex-col hidden lg:flex lg:w-1/4 xl:w-1/5 2xl:w-1/6 bg-ui-950 rounded-lg p-2 shrink-0">
-                    <div v-for="(tab, i) in tabs" @click="openTab(i)" class="x items-center space-x-3 font-bold text-lg hover:bg-ui-900 rounded-lg p-2 cursor-pointer select-none">
-                        <div class="x items-center justify-center rounded-md bg-gradient-to-b text-white size-12" :class="[tab.color, tab.gradient]">
-                            <Icon :name="tab.icon" size="24" class="size-7"/>
+                    <div v-for="(t, i) in tabs" @click="openTab(i)" class="x items-center space-x-3 font-bold text-lg hover:bg-ui-900 rounded-lg p-2 cursor-pointer select-none" :class="{'bg-ui-800': tab === i}">
+                        <div class="x items-center justify-center rounded-md bg-gradient-to-b text-white size-12" :class="[t.color, t.gradient]">
+                            <Icon :name="t.icon" size="24" class="size-7"/>
                         </div>
-                        <span>{{ tab.title }}</span>
+                        <span>{{ t.title }}</span>
                     </div>
                     <div class="border-t border-ui-800 mx-4 my-2"></div>
                     <div class="x text-center gap-2 p-2">
@@ -686,7 +686,7 @@ const deletePlaylist = (i) => {
                 <!-- Main View -->
                 <div v-else class="y z-0 grow overflow-hidden lg:rounded-lg">
                     <!-- Hero Section -->
-                    <div class="y relative p-4 pt-4 h-48 lg:h-72 text-white transition-[height] duration-300" :class="{'!h-[50%]': filters.open && currentArtist === 0 && tab === 2}">
+                    <div class="y relative p-4 pt-4 h-48 lg:h-72 text-white transition-[height] duration-300" :class="{'!h-[80%] lg:!h-[50%]': filters.open && currentArtist === 0 && tab === 2}">
                         <div class="y justify-between z-10 relative grow">
                             <!-- Hero Header Navigation -->
                             <div class="x w-full justify-between" :class="{'invisible': tab !== 2}">
@@ -730,8 +730,8 @@ const deletePlaylist = (i) => {
                             </div>
 
                             <!-- Advanced Filters -->
-                            <div v-if="filters.open && currentArtist === 0 && tab === 2" class="y space-y-2 bg-ui-1000/25 overflow-y-auto scroller grow rounded-lg w-full p-4 relative z-10 mt-2">
-                                <div class="flex flex-col xl:flex-row justify-between lg:space-x-2">
+                            <div v-if="filters.open && currentArtist === 0 && tab === 2" class="y space-y-2 bg-ui-1000/25 grow rounded-lg w-full relative z-10 mt-2">
+                                <div class="flex flex-col xl:flex-row lg:space-x-2 overflow-y-auto scroller absolute inset-0 p-4 ">
                                     <div class="y xl:w-1/2">
                                         <span>Song Title</span>
                                         <input v-model="filters.query" type="text" class="rounded-lg px-2 py-1 border-none bg-ui-950/50 shrink-0 placeholder-ui-400" placeholder="Search"/>
@@ -769,27 +769,9 @@ const deletePlaylist = (i) => {
                                         </div>
                                     </div>
                                     <div class="y space-y-2 mt-2 xl:mt-0 xl:w-1/2">
-                                        <details>
-                                            <summary class="rounded-lg bg-ui-1000/25 px-2 py-1">Exclude Artists</summary>
-                                            <div class="rounded-lg bg-ui-1000/25 border-none mt-1 p-2 grow-0 shrink">
-                                                <ComboBox v-model="filters.blocklist.artists" :options="lib.artists" key-name="name" class="w-full"/>
-                                            </div>
-                                        </details>
-                                        <details>
-                                            <summary class="rounded-lg bg-ui-1000/25 px-2 py-1">Include Artists</summary>
-                                            <div class="rounded-lg bg-ui-1000/25 border-none mt-1 p-2 grow-0 shrink">
-                                                <ComboBox v-model="filters.allowlist.artists" :options="lib.artists" key-name="name" class="w-full"/>
-                                            </div>
-                                        </details>
-                                        <details>
-                                            <summary class="rounded-lg bg-ui-1000/25 px-2 py-1">Exclude Tags</summary>
-                                            <div class="rounded-lg bg-ui-1000/25 border-none mt-1 p-2 grow-0 shrink">
-                                                <ComboBox v-model="filters.blocklist.tags" :options="lib.tags" class="w-full"/>
-                                            </div>
-                                        </details>
-                                        <details class="rounded-lg bg-ui-1000/25 border-none px-2 py-1 grow-0 shrink">
-                                            <summary class="select-none">Include Tags</summary>
-                                            <ComboBox v-model="filters.allowlist.tags" :options="lib.tags" class="w-full my-1"/>
+                                        <details v-for="(list, i) in ['artists', 'artists', 'tags', 'tags']" class="rounded-lg bg-ui-1000/25 border-none px-2 py-1 grow-0 shrink">
+                                            <summary class="select-none">{{i % 2 ? 'Ex': 'In'}}clude <span class="capitalize">{{list}}</span> ({{filters[i % 2 ? 'blocklist' : 'allowlist'][list].length}})</summary>
+                                            <ComboBox v-model="filters[i % 2 ? 'blocklist' : 'allowlist'][list]" :options="lib[list]" :key-name="list === 'artists' ? 'name' : null" class="w-full my-1"/>
                                         </details>
                                     </div>
                                 </div>
@@ -805,8 +787,8 @@ const deletePlaylist = (i) => {
                     <!-- Tabs -->
                     <div v-if="tab === 0" class="grow relative bg-ui-950/75">
                         <div class="y space-y-2 absolute inset-0 overflow-y-auto p-8 scroller">
-                            <div class="x justify-around">
-                                <div class="y" v-for="key in ['songs', 'artists', 'tags']">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                                <div class="y items-center sm:last:col-span-2 xl:last:col-span-1" v-for="key in ['songs', 'artists', 'tags']">
                                     <span class="font-bold text-6xl">{{ Object.keys(lib[key]).length }}</span>
                                     <span class="uppercase tracking-widest text-ui-500">{{ key }}</span>
                                 </div>
@@ -824,7 +806,7 @@ const deletePlaylist = (i) => {
                     </div>
                     <div v-if="tab === 1" class="grow relative">
                         <RecycleScroller
-                            class="overflow-y-auto inset-0 !absolute p-4 bg-ui-950/75 rounded-b-lg scroller"
+                            class="overflow-y-auto inset-0 !absolute p-4 bg-ui-950/75 lg:rounded-b-lg scroller"
                             :items="filteredArtists"
                             :item-size="40"
                             v-slot="{ item, index }">
@@ -850,7 +832,7 @@ const deletePlaylist = (i) => {
                         <p v-if="filteredItems.length === 0" class="relative z-10 p-2 text-center">No Results</p>
                         <RecycleScroller
                             ref="scrollerSongs"
-                            class="overflow-y-auto inset-0 !absolute p-2 lg:p-4 bg-ui-950/75 rounded-b-lg scroller"
+                            class="overflow-y-auto inset-0 !absolute p-2 lg:p-4 bg-ui-950/75 lg:rounded-b-lg scroller"
                             :items="filteredItems"
                             :item-size="50"
                             v-slot="{ item, index }">
@@ -869,7 +851,8 @@ const deletePlaylist = (i) => {
                                 <div class="y grow leading-tight !ml-0 lg:!ml-3">
                                     <div class="x items-center space-x-2 text-sm">
                                         <span v-if="filters.query === ''" class="line-clamp-1" :class="{'text-blue-500': currentSong === item.song.id}">{{ item.song.name }}</span>
-                                        <span v-else>
+                                        <!-- TODO@later: maybe marquee for long lines or auto detect trim because highlighted fragments can get cut off -->
+                                        <span v-else class="line-clamp-1">
                                             <span v-for="(frag, i) in highlight(filters.query, item.song.name)" :class="{'bg-blue-500': i === 1}">{{ frag }}</span>
                                         </span>
                                         <span v-if="item.song.platform === 1" class="bg-black text-white px-1 py-0.5 rounded text-xs">NCS</span>
@@ -891,7 +874,7 @@ const deletePlaylist = (i) => {
                             </div>
                         </RecycleScroller>
                     </div>
-                    <div v-if="tab === 3" class="y space-y-2 grow relative bg-ui-950/75 rounded-b-lg p-8">
+                    <div v-if="tab === 3" class="y space-y-2 grow relative bg-ui-950/75 lg:rounded-b-lg p-8">
                         <div class="y">
                             <div class="x items-end space-x-2">
                                 <div class="y grow">
