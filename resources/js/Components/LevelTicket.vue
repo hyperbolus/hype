@@ -37,7 +37,7 @@ onChange((files) => {
 </script>
 <template>
     <div class="pane z-10 !px-0 !py-0 relative group/ticket hover:shadow-lg transition-shadow text-ui-300 delay-0">
-        <div class="x relative z-10 items-center md:space-x-2 z-20">
+        <div class="x relative items-center md:space-x-2 z-20">
             <div class="y w-full items-start relative z-0">
                 <Link :href="route('levels.show', level.id)" class="z-0 absolute inset-0"></Link>
                 <div class="x items-stretch relative z-10 [text-shadow:black_0_0_10px]">
@@ -113,6 +113,7 @@ onChange((files) => {
             </div>
         </div>
         <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]">
+            <video v-if="level.preview_url" class="absolute top-1/2 w-full -translate-y-1/2 opacity-0 group-hover/ticket:opacity-100 transition-opacity z-10" :src="level.preview_url" muted autoplay loop></video>
             <img loading="lazy" class="absolute top-1/2 w-full -translate-y-1/2 -md:w-4/5 group-hover/ticket:scale-105 transition-transform" :src="level.banner_url ?? ('https://levelthumbs.prevter.me/thumbnail/' + level.id + '/small')" alt="">
         </div>
     </div>

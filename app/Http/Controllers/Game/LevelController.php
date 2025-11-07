@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 
 class LevelController extends Controller
 {
@@ -238,11 +238,11 @@ class LevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Level $level): Response
+    public function edit(Level $level): Responsable
     {
-        return Inertia::render('Levels/Edit', [
+        return page('Levels/Edit', [
             'level' => $level,
-        ]);
+        ])->meta('Edit', 'Edit level metadata');
     }
 
     /**
@@ -250,17 +250,19 @@ class LevelController extends Controller
      */
     public function update(Request $request, Level $level): RedirectResponse
     {
+        $disk = Storage::disk('contabo');
+
         switch ($request->input('action')) {
             case 'update banner':
                 $request->validate([
                     'content' => 'mimes:jpeg,jpg,png,webp,gif|required|max:5000',
                 ]);
-                $disk = Storage::disk('contabo');
+
                 $old = $level->banner_url;
 
-                $image = Image::make($request->file('content')->getRealPath())
-                    ->fit(1920, 1080)
-                    ->stream('jpeg', 80);
+                $image = ImageManager::imagick()->read($request->file('content')->getRealPath())
+                    ->cover(1920, 1080)
+                    ->toJpeg(80);
 
                 $filename = explode('.', $request->file('content')->hashName());
                 $filename[count($filename) - 1] = 'jpg';
@@ -271,9 +273,23 @@ class LevelController extends Controller
                     $level->save();
 
                     // Delete old if no more references
-                    if (Level::query()->where('banner_url', $old)->count() === 0) {
-                        $disk->delete(substr($old, strlen(config('app.storage_url'))));
-                    }
+                    if (Level::query()->where('banner_url', $old)->count() === 0) $disk->delete(substr($old, strlen(config('app.storage_url'))));
+                }
+                break;
+            case 'update preview':
+                $request->validate([
+                    'content' => 'mimes:webm|required|max:10000',
+                ]);
+
+                $old = $level->preview_url;
+
+                $path = 'levels/previews/';
+
+                if ($request->file('content')->storePubliclyAs($path, $request->file('content')->hashName(), 'contabo')) {
+                    $level->preview_url = config('app.storage_url') . $path . $request->file('content')->hashName();
+                    $level->save();
+
+                    if (Level::query()->where('preview_url', $old)->count() === 0) $disk->delete(substr($old, strlen(config('app.storage_url'))));
                 }
                 break;
         }
