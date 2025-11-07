@@ -7,12 +7,12 @@ import {TextStyle} from "@tiptap/extension-text-style";
 import {CharacterCount, Placeholder} from "@tiptap/extensions";
 import {Image} from "@tiptap/extension-image";
 import {StarterKit} from "@tiptap/starter-kit";
-import {Spoiler} from "@/Components/TipTap/Extensions.js";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Input from "@/Jetstream/Input.vue";
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import {generateHTML, generateJSON} from "@tiptap/html";
+import {LargeLink, Spoiler} from "./TipTap/Extensions";
 
 const props = defineProps({
     modelValue: {
@@ -36,6 +36,7 @@ const extensions = [
     Image,
     CharacterCount,
     Spoiler,
+    LargeLink,
     // TODO: Mentions
 ];
 
