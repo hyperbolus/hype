@@ -5,13 +5,26 @@ namespace App;
 class Wiki
 {
     public static array $namespaces = [
+        // Standard
         'Page' => 0,
-        'Level' => 1,
-        'Profile' => 2,
-        'Tag' => 3,
-        'Term' => 4,
-        'Book' => 5,
-        'Wiki' => 6,
+
+        // Functional
+        'Special' => 1,
+
+        // Meta
+        'Wiki' => 2,
+        'Help' => 3,
+
+        // Dictionary
+        'Term' => 10,
+
+        // Guide
+        'Book' => 11,
+
+        // DB Backed
+        'Level' => 20,
+        'Profile' => 21,
+        'Tag' => 22,
     ];
 
     public static string $defaultNamespace = 'Page';
