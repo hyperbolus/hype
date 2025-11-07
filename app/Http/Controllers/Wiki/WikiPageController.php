@@ -9,7 +9,6 @@ use App\Models\WikiPage;
 use App\Wiki;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class WikiPageController extends Controller
@@ -104,7 +103,12 @@ class WikiPageController extends Controller
         // implicit so no redirect
         if (!$ns) $ns = Wiki::$defaultNamespace;
 
-        if (!array_key_exists($ns, Wiki::$namespaces)) abort(404, 'Namespace not found');
+        // path: /wiki/Re:Zero ns = Re but invalid so it must be a page name
+        if (!array_key_exists($ns, Wiki::$namespaces)) {
+            $page = $ns . ':' . $page;
+            $ns = Wiki::$defaultNamespace;
+            if ($subpath) $page .= '/' . $subpath;
+        }
 
         // explicit so we redirect
         // path: /wiki/
