@@ -148,6 +148,7 @@ class WikiPageController extends Controller
                 'namespace' => $ns,
                 'revisions' => $article?->revisions()
                     ->with(['author', 'size'])
+                    ->latest()
                     ->paginate(25),
             ])->meta($title, 'View revision history of ' . $title)
                 ->breadcrumbs([crumb('Wiki', route('wiki'))]);
