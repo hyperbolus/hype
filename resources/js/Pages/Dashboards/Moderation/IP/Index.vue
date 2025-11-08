@@ -64,7 +64,7 @@ const append = (route, key, value) => {
         <QueryResults title="Results" :sorting="sorting" :results="ips" v-slot="{item}" container-classes="y space-y-2">
             <div class="x space-x-2 justify-between items-center pane !pr-2">
                 <span class="w-[7ch] text-ui-500 text-sm font-mono text-right">{{item.id}}</span>
-                <Timestamp class="bg-ui-800 px-2 py-0.5 rounded text-sm" position="right" :time="item.last_seen_at"/>
+                <Timestamp class="bg-ui-800 px-2 py-0.5 rounded text-sm w-28 text-center" position="right" :time="item.last_seen_at"/>
                 <Link :href="append('moderation.ip.index', 'address', item.address)" class="grow text-sm">{{item.address}}</Link>
                 <Username v-if="item.user" :user="item.user"/>
                 <Link :href="append('moderation.ip.index', 'user', item.user.id)" class="rounded-md bg-ui-800 p-1">

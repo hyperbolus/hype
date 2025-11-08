@@ -24,7 +24,7 @@ class ModerationIPController extends Controller
             'type' => $request->string('type', 'all'),
             'address' => $request->string('address'),
 
-            'ips' => $query->paginate(),
+            'ips' => $query->paginate()->appends($request->all()),
             'sorting' => sorting(IP::class),
         ]);
     }
