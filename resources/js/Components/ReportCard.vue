@@ -5,6 +5,7 @@ import {Link, useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import {useSettingsStore} from "@/stores/settings.ts";
 import Avatar from "@/Components/Avatar.vue";
+import Post from "./Post.vue";
 
 const props = defineProps({
     report: Object,
@@ -32,6 +33,7 @@ const settings = useSettingsStore().settings['_report_reasons']
                     <span v-if="report.reportable_type === 1">User</span>
                     <span v-else-if="report.reportable_type === 42">Review</span>
                     <span v-else-if="report.reportable_type === 21">Post</span>
+                    <span v-else-if="report.reportable_type === 23">Profile Comment</span>
                     <span class="text-red-500" v-else>Cannot display this report type: {{ report.reportable_type }}</span>
                 </div>
                 <span class="text-white font-bold">
@@ -41,11 +43,16 @@ const settings = useSettingsStore().settings['_report_reasons']
             </div>
         </div>
         <span class="text-sm mt-1">Reported Item</span>
-        <div class="p-2 bg-ui-950 rounded-md">
-            <Username v-if="report.reportable_type === 1 && report.reportable" :user="report.reportable"/>
-            <LevelReview v-if="report.reportable_type === 42 && report.reportable" :review="report.reportable"/>
-            <p class="text-red-500" v-if="report.reportable === null">The reported item has been deleted</p>
+        <div v-if="report.reportable" class="p-2 bg-ui-950 rounded-md">
+            <Username v-if="report.reportable_type === 1" :user="report.reportable"/>
+            <LevelReview v-if="report.reportable_type === 42" :review="report.reportable"/>
+            <Post v-if="report.reportable_type === 21" :post="report.reportable"/>
+            <div v-if="report.reportable_type === 23">
+                <p>{{ report.reportable.body }}</p>
+                <p class="text-ui-500 text-sm">Posted by <Username :user="report.reportable.commenter"/> on <Username :user="report.reportable.user"/>'s Profile</p>
+            </div>
         </div>
+        <p v-else class="text-red-500">The reported item has been deleted</p>
         <div class="x space-x-2 justify-between items-start">
             <div class="w-full">
                 <span class="text-sm mt-1">Subject</span>

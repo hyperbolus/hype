@@ -8,7 +8,6 @@ use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\System\ProfileComment;
 use App\Models\System\Report;
-use App\Models\System\User;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,7 +35,17 @@ class ModerationReportController extends Controller
         }
 
         return ModerationDashboard::page('moderation.reports.index', [
-            'reports' => $reports->paginate(10),
+            'reports' => $reports->paginate(10)
+                ->appends([
+                    'model' => $search['model'],
+                    'status' => $search['status'],
+                    'reasons' => $search['reasons'],
+                ])
+                ->loadMorph('reportable', [
+                    Post::class => ['author', 'media', 'reactions', 'reactions.reacter'],
+                    Review::class => ['author', 'level'],
+                    ProfileComment::class => ['commenter', 'user'],
+                ]),
             'search' => $search
         ]);
     }
@@ -93,19 +102,13 @@ class ModerationReportController extends Controller
 
     public function show(Request $request, Report $report): Responsable
     {
-        $reportables = [
-            User::class,
-            Post::class,
-            Review::class,
-            ProfileComment::class
-        ];
-
-        $input = $request->validate([
-            'type' => [Rule::in(['user', 'post', 'profilecomment', 'review'])]
-        ]);
-
         return ModerationDashboard::page('moderation.reports.show', [
             'report' => $report->load(['reporter', 'reportable'])
+                ->loadMorph('reportable', [
+                    Post::class => ['author', 'media', 'reactions', 'reactions.reacter'],
+                    Review::class => ['author', 'level'],
+                    ProfileComment::class => ['commenter', 'user'],
+                ])
         ]);
     }
 

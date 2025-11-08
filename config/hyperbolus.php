@@ -31,8 +31,11 @@ return [
         'level' => 40,
         'replay' => 41,
         'review' => 42,
+        'video' => 42,
 
         'style' => 61,
+
+        'wikipage' => 70
     ],
 
     'staff_webhook_url' => env('STAFF_WEBHOOK_URL'),
