@@ -88,82 +88,68 @@ class WikiPageController extends Controller
 
     public function show(Request $request, string $path = '')
     {
-        $matches = [];
-        preg_match(
-            '/(?:(?<lang>[a-zA-Z0-9_]*?)\/)?(?:(?<ns>[a-zA-Z0-9_]*):)?(?<page>[a-zA-Z0-9_]*)(?:\/(?<path>.*))?/',
-            $path,
-            $matches
-        );
+        $revision = null;
+        $revisions = null;
+        $article = null;
+        $action = $request->string('action', 'read')->toString();
 
-        $lang = $matches['lang'] ?? null;
-        $ns = $matches['ns'] ?? null;
-        $page = $matches['page'] ?? null;
-        $subpath = $matches['path'] ?? null;
+        [
+            'lang' => $lang,
+            'namespace' => $namespace,
+            'title' => $title,
+            'redirect' => $redirect,
+        ] = Wiki::parsePath($path);
 
-        // implicit so no redirect
-        if (!$ns) $ns = Wiki::$defaultNamespace;
+        if ($namespace === 'Revision') {
+            // We actually want the opposite because the URI we're aiming for would typically redirect
+            if (!$redirect) return redirect()->route('wiki', 'Revision:' . $title);
 
-        // path: /wiki/Re:Zero ns = Re but invalid so it must be a page name
-        if (!array_key_exists($ns, Wiki::$namespaces)) {
-            $page = $ns . ':' . $page;
-            $ns = Wiki::$defaultNamespace;
-            if ($subpath) $page .= '/' . $subpath;
-        }
+            $revision = ModelRevision::query()
+                ->where('model_type', 70)
+                ->where('id', $title)
+                ->with(['model', 'text', 'author'])
+                ->firstOrFail();
 
-        // explicit so we redirect
-        // path: /wiki/
-        if (!$lang && !$page) {
-            return redirect()->route('wiki', Wiki::$defaultLang . '/' . Wiki::$mainPage);
-        }
+            $lang = array_search($revision->lang, Wiki::$languages);
+            $namespace = array_search($revision->namespace, Wiki::$namespaces);
+            $title = $revision->model->title;
 
-        // explicit so we redirect
-        if (!$lang) {
-            // todo@later: check if exists before redirecting?
-            // todo@later: redirect to any lang that has it maybe? or maybe not since .wiki probz will use subdomains edit: nah let it 404 but offer options like disambigutation
+            $article = $revision->model;
+            // remove redundant data due to our weird structuring
+            $revision->makeHidden('model');
 
-            if (array_key_exists($page, Wiki::$languages)) {
-                // path: /wiki/en lang = null but page is a valid lang
-                return redirect()->route('wiki', $page . '/' . Wiki::$mainPage);
-            } else {
-                // path: /wiki/Page_Name lang = null and page = Page_Name
-                return redirect()->route('wiki', Wiki::$defaultLang . '/' . $path);
-            }
-        }
+        } else {
+            if ($redirect) return redirect()->route('wiki', $redirect);
 
-        // todo@1: redirect Level: if empty subpath or have subpath optional?
+            $article = WikiPage::query()
+                ->where('lang', Wiki::$languages[$lang])
+                ->where('namespace', Wiki::$namespaces[$namespace])
+                ->where('title', $title)
+                ->first();
 
-        $title = $page;
-        if ($subpath) $title .= '/' . $subpath;
-
-        $article = WikiPage::query()
-            ->where('lang', Wiki::$languages[$lang])
-            ->where('namespace', Wiki::$namespaces[$ns])
-            ->where('title', $title)
-            ->with(['revision.text'])
-            ->first();
-
-        if ($request->string('action') == 'history') {
-            $title .= ': Revision History';
-
-            return page('Wiki/History', [
-                'page' => $article,
-                'title' => $title,
-                'language' => $lang,
-                'namespace' => $ns,
-                'revisions' => $article?->revisions()
+            if ($action === 'history') {
+                // include revision history
+                $revisions = $article?->revisions()
                     ->with(['author', 'size'])
                     ->latest()
-                    ->paginate(25),
-            ])->meta($title, 'View revision history of ' . $title)
-                ->breadcrumbs([crumb('Wiki', route('wiki'))]);
+                    ->paginate(25);
+            } else {
+                // If viewing or editing grab the latest revision
+                $revision = $article->revision()->with(['text'])->first();
+            }
         }
 
         return page('Wiki/Show', [
             'page' => $article,
+            'revision' => $revision,
+            'revisions' => $revisions,
+
+            'path' => $path,
             'title' => $title,
             'language' => $lang,
-            'namespace' => $ns,
-            'editing' => $request->string('action') == 'edit'
+            'namespace' => $namespace,
+
+            'action' => $action,
         ])->meta($title, 'CHANGE ME')
             ->breadcrumbs([crumb('Wiki', route('wiki'))]);
     }

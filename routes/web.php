@@ -288,10 +288,14 @@ Route::get('/tools/music', [\App\Http\Controllers\ToolsController::class, 'music
 
 //Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
 
-Route::get('/wiki/random', [WikiPageController::class, 'random'])->name('wiki.random');
-Route::get('/wiki/{path?}', [WikiPageController::class, 'show'])->where(['path' => '(.*)'])->name('wiki');
-Route::post('/wiki/new', [WikiPageController::class, 'store'])->name('wiki.store')->middleware(['role:admin']);
-Route::patch('/wiki/{page:id}', [WikiPageController::class, 'update'])->name('wiki.update')->middleware(['role:admin']);
+Route::group(['prefix' => '/wiki'], function () {
+    Route::get('/random', [WikiPageController::class, 'random'])->name('wiki.random');
+
+    Route::get('/{path?}', [WikiPageController::class, 'show'])->where(['path' => '(.*)'])->name('wiki');
+
+    Route::post('/new', [WikiPageController::class, 'store'])->name('wiki.store')->middleware(['role:admin']);
+    Route::patch('/{page:id}', [WikiPageController::class, 'update'])->name('wiki.update')->middleware(['role:admin']);
+});
 
 Route::impersonate();
 

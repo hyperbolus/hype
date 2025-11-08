@@ -15,6 +15,11 @@ class ModelRevision extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function model(): BelongsTo
+    {
+        return $this->morphTo();
+    }
+
     public function text(): HasOne
     {
         return $this->hasOne(RevisionText::class, 'revision_id')->whereNull('key');

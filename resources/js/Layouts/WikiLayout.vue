@@ -1,6 +1,6 @@
 <script setup>
 import {onBeforeMount} from 'vue';
-import {Head, Link, usePage} from '@inertiajs/vue3';
+import {Head, Link} from '@inertiajs/vue3';
 import NetworkNav from "@/Components/NetworkNav.vue";
 import SiteNav from "@/Components/SiteNav.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
@@ -9,12 +9,14 @@ import patternBG from "@/../images/card_background_outline.svg"
 import {useSettingsStore} from "@/stores/settings.ts";
 import {useStatisticsStore} from "@/stores/statistics.ts";
 import route from "ziggy-js";
-import {getGame, getUser} from "@/util.js";
+import {getGame} from "@/util.js";
 import logo from "@/../images/gdwiki.png";
 
 const props = defineProps({
     title: String,
     namespace: String,
+    outdated: Boolean,
+    permalink: Boolean,
     language: String,
     edited_at: [Number, String],
 });
@@ -36,7 +38,6 @@ const links = [
             'Forums': route('forums.index'),
             'Levels': route('levels.index'),
             'Reviews': route('reviews.index'),
-            // 'Workshop': route('home'),
         },
     },
     {
@@ -47,7 +48,6 @@ const links = [
         },
     }
 ];
-console.log(usePage().url.replace(/\/$/, ''))
 
 onBeforeMount(() => {
     // Required for global cache on first load
@@ -79,7 +79,8 @@ onBeforeMount(() => {
                 <div class="y grow space-y-2">
                     <article class="y space-y-2 p-6 grow">
                         <div class="x space-x-1.5 items-center border-b border-ui-700 pb-1">
-                            <span class="text-xl font-bold uppercase rounded px-2 py-0.5 bg-ui-800" v-if="namespace !== 'Page'">{{ namespace }}</span>
+                            <span class="text-xl font-bold uppercase rounded px-2 py-0.5 bg-amber-500 text-white" v-if="permalink">Revision</span>
+                            <span class="text-xl font-bold uppercase rounded px-2 py-0.5 bg-ui-800" v-if="namespace !== 'Article'">{{ namespace }}</span>
                             <h1 class="text-3xl font-serif">{{ title ?? $page.props?.__meta_title }}</h1>
                         </div>
                         <slot/>
