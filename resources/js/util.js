@@ -245,6 +245,8 @@ export const toHHMMSS = (n) => {
     return time;
 }
 
+export const objFirst = (obj, fallback = null) => Object.keys(obj)[0] ?? fallback;
+
 export const readonly = (e, reset) => {
     e.currentTarget.value = reset;
     return true;
