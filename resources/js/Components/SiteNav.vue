@@ -24,7 +24,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                         <Dropdown v-if="node.hasOwnProperty('children')" align="left" container-classes="shadow-xl w-[32rem] top-[80%]" class="h-full x items-center">
                             <template #trigger>
                                 <div class="x items-center hover:bg-ui-950 px-3 py-2 rounded">
-                                    <Icon class="w-4 w-4" :name="node.icon" size="20" type="solid"/>
+                                    <Icon class="w-4" :name="node.icon" size="20" type="solid"/>
                                     <div class="ml-2 transition-colors">{{ node.name }}</div>
                                 </div>
                             </template>
@@ -33,7 +33,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                                     <div class="p-2" :class="node.type === 'list' ? 'y space-y-2' : 'grid grid-cols-2 gap-2'">
                                         <Link :href="route(child.route)" v-for="(child, key) in node.children" :key="key" class="block relative group/nav-link" :class="{'last:col-span-2': node.children.length % 2}">
                                             <div class="x space-x-3 h-full items-center py-2 px-4">
-                                                <Icon class="w-6 w-6 group-hover/nav-link:[filter:drop-shadow(0_0_3px_rgb(103_232_249))]" :name="child.icon" size="20" type="solid"/>
+                                                <Icon class="w-6 group-hover/nav-link:[filter:drop-shadow(0_0_3px_rgb(103_232_249))]" :name="child.icon" size="20" type="solid"/>
                                                 <div class="y">
                                                     <h3 class="font-bold text-emerald-400">{{ child.name }}</h3>
                                                     <h4 class="text-xs">{{ child.description ?? ':3' }}</h4>
@@ -46,7 +46,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
                             </template>
                         </Dropdown>
                         <Link v-else :href="route(node.route)" class="x block hover:bg-ui-950 px-3 py-2 rounded transition-colors">
-                            <Icon class="w-4 w-4" :name="node.icon" size="20" type="solid"/>
+                            <Icon class="w-4" :name="node.icon" size="20" type="solid"/>
                             <span class="ml-1">{{ node.name }}</span>
                         </Link>
                     </template>

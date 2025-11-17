@@ -39,7 +39,7 @@ const serviceColor = ['text-white', 'text-cyan-300','text-fuchsia-300', 'text-am
         <Header :profile="profile" :reviews="reviews"/>
         <div class="y md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full space-y-4 md:space-y-0 md:space-x-4 py-4 md:px-4">
             <div class="y space-y-4 md:w-1/2 lg:w-1/4">
-                <div class="y bg-ui-900 px-4 py-2 md:rounded-lg  text-sm !px-2">
+                <div class="y bg-ui-900 py-2 md:rounded-lg text-sm px-2">
                     <template v-for="(field, key) in info">
                         <div v-if="field" class="x justify-between p-2">
                             <span class="capitalize">{{ field.name ?? key }}:</span>
