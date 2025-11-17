@@ -1,0 +1,10 @@
+const headers = {{{headers}}};
+
+const parameters = {{{parameters}}};
+
+fetch('{{url}}', {
+    method: '{{method}}',
+    headers: headers
+}).then(res => res.json())
+    .then(res => console.log(res))
+    .catch(err => console.error(err));

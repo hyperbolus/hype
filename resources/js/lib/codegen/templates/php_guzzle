@@ -1,0 +1,17 @@
+<?php
+require_once('vendor/autoload.php');
+
+$url = '{{url}}';
+
+$headers = [{{headers}}];
+
+$parameters = [{{parameters}}];
+
+$client = new \GuzzleHttp\Client();
+
+$response = $client->request('{{method}}', $url, [
+  'headers' => $headers,
+  'query' => $parameters,
+]);
+
+echo $response->getBody();

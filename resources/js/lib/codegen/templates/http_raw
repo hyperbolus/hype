@@ -1,0 +1,5 @@
+{{method|lower}} {{fullpath|upper}} HTTP/1.1
+Accept: text/plain
+Host: {{host}}
+{{headers}}
+{{body|kv}}

@@ -1,0 +1,18 @@
+import requests
+
+data = {{body|kv}}
+
+headers = {{{headers}}}
+
+url = "{{url}}"
+
+req = requests.{{method}}(url, data=data, headers=headers)
+print(req.text)
+
+{{#if method === 'post'}}
+    {{#include post_request}}
+{{/if}}
+
+{{#template post_request }}
+    # something
+{{/template }}
