@@ -27,6 +27,7 @@
         "ziggy-js": "^1.8.2"
     },
     "dependencies": {
+        "@highlightjs/vue-plugin": "^2.1.0",
         "@inertiajs/vue3": "^1.3.0",
         "@tiptap/core": "^3.10.3",
         "@tiptap/extension-code-block-lowlight": "^3.10.3",
@@ -48,6 +49,7 @@
         "@tiptap/vue-3": "^3.10.3",
         "@vueuse/core": "^10.11.1",
         "get-youtube-id": "^1.0.1",
+        "highlight.js": "^11.11.1",
         "laravel-echo": "^2.2.6",
         "meilisearch": "^0.35.1",
         "pinia": "^2.3.1",
