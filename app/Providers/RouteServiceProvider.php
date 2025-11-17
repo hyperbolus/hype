@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Hype;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -19,14 +20,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/';
+    public const string HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
 
@@ -49,13 +50,18 @@ class RouteServiceProvider extends ServiceProvider
                     });
                 });
 
-            Route::middleware([
-                'web',
-                InitializeTenancyByDomain::class,
-                PreventAccessFromCentralDomains::class,
+            foreach (Hype::getMainDomains() as $domain) {
+                Route::middleware([
+                    'web',
+                    InitializeTenancyByDomain::class,
+                    PreventAccessFromCentralDomains::class,
                 ])
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+                    ->namespace($this->namespace)
+                    ->group(function () use ($domain) {
+                        Route::domain($domain)->group(base_path('routes/web.php'));
+                        Route::domain(config('app.domains.wiki'))->group(base_path('routes/wiki.php'));
+                    });
+            }
         });
     }
 
@@ -64,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());

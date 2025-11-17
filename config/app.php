@@ -65,6 +65,7 @@ return [
 
     'domains' => [
         // Tool URLs
+        'wiki' => env('WIKI_URL'),
         'gdps' => env('GDPS_URL'),
         'profile' => env('PROFILE_URL'),
     ],

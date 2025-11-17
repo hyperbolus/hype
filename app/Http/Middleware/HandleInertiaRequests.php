@@ -3,9 +3,11 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Statistics;
+use App\Hype;
 use App\Models\System\Message;
 use App\Models\System\Setting;
 use App\Models\System\User;
+use App\Wiki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
@@ -50,7 +52,7 @@ class HandleInertiaRequests extends Middleware
                 'counts' => Statistics::all(),
                 'patreon' => Statistics::patreon()
             ],
-            'settings' => (function () {
+            'settings' => (function () use ($request) {
                 $settings = Setting::query()->where('public', '=', true)->get()->map(function (Setting $setting) {
                     $setting->makeHidden(['key']);
                     if ($setting->type === 4) {
@@ -63,6 +65,13 @@ class HandleInertiaRequests extends Middleware
                 });
 
                 $settings['_report_reasons'] = config('hyperbolus.report_reasons');
+                $settings['_wiki'] = [
+                    'namespaces' => Wiki::$namespaces,
+                    'languages' => Wiki::$languages,
+                    'defaultNamespace' => Wiki::$defaultNamespace,
+                    'defaultLanguage' => Wiki::$defaultLang,
+                ];
+                $settings['_subsite'] = Hype::getSubsite();
 
                 return $settings;
             })(),

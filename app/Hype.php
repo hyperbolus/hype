@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Site;
 use App\Rules\Password;
 use Illuminate\Support\Str;
 use Imagick;
@@ -9,6 +10,7 @@ use ImagickDraw;
 use ImagickPixel;
 use JetBrains\PhpStorm\Pure;
 use matthieumastadenis\couleur\colors\HexRgb;
+use Stancl\Tenancy\Database\Models\Domain;
 
 class Hype
 {
@@ -103,6 +105,39 @@ class Hype
         static::$defaultPermissions = $permissions;
 
         return new static;
+    }
+
+    public static function getMainDomains()
+    {
+        $list = [];
+        $domains = Domain::all()->keyBy('id');
+
+        foreach (Site::all() as $site) $list[] = $domains[$site->main_domain]->domain;
+
+        return $list;
+    }
+
+    /**
+     *  Returns what subsite of a tenant the request is on (none, wiki, profiles)
+     *
+     * @return string|null
+     */
+    public static function getSubsite(): ?string
+    {
+        $subsite = null;
+
+        if (request()->host() === parse_url(config('app.domains.wiki'), PHP_URL_HOST)) $subsite = 'wiki';
+
+        return $subsite;
+    }
+
+    public static function getTenantMainDomain()
+    {
+        foreach (tenant()->domains as $domain) {
+            if ($domain->id === tenant()->main_domain) return $domain;
+        }
+
+        return null;
     }
 
     /**

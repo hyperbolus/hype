@@ -63,6 +63,8 @@ export const getGame = () => {
 }
 
 export const siteName = () => {
+    if (settings('_subsite') === 'wiki') return 'Wiki';
+
     switch (getGame()) {
         case 'geometrydash': return 'Hyperbolus';
         case 'soundodger': return 'Hyperdodger';
@@ -73,7 +75,7 @@ export const toggleDark = () => {
 }
 
 export const logout = () => {
-    router.post(route('auth::logout'));
+    router.post('/auth/logout');
 }
 
 export const cdn = (path) => (usePage().props.app.asset_url ?? '') + path
@@ -155,6 +157,21 @@ export const saveDecrypt = () => {
 
 export const saveEncrypt = () => {
 
+}
+
+export const settings = (key = null) => {
+    const obj = useSettingsStore().settings;
+
+    if (key === null) return obj;
+
+    return obj[key];
+}
+
+export const wiki = (title = null, language = 'en') => {
+
+    if (settings('_subsite') !== 'wiki') title = language + '/' + title;
+
+    return route('wiki', title)
 }
 
 export const difficulties = [

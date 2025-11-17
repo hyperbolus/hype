@@ -41,7 +41,7 @@ use App\Http\Controllers\System\ProfileCommentController;
 use App\Http\Controllers\System\ReputationLogController;
 use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\System\UserController;
-use App\Http\Controllers\Wiki\WikiPageController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -288,14 +288,16 @@ Route::get('/tools/music', [\App\Http\Controllers\ToolsController::class, 'music
 
 //Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
 
-Route::group(['prefix' => '/wiki'], function () {
-    Route::get('/random', [WikiPageController::class, 'random'])->name('wiki.random');
+Route::group(['prefix' => '/wiki'], base_path('routes/wiki.php'));
 
-    Route::get('/{path?}', [WikiPageController::class, 'show'])->where(['path' => '(.*)'])->name('wiki');
+Route::get('/auth/migrate', function (Request $request) {
+    $url = URL::temporarySignedRoute('auth::recapture', now()->addMinute(), [
+        'session' => \Illuminate\Support\Facades\Crypt::encryptString(session()->getId()),
+        'ip' => $request->ip(),
+    ]);
 
-    Route::post('/new', [WikiPageController::class, 'store'])->name('wiki.store')->middleware(['role:admin']);
-    Route::patch('/{page:id}', [WikiPageController::class, 'update'])->name('wiki.update')->middleware(['role:admin']);
-});
+    return redirect(config('app.domains.wiki') . ':8089/auth/recapture' . '?' . parse_url($url, PHP_URL_QUERY));
+})->name('auth::migrate');
 
 Route::impersonate();
 

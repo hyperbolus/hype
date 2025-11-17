@@ -2,15 +2,21 @@
 
 namespace App;
 
+use App\Models\ModelRevision;
+use App\Models\RevisionText;
+use App\Models\System\User;
+use App\Models\WikiPage;
+use Illuminate\Support\Str;
+
 class Wiki
 {
     public static array $namespaces = [
         // Functional
         'Special' => -1,
+        'Revision' => null,
 
         // Standard
         'Article' => 0,
-        'Revision' => null,
 
         // Meta
         'Wiki' => 1,
@@ -22,7 +28,7 @@ class Wiki
         // Guide
         'Book' => 11,
 
-        // DB Backed
+        // DB Backed, title is foreign key. allows any subpath
         'Level' => 20,
         'Profile' => 21,
         'Tag' => 22,
@@ -40,6 +46,65 @@ class Wiki
     public static string $defaultLang = 'en';
 
     public static string $mainPage = 'Home';
+
+    public static function makePage(
+        string     $title,
+        string|int $namespace,
+        string|int $lang,
+        User|int   $author,
+        string     $description,
+        string     $content
+    ): WikiPage
+    {
+        if (is_string($namespace)) $namespace = Wiki::$namespaces[$namespace];
+        if (is_string($lang)) $lang = Wiki::$namespaces[$namespace];
+
+        // Create stub page first
+        // TODO@later: logic for linking root and parent pages etc
+        $page = new WikiPage();
+        $page->title = $title;
+        $page->namespace = $namespace;
+        $page->lang = $lang;
+        $page->save();
+
+        self::makeRevision($page, $author, $content, $description);
+
+        // TODO: make sure revision relationship is sent over too
+        return $page;
+    }
+
+    public static function makeRevision(
+        WikiPage $page,
+        User|int $author,
+        string   $content,
+        string   $description
+    ): ModelRevision
+    {
+        if ($author instanceof User) $author = $author->id;
+
+        // Create initial revision
+        $revision = new ModelRevision();
+        $revision->author_id = $author;
+        $revision->model_type = 70;
+        $revision->model_id = $page->id;
+        $revision->description = $description;
+        $revision->save();
+
+        // Store the page content
+        $text = new RevisionText();
+        $text->revision_id = $revision->id;
+        $text->content = $content;
+        $text->new_length = Str::length($content);
+        $text->old_length = 0;
+        $text->save();
+
+        // Assign our new initial revision to the page
+        $page->length = Str::length($content);
+        $page->revision_id = $revision->id;
+        $page->save();
+
+        return $revision;
+    }
 
     /**
      * Parses a wiki path.
@@ -133,7 +198,7 @@ class Wiki
             if ($subpath) $redirect .= '/' . $subpath;
         }
 
-        // todo@1: redirect Level: if empty subpath or have subpath optional?
+        // todo@1: redirect Level: canonical uri is SEO friendly but only ID is required 12345/Cataclysm
 
         $title = $page;
         if ($subpath) $title .= '/' . $subpath;

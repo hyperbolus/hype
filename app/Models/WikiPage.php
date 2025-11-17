@@ -11,9 +11,18 @@ class WikiPage extends Model
 {
     public function getURL(): string
     {
-        $url = array_search($this->lang, Wiki::$languages) . '/';
-        if ($this->namespace) $url .= array_search($this->namespace, Wiki::$namespaces) . ':';
-        return $url . $this->title;
+        return route('wiki', $this->getURIPath());
+    }
+
+    public function getURIPath(): string
+    {
+        $lang = array_search($this->lang, Wiki::$languages);
+        $ns = array_search($this->namespace, Wiki::$namespaces);
+
+        $path = $lang . '/';
+        if ($ns !== Wiki::$defaultNamespace) $path .= $ns . ':';
+
+        return $path . $this->title;
     }
 
     public function revisions(): MorphMany

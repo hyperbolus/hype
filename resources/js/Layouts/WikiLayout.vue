@@ -1,9 +1,6 @@
 <script setup>
 import {onBeforeMount} from 'vue';
 import {Head, Link} from '@inertiajs/vue3';
-import NetworkNav from "@/Components/NetworkNav.vue";
-import SiteNav from "@/Components/SiteNav.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import patternBGSD from "@/../images/soundshine.svg"
 import patternBG from "@/../images/card_background_outline.svg"
 import {useSettingsStore} from "@/stores/settings.ts";
@@ -11,12 +8,17 @@ import {useStatisticsStore} from "@/stores/statistics.ts";
 import route from "ziggy-js";
 import {getGame} from "@/util.js";
 import logo from "@/../images/gdwiki.png";
+import {settings, wiki} from "../util";
+import {useDateFormat} from "@vueuse/core/index";
+import Icon from "../Components/Icon.vue";
+import ControlBar from "../Components/ControlBar.vue";
 
 const props = defineProps({
     title: String,
     namespace: String,
     outdated: Boolean,
     permalink: Boolean,
+    action: String,
     language: String,
     edited_at: [Number, String],
 });
@@ -25,9 +27,9 @@ const links = [
     {
         title: 'GD Wiki',
         links: {
-            'Home Page': route('wiki', props.language + '/Home'),
-            'Random Article': route('wiki', 'random') + `?lang=${props.language}`,
-            'About the Wiki': route('wiki', props.language + '/Wiki:About'),
+            'Home Page': wiki('Home'),
+            'Random Article': wiki('random') + `?lang=${props.language}`,
+            'About the Wiki': wiki('Wiki:About'),
         },
     },
     {
@@ -57,19 +59,31 @@ onBeforeMount(() => {
 
 </script>
 <template>
-    <div ref="base" class="y relative items-center text-ui-200 min-h-screen grow overflow-x-clip">
+    <div ref="base" class="y relative items-center text-ui-200 min-h-screen grow overflow-x-clip 2theme-wiki">
         <Head v-if="title || $page.props?.__meta_title"><title>{{ title ?? $page.props?.__meta_title }}</title></Head>
-        <NetworkNav/>
-        <SiteNav/>
         <div class="y relative grow items-center w-full">
-            <Breadcrumbs :fullwidth="true"><slot name="breadcrumbs"/></Breadcrumbs>
-            <div class="absolute -z-10 h-full w-full bg-ui-900" style="mask-size: 8rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
-            <div class="absolute -z-20 h-full w-full bg-ui-1000"></div>
-            <div class="y md:flex-row grow w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl my-4 border-y md:border-x border-ui-700 bg-ui-950 md:rounded-md">
-                <aside class="x md:flex-col items-center bg-ui-900 rounded-l-md md:w-1/4 xl:w-1/5 px-2 py-1 md:p-6 border-r border-ui-700 shrink-0">
-                    <img :src="logo" alt="" class="h-24 md:h-auto md:w-5/6">
-                    <h2 class="font-bold text-2xl">GD Wiki</h2>
-                    <div class="hidden md:flex flex-col w-full">
+<!--            <div class="absolute -z-10 h-full w-full bg-ui-800" style="mask-size: 8rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>-->
+            <div class="absolute -z-20 h-full w-full bg-ui-900"></div>
+            <div class="x relative z-0 items-center justify-between w-full max-w-7xl px-4 py-2 mt-4 mb-2 border border-ui-800">
+                <div class="x items-center">
+                    <img :src="logo" alt="" class="h-24 mr-2">
+                    <h2 class="hidden md:inline font-serif text-3xl whitespace-nowrap">Geometry Dash Wiki</h2>
+                    <h2 class="md:hidden font-serif text-2xl whitespace-nowrap">GD Wiki</h2>
+                </div>
+                <div class="hidden md:flag grow">
+                    <div class="x items-center bg-ui-900 border border-ui-700 w-fit pl-2 focus-within:ring-1 ring-blue-500">
+                        <Icon class="size-4 " name="magnifying-glass"/>
+                        <input placeholder="Search" class="bg-ui-900 py-1 border-0 placeholder:text-ui-500 focus:ring-0"/>
+                    </div>
+                </div>
+                <ControlBar class="!w-fit bg-ui-900 px-4 py-2 border border-ui-700 mr-2"/>
+                <div class="absolute inset-0 -z-10 h-full w-full bg-ui-800" style="mask-size: 5rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
+                <div class="absolute inset-0 -z-20 h-full w-full bg-ui-950"></div>
+            </div>
+            <div class="y md:flex-row grow w-full max-w-7xl bg-ui-950 border border-ui-800 p-4">
+                <aside class="hidden md:flex md:flex-col items-center px-2 shrink-0 !w-56">
+<!--                    <img :src="logo" alt="" class="h-40">-->
+                    <div class="y w-full">
                         <div v-for="section in links" class="y w-full mt-2 links">
                             <span class="font-bold border-b border-ui-700 pb-1">{{ section.title }}</span>
                             <Link v-for="(link, key) in section.links" :href="link" class="py-1">{{ key }}</Link>
@@ -77,7 +91,11 @@ onBeforeMount(() => {
                     </div>
                 </aside>
                 <div class="y grow space-y-2">
-                    <article class="y space-y-2 p-6 grow">
+                    <article class="y space-y-2 px-2 grow">
+                        <div v-if="settings('_subsite') !== 'wiki'" class="x space-x-2 items-center text-sm rounded-md p-2 pr-4 border bg-blue-500/10 border-blue-500 links">
+                            <Icon class="w-8 ml-1 text-blue-500" name="information-circle"/>
+                            <p>Hyperbolus is the proud host of the Geometry Dash Wiki! It's available here for convenience, but for a cleaner reading experience check out the dedicated site at <a href="https://geometrydash.wiki">geometrydash.wiki</a>!</p>
+                        </div>
                         <div class="x space-x-1.5 items-center border-b border-ui-700 pb-1">
                             <span class="text-xl font-bold uppercase rounded px-2 py-0.5 bg-amber-500 text-white" v-if="permalink">Revision</span>
                             <span class="text-xl font-bold uppercase rounded px-2 py-0.5 bg-ui-800" v-if="namespace !== 'Article'">{{ namespace }}</span>
@@ -85,17 +103,18 @@ onBeforeMount(() => {
                         </div>
                         <slot/>
                     </article>
-                    <div class="y space-y-2 px-4 py-2 text-sm text-ui-500 border-t border-ui-700 links">
-                        <span v-if="edited_at">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
-                        <span>Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
-                        <div class="x space-x-4">
-                            <Link :href="route('about')">About</Link>
-                            <Link :href="route('contact')">Contact</Link>
-                            <Link :href="route('bans.index')">Bans</Link>
-                            <Link :href="route('legal.terms')">Terms of Service</Link>
-                            <Link :href="route('legal.privacy')">Privacy</Link>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="y space-y-2 px-6 pt-4 pb-16 mb-8 text-xs text-ui-500 links border border-t-0 border-ui-800 bg-ui-1000 w-full max-w-7xl leading-none">
+                <span v-if="edited_at && action === 'read'">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
+                <span v-if="action === 'read'">Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
+                <div class="x space-x-4">
+                    <a :href="route('auth::migrate')">[TEST] AUTH MIGRATE</a>
+                    <Link :href="route('about')">About</Link>
+                    <Link :href="route('contact')">Contact</Link>
+                    <Link :href="route('bans.index')">Bans</Link>
+                    <Link :href="route('legal.terms')">Terms of Service</Link>
+                    <Link :href="route('legal.privacy')">Privacy</Link>
                 </div>
             </div>
         </div>
