@@ -55,11 +55,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::domain(config('app.domains.profile'))->group(function () {
-    Route::redirect('/', config('app.url'));
-    Route::get('/{profile}', [ProfileController::class, 'show']);
-});
-
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
