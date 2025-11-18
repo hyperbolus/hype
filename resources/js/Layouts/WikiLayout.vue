@@ -8,7 +8,7 @@ import {useStatisticsStore} from "@/stores/statistics.ts";
 import route from "ziggy-js";
 import {getGame} from "@/util.js";
 import logo from "@/../images/gdwiki.png";
-import {settings, wiki} from "../util";
+import {isAuthenticated, settings, wiki} from "../util";
 import {useDateFormat} from "@vueuse/core/index";
 import Icon from "../Components/Icon.vue";
 import ControlBar from "../Components/ControlBar.vue";
@@ -76,7 +76,10 @@ onBeforeMount(() => {
                         <input placeholder="Search" class="bg-ui-900 py-1 border-0 placeholder:text-ui-500 focus:ring-0"/>
                     </div>
                 </div>
-                <ControlBar class="!w-fit bg-ui-900 px-4 py-2 border border-ui-700 mr-2"/>
+                <div class="bg-ui-900 px-4 py-2 border border-ui-700 mr-2">
+                    <ControlBar v-if="isAuthenticated()" class="!w-fit"/>
+                    <span><a class="underline" :href="route('auth::migrate')">Login</a> with Hyperbolus</span>
+                </div>
                 <div class="absolute inset-0 -z-10 h-full w-full bg-ui-800" style="mask-size: 5rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
                 <div class="absolute inset-0 -z-20 h-full w-full bg-ui-950"></div>
             </div>
@@ -109,7 +112,6 @@ onBeforeMount(() => {
                 <span v-if="edited_at && action === 'read'">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
                 <span v-if="action === 'read'">Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
                 <div class="x space-x-4">
-                    <a :href="route('auth::migrate')">[TEST] AUTH MIGRATE</a>
                     <Link :href="route('about')">About</Link>
                     <Link :href="route('contact')">Contact</Link>
                     <Link :href="route('bans.index')">Bans</Link>
