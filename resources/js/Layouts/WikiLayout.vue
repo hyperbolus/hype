@@ -65,7 +65,7 @@ onBeforeMount(() => {
         <div class="y relative grow items-center w-full">
 <!--            <div class="absolute -z-10 h-full w-full bg-ui-800" style="mask-size: 8rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>-->
             <div class="absolute -z-20 h-full w-full bg-ui-900"></div>
-            <div class="x relative z-0 items-center justify-between w-full max-w-7xl px-4 py-2 mt-4 mb-2 border border-ui-800">
+            <div class="x relative z-0 items-center justify-between w-full max-w-7xl px-4 py-2 border-x border-b-0 border-ui-800">
                 <div class="x items-center">
                     <img :src="logo" alt="" class="h-24 mr-2">
                     <h2 class="hidden md:inline font-serif text-3xl whitespace-nowrap">Geometry Dash Wiki</h2>
@@ -82,7 +82,7 @@ onBeforeMount(() => {
                     <span v-else><a class="underline" :href="route('home') + '/auth/migrate'">Login</a> with Hyperbolus</span>
                 </div>
                 <div class="absolute inset-0 -z-10 h-full w-full bg-ui-800" style="mask-size: 5rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
-                <div class="absolute inset-0 -z-20 h-full w-full bg-ui-950"></div>
+                <div class="absolute inset-0 -z-20 h-full w-full bg-ui-1000"></div>
             </div>
             <div class="y md:flex-row grow w-full max-w-7xl bg-ui-950 border border-ui-800 p-4">
                 <aside class="hidden md:flex md:flex-col items-center px-2 shrink-0 !w-56">
@@ -109,7 +109,7 @@ onBeforeMount(() => {
                     </article>
                 </div>
             </div>
-            <div class="y space-y-2 px-6 pt-4 pb-16 mb-8 text-xs text-ui-500 links border border-t-0 border-ui-800 bg-ui-1000 w-full max-w-7xl leading-none">
+            <div class="y space-y-2 px-6 pt-4 pb-16 text-xs text-ui-500 links border-x border-t-0 border-ui-800 bg-ui-1000 w-full max-w-7xl leading-none">
                 <span v-if="edited_at && action === 'read'">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
                 <span v-if="action === 'read'">Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
                 <div class="x space-x-4">
