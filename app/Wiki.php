@@ -198,6 +198,12 @@ class Wiki
             if ($subpath) $redirect .= '/' . $subpath;
         }
 
+        if ($page === '') {
+            $page = Wiki::$mainPage;
+
+            $redirect = Hype::isSubsite() ? Wiki::$mainPage : $lang . '/' . Wiki::$mainPage;
+        }
+
         // todo@1: redirect Level: canonical uri is SEO friendly but only ID is required 12345/Cataclysm
 
         $title = $page;
