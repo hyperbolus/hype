@@ -57,7 +57,7 @@ class Wiki
     ): WikiPage
     {
         if (is_string($namespace)) $namespace = Wiki::$namespaces[$namespace];
-        if (is_string($lang)) $lang = Wiki::$namespaces[$namespace];
+        if (is_string($lang)) $lang = Wiki::$languages[$lang];
 
         // Create stub page first
         // TODO@later: logic for linking root and parent pages etc
