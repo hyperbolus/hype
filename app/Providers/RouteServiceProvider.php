@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
                 ])->namespace($this->namespace)
                     ->group(function () use ($domain) {
                         Route::domain($domain)->group(base_path('routes/web.php'));
-                        Route::domain(config('app.domains.wiki'))->group(base_path('routes/wiki.php'));
+                        Route::domain(config('app.domains.wiki'))->name('wiki$')->group(base_path('routes/wiki.php'));
                     });
             }
         });
