@@ -4,16 +4,11 @@ namespace App\Http\Controllers\Dashboards\Admin;
 
 use App\Attributes\Script;
 use App\Dashboards\AdminDashboard;
-use App\Models\System\Setting;
-use App\Models\System\User;
+use Exception;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
-use ReflectionClass;
 use ReflectionException;
-use function redirect;
 
 class AdminScriptController extends Controller
 {
@@ -22,7 +17,11 @@ class AdminScriptController extends Controller
      */
     public function __invoke(Request $request, string $script)
     {
-        Script::execute($script, $request->all());
+        try {
+            Script::execute($script, $request->all());
+        } catch (Exception $e) {
+            dd($e);
+        }
 
 //        dispatch(function () use ($class, $method, $request) {
 //            $class::$method(...$request->array('arguments'));
