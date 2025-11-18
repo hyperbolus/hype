@@ -29,8 +29,8 @@ Route::get('/auth/migrate', function (Request $request) {
     $ttl = 15;
 
     // This and our token will be our users "visa"
-    \Illuminate\Support\Facades\Cache::put($token, [
-        'token' => $token,
+    \Illuminate\Support\Facades\Cache::put('auth::migration.' . $token, [
+        'session' => session()->getId(),
         'agent' => $request->userAgent(),
     ], $ttl);
 

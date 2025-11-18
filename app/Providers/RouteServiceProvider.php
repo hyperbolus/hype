@@ -77,7 +77,7 @@ class RouteServiceProvider extends ServiceProvider
                             abort_if($request->userAgent() !== $visa['agent'], 400, 'Insecure Origin');
 
                             // Delete migration token to prevent replay attacks from session thieves
-                            Cache::delete('auth::migration.' . $request->string('token'));
+                            Cache::forget('auth::migration.' . $request->string('token'));
 
                             // Set the session. Both domains should now share a session.
                             session()->setId($visa['session']);
