@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -65,12 +65,22 @@ class RouteServiceProvider extends ServiceProvider
                 ])->namespace($this->namespace)
                     ->group(function () use ($domain) {
                         Route::domain(config('app.domains.wiki'))->get('/auth/recapture', function (Request $request) {
-                            if (!$request->hasValidSignature()) abort(400, 'Insecure URL');
-                            if ($request->string('ip') != $request->ip()) abort(400, 'Insecure migration');
+                            abort_if(!$request->hasValidSignature(), 400, 'Insecure URL');
 
-                            $session = Crypt::decryptString($request->string('session')->toString());
+                            $visa = Cache::get('auth::migration.' . $request->string('token'));
 
-                            session()->setId($session);
+                            // If our URL is signed this should never happen unless we fucked up
+                            abort_if(!$visa, 400, 'Invalid Token');
+
+                            // Some little check. Not foolproof but can stand in the way of migration URL theft
+                            // IPs are an unreliable substitute for this check for various reasons
+                            abort_if($request->userAgent() !== $visa['agent'], 400, 'Insecure Origin');
+
+                            // Delete migration token to prevent replay attacks from session thieves
+                            Cache::delete('auth::migration.' . $request->string('token'));
+
+                            // Set the session. Both domains should now share a session.
+                            session()->setId($visa['session']);
                             session()->start();
 
                             return redirect('/');

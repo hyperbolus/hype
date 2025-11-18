@@ -23,9 +23,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/auth/migrate', function (Request $request) {
-    return redirect(URL::temporarySignedRoute('wiki$auth::recapture', now()->addMinute(), [
-        'session' => \Illuminate\Support\Facades\Crypt::encryptString(session()->getId()),
-        'ip' => $request->ip(),
+    // Generate a temporary token to identify the session a user wishes to migrate across domains
+    $token = Str::random(40);
+    // Use very short-lived expirations to deter session thieves
+    $ttl = 15;
+
+    // This and our token will be our users "visa"
+    \Illuminate\Support\Facades\Cache::put($token, [
+        'token' => $token,
+        'agent' => $request->userAgent(),
+    ], $ttl);
+
+    // Sign URL to prevent tampering
+    return redirect(URL::temporarySignedRoute('wiki$auth::recapture', now()->addSeconds($ttl), [
+        'token' => $token,
     ]));
 })->name('auth::migrate')->middleware(['auth']);
 
