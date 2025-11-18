@@ -157,31 +157,46 @@ div[data-youtube-video] > iframe {
     padding: 0.5rem 0.75rem !important;
 }
 
-.ProseMirror :not(.not-prose) {
-    .ProseMirror-focused {
-        outline: none;
+.ProseMirror-focused {
+    outline: none;
+}
+
+.ProseMirror {
+
+    h1 {
+        @apply font-serif text-2xl pb-1 border-b border-ui-600;
+    }
+
+    h2 {
+        @apply font-bold text-xl;
+    }
+
+    h3 {
+        @apply font-bold text-lg;
     }
 
     p.is-editor-empty:first-child::before {
         opacity: 0.5;
-        content: 'Write something nice...';
+        content: attr(data-placeholder);
         float: left;
         height: 0;
         pointer-events: none;
     }
 
-
     li > p {
         display: inline;
     }
 
-    li > ol, .ProseMirror li > ul {
+    li > ol, li > ul {
         margin-left: 1rem;
     }
 
     a {
+        @apply text-blue-500 cursor-pointer;
+    }
+
+    a:hover {
         text-decoration: underline;
-        cursor: pointer;
     }
 
     ol { list-style-type: decimal;}
@@ -191,4 +206,51 @@ div[data-youtube-video] > iframe {
     ul { list-style-type: disc ;}
     ul ul { list-style-type: circle ;}
     ul ul ul {list-style-type: square ;}
+
+    table {
+        @apply bg-ui-900;
+    }
+
+    table, td, th {
+        @apply border border-ui-700 min-w-8;
+    }
+
+    tr, td, th {
+        @apply align-top relative;
+    }
+
+    th {
+        @apply font-bold text-left bg-ui-900;
+    }
+
+    tbody {
+        @apply bg-ui-1000;
+    }
+
+    table {
+        .selectedCell {
+            @apply z-0;
+        }
+
+        .selectedCell::before {
+            @apply bg-ui-900 content-[''] absolute top-0 bottom-0 left-0 right-0 pointer-events-none -z-10;
+        }
+
+        .selectedCell::after {
+            @apply border border-blue-500 content-[''] absolute -inset-[1px] pointer-events-none z-10;
+        }
+
+        .column-resize-handle {
+            @apply bg-blue-500 pointer-events-none w-1 absolute top-0 -bottom-[1px] -right-0.5 z-10;
+        }
+    }
+
+    .tableWrapper {
+        @apply overflow-x-auto m-1
+    }
+
+    &.resize-cursor {
+        @apply cursor-col-resize;
+    }
 }
+
