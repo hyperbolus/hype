@@ -16,6 +16,7 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
             colors: {
+                ...defaultTheme.colors,
                 'ui': {
                     50:   'rgb(var(--color-ui-50)  )',
                     100:  'rgb(var(--color-ui-100) )',
