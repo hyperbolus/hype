@@ -162,7 +162,7 @@ class CalculateRatings
             'rating_overall' => 0,
         ];
 
-        if ($reviews) return $scores;
+        if (!$reviews) return $scores;
 
         $reviews->map(function (Review $review) use (&$counts, &$scores, &$users) {
             $weight = 0;
