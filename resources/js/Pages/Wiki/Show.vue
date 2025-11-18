@@ -124,24 +124,7 @@ const request = {
             </div>
         </div>
 
-        <RequestToolbox :request="request"/>
-
-        <LevelTicket :level="data" class="block"/>
-
-        <section>
-            <div class="float-right pane !px-2 w-72 y text-sm">
-                <div v-for="key in ['id','name','creator','difficulty','downloads','likes']" :key="key" class="x justify-between px-2 py-1">
-                    <span class="capitalize">{{ key }}</span>
-                    <span>{{ data[key] ?? 'nil' }}</span>
-                </div>
-            </div>
-
-            <div class="overflow-hidden rounded pr-2">
-                <span class="text-sm text-ui-500">Description</span>
-                <p class="pane">{{ data['description'] }}</p>
-            </div>
-            <TipTap v-if="action !== 'history'" v-show="!editing || (editing && isAdmin())" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
-        </section>
+        <TipTap v-if="action !== 'history'" v-show="!editing || (editing && isAdmin())" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
 
         <div v-if="action === 'history'" class="y space-y-2">
             <div v-for="revision in revisions?.data ?? []" class="x space-x-2 pane text-sm">
