@@ -289,16 +289,3 @@ Route::get('/tools/music', [\App\Http\Controllers\ToolsController::class, 'music
 //Route::get('/servers', [\App\Http\Controllers\ServerController::class, 'index'])->name('servers.index');
 
 Route::group(['prefix' => '/wiki'], base_path('routes/wiki.php'));
-
-Route::get('/auth/migrate', function (Request $request) {
-    $url = URL::temporarySignedRoute('auth::recapture', now()->addMinute(), [
-        'session' => \Illuminate\Support\Facades\Crypt::encryptString(session()->getId()),
-        'ip' => $request->ip(),
-    ]);
-
-    return redirect(config('app.domains.wiki') . ':8089/auth/recapture' . '?' . parse_url($url, PHP_URL_QUERY));
-})->name('auth::migrate');
-
-Route::impersonate();
-
-require_once 'auth.php';

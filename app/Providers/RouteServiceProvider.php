@@ -50,13 +50,19 @@ class RouteServiceProvider extends ServiceProvider
                     });
                 });
 
-            foreach (['hyperbolus.net', 'hyperdodger.com'] as $domain) {
+            foreach (['hyperbolus.net'] as $domain) {
                 Route::middleware([
                     'web',
                     InitializeTenancyByDomain::class,
                     PreventAccessFromCentralDomains::class,
-                ])
-                    ->namespace($this->namespace)
+                ])->namespace($this->namespace)
+                    ->group(base_path('routes/auth.php'));
+
+                Route::middleware([
+                    'web',
+                    InitializeTenancyByDomain::class,
+                    PreventAccessFromCentralDomains::class,
+                ])->namespace($this->namespace)
                     ->group(function () use ($domain) {
                         Route::domain($domain)->group(base_path('routes/web.php'));
                         Route::domain(config('app.domains.wiki'))->group(base_path('routes/wiki.php'));
