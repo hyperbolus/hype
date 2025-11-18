@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/random', [WikiPageController::class, 'random'])->name('wiki.random');
-
-Route::get('/{path?}', [WikiPageController::class, 'show'])->where(['path' => '(.*)'])->name('wiki');
-
 Route::post('/new', [WikiPageController::class, 'store'])->name('wiki.store')->middleware(['role:admin']);
 Route::patch('/{page:id}', [WikiPageController::class, 'update'])->name('wiki.update')->middleware(['role:admin']);
+Route::get('/{path?}', [WikiPageController::class, 'show'])->where(['path' => '(.*)'])->name('wiki');
