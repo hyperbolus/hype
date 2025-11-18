@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
                     });
                 });
 
-            foreach (Hype::getMainDomains() as $domain) {
+            foreach (['hyperbolus.net', 'hyperdodger.com'] as $domain) {
                 Route::middleware([
                     'web',
                     InitializeTenancyByDomain::class,
