@@ -23,12 +23,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/auth/migrate', function (Request $request) {
-    $url = URL::temporarySignedRoute('wiki$auth::recapture', now()->addMinute(), [
+    return redirect(URL::temporarySignedRoute('wiki$auth::recapture', now()->addMinute(), [
         'session' => \Illuminate\Support\Facades\Crypt::encryptString(session()->getId()),
         'ip' => $request->ip(),
-    ]);
-
-    return redirect(config('app.domains.wiki') . '/auth/recapture' . '?' . parse_url($url, PHP_URL_QUERY));
+    ]));
 })->name('auth::migrate');
 
 Route::impersonate();
