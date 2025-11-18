@@ -96,7 +96,7 @@ const fullTitle = computed(() => {
             </div>
         </div>
 
-        <TipTap v-if="action !== 'history'" v-show="!editing || (editing && isAdmin())" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
+        <TipTap v-if="action !== 'history'" v-show="!editing || (editing && hasRole('wiki_contributor'))" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
 
         <div v-if="action === 'history'" class="y space-y-2">
             <div v-for="revision in revisions?.data ?? []" class="x space-x-2 pane text-sm">
