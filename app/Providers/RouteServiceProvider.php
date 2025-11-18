@@ -65,8 +65,8 @@ class RouteServiceProvider extends ServiceProvider
                 ])->namespace($this->namespace)
                     ->group(function () use ($domain) {
                         Route::domain(config('app.domains.wiki'))->get('/auth/recapture', function (Request $request) {
-                            if (!$request->hasValidSignature()) abort(400, 'Insecure session migration');
-                            if ($request->string('ip') != $request->ip()) abort(400, 'Insecure session migration');
+                            if (!$request->hasValidSignature()) abort(400, 'Insecure URL');
+                            if ($request->string('ip') != $request->ip()) abort(400, 'Insecure migration');
 
                             $session = Crypt::decryptString($request->string('session')->toString());
 

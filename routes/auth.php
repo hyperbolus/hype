@@ -27,7 +27,7 @@ Route::get('/auth/migrate', function (Request $request) {
         'session' => \Illuminate\Support\Facades\Crypt::encryptString(session()->getId()),
         'ip' => $request->ip(),
     ]));
-})->name('auth::migrate');
+})->name('auth::migrate')->middleware(['auth']);
 
 Route::impersonate();
 
