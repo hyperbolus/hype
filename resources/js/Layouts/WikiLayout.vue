@@ -12,6 +12,7 @@ import {isAuthenticated, settings, wiki} from "../util";
 import {useDateFormat} from "@vueuse/core/index";
 import Icon from "../Components/Icon.vue";
 import ControlBar from "../Components/ControlBar.vue";
+import AutoLink from "../Components/AutoLink.vue";
 
 const props = defineProps({
     title: String,
@@ -89,7 +90,7 @@ onBeforeMount(() => {
                     <div class="y w-full">
                         <div v-for="section in links" class="y w-full mt-2 links">
                             <span class="font-bold border-b border-ui-700 pb-1">{{ section.title }}</span>
-                            <Link v-for="(link, key) in section.links" :href="link" class="py-1">{{ key }}</Link>
+                            <AutoLink v-for="(link, key) in section.links" :href="link" class="py-1">{{ key }}</AutoLink>
                         </div>
                     </div>
                 </aside>
@@ -112,11 +113,11 @@ onBeforeMount(() => {
                 <span v-if="edited_at && action === 'read'">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
                 <span v-if="action === 'read'">Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
                 <div class="x space-x-4">
-                    <Link :href="route('about')">About</Link>
-                    <Link :href="route('contact')">Contact</Link>
-                    <Link :href="route('bans.index')">Bans</Link>
-                    <Link :href="route('legal.terms')">Terms of Service</Link>
-                    <Link :href="route('legal.privacy')">Privacy</Link>
+                    <AutoLink :href="route('about')">About</AutoLink>
+                    <AutoLink :href="route('contact')">Contact</AutoLink>
+                    <AutoLink :href="route('bans.index')">Bans</AutoLink>
+                    <AutoLink :href="route('legal.terms')">Terms of Service</AutoLink>
+                    <AutoLink :href="route('legal.privacy')">Privacy</AutoLink>
                 </div>
             </div>
         </div>
