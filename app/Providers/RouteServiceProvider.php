@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Hype;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -68,7 +68,7 @@ class RouteServiceProvider extends ServiceProvider
                             if (!$request->hasValidSignature()) abort(400, 'Insecure session migration');
                             if ($request->string('ip') != $request->ip()) abort(400, 'Insecure session migration');
 
-                            $session = \Illuminate\Support\Facades\Crypt::decryptString($request->string('session')->toString());
+                            $session = Crypt::decryptString($request->string('session')->toString());
 
                             session()->setId($session);
                             session()->start();
