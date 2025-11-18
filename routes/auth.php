@@ -28,7 +28,7 @@ Route::get('/auth/migrate', function (Request $request) {
         'ip' => $request->ip(),
     ]);
 
-    return redirect(config('app.domains.wiki') . ':8089/auth/recapture' . '?' . parse_url($url, PHP_URL_QUERY));
+    return redirect(config('app.domains.wiki') . '/auth/recapture' . '?' . parse_url($url, PHP_URL_QUERY));
 })->name('auth::migrate');
 
 Route::impersonate();
