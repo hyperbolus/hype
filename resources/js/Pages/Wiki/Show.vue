@@ -11,7 +11,7 @@ import Button from "../../Jetstream/Button.vue";
 import Username from "../../Components/Username.vue";
 import Icon from "../../Components/Icon.vue";
 import RequestToolbox from "../../Components/RequestToolbox.vue";
-import {settings, wiki} from "../../util";
+import {hasRole, settings, wiki} from "../../util";
 import Breadcrumbs from "../../Components/Breadcrumbs.vue";
 import LevelTicket from "../../Components/LevelTicket.vue";
 
@@ -110,7 +110,7 @@ const fullTitle = computed(() => {
         </div>
 
         <template v-if="editing">
-            <div v-if="isAdmin()" class="y pane !py-4">
+            <div v-if="hasRole('wiki_contributor')" class="y pane !py-4">
                 <span class="text-sm">Edit Description</span>
                 <Textbox v-model="edit.description" class="w-full"/>
                 <Button @click="submitRevision" class="w-fit">Submit</Button>

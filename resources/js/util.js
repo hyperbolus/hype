@@ -101,12 +101,17 @@ export const ordinal = (n) => {
 export const writtenNumber = (n = 0) => ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n]
 
 export const yearsSince = (date) => Math.floor((new Date() - new Date(date)) / (1000 * 60 * 60 * 24 * 365.25));
+
+export const hasRole = (role) => {
+    return isAuthenticated() && usePage().props.user.roles.includes(role)
+}
+
 export const isAdmin = () => {
-    return isAuthenticated() && usePage().props.user.roles.includes('admin')
+    return hasRole('admin')
 }
 
 export const isModerator = () => {
-    return isAuthenticated() && usePage().props.user.roles.includes('moderator')
+    return hasRole('moderator')
 }
 export const isAuthenticated = () => {
     return usePage().props.auth;
