@@ -168,10 +168,11 @@ export const settings = (key = null) => {
 }
 
 export const wiki = (title = null, language = 'en') => {
+    let routePrefix = settings('_subsite') === 'wiki' ? 'wiki$' : '';
 
     if (settings('_subsite') !== 'wiki') title = language + '/' + title;
 
-    return route('wiki', title)
+    return route(routePrefix + 'wiki', title)
 }
 
 export const difficulties = [

@@ -10,6 +10,7 @@ use App\Http\Controllers\System\Auth\PasswordController;
 use App\Http\Controllers\System\Auth\PasswordResetLinkController;
 use App\Http\Controllers\System\Auth\RegisteredUserController;
 use App\Http\Controllers\System\Auth\VerifyEmailController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,7 +51,6 @@ Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->middle
 Route::get('/auth/redirect', function () {
     return Socialite::driver('patreon')->redirect();
 });
-
 
 
 Route::get('/auth/callback', function () {
