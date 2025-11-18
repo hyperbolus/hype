@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Wiki;
 
 use App\Http\Controllers\Controller;
-use App\Models\Game\Level;
+use App\Hype;
 use App\Models\ModelRevision;
 use App\Models\WikiPage;
 use App\Wiki;
@@ -58,9 +58,12 @@ class WikiPageController extends Controller
 
     public function show(Request $request, string $path = '')
     {
-        $isSubsite = $request->host() === parse_url(config('app.domains.wiki'), PHP_URL_HOST);
+        $routePrefix = '';
 
-        if ($isSubsite) $path = 'en/' . $path;
+        if (Hype::isSubsite()) {
+            $path = 'en/' . $path;
+            $routePrefix = 'wiki$';
+        }
 
         $revision = null;
         $revisions = null;
@@ -74,7 +77,7 @@ class WikiPageController extends Controller
             'redirect' => $redirect,
         ] = Wiki::parsePath($path);
 
-        if ($redirect) return redirect()->route('wiki', $redirect);
+        if ($redirect) return redirect()->route($routePrefix . 'wiki', $redirect);
 
         $page = WikiPage::query()
             ->where('lang', Wiki::$languages[$lang])
@@ -114,7 +117,7 @@ class WikiPageController extends Controller
 
             'action' => $action,
         ])->meta($title, 'CHANGE ME')
-            ->breadcrumbs([crumb('Wiki', route('wiki'), !$isSubsite)]);
+            ->breadcrumbs([crumb('Wiki', route($routePrefix . 'wiki'), !Hype::isSubsite())]);
     }
 
     /**

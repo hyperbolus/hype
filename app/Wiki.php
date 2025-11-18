@@ -12,8 +12,8 @@ class Wiki
 {
     public static array $namespaces = [
         // Functional
-        'Special' => -1,
-        'Revision' => null,
+//        'Special' => -1,
+//        'Revision' => null,
 
         // Standard
         'Article' => 0,

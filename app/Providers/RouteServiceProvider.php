@@ -64,6 +64,18 @@ class RouteServiceProvider extends ServiceProvider
                     PreventAccessFromCentralDomains::class,
                 ])->namespace($this->namespace)
                     ->group(function () use ($domain) {
+                        Route::domain(config('app.domains.wiki'))->get('/auth/recapture', function (Request $request) {
+                            if (!$request->hasValidSignature()) abort(400, 'Insecure session migration');
+                            if ($request->string('ip') != $request->ip()) abort(400, 'Insecure session migration');
+
+                            $session = \Illuminate\Support\Facades\Crypt::decryptString($request->string('session')->toString());
+
+                            session()->setId($session);
+                            session()->start();
+
+                            return redirect('/');
+                        })->name('wiki$auth::recapture');
+
                         Route::domain($domain)->group(base_path('routes/web.php'));
                         Route::domain(config('app.domains.wiki'))->name('wiki$')->group(base_path('routes/wiki.php'));
                     });

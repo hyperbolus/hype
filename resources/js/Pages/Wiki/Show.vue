@@ -51,7 +51,8 @@ const submitRevision = () => {
     edit.title = props.title;
     edit.language = props.language;
     edit.namespace = props.namespace;
-    edit[props.page ? 'patch' : 'post'](props.page ? route('wiki.update', props.page.id) : route('wiki.store'), {
+    let routePrefix = settings('_subsite') === 'wiki' ? 'wiki$' : '';
+    edit[props.page ? 'patch' : 'post'](props.page ? route(routePrefix + 'wiki.update', props.page.id) : route(routePrefix + 'wiki.store'), {
         onSuccess: () => {
             editing.value = false;
             edit.reset();
@@ -59,53 +60,24 @@ const submitRevision = () => {
     });
 };
 
-const realPath = computed(() => {
+const fullTitle = computed(() => {
     let path = ''
 
-    if (settings('_subsite') !== 'wiki') path = props.language + '/';
     if (props.namespace !== 'Article') path += props.namespace + ':';
 
     path += props.title;
 
     return path;
 });
-
-const request = {
-    url: 'www.boomlings.com/database/',
-    protocol: 'https://',
-    method: 'post',
-    contentType: '',
-    headers: {
-        'User-Agent': '',
-    },
-    body: {
-        'accountID': 1,
-        'gjp': 'pantis',
-    },
-    responses: [
-        {
-            name: 'Succddddess',
-            body: 'ok teeheasddase',
-            language: 'plain',
-            color: '#4bf323',
-        },
-        {
-            name: 'fail :(',
-            body: '{\n\tmsg: "sadge..."\n}',
-            language: 'json',
-            color: '#f63b3b',
-        }
-    ],
-}
 </script>
 <template>
     <WikiLayout :edited_at="revision?.created_at" :language="language" :namespace="namespace" :title="title" :action="action" :outdated="outdated" :permalink="permalink">
         <div class="x justify-between space-x-4 border-b border-ui-700 pb-1 px-4 actions">
             <Link :href="wiki(title)" class="!border-b-blue-500">{{ namespace }}</Link>
             <div class="x space-x-4">
-                <Link v-if="page" :href="wiki(realPath)" :class="{'!border-b-blue-500': action === 'read'}">Read</Link>
-                <Link :href="wiki(realPath) + '?action=edit'" :class="{'!border-b-blue-500': editing}">{{ page ? 'Edit' : 'Create' }}</Link>
-                <Link v-if="page" :href="wiki(realPath) + '?action=history'" :class="{'!border-b-blue-500': action === 'history'}">History</Link>
+                <Link v-if="page" :href="wiki(fullTitle)" :class="{'!border-b-blue-500': action === 'read'}">Read</Link>
+                <Link :href="wiki(fullTitle) + '?action=edit'" :class="{'!border-b-blue-500': editing}">{{ page ? 'Edit' : 'Create' }}</Link>
+                <Link v-if="page" :href="wiki(fullTitle) + '?action=history'" :class="{'!border-b-blue-500': action === 'history'}">History</Link>
             </div>
         </div>
 
@@ -117,7 +89,7 @@ const request = {
                 <span v-if="outdated">This is a permalink to an outdated revision of this page</span>
                 <span v-else>This is a permalink to the the latest revision of this page, but it may become outdated later.</span>
                 <div class="x space-x-2 items-center text-sm">
-                    <Link v-if="outdated" :href="wiki(realPath)" class="text-blue-500 hover:underline">Latest Revision</Link>
+                    <Link v-if="outdated" :href="wiki(fullTitle)" class="text-blue-500 hover:underline">Latest Revision</Link>
                     <span v-if="outdated" class="border-ui-500 border-x py-1.5"></span>
                     <span>Revision edited by <Username :user="revision.author"/> at {{ useDateFormat(revision.created_at, 'hh:mm A on MMMM DD, YYYY') }}</span>
                 </div>
@@ -128,7 +100,7 @@ const request = {
 
         <div v-if="action === 'history'" class="y space-y-2">
             <div v-for="revision in revisions?.data ?? []" class="x space-x-2 pane text-sm">
-                <Link :href="wiki(realPath) + `?revision=${revision.id}`" class="text-blue-500 hover:underline w-56 text-right">{{ useDateFormat(revision.created_at, 'MMMM DD, YYYY @ hh:mm A') }}</Link>
+                <Link :href="wiki(fullTitle) + `?revision=${revision.id}`" class="text-blue-500 hover:underline w-56 text-right">{{ useDateFormat(revision.created_at, 'MMMM DD, YYYY @ hh:mm A') }}</Link>
                 <Username :user="revision.author"/>
                 <span>({{ revision.size.new_length }} bytes)</span>
                 <span :class="revision.size.new_length > revision.size.old_length ? 'text-green-500' : 'text-red-500'">({{ revision.size.new_length > revision.size.old_length ? '+' : '' }}{{ revision.size.new_length - revision.size.old_length }})</span>

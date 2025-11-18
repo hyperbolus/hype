@@ -79,7 +79,7 @@ onBeforeMount(() => {
                 </div>
                 <div class="bg-ui-900 px-4 py-2 border border-ui-700 mr-2">
                     <ControlBar v-if="isAuthenticated()" class="!w-fit"/>
-                    <span><a class="underline" :href="route('auth::migrate')">Login</a> with Hyperbolus</span>
+                    <span v-else><a class="underline" :href="route('auth::migrate')">Login</a> with Hyperbolus</span>
                 </div>
                 <div class="absolute inset-0 -z-10 h-full w-full bg-ui-800" style="mask-size: 5rem;" :style="`mask-image: url('${getGame() === 'soundodger' ? patternBGSD : patternBG}?');`"></div>
                 <div class="absolute inset-0 -z-20 h-full w-full bg-ui-950"></div>

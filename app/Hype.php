@@ -131,6 +131,15 @@ class Hype
         return $subsite;
     }
 
+    public static function isSubsite(): ?string
+    {
+        $subsites = [
+            parse_url(config('app.domains.wiki'), PHP_URL_HOST),
+        ];
+
+        return in_array(request()->host(), $subsites);
+    }
+
     public static function getTenantMainDomain()
     {
         foreach (tenant()->domains as $domain) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Hype;
 use App\Wiki;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ class WikiPage extends Model
 {
     public function getURL(): string
     {
-        return route('wiki', $this->getURIPath());
+        return route((Hype::isSubsite() ? Hype::getSubsite() . '$' : '') . 'wiki', $this->getURIPath());
     }
 
     public function getURIPath(): string
@@ -19,7 +20,8 @@ class WikiPage extends Model
         $lang = array_search($this->lang, Wiki::$languages);
         $ns = array_search($this->namespace, Wiki::$namespaces);
 
-        $path = $lang . '/';
+        $path = '';
+        if (!Hype::isSubsite()) $path = $lang . '/';
         if ($ns !== Wiki::$defaultNamespace) $path .= $ns . ':';
 
         return $path . $this->title;
