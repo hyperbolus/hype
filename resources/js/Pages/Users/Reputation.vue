@@ -84,7 +84,7 @@ onBeforeMount(() => {
                                 <span v-if="rep.sender.banned_at !== null" class="text-sm text-ui-600">(banned)</span>
                             </div>
                             <span class="text-sm text-ui-600">{{ useTimeAgo(rep.created_at) }}</span>
-                            <button v-if="isAdmin" @click="deleteReputation(rep.id)" class="bg-ui-800 rounded p-1.5 text-red-500 hover:text-white hover:bg-red-500">
+                            <button v-if="isAdmin()" @click="deleteReputation(rep.id)" class="bg-ui-800 rounded p-1.5 text-red-500 hover:text-white hover:bg-red-500">
                                 <Icon class="size-4" name="trash"/>
                             </button>
                         </div>
