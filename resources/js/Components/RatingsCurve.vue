@@ -12,9 +12,12 @@ const props = defineProps({
 });
 
 const url = (score) => {
-    let url = route('levels.index');
+    let url = '#';
+
     if (props.model) {
-        url = route(props.model.hasOwnProperty('weight') ? 'users.index' : 'levels.show', props.model.id)
+        url = route(props.model.hasOwnProperty('avatar_url') ? 'user.reviews' : 'levels.show', props.model.id)
+    } else {
+        return url;
     }
 
     return `${url}?overall=${score}-${score}`
