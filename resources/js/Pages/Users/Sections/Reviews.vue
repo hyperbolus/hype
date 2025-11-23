@@ -45,7 +45,7 @@ const search = () => {
 <template>
     <UserLayout :profile="profile" container-classes="y md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <div class="y space-y-4 md:w-1/3 xl:w-1/4 relative z-00">
-            <RatingsCurve :user="profile" :curve="curve"/>
+            <RatingsCurve :model="profile" :curve="curve"/>
             <Accordion :open="true" title="Filters">
                 <div class="y">
                     <span>Difficulty</span>
