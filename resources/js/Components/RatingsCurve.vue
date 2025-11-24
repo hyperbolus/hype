@@ -12,17 +12,27 @@ const props = defineProps({
     type: String,
 });
 
-const url = (score) => {
+const url = (score, type = 'rating_overall') => {
     let url = null;
+
+    type = type.substring(type.indexOf('_') + 1)
 
     if (props.type === 'user') {
         url = route('users.reviews', props.model.id)
     } else {
-        console.log(url);
         return url;
     }
 
-    return `${url}?overall=${score}-${score}`
+    let minScore = score, maxScore = score;
+
+    if (type === 'difficulty') {
+        minScore = minScore * 10;
+        maxScore = minScore + 9;
+
+        if (minScore === 100) maxScore = 100;
+    }
+
+    return `${url}?${type}=${minScore}-${maxScore}`
 }
 
 const color = (column) => {
@@ -72,8 +82,11 @@ const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Ma
                 </div>
                 <div class="border-b border-ui-700 mt-1 mb-1.5"></div>
                 <template v-for="(count, score) in strata">
-                    <component :is="url(score) ? Link : 'div'" :href="url(score)" class="x items-center text-sm group">
-                        <span class="text-ui-500 w-5 mr-2 text-center">{{ score }}</span>
+                    <component :is="url(score) ? Link : 'div'" :href="url(score, column)" class="x items-center text-sm group">
+                        <div class="text-ui-500 mr-2 text-right select-none" :class="column === 'rating_difficulty' ? 'w-12' : 'w-5'">
+                            <span v-if="column === 'rating_difficulty' && score !== 10">{{ score * 10 }}-{{score * 10 + 9}}</span>
+                            <span v-else>{{ column === 'rating_difficulty' ? 100 : score }}</span>
+                        </div>
                         <div class="x items-center w-full">
                             <div class="bg-ui-800 rounded overflow-hidden grow">
                                 <div class="p-0.5" :class="{'invisible': count === 0, [color(column)]: 1}" :style="`width: ${count / Math.max(...strata) * 100}%;`"></div>

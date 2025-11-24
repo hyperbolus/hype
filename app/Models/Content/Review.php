@@ -75,6 +75,8 @@ class Review extends Model
             // one day we will get literal string type in php...
             $column = preg_replace('/[^a-z_]/i', '', $column);
 
+            $isDifficulty = $column == 'rating_difficulty';
+
             // TODO@later: condense into one query
             $counts = $source->clone()->select([DB::raw('COUNT(*) as count'), $column])
                 ->groupBy($column)
@@ -82,19 +84,22 @@ class Review extends Model
                 ->keyBy($column)
                 ->map(fn(Review $review) => $review->count);
 
-            $curves[$column] = [
-                0 => $counts[0] ?? 0,
-                1 => $counts[1] ?? 0,
-                2 => $counts[2] ?? 0,
-                3 => $counts[3] ?? 0,
-                4 => $counts[4] ?? 0,
-                5 => $counts[5] ?? 0,
-                6 => $counts[6] ?? 0,
-                7 => $counts[7] ?? 0,
-                8 => $counts[8] ?? 0,
-                9 => $counts[9] ?? 0,
-                10 => $counts[10] ?? 0,
-            ];
+            $curves[$column] = [];
+
+            // zero and 10/100 inclusive
+            for ($i = 0; $i <= ($isDifficulty ? 100 : 10); $i++) $curves[$column][$i] = $counts[$i] ?? 0;
+
+            // condense 0-100 scale into 10 grouped strata plus 0
+            if ($isDifficulty) {
+                $condensed = array_fill(0, 11, 0);
+
+                $condensed[0] = $curves[$column][0];
+
+                // skip 0
+                for ($i = 0; $i <= 100; $i++) $condensed[floor($i / 10)] += $curves[$column][$i] ?? 0;
+
+                $curves[$column] = $condensed;
+            }
         }
 
         return $curves;
