@@ -54,7 +54,7 @@ const serviceColor = ['text-white', 'text-cyan-300','text-fuchsia-300', 'text-am
                 </div>
                 <p v-if="profile.birthday && isSameDay(profile.birthday)" class="pane font-bold text-center !mt-2 text-fuchsia-300">Happy Birthday!!!</p>
                 <p v-if="profileAge > 0" class="pane font-bold text-center !mt-2" :class="serviceColor">{{ capitalize(writtenNumber(profileAge)) }} Years of Service</p>
-                <RatingsCurve :model="profile" :curve="curve"/>
+                <RatingsCurve :model="profile" :curve="curve" type="user"/>
             </div>
             <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 md:w-1/2 lg:w-3/4">
                 <div class="y space-y-4 lg:w-1/2">

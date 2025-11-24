@@ -8,15 +8,17 @@ import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     model: Object,
-    curve: Object
+    curve: Object,
+    type: String,
 });
 
 const url = (score) => {
-    let url = '#';
+    let url = null;
 
-    if (props.model) {
-        url = route(props.model.hasOwnProperty('avatar_url') ? 'user.reviews' : 'levels.show', props.model.id)
+    if (props.type === 'user') {
+        url = route('users.reviews', props.model.id)
     } else {
+        console.log(url);
         return url;
     }
 
@@ -69,20 +71,22 @@ const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Ma
                     <span class="overflow-hidden">{{ sum(curve[current]) }} Ratings</span>
                 </div>
                 <div class="border-b border-ui-700 mt-1 mb-1.5"></div>
-                <Link v-for="(count, score) in strata" :href="url(score)" class="x items-center text-sm group">
-                    <span class="text-ui-500 w-5 mr-2 text-center">{{ score }}</span>
-                    <div class="x items-center w-full">
-                        <div class="bg-ui-800 rounded overflow-hidden grow">
-                            <div class="p-0.5" :class="{'invisible': count === 0, [color(column)]: 1}" :style="`width: ${count / Math.max(...strata) * 100}%;`"></div>
+                <template v-for="(count, score) in strata">
+                    <component :is="url(score) ? Link : 'div'" :href="url(score)" class="x items-center text-sm group">
+                        <span class="text-ui-500 w-5 mr-2 text-center">{{ score }}</span>
+                        <div class="x items-center w-full">
+                            <div class="bg-ui-800 rounded overflow-hidden grow">
+                                <div class="p-0.5" :class="{'invisible': count === 0, [color(column)]: 1}" :style="`width: ${count / Math.max(...strata) * 100}%;`"></div>
+                            </div>
+                            <!-- TODO: make it so bar does not change and is proportionally correct instead of shrinking and being inaccurate -->
+                            <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden">{{ count }}&nbsp;Ratings</div>
                         </div>
-                        <!-- TODO: make it so bar does not change and is proportionally correct instead of shrinking and being inaccurate -->
-                        <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden">{{ count }}&nbsp;Ratings</div>
-                    </div>
-                </Link>
+                    </component>
+                </template>
             </div>
         </div>
-        <Tooltip v-if="model?.hasOwnProperty('weight')" class="text-center" message="This user's ratings do not affect site-wide level averages">
-            <p v-if="model.weight === 0" class="rounded bg-red-500 text-white text-sm font-bold px-1">DEWEIGHTED</p>
+        <Tooltip v-if="model?.hasOwnProperty('weight') && model.weight === 0" class="text-center" message="This user's ratings do not affect site-wide level averages">
+            <p class="rounded bg-red-500 text-white text-sm font-bold px-1">DEWEIGHTED</p>
         </Tooltip>
     </div>
 </template>
