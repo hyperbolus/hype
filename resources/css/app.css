@@ -252,5 +252,13 @@ div[data-youtube-video] > iframe {
     &.resize-cursor {
         @apply cursor-col-resize;
     }
+
+    .footnote-ref::before {
+        content: '[';
+    }
+
+    .footnote-ref::after {
+        content: ']';
+    }
 }
 
