@@ -15,6 +15,9 @@ import {generateHTML, generateJSON} from "@tiptap/html";
 import {LargeLink, Spoiler} from "./TipTap/Extensions";
 import InvisibleCharacters from "@tiptap/extension-invisible-characters";
 import {Table, TableCell, TableHeader, TableRow} from "@tiptap/extension-table";
+import {Document} from "@tiptap/extension-document";
+import {Footnote, FootnoteReference, Footnotes} from "tiptap-footnotes";
+import Subscript from "@tiptap/extension-subscript";
 
 const props = defineProps({
     modelValue: {
@@ -31,13 +34,18 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const extensions = [
     // Basics
-    StarterKit,
+    StarterKit.configure({
+        document: false,
+    }),
     Placeholder.configure({
         placeholder: 'Write something …',
     }),
     CharacterCount,
     InvisibleCharacters.configure({
         visible: false,
+    }),
+    Document.extend({
+        content: "block+ footnotes?",
     }),
 
     // Styling
@@ -55,6 +63,7 @@ const extensions = [
     TableCell,
     TableHeader,
     TableRow,
+    Subscript,
 
     // Media
     Image,
@@ -64,6 +73,11 @@ const extensions = [
     Spoiler, // TODO: fix spoiler line breaks
     LargeLink,
     // TODO: Mentions
+
+    // Other extensions
+    Footnotes,
+    Footnote,
+    FootnoteReference,
 ];
 
 const mounted = ref(false);
@@ -193,6 +207,10 @@ const addVideoURL = ref('');
                 </button>
                 <button title="Spoiler" @click="editor.commands.toggleSpoiler()" class="px-2 py-0.5 rounded" :class="{ 'bg-ui-700': editor.isActive('spoiler') }">
                     <Icon class="size-5 my-1" size="24" type="outline" name="eye-slash"/>
+                </button>
+
+                <button title="Footnote" @click="editor.commands.addFootnote()" class="px-2 py-0.5 rounded" :class="{ 'bg-ui-700': editor.isActive('spoiler') }">
+                    <Icon class="size-5 my-1" size="24" type="outline" name="bookmark"/>
                 </button>
 
                 <div class="py-3 border-x border-ui-700"></div>
