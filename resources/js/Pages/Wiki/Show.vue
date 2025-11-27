@@ -3,7 +3,7 @@ import WikiLayout from "@/Layouts/WikiLayout.vue";
 import {Link, useForm} from "@inertiajs/vue3";
 import {useDateFormat} from '@vueuse/core';
 import TipTap from "@/Components/TipTap.vue";
-import {ref, computed} from "vue";
+import {ref, computed, useTemplateRef} from "vue";
 import {isAdmin} from "@/util.js";
 import DiscordInvite from "@/Components/DiscordInvite.vue";
 import Textbox from "@/Components/Textbox.vue";
@@ -69,9 +69,17 @@ const fullTitle = computed(() => {
 
     return path;
 });
+
+const tiptapEditor = useTemplateRef('tiptapEditor');
 </script>
 <template>
     <WikiLayout :edited_at="revision?.created_at" :language="language" :namespace="namespace" :title="title" :action="action" :outdated="outdated" :permalink="permalink">
+        <template #toc>
+            <ul v-if="tiptapEditor" class="links">
+                <li v-for="heading in tiptapEditor.toc" class="py-1"><a :href="'#' + heading.anchor">{{ heading.title }}</a></li>
+            </ul>
+        </template>
+
         <div class="x justify-between space-x-4 border-b border-ui-700 pb-1 px-4 actions">
             <Link :href="wiki(title)" class="!border-b-blue-500">{{ namespace }}</Link>
             <div class="x space-x-4">
@@ -96,7 +104,7 @@ const fullTitle = computed(() => {
             </div>
         </div>
 
-        <TipTap v-if="action !== 'history'" v-show="!editing || (editing && hasRole('wiki_contributor'))" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
+        <TipTap ref="tiptapEditor" v-if="action !== 'history'" v-show="!editing || (editing && hasRole('wiki_contributor'))" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
 
         <div v-if="action === 'history'" class="y space-y-2">
             <div v-for="revision in revisions?.data ?? []" class="x space-x-2 pane text-sm">

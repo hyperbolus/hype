@@ -18,6 +18,7 @@ import {Table, TableCell, TableHeader, TableRow} from "@tiptap/extension-table";
 import {Document} from "@tiptap/extension-document";
 import {Footnote, FootnoteReference, Footnotes} from "tiptap-footnotes";
 import Subscript from "@tiptap/extension-subscript";
+import TableOfContents from "@tiptap/extension-table-of-contents";
 
 const props = defineProps({
     modelValue: {
@@ -31,11 +32,14 @@ const props = defineProps({
     max: Number
 });
 
+const toc = ref([]);
+
 const emit = defineEmits(['update:modelValue'])
 const extensions = [
     // Basics
     StarterKit.configure({
         document: false,
+        heading: false,
     }),
     Placeholder.configure({
         placeholder: 'Write something …',
@@ -78,6 +82,27 @@ const extensions = [
     Footnotes,
     Footnote,
     FootnoteReference,
+    TableOfContents.configure({
+        onUpdate: (anchors) => {
+            toc.value = [
+                {
+                    id: -1,
+                    title: '(Top)',
+                    anchor: '',
+                    level: 0
+                }
+            ];
+
+            anchors.forEach((a) => {
+                toc.value.push({
+                    id: a.id,
+                    title: a.textContent,
+                    anchor: a.textContent.replaceAll(' ', '_'),
+                    level: a.level,
+                })
+            });
+        }
+    }),
 ];
 
 const mounted = ref(false);
@@ -137,6 +162,8 @@ const addLink = () => {
 }
 
 const addVideoURL = ref('');
+
+defineExpose({toc});
 </script>
 <template>
     <div class="y items-center">
