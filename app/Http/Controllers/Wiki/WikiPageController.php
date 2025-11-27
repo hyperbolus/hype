@@ -47,16 +47,6 @@ class WikiPageController extends Controller
         )->getURL());
     }
 
-    public function random(Request $request): RedirectResponse
-    {
-        $page = WikiPage::query()
-            ->where('lang', Wiki::$languages[$request->string('lang', Wiki::$defaultLang)->toString()])
-            ->inRandomOrder()
-            ->firstOrFail();
-
-        return redirect()->route('wiki', $page->getURL());
-    }
-
     public function show(Request $request, string $path = '')
     {
         $routePrefix = '';
