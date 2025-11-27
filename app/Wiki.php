@@ -67,6 +67,7 @@ class Wiki
         // TODO@later: logic for linking root and parent pages etc
         $page = new WikiPage();
         $page->title = $title;
+        $page->length = 0;
         $page->namespace = $namespace;
         $page->lang = $lang;
         $page->save();
@@ -99,7 +100,7 @@ class Wiki
         $text->revision_id = $revision->id;
         $text->content = $content;
         $text->new_length = Str::length($content);
-        $text->old_length = 0;
+        $text->old_length = $page->length;
         $text->save();
 
         // Assign our new initial revision to the page
