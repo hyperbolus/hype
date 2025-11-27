@@ -29,7 +29,7 @@ const links = [
         title: 'GD Wiki',
         links: {
             'Home Page': wiki('Home'),
-            'Random Article': wiki('random') + `?lang=${props.language}`,
+            'Random Article': wiki('Special:Random') + `?lang=${props.language}`,
             'About the Wiki': wiki('Wiki:About'),
         },
     },
@@ -43,14 +43,15 @@ const links = [
             'Reviews': route('reviews.index'),
         },
     },
-    {
-        title: 'More',
-        links: {
-            'About': route('about'),
-            'Contact': route('contact'),
-        },
-    }
 ];
+
+const footer = {
+    'About': route('about'),
+    'Contact': route('contact'),
+    'Bans': route('bans.index'),
+    'Terms of Service': route('legal.terms'),
+    'Privacy': route('legal.privacy'),
+};
 
 onBeforeMount(() => {
     // Required for global cache on first load
@@ -90,8 +91,10 @@ onBeforeMount(() => {
                     <div class="y w-full">
                         <div v-for="section in links" class="y w-full mt-2 links">
                             <span class="font-bold border-b border-ui-700 pb-1">{{ section.title }}</span>
-                            <AutoLink v-for="(link, key) in section.links" :href="link" class="py-1">{{ key }}</AutoLink>
+                            <AutoLink v-for="(link, key) in section.links" :to="link" class="py-1">{{ key }}</AutoLink>
                         </div>
+                        <span class="font-bold border-b border-ui-700 pb-1 mt-2">Contents</span>
+                        <slot name="toc"/>
                     </div>
                 </aside>
                 <div class="y grow space-y-2">
@@ -109,15 +112,14 @@ onBeforeMount(() => {
                     </article>
                 </div>
             </div>
-            <div class="y space-y-2 px-6 pt-4 pb-16 text-xs text-ui-500 links border-x border-t-0 border-ui-800 bg-ui-1000 w-full max-w-7xl leading-none">
+            <div class="y space-y-2 p-4 text-xs text-ui-500 links border-x border-t-0 border-ui-800 bg-ui-1000 w-full max-w-7xl leading-none">
                 <span v-if="edited_at && action === 'read'">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
                 <span v-if="action === 'read'">Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
-                <div class="x space-x-4">
-                    <AutoLink :href="route('about')">About</AutoLink>
-                    <AutoLink :href="route('contact')">Contact</AutoLink>
-                    <AutoLink :href="route('bans.index')">Bans</AutoLink>
-                    <AutoLink :href="route('legal.terms')">Terms of Service</AutoLink>
-                    <AutoLink :href="route('legal.privacy')">Privacy</AutoLink>
+                <div class="x justify-between space-x-4 !mt-4 py-2 border-t border-ui-700">
+                    <span>Geometry Dash Wiki is hosted by Hyperbolus. We are not affiliated with Geometry Dash or RobTopGames AB</span>
+                    <div class="x space-x-4">
+                        <AutoLink v-for="(url, title) in footer" :to="url">{{ title }}</AutoLink>
+                    </div>
                 </div>
             </div>
         </div>
