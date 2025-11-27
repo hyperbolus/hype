@@ -1,5 +1,5 @@
 <script setup>
-import {EditorContent, useEditor,} from '@tiptap/vue-3'
+import {EditorContent, useEditor, VueMarkViewRenderer,} from '@tiptap/vue-3'
 import {ref, watch} from "vue";
 import {Youtube} from "@tiptap/extension-youtube";
 import {TextAlign} from "@tiptap/extension-text-align";
@@ -17,8 +17,10 @@ import InvisibleCharacters from "@tiptap/extension-invisible-characters";
 import {Table, TableCell, TableHeader, TableRow} from "@tiptap/extension-table";
 import {Document} from "@tiptap/extension-document";
 import {Footnote, FootnoteReference, Footnotes} from "tiptap-footnotes";
+import {Link as ExtensionLink} from "@tiptap/extension-link";
 import Subscript from "@tiptap/extension-subscript";
 import TableOfContents from "@tiptap/extension-table-of-contents";
+import TTAutoLink from "@/Components/TipTap/TTAutoLink.vue";
 
 const props = defineProps({
     modelValue: {
@@ -40,6 +42,7 @@ const extensions = [
     StarterKit.configure({
         document: false,
         heading: false,
+        link: false,
     }),
     Placeholder.configure({
         placeholder: 'Write something …',
@@ -68,6 +71,9 @@ const extensions = [
     TableHeader,
     TableRow,
     Subscript,
+    ExtensionLink.extend({
+        addMarkView: () => VueMarkViewRenderer(TTAutoLink)
+    }),
 
     // Media
     Image,
@@ -309,7 +315,7 @@ defineExpose({toc});
             <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(modelValue, extensions), extensions)"></div>
         </div>
         <textarea readonly v-if="source" class="bg-ui-900 border-transparent focus-visible:ring-0 focus-visible:border-transparent !border-t-ui-700 p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</textarea>
-        <div v-if="editable" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
+        <div v-if="editable && typeof modelValue === 'string'" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
             <span>{{ modelValue.split(' ').length }} Words</span>
             <span>{{ modelValue.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
         </div>

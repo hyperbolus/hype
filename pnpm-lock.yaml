@@ -35,6 +35,9 @@ importers:
       '@tiptap/extension-invisible-characters':
         specifier: ^3.10.3
         version: 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/extension-text-style@3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5)))(@tiptap/pm@3.6.5)
+      '@tiptap/extension-link':
+        specifier: ^3.11.1
+        version: 3.11.1(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)
       '@tiptap/extension-list':
         specifier: ^3.10.3
         version: 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)
@@ -513,11 +516,11 @@ packages:
     peerDependencies:
       '@tiptap/core': ^3.10.3
 
-  '@tiptap/extension-link@3.10.3':
-    resolution: {integrity: sha512-DGRdzm+Xu5UisZj5IJhW73vMZzuYOO2S3qVjjVvH3vb4Ph7tICB/b5BV0IwZwyHCY9WT7ZLhVMV08/sk0J0Haw==}
+  '@tiptap/extension-link@3.11.1':
+    resolution: {integrity: sha512-ds5auQnWGcHwC2/c1iEvvybdLPcSDlxsii7FPaZg4LaSGdNojRB0qDRZw5dzYQZbfIf5vgYGcIVCVjNPZs1UwQ==}
     peerDependencies:
-      '@tiptap/core': ^3.10.3
-      '@tiptap/pm': ^3.10.3
+      '@tiptap/core': ^3.11.1
+      '@tiptap/pm': ^3.11.1
 
   '@tiptap/extension-list-item@3.10.3':
     resolution: {integrity: sha512-yiryiwnxD5cg00plOqk0euLxytA5m82bKVlx/yvLwj61AkeNPAQNfUwjVGiggBxS1pI05yTAeYjypNhGl1Soaw==}
@@ -1958,7 +1961,7 @@ snapshots:
     dependencies:
       '@tiptap/core': 3.10.3(@tiptap/pm@3.6.5)
 
-  '@tiptap/extension-link@3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)':
+  '@tiptap/extension-link@3.11.1(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)':
     dependencies:
       '@tiptap/core': 3.10.3(@tiptap/pm@3.6.5)
       '@tiptap/pm': 3.6.5
@@ -2078,7 +2081,7 @@ snapshots:
       '@tiptap/extension-heading': 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))
       '@tiptap/extension-horizontal-rule': 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)
       '@tiptap/extension-italic': 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))
-      '@tiptap/extension-link': 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)
+      '@tiptap/extension-link': 3.11.1(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)
       '@tiptap/extension-list': 3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5)
       '@tiptap/extension-list-item': 3.10.3(@tiptap/extension-list@3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5))
       '@tiptap/extension-list-keymap': 3.10.3(@tiptap/extension-list@3.10.3(@tiptap/core@3.10.3(@tiptap/pm@3.6.5))(@tiptap/pm@3.6.5))
