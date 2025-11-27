@@ -12,8 +12,7 @@ class Wiki
 {
     public static array $namespaces = [
         // Functional
-//        'Special' => -1,
-//        'Revision' => null,
+        'Special' => -1,
 
         // Standard
         'Article' => 0,
@@ -46,6 +45,11 @@ class Wiki
     public static string $defaultLang = 'en';
 
     public static string $mainPage = 'Home';
+
+    // Methods of SpecialPageController.php
+    public static array $specialPages = [
+        'Random' => 'random',
+    ];
 
     public static function makePage(
         string     $title,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Wiki;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Wiki\Special\SpecialPageController;
 use App\Hype;
 use App\Models\ModelRevision;
 use App\Models\WikiPage;
@@ -79,28 +80,35 @@ class WikiPageController extends Controller
 
         if ($redirect) return redirect()->route($routePrefix . 'wiki', $redirect);
 
-        $page = WikiPage::query()
-            ->where('lang', Wiki::$languages[$lang])
-            ->where('namespace', Wiki::$namespaces[$namespace])
-            ->where('title', $title)
-            ->first();
+        if ($namespace === 'Special') {
+            abort_if(!array_key_exists($title, Wiki::$specialPages), 404);
 
-        if ($page) {
-            if ($action === 'history') {
-                // include revision history
-                $revisions = $page?->revisions()
-                    ->with(['author', 'size'])
-                    ->latest()
-                    ->paginate(25);
-            } else {
-                // If viewing or editing grab the latest revision
+            // Defer to special page controller
+            return (new SpecialPageController)->{Wiki::$specialPages[$title]}($request);
+        } else {
+            $page = WikiPage::query()
+                ->where('lang', Wiki::$languages[$lang])
+                ->where('namespace', Wiki::$namespaces[$namespace])
+                ->where('title', $title)
+                ->first();
 
-                $q = !$request->has('revision') ? $page->revision() : ModelRevision::query()
-                    ->where('model_type', 70)
-                    ->where('model_id', $page->id)
-                    ->where('id', $request->integer('revision'));
+            if ($page) {
+                if ($action === 'history') {
+                    // include revision history
+                    $revisions = $page?->revisions()
+                        ->with(['author', 'size'])
+                        ->latest()
+                        ->paginate(25);
+                } else {
+                    // If viewing or editing grab the latest revision
 
-                $revision = $q->with(['author', 'text'])->firstOrFail();
+                    $q = !$request->has('revision') ? $page->revision() : ModelRevision::query()
+                        ->where('model_type', 70)
+                        ->where('model_id', $page->id)
+                        ->where('id', $request->integer('revision'));
+
+                    $revision = $q->with(['author', 'text'])->firstOrFail();
+                }
             }
         }
 
