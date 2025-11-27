@@ -9,7 +9,7 @@ import route from "ziggy-js";
 import {getGame} from "@/util.js";
 import logo from "@/../images/gdwiki.png";
 import {isAuthenticated, settings, wiki} from "../util";
-import {useDateFormat} from "@vueuse/core/index";
+import {useDateFormat} from "@vueuse/core";
 import Icon from "../Components/Icon.vue";
 import ControlBar from "../Components/ControlBar.vue";
 import AutoLink from "../Components/AutoLink.vue";
@@ -113,7 +113,7 @@ onBeforeMount(() => {
                 </div>
             </div>
             <div class="y space-y-2 p-4 text-xs text-ui-500 links border-x border-t-0 border-ui-800 bg-ui-1000 w-full max-w-7xl leading-none">
-                <span v-if="edited_at && action === 'read'">This page was last edited {{ new Date(edited_at).toLocaleString('en-US', {month: 'long', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) }}</span>
+                <span v-if="edited_at && action === 'read'">This page was last edited {{ useDateFormat(edited_at, 'MMMM DD, YYYY @ hh:mm A').value.replace('@', 'at') }}</span>
                 <span v-if="action === 'read'">Page content falls under <a class="text-blue-500" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> unless noted otherwise</span>
                 <div class="x justify-between space-x-4 !mt-4 py-2 border-t border-ui-700">
                     <span>Geometry Dash Wiki is hosted by Hyperbolus. We are not affiliated with Geometry Dash or RobTopGames AB</span>
