@@ -12,7 +12,7 @@ const element = _ => {
     return 'h1';
 }
 
-const anchor = _ => props.node.content.content[0].text.replaceAll(' ', '_');
+const anchor = _ => (props.node?.content?.content[0]?.text ?? '').replaceAll(' ', '_');
 </script>
 <template>
     <node-view-wrapper :as="element()" :id="anchor()" class="x space-x-2 items-center group">

@@ -25,10 +25,6 @@ import Superscript from "@tiptap/extension-superscript";
 import TTHeading from "@/Components/TipTap/TTHeading.vue";
 
 const props = defineProps({
-    modelValue: {
-        type: String,
-        default: '',
-    },
     editable: {
         type: Boolean,
         default: true,
@@ -38,7 +34,8 @@ const props = defineProps({
 
 const toc = ref([]);
 
-const emit = defineEmits(['update:modelValue'])
+const model = defineModel();
+
 const extensions = [
     // Basics
     StarterKit.configure({
@@ -65,8 +62,6 @@ const extensions = [
     // Content
     Heading.extend({
         addNodeView: _ => VueNodeViewRenderer(TTHeading)
-    }).configure({
-        levels: [1, 2, 3]
     }),
     Table.configure({
         resizable: false
@@ -94,6 +89,7 @@ const extensions = [
     Footnote,
     FootnoteReference,
     TableOfContents.configure({
+        getId: _ => '',
         onUpdate: (anchors) => {
             toc.value = [
                 {
@@ -120,7 +116,7 @@ const mounted = ref(false);
 
 const editor = useEditor({
     extensions: extensions,
-    content: generateJSON(props.modelValue, extensions),
+    content: generateJSON(model.value, extensions),
     immediatelyRender: true,
     // element: null,
     onUpdate: () => {
@@ -131,7 +127,7 @@ const editor = useEditor({
 
         if (!mutating.value) {
             changing.value = true;
-            emit('update:modelValue', editor.value.getHTML())
+            model.value = editor.value.getHTML();
         } else {
             mutating.value = false;
         }
@@ -152,16 +148,16 @@ const editability = ref(false); // external change of editable
 watch(() => props.editable, (v) => {
     editability.value = true;
     if (editor.value) editor.value.setEditable(v)
-})
+});
 
-watch(() => props.modelValue, (v) => {
+watch(model, (v) => {
     if (!changing.value && editor.value) {
         mutating.value = true;
         editor.value.commands.setContent(v);
     } else {
         changing.value = false;
     }
-})
+});
 
 const addLinkURL = ref('');
 const addLinkText = ref('');
@@ -316,13 +312,13 @@ defineExpose({toc});
             </div>
         </div>
         <editor-content v-if="mounted" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-800': editable}" :editor="editor" />
-        <div v-else-if="modelValue" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert">
-            <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(modelValue, extensions), extensions)"></div>
+        <div v-else-if="model" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert">
+            <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(model, extensions), extensions)"></div>
         </div>
-        <textarea readonly v-if="source" class="bg-ui-900 border-transparent focus-visible:ring-0 focus-visible:border-transparent !border-t-ui-700 p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</textarea>
-        <div v-if="editable && typeof modelValue === 'string'" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
-            <span>{{ modelValue.split(' ').length }} Words</span>
-            <span>{{ modelValue.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
+        <textarea readonly v-model="model" v-if="source" class="bg-ui-900 border-transparent focus-visible:ring-0 focus-visible:border-transparent !border-t-ui-700 p-2 text-xs w-full overflow-x-auto"></textarea>
+        <div v-if="editable && typeof model === 'string'" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
+            <span>{{ model.split(' ').length }} Words</span>
+            <span>{{ model.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
         </div>
     </div>
 </template>
