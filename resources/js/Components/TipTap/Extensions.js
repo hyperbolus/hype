@@ -1,8 +1,8 @@
 import {Mark, mergeAttributes, Node} from '@tiptap/core'
 import {VueMarkViewRenderer, VueNodeViewRenderer} from '@tiptap/vue-3'
 
-import SpoilerComponent from './Spoiler.vue'
-import LargeLinkComponent from './LargeLink.vue'
+import TTSpoilerComponent from './TTSpoiler.vue'
+import TTLargeLinkComponent from './TTLargeLink.vue'
 
 export const Spoiler = Mark.create({
     name: 'spoiler',
@@ -18,7 +18,7 @@ export const Spoiler = Mark.create({
     },
 
     addMarkView() {
-        return VueMarkViewRenderer(SpoilerComponent)
+        return VueMarkViewRenderer(TTSpoilerComponent)
     },
 
     addCommands() {
@@ -73,6 +73,6 @@ export const LargeLink = Node.create({
     },
 
     addNodeView() {
-        return VueNodeViewRenderer(LargeLinkComponent)
+        return VueNodeViewRenderer(TTLargeLinkComponent)
     },
 });
