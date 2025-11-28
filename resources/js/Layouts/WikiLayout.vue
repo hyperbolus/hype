@@ -88,13 +88,17 @@ onBeforeMount(() => {
             <div class="y md:flex-row grow w-full max-w-7xl bg-ui-950 border border-ui-800 p-4">
                 <aside class="hidden md:flex md:flex-col items-center px-2 shrink-0 !w-56">
 <!--                    <img :src="logo" alt="" class="h-40">-->
-                    <div class="y w-full">
+                    <div class="y w-full h-full">
                         <div v-for="section in links" class="y w-full mt-2 links">
                             <span class="font-bold border-b border-ui-700 pb-1">{{ section.title }}</span>
                             <AutoLink v-for="(link, key) in section.links" :to="link" class="py-1">{{ key }}</AutoLink>
                         </div>
-                        <span class="font-bold border-b border-ui-700 pb-1 mt-2">Contents</span>
-                        <slot name="toc"/>
+                        <div class="w-full relative grow">
+                            <nav class="y sticky top-2 mt-2 w-full links z-10">
+                                <span class="font-bold border-b border-ui-700 pb-1">Contents</span>
+                                <slot name="toc"/>
+                            </nav>
+                        </div>
                     </div>
                 </aside>
                 <div class="y grow space-y-2">
@@ -128,5 +132,8 @@ onBeforeMount(() => {
 <style>
 .links a {
     @apply text-blue-500 hover:underline dark:hover:text-white
+}
+html {
+    scroll-behavior: smooth;
 }
 </style>
