@@ -21,6 +21,7 @@ import {Link as ExtensionLink} from "@tiptap/extension-link";
 import Subscript from "@tiptap/extension-subscript";
 import TableOfContents from "@tiptap/extension-table-of-contents";
 import TTAutoLink from "@/Components/TipTap/TTAutoLink.vue";
+import Superscript from "@tiptap/extension-superscript";
 import TTHeading from "@/Components/TipTap/TTHeading.vue";
 
 const props = defineProps({
@@ -74,6 +75,7 @@ const extensions = [
     TableHeader,
     TableRow,
     Subscript,
+    Superscript,
     ExtensionLink.extend({
         addMarkView: _ => VueMarkViewRenderer(TTAutoLink)
     }),
