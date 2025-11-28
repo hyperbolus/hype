@@ -1,5 +1,5 @@
 <script setup>
-import {EditorContent, useEditor, VueMarkViewRenderer,} from '@tiptap/vue-3'
+import {EditorContent, useEditor, VueMarkViewRenderer, VueNodeViewRenderer,} from '@tiptap/vue-3'
 import {ref, watch} from "vue";
 import {Youtube} from "@tiptap/extension-youtube";
 import {TextAlign} from "@tiptap/extension-text-align";
@@ -21,6 +21,7 @@ import {Link as ExtensionLink} from "@tiptap/extension-link";
 import Subscript from "@tiptap/extension-subscript";
 import TableOfContents from "@tiptap/extension-table-of-contents";
 import TTAutoLink from "@/Components/TipTap/TTAutoLink.vue";
+import TTHeading from "@/Components/TipTap/TTHeading.vue";
 
 const props = defineProps({
     modelValue: {
@@ -61,7 +62,9 @@ const extensions = [
     // list kit is installed but also all but task is in starter
 
     // Content
-    Heading.configure({
+    Heading.extend({
+        addNodeView: _ => VueNodeViewRenderer(TTHeading)
+    }).configure({
         levels: [1, 2, 3]
     }),
     Table.configure({
@@ -72,7 +75,7 @@ const extensions = [
     TableRow,
     Subscript,
     ExtensionLink.extend({
-        addMarkView: () => VueMarkViewRenderer(TTAutoLink)
+        addMarkView: _ => VueMarkViewRenderer(TTAutoLink)
     }),
 
     // Media
@@ -107,7 +110,7 @@ const extensions = [
                     level: a.level,
                 })
             });
-        }
+        },
     }),
 ];
 

@@ -191,8 +191,12 @@ div[data-youtube-video] > iframe {
         margin-left: 1rem;
     }
 
-    a {
+    a:not(.anchor) {
         @apply text-blue-500 cursor-pointer;
+    }
+
+    .anchor {
+        @apply text-ui-600 hover:text-blue-500 cursor-pointer;
     }
 
     a:hover {
