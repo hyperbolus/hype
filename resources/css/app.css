@@ -267,7 +267,6 @@ div[data-youtube-video] > iframe {
 
     .tiptap-invisible-character::before {
         opacity: 0.35;
-        margin-left: 0.1rem;
     }
 }
 
