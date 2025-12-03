@@ -95,15 +95,15 @@ const results = computed(() => {
 <template>
     <div id="globalSearchBar">
         <div @click="open = !open; nextTick(() => searchInput.focus())">
-            <Icon class="w-5" size="20" name="magnifying-glass"/>
+            <Icon scale="size-5" size="20" name="magnifying-glass"/>
         </div>
         <div v-show="open" @click="open = false" class="x items-center justify-end px-4 md:hidden absolute right-0 top-0 bg-ui-900 h-16 w-1/3">
-            <Icon class="w-6" size="20" name="x-mark"/>
+            <Icon scale="size-6" size="20" name="x-mark"/>
         </div>
         <div v-show="open" @click="open = false" class="y cursor-pointer items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[5.5rem] md:p-4 z-30">
             <div class="y md:space-y-4 cursor-auto w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl h-full">
                 <div @click.stop class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-md md:bg-ui-950">
-                    <Icon class="w-6 shrink-0" size="24" name="magnifying-glass"/>
+                    <Icon scale="size-6" class="shrink-0" size="24" name="magnifying-glass"/>
                     <div v-if="false" class="bg-ui-900 px-2 py-1 border border-ui-700 rounded-md text-sm uppercase">Level</div>
                     <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="w-full border-b border-ui-700 md:border-b-0 truncate shrink text-xl pl-0 py-2 border-0 focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
                 </div>
@@ -125,9 +125,9 @@ const results = computed(() => {
                                 <h1 class="font-bold">{{ hit.name }}</h1>
                                 <h2 class="text-xs text-ui-500">{{ hit.creator }}</h2>
                                 <div class="text-xs text-ui-400 x items-center space-x-1">
-                                    <Icon class="w-3" name="eye"/>
+                                    <Icon scale="size-3" name="eye"/>
                                     <div class="mr-4">{{ tiny(hit.downloads) }}</div>
-                                    <Icon class="w-3" name="hand-thumb-up" :class="{'rotate-180': hit.likes < 0}"/>
+                                    <Icon scale="size-3" name="hand-thumb-up" :class="{'rotate-180': hit.likes < 0}"/>
                                     <div>{{ tiny(hit.likes) }}</div>
                                 </div>
                             </div>

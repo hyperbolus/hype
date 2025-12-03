@@ -32,16 +32,16 @@ const isOnline = (time) => {
             <div class="y justify-between w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl py-4 px-4">
                 <div class="x w-full gap-2 justify-end">
                     <Link v-if="isUser(profile.id)" :href="route('settings.profile')" class="bg-ui-900/50 p-2.5 rounded-full">
-                        <Icon class="size-5 text-white" name="pencil"/>
+                        <Icon class="text-white" name="pencil"/>
                     </Link>
                     <template v-else-if="isAuthenticated()">
                         <Link v-if="!profile.blocking && !profile.blocked" :href="route('inbox.show', profile)" class="bg-ui-900/75 p-2.5 rounded-full">
-                            <Icon class="size-5 text-white" name="envelope"/>
+                            <Icon class="text-white" name="envelope"/>
                         </Link>
                         <Dropdown>
                             <template #trigger>
                                 <div class="bg-ui-900/75 p-2.5 rounded-full">
-                                    <Icon class="size-5 text-white" name="ellipsis-horizontal"/>
+                                    <Icon class="text-white" name="ellipsis-horizontal"/>
                                 </div>
                             </template>
                             <template #content>
@@ -69,7 +69,7 @@ const isOnline = (time) => {
                             <div class="x items-center space-x-2 font-bold text-2xl">
                                 <Username :user="profile" :card="false" :flag="true"/>
                                 <Tooltip v-if="profile.blocking" message="This user has blocked you">
-                                    <Icon name="no-symbol" class="size-5 text-red-500"/>
+                                    <Icon name="no-symbol" class="text-red-500"/>
                                 </Tooltip>
                             </div>
                             <p><UserTitle :user="profile"/><span v-if="profile.pronouns"> &middot; {{ profile.pronouns }}</span><span v-if="profile.location"> &middot; {{ profile.location }}</span></p>

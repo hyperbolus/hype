@@ -68,7 +68,7 @@ const append = (route, key, value) => {
                 <Link :href="append('moderation.ip.index', 'address', item.address)" class="grow text-sm">{{item.address}}</Link>
                 <Username v-if="item.user" :user="item.user"/>
                 <Link :href="append('moderation.ip.index', 'user', item.user.id)" class="rounded-md bg-ui-800 p-1">
-                    <Icon class="size-4" name="magnifying-glass"/>
+                    <Icon scale="size-4" name="magnifying-glass"/>
                 </Link>
             </div>
         </QueryResults>

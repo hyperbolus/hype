@@ -537,40 +537,40 @@ const deletePlaylist = (i) => {
         <div class="absolute inset-0 z-40 pointer-events-none" :class="{'invisible': !contextMenu.open}">
             <div ref="contextElement" class="y bg-ui-800 rounded-lg fixed w-64 m-2 pointer-events-auto" :style="`top:${contextMenu.y}px;left:${contextMenu.x}px;`">
                 <div class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 rounded-t-lg cursor-pointer select-none relative group">
-                    <Icon name="plus" class="size-5"/>
+                    <Icon name="plus"/>
                     <span>Add to playlist</span>
                     <div class="bg-ui-800 absolute right-[calc(100%-0.25rem)] bottom-1 rounded-lg w-64 hidden group-hover:block [box-shadow:#000d_5px_5px_10px_-5px;] z-10">
                         <div @click="addToPlaylist(contextMenu.songFixed)" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 cursor-pointer select-none first:rounded-t-lg last:rounded-b-lg">
-                            <Icon name="plus" class="size-5"/>
+                            <Icon name="plus"/>
                             <span>New Playlist</span>
                         </div>
                         <div v-for="(list, i) in config.playlists" @click="addToPlaylist(contextMenu.songFixed, i)" class="px-2 py-2 hover:bg-ui-700 cursor-pointer select-none first:rounded-t-lg last:rounded-b-lg truncate" :class="{'hidden': !i}">{{ list.name }}</div>
                     </div>
                 </div>
                 <div v-if="currentPlaylist !== null" @click="removeFromPlaylist(currentPlaylist, contextMenu.indexFixed)" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 cursor-pointer select-none">
-                    <Icon name="minus" class="size-5"/>
+                    <Icon name="minus"/>
                     <span>Remove from this playlist</span>
                 </div>
                 <div v-if="playlistContains(0, contextMenu.songFixed)" @click="removeFromPlaylist(0, contextMenu.indexFixed)" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 cursor-pointer select-none">
-                    <Icon name="heart" class="size-5"/>
+                    <Icon name="heart"/>
                     <span>Remove from likes</span>
                 </div>
                 <div v-else @click="addToPlaylist(contextMenu.songFixed, 0)" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 cursor-pointer select-none">
-                    <Icon name="heart" class="size-5"/>
+                    <Icon name="heart"/>
                     <span>Add to likes</span>
                 </div>
                 <div class="border-t border-ui-700"></div>
                 <div @click="openSong(contextMenu.songFixed)" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 cursor-pointer select-none">
-                    <Icon name="information-circle" class="size-5"/>
+                    <Icon name="information-circle"/>
                     <span>Open song info</span>
                 </div>
                 <div @click="openArtist(lib.songs[contextMenu.songFixed]?.artist)" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 cursor-pointer select-none">
-                    <Icon name="user" class="size-5"/>
+                    <Icon name="user"/>
                     <span>Open artist page</span>
                 </div>
                 <div class="border-t border-ui-700"></div>
                 <div @click="toClipboard(getShareableURL(contextMenu.songFixed))" class="x items-center space-x-1.5 px-2 py-2 hover:bg-ui-700 rounded-b-lg cursor-pointer select-none">
-                    <Icon name="share" class="size-5"/>
+                    <Icon name="share"/>
                     <span>Copy link to song</span>
                 </div>
             </div>
@@ -581,15 +581,15 @@ const deletePlaylist = (i) => {
             <div class="hidden lg:flex items-center justify-between p-2 z-10">
                 <div class="w-1/3 px-2">
                     <Link :href="route('home')" class="x items-center space-x-2 w-fit">
-                        <Icon name="arrow-left" size="24" class="size-4"/>
+                        <Icon name="arrow-left" size="24" scale="size-4"/>
                         <span>back to Hyperbolus</span>
                     </Link>
                 </div>
                 <div class="x justify-center w-1/3 px-2 relative">
                     <label class="x items-center bg-ui-900 rounded-full px-4 py-1 w-full max-w-xl">
-                        <Icon name="magnifying-glass" size="24" class="size-6"/>
+                        <Icon name="magnifying-glass" size="24" scale="size-6"/>
                         <input ref="searchInput" @click="searchResultsOpen = true" type="text" v-model="searchQuery" class="grow border-none bg-transparent focus-visible:ring-0 placeholder-ui-600" placeholder="Search for anything"/>
-                        <Icon @click="searchQuery = ''; searchResultsOpen = false;" name="x-mark" size="24" class="size-6 opacity-0 transition-opacity transition-colors cursor-pointer hover:text-ui-500" :class="{'opacity-100': searchQuery.length > 0}"/>
+                        <Icon @click="searchQuery = ''; searchResultsOpen = false;" name="x-mark" size="24" scale="size-6" class="opacity-0 transition-opacity transition-colors cursor-pointer hover:text-ui-500" :class="{'opacity-100': searchQuery.length > 0}"/>
                     </label>
                 </div>
                 <div class="x justify-end w-1/3 px-2">
@@ -598,15 +598,15 @@ const deletePlaylist = (i) => {
             </div>
             <div class="flex justify-between items-center lg:hidden p-4 z-10">
                 <Link :href="route('home')" class="x items-center space-x-2 w-fit">
-                    <Icon name="arrow-left" size="24" class="size-4"/>
+                    <Icon name="arrow-left" size="24" scale="size-4"/>
                     <span>back to Hyperbolus</span>
                 </Link>
                 <div class="x items-center space-x-4">
-                    <Icon v-if="!searchResultsOpen" @click="searchResultsOpen = true" name="magnifying-glass" class="size-5 cursor-pointer"/>
-                    <Icon @click="searchResultsOpen = false" v-if="searchResultsOpen" name="x-mark" class="size-6 cursor-pointer"/>
+                    <Icon v-if="!searchResultsOpen" @click="searchResultsOpen = true" name="magnifying-glass" class="cursor-pointer"/>
+                    <Icon @click="searchResultsOpen = false" v-if="searchResultsOpen" name="x-mark" scale="size-6" class="cursor-pointer"/>
                     <template v-else>
-                        <Icon v-if="0" name="x-mark" class="size-6 cursor-pointer"/>
-                        <Icon name="bars-3" class="size-6 cursor-pointer"/>
+                        <Icon v-if="0" name="x-mark" scale="size-6" class="cursor-pointer"/>
+                        <Icon name="bars-3" scale="size-6" class="cursor-pointer"/>
                     </template>
                 </div>
             </div>
@@ -615,7 +615,7 @@ const deletePlaylist = (i) => {
             <div class="x justify-center absolute bottom-[3.5rem] lg:bottom-0 top-14 lg:top-16 w-full z-20 lg:p-1 pointer-events-none">
                 <div v-if="searchResultsOpen" class="lg:rounded-lg bg-ui-900 overflow-y-auto w-full lg:max-w-xl lg:h-max lg:max-h-[75vh] lg:shadow-xl scroller pointer-events-auto" :class="{'lg:hidden': !searchQuery}">
                     <div class="flex items-center px-3 py-1 space-x-3 lg:hidden">
-                        <Icon name="magnifying-glass" class="size-6" size="24"/>
+                        <Icon name="magnifying-glass" scale="size-6" size="24"/>
                         <input v-model="searchQuery" type="text" placeholder="Search" class="text-lg bg-transparent border-0 border-b-2 border-blue-500 focus-visible:ring-0 w-full"/>
                     </div>
                     <div class="x items-center justify-between px-2 py-1 text-sm">
@@ -647,7 +647,7 @@ const deletePlaylist = (i) => {
                 <div class="flex-col hidden lg:flex lg:w-1/4 xl:w-1/5 2xl:w-1/6 bg-ui-950 rounded-lg p-2 shrink-0">
                     <div v-for="(t, i) in tabs" @click="openTab(i)" class="x items-center space-x-3 font-bold text-lg hover:bg-ui-900 rounded-lg p-2 cursor-pointer select-none" :class="{'bg-ui-800': tab === i}">
                         <div class="x items-center justify-center rounded-md bg-gradient-to-b text-white size-12" :class="[t.color, t.gradient]">
-                            <Icon :name="t.icon" size="24" class="size-7"/>
+                            <Icon :name="t.icon" size="24" scale="size-7"/>
                         </div>
                         <span>{{ t.title }}</span>
                     </div>
@@ -660,20 +660,20 @@ const deletePlaylist = (i) => {
                         <div v-for="(artist, i) in config.history" @click="openArtist(artist)" class="x space-x-3 items-center justify-between hover:bg-ui-900 p-2 rounded-lg  cursor-pointer select-none group">
                             <div class="x items-center space-x-3">
                                 <div class="x items-center justify-center rounded-full bg-ui-800 text-ui-500 size-12">
-                                    <Icon class="size-6" name="user"/>
+                                    <Icon scale="size-6" name="user"/>
                                 </div>
                                 <span>{{ lib.artists[artist].name }}</span>
                             </div>
                             <div @click.stop="config.history.splice(i, 1)" class="px-3 py-2 hover:text-red-500 opacity-0 group-hover:opacity-100">
-                                <Icon name="x-mark" class="size-5"/>
+                                <Icon name="x-mark"/>
                             </div>
                         </div>
                     </div>
                     <div v-if="libraryLoaded && config.asideTab === 1" class="flex flex-col-reverse">
                         <div v-for="(list, i) in config.playlists" @click="openPlaylist(i)" class="x space-x-3 items-center hover:bg-ui-900 p-2 rounded-lg  cursor-pointer select-none group" :class="{'!bg-ui-700': currentPlaylist === i}">
                             <div class="x items-center justify-center rounded-lg bg-ui-800 text-ui-500 size-12 shrink-0" :class="{'bg-ui-900': currentPlaylist === i}">
-                                <Icon v-show="currentPlaylist === i" class="size-6" name="folder-open"/>
-                                <Icon v-show="currentPlaylist !== i" class="size-6" name="folder"/>
+                                <Icon v-show="currentPlaylist === i" name="folder-open"/>
+                                <Icon v-show="currentPlaylist !== i" name="folder"/>
                             </div>
                             <span class="truncate">{{ list.name }}</span>
                         </div>
@@ -682,7 +682,7 @@ const deletePlaylist = (i) => {
 
                 <!-- Preload -->
                 <div v-if="!libraryLoaded && tab !== 3" class="y items-center z-0 grow bg-ui-950 rounded-lg p-4">
-                    <Icon name="table-cells" size="24" type="outline" class="size-16"/>
+                    <Icon name="table-cells" size="24" type="outline" scale="size-16"/>
                     <h1 class="text-xl font-bold">No Library Loaded</h1>
                     <button @click="tab = 3" class="text-white underline">Go to Settings</button>
                 </div>
@@ -695,7 +695,7 @@ const deletePlaylist = (i) => {
                             <!-- Hero Header Navigation -->
                             <div class="x w-full justify-between" :class="{'invisible': tab !== 2}">
                                 <div @click="currentArtist = 0; currentPlaylist = null;" :class="{'invisible': (currentArtist === 0 && currentPlaylist === null) || editingPlaylist}" class="x items-center space-x-2 relative z-10 cursor-pointer w-fit font-bold py-1">
-                                    <Icon name="arrow-left" class="size-6"/>
+                                    <Icon name="arrow-left" scale="size-6"/>
                                     <span>Back</span>
                                 </div>
                                 <div class="x space-x-2" v-if="currentArtist === 0 && currentPlaylist === null">
@@ -703,7 +703,7 @@ const deletePlaylist = (i) => {
                                         <span>Reset Filters</span>
                                     </div>
                                     <div @click="filters.open = !filters.open" class="x space-x-2 items-center px-2 py-1 rounded-lg hover:bg-ui-1000/25 cursor-pointer" :class="{'bg-ui-1000/25': filters.open}">
-                                        <Icon name="funnel" class="size-4"/>
+                                        <Icon name="funnel" scale="size-4"/>
                                         <span>{{ filters.open ? 'Show All' : 'Advanced Search' }}</span>
                                     </div>
                                 </div>
@@ -712,7 +712,7 @@ const deletePlaylist = (i) => {
                                         <span>Delete Playlist</span>
                                     </div>
                                     <div @click="editingPlaylist = !editingPlaylist" class="x space-x-2 items-center px-2 py-1 rounded-lg hover:bg-ui-1000/25 cursor-pointer" :class="{'bg-ui-1000/25': editingPlaylist}">
-                                        <Icon name="pencil" class="size-4"/>
+                                        <Icon name="pencil" scale="size-4"/>
                                         <span>{{ editingPlaylist ? 'Done Editing' : 'Edit Playlist' }}</span>
                                     </div>
                                 </div>
@@ -756,7 +756,7 @@ const deletePlaylist = (i) => {
                                             <span>Filters</span>
                                             <p v-if="filters.filters.length === 0" class="px-2 py-1 bg-ui-1000/25 rounded-lg">No Custom Filters</p>
                                             <div v-for="(filter, i) in filters.filters" class="x items-center space-x-2">
-                                                <Icon @click="filters.filters.splice(i, 1)" name="x-mark" class="size-5 cursor-pointer hover:text-red-500"/>
+                                                <Icon @click="filters.filters.splice(i, 1)" name="x-mark" class="cursor-pointer hover:text-red-500"/>
                                                 <select v-model="filters.filters[i].key" class="px-2 py-1 bg-ui-1000/50 border-none rounded w-24">
                                                     <option value="bytes">Bytes</option>
                                                     <option value="seconds">Length</option>
@@ -839,7 +839,7 @@ const deletePlaylist = (i) => {
                                         </svg>
                                     </a>
                                     <a :href="item.website ? decodeURIComponent(item.website) : null" target="_blank" rel="noreferrer nofollow noopener" :class="{'text-ui-600': !item.website}">
-                                        <Icon name="globe-alt" class="size-5"/>
+                                        <Icon name="globe-alt"/>
                                     </a>
                                 </div>
                             </div>
@@ -855,15 +855,15 @@ const deletePlaylist = (i) => {
                             v-slot="{ item, index }">
                             <div @dblclick="openSong(item.song.id)" @click="lg ? currentHighlightedSong = item.song.id : openSong(item.song.id, true)" @contextmenu="openContextMenu($event, item.id)" class="x space-x-3 items-center justify-between hover:bg-ui-600/25 rounded-lg px-2 py-1 group relative z-0" :class="{'!bg-ui-400/25': item.song.id === currentHighlightedSong}">
                                 <div class="hidden lg:flex items-center relative h-full cursor-pointer invisible group-hover:visible">
-                                    <Icon v-if="config.urls.files && (!audioPlaying || currentSong !== item.song.id)" @click.stop="openSong(item.song.id, true)" class="w-4 ml-2 mr-1" name="play"/>
-                                    <Icon v-else-if="config.urls.files" @click="pause" class="w-4 ml-2 mr-1" name="pause"/>
-                                    <Icon v-else class="w-4 ml-2 mr-1" name="information-circle"/>
+                                    <Icon v-if="config.urls.files && (!audioPlaying || currentSong !== item.song.id)" @click.stop="openSong(item.song.id, true)" scale="size-4" class="ml-2 mr-1" name="play"/>
+                                    <Icon v-else-if="config.urls.files" @click="pause" scale="size-4" class="ml-2 mr-1" name="pause"/>
+                                    <Icon v-else scale="size-4" class="ml-2 mr-1" name="information-circle"/>
                                     <div class="x items-center justify-end absolute inset-0 visible group-hover:invisible">
                                         <span class="text-xs text-ui-500 pr-2">{{ item.id + 1 }}</span>
                                     </div>
                                 </div>
                                 <div class="hidden lg:flex items-center justify-center size-9 bg-ui-700 rounded">
-                                    <Icon name="musical-note" class="size-4 text-ui-500"/>
+                                    <Icon name="musical-note" scale="size-4" class="text-ui-500"/>
                                 </div>
                                 <div class="y grow leading-tight !ml-0 lg:!ml-3">
                                     <div class="x items-center space-x-2 text-sm">
@@ -886,7 +886,7 @@ const deletePlaylist = (i) => {
                                 </div>
                                 <span class="text-sm">{{ toHHMMSS(item.song.seconds) }}</span>
                                 <div @click.stop="openContextMenu($event, item.id)" @contextmenu="openContextMenu($event, item.id)" class="p-2 lg:invisible group-hover:visible cursor-pointer">
-                                    <Icon name="ellipsis-horizontal" class="size-5"/>
+                                    <Icon name="ellipsis-horizontal"/>
                                 </div>
                             </div>
                         </RecycleScroller>
@@ -923,7 +923,7 @@ const deletePlaylist = (i) => {
                                 <h2 class="font-bold text-2xl">{{ highlightedSong.name }}</h2>
                                 <span>{{ lib.artists[highlightedSong.artist].name }}</span>
                             </div>
-                            <Icon @click="songInfoOpen = false" name="x-mark" class="lg:hidden size-6"/>
+                            <Icon @click="songInfoOpen = false" name="x-mark" scale="size-6" class="lg:hidden"/>
                         </div>
                         <div class="y space-y-2 pane">
                             <h2 class="text-xl font-bold">Credits</h2>
@@ -962,12 +962,12 @@ const deletePlaylist = (i) => {
                             </div>
                         </div>
                         <div v-if="config.urls.files" @click="openSong(currentHighlightedSong, true)" class="x items-center justify-center space-x-1 rounded-lg bg-ui-700 font-bold text-white text-center py-0.5 px-2 cursor-pointer">
-                            <Icon name="play" class="size-4"/>
+                            <Icon name="play" scale="size-4"/>
                             <span>Play</span>
                         </div>
                         <a v-if="highlightedSong.link || highlightedSong.platform === 1" :href="highlightedSong.link ? decodeURIComponent(highlightedSong.link) : null" target="_blank" rel="noreferrer nofollow noopener" class="x items-center justify-center space-x-1 rounded-lg font-bold text-center py-0.5 px-2" :class="highlightedSong.platform === 1 ? 'bg-black text-white' : 'bg-ui-900'">
                             <span>{{ highlightedSong.platform === 1 ? 'NCS' : 'Link' }}</span>
-                            <Icon v-if="highlightedSong.link" name="arrow-top-right-on-square" class="size-4"/>
+                            <Icon v-if="highlightedSong.link" name="arrow-top-right-on-square" scale="size-4"/>
                         </a>
                         <span v-if="highlightedSong.new" class="rounded-lg bg-blue-500 font-bold text-white text-center py-0.5 px-2">NEW</span>
                     </div>
@@ -979,34 +979,34 @@ const deletePlaylist = (i) => {
                 <div class="flex flex-col lg:flex-row lg:gap-2 justify-between relative group rounded-lg overflow-hidden bg-ui-800 lg:bg-transparent">
                     <div @click="songInfoOpen = true" class="x items-center space-x-4 px-1.5 py-1 lg:p-4 lg:w-1/3">
                         <div class="x items-center justify-center size-8 lg:size-14 bg-ui-700 rounded">
-                            <Icon name="musical-note" class="size-4 lg:size-5 text-ui-500"/>
+                            <Icon name="musical-note" scale="size-4 lg:size-5" class="text-ui-500"/>
                         </div>
                         <div class="y grow pointer-events-none lg:pointer-events-auto">
                             <span class="text-sm lg:text-base">{{ currentSong ? song.name : '-' }}</span>
                             <span @click="openArtist(song.artist)" class="text-xs text-ui-500 hover:underline hover:text-white cursor-pointer">{{ currentSong ? lib.artists[song.artist].name : '-' }}</span>
                         </div>
                         <div @click.stop="toggle" class="px-1 lg:hidden" :class="{'opacity-25': !audioLoaded}">
-                            <Icon v-if="!audioPlaying" name="play" size="24" class="size-6"/>
-                            <Icon v-else name="pause" size="24" class="size-6"/>
+                            <Icon v-if="!audioPlaying" name="play" size="24" scale="size-6"/>
+                            <Icon v-else name="pause" size="24" scale="size-6"/>
                         </div>
                     </div>
                     <div class="hidden lg:flex flex-col space-y-1.5 p-4 lg:w-1/3" :class="{'group-hover:opacity-20 transition-opacity': !config.urls.files}">
                         <div class="x justify-center items-center space-x-4">
                             <div class="hidden">
-                                <Icon name="question-mark-circle" size="24" class="size-6"/>
+                                <Icon name="question-mark-circle" size="24" scale="size-6"/>
                             </div>
                             <div :class="{'opacity-25': !audioLoaded}">
-                                <Icon name="forward" size="24" class="size-6 rotate-180"/>
+                                <Icon name="forward" size="24" scale="size-6" class="rotate-180"/>
                             </div>
                             <div @click="toggle" class="bg-ui-100 rounded-full p-2 text-ui-1000 cursor-pointer" :class="{'opacity-25': !audioLoaded}">
-                                <Icon v-if="!audioPlaying" name="play" size="24" class="size-6"/>
-                                <Icon v-else name="pause" size="24" class="size-6"/>
+                                <Icon v-if="!audioPlaying" name="play" size="24" scale="size-6"/>
+                                <Icon v-else name="pause" size="24" scale="size-6"/>
                             </div>
                             <div :class="{'opacity-25': !audioLoaded}">
-                                <Icon name="forward" size="24" class="size-6"/>
+                                <Icon name="forward" size="24" scale="size-6"/>
                             </div>
                             <div class="hidden">
-                                <Icon name="arrow-path-rounded-square" size="24" class="size-6"/>
+                                <Icon name="arrow-path-rounded-square" size="24" scale="size-6"/>
                             </div>
                         </div>
                         <div class="x items-center justify-between space-x-2 text-sm">
@@ -1023,7 +1023,7 @@ const deletePlaylist = (i) => {
                         </div>
                     </div>
                     <div class="hidden lg:flex items-center justify-end space-x-2 p-4 lg:w-1/3 z-0">
-                        <Icon name="speaker-wave" size="24" type="outline" class="size-5"/>
+                        <Icon name="speaker-wave" size="24" type="outline"/>
                         <div class="y w-32 group/scrubber relative">
                             <input class="z-20 h-4 bg-transparent cursor-pointer opacity-0 group-hover/scrubber:opacity-100" v-model="audioVolume" @input="e => volume(e.target.value)" :step="0.01" :min="0" :max="1" type="range"/>
                             <div class="x items-center absolute inset-0 z-10 px-1">
@@ -1047,7 +1047,7 @@ const deletePlaylist = (i) => {
             <!-- Mobile Navigation -->
             <div class="flex justify-around lg:hidden">
                 <div v-for="(t, i) in tabs" @click="openTab(i)" class="y items-center grow p-2 cursor-pointer" :class="{'text-ui-500': tab  !== i}">
-                    <Icon :name="t.icon" class="size-6"/>
+                    <Icon :name="t.icon" scale="size-6"/>
                     <span class="text-xs">{{ t.title }}</span>
                 </div>
             </div>

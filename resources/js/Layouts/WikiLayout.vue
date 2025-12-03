@@ -74,7 +74,7 @@ onBeforeMount(() => {
                 </div>
                 <div class="hidden md:flag grow">
                     <div class="x items-center bg-ui-900 border border-ui-700 w-fit pl-2 focus-within:ring-1 ring-blue-500">
-                        <Icon class="size-4 " name="magnifying-glass"/>
+                        <Icon scale="size-4" name="magnifying-glass"/>
                         <input placeholder="Search" class="bg-ui-900 py-1 border-0 placeholder:text-ui-500 focus:ring-0"/>
                     </div>
                 </div>
@@ -104,7 +104,7 @@ onBeforeMount(() => {
                 <div class="y grow space-y-2">
                     <article class="y space-y-2 px-2 grow">
                         <div v-if="settings('_subsite') !== 'wiki'" class="x space-x-2 items-center text-sm rounded-md p-2 pr-4 border bg-blue-500/10 border-blue-500 links">
-                            <Icon class="w-8 ml-1 text-blue-500" name="information-circle"/>
+                            <Icon scale="size-8" class="ml-1 text-blue-500" name="information-circle"/>
                             <p>Hyperbolus is the proud host of the Geometry Dash Wiki! It's available here for convenience, but for a cleaner reading experience check out the dedicated site at <a href="https://geometrydash.wiki">geometrydash.wiki</a>!</p>
                         </div>
                         <div class="x space-x-1.5 items-center border-b border-ui-700 pb-1">

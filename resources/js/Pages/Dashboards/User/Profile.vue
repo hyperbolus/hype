@@ -233,25 +233,25 @@ onUnmounted(() => {
                     <img :src="profile.avatar_url ?? invisiblePixel" alt="" class="size-24 md:size-32 select-none rounded-full"/>
                     <div class="absolute inset-0 x items-center justify-center">
                         <button :disabled="imageForm.processing" @click="editImage('avatar')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
-                            <Icon name="camera" class="size-6"/>
+                            <Icon name="camera" scale="size-6"/>
                         </button>
                     </div>
                 </div>
                 <div class="y space-y-4">
                     <button :disabled="imageForm.processing" @click="editImage('banner')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
-                        <Icon name="camera" class="size-6"/>
+                        <Icon name="camera" scale="size-6"/>
                     </button>
                     <button v-if="profile.banner_url" :disabled="imageRemoveForm.processing" @click="removeImage('banner')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
-                        <Icon name="x-mark" class="size-6"/>
+                        <Icon name="x-mark" scale="size-6"/>
                     </button>
                 </div>
             </div>
             <div class="y space-y-4 justify-center items-center relative bg-center bg-cover rounded-lg p-4 w-32 bg-ui-900" :style="`background-image:url(${profile.postbit_url ?? invisiblePixel});`">
                 <button :disabled="imageForm.processing" @click="editImage('postbit')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
-                    <Icon name="camera" class="size-6"/>
+                    <Icon name="camera" scale="size-6"/>
                 </button>
                 <button v-if="profile.postbit_url" :disabled="imageRemoveForm.processing" @click="removeImage('postbit')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
-                    <Icon name="x-mark" class="size-6"/>
+                    <Icon name="x-mark" scale="size-6"/>
                 </button>
             </div>
         </div>
@@ -259,16 +259,16 @@ onUnmounted(() => {
             <div v-if="imageModal" class="y items-center justify-center z-[100] fixed inset-0 bg-ui-1000/50" >
                 <div class="md:rounded-lg bg-ui-900 w-full md:max-w-xl cursor-auto shadow-xl pb-2">
                     <div class="x justify-between space-x-2 items-center py-2 px-2 rounded-t-lg">
-                        <Icon @click="imageModal = false; activeImage = null;" class="size-6 cursor-pointer" name="x-mark"/>
+                        <Icon @click="imageModal = false; activeImage = null;" scale="size-6" class="cursor-pointer" name="x-mark"/>
                         <button @click="saveImage" class="rounded-md bg-ui-700 px-2 py-1">Save</button>
                     </div>
                     <Cropper ref="cropper" :default-size="({imageSize: i, visibleArea : v}) => ({width: (v || i).width, height: (v || i).height})" :stencil-props="{aspectRatio: images[activeImage]}" class="h-64" :src="blobURL"/>
                     <div class="x justify-center items-center space-x-2 pt-2">
                         <button @click="$refs.cropper.rotate(-90)" class="bg-ui-800 rounded-md p-2">
-                            <Icon name="arrow-uturn-left" class="size-4"/>
+                            <Icon name="arrow-uturn-left" scale="size-4"/>
                         </button>
                         <button @click="$refs.cropper.rotate(90)" class="bg-ui-800 rounded-md p-2">
-                            <Icon name="arrow-uturn-right" class="size-4"/>
+                            <Icon name="arrow-uturn-right" scale="size-4"/>
                         </button>
                     </div>
                     <Errors bag="image" class="px-2"/>
@@ -281,15 +281,15 @@ onUnmounted(() => {
                     <span class="text-sm px-2">Pronouns</span>
                     <Input @input="parsePronouns" v-model="profileForm.pronouns" type="text" placeholder="Pronouns (ex. they/them)"/>
                     <div v-if="0" class="x space-x-1 items-center text-ui-500 mt-0.5">
-                        <Icon name="information-circle" class="size-4"/>
+                        <Icon name="information-circle" scale="size-4"/>
                         <span class="text-sm">Pronouns follow a specific format! <u class="text-ui-100">More Info</u></span>
                     </div>
                 </div>
                 <div v-if="0" class="y space-y-2 px-1 py-1 bg-ui-950 rounded-md md:w-1/4 !mt-6">
                     <div v-for="(p, i) in pronounOrder" class="x space-x-2 rounded-md bg-ui-900 px-2 py-1">
-                        <Icon name="bars-4" size="24" class="size-6 text-ui-600 cursor-move focus:cursor-grabbing"/>
+                        <Icon name="bars-4" size="24" scale="size-6" class="text-ui-600 cursor-move focus:cursor-grabbing"/>
                         <span class="grow">{{ i + 1 }}. {{ pronounList[p].join('/') }}</span>
-                        <Icon @click="movePronoun(i, null)" name="x-mark" size="24" class="size-6 text-red-500 cursor-pointer"/>
+                        <Icon @click="movePronoun(i, null)" name="x-mark" size="24" scale="size-6" class="text-red-500 cursor-pointer"/>
                     </div>
                     <p v-if="profileForm.pronouns.length === 0" class="text-ui-500">No Pronouns Specified</p>
                     <div v-else-if="pronounOrder.length === 0" class="x items-center">

@@ -74,7 +74,7 @@ const style = computed(() => {
     <div class="inline-flex items-center text-ui-200 break-all">
         <UserFlag v-if="flag" :user="user" size="md" class="mr-1.5"/>
         <Tooltip v-if="group.badge" :inline="true" :message="group.name" class="w-3.5 ml-1 mr-1 badge-cover" :style="`color: ${group.color};`">
-            <Icon class="scale-[205%] size-2.5 badge" :name="group.badge"/>
+            <Icon scale="size-2.5" class="scale-[205%] badge" :name="group.badge"/>
         </Tooltip>
         <Tooltip v-if="card" :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'} right-full`">
             <Link v-if="link" :href="link" :style="style" class="relative">
@@ -110,15 +110,15 @@ const style = computed(() => {
     </div>
 </template>
 <style>
-.text-xs .badge {
+.text-xs .badge > svg {
     @apply size-2
 }
 
-.text-sm .badge {
+.text-sm .badge > svg {
     @apply size-2
 }
 
-.text-2xl .badge {
+.text-2xl .badge > svg {
     @apply size-3
 }
 

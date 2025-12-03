@@ -228,7 +228,7 @@ const buttonClick = b => {
                         <template #trigger>
                             <div class="x items-center rounded pl-2 pr-1 py-1">
                                 <span class="text-sm">{{ name }}</span>
-                                <Icon size="16" scale="size-3 ml-1" name="chevron-down"/>
+                                <Icon size="16" scale="size-3" class="ml-1" name="chevron-down"/>
                             </div>
                         </template>
                         <template #content>

@@ -75,7 +75,7 @@ const highlightedCode = computed(() => {
 <template>
     <div class="relative bg-ui-950">
         <button v-if="copyable" class="p-1 bg-ui-800 rounded hover:bg-ui-700 w-fit border border-ui-700 absolute z-10 top-2 right-4 text-ui-500">
-            <Icon class="size-4" name="clipboard-document"/>
+            <Icon scale="size-4" name="clipboard-document"/>
         </button>
         <div class="relative overflow-y-auto" data-scroll>
             <div class="x relative w-full">

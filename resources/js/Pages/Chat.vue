@@ -276,7 +276,7 @@ const deleteMessage = (id) => {
                 <div v-if="recipient" class="y grow relative">
                     <div class="flex flex-col md:flex-row absolute top-0 w-full bg-ui-800/50 backdrop-blur-lg rounded-tr-lg z-10 items-center p-4">
                         <Link :href="route('inbox.index')" class="absolute left-0 top-0 bottom-0 h-full x items-center px-4">
-                            <Icon name="chevron-left" class="size-6"/>
+                            <Icon name="chevron-left" scale="size-6"/>
                         </Link>
                         <Avatar width="size-10 md:size-8" class="md:mr-2" :user="recipient"/>
                         <Username :user="recipient"/>
@@ -293,7 +293,7 @@ const deleteMessage = (id) => {
                                 <div class="y mb-1 relative group" :class="{'items-end': !isOther(message)}" v-for="(message, i) in msgs">
                                     <div class="flex items-center w-full justify-end" :class="{'flex-row-reverse': isOther(message)}">
                                         <div v-if="!isOther(message) && message.id !== -1" v-show="!deleting" @click="deleteMessage(message.id)" class="p-2 hidden group-hover:block text-ui-600 hover:text-red-500 cursor-pointer transition-colors">
-                                            <Icon name="trash" class="size-5"/>
+                                            <Icon name="trash"/>
                                         </div>
                                         <p class="y px-4 py-2 rounded-3xl max-w-[80%] break-words whitespace-break-spaces w-fit" :class="msgClasses(message, i)">{{ message.body }}</p>
                                     </div>

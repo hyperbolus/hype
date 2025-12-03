@@ -33,16 +33,16 @@ const remove = () => {
                     <div class="x items-center space-x-2">
                         <Link @click.stop :href="route('levels.show', video.level_id)" class="box !py-1 !px-3">Level Page</Link>
                         <Lightbox @click.stop>
-                            <div class="flex box !py-2 !px-2 hover:text-red-500"><Icon name="flag" class="size-4"/></div>
+                            <div class="flex box !py-2 !px-2 hover:text-red-500"><Icon name="flag" scale="size-4"/></div>
                             <template #content>
                                 <ReportModal :reportable_id="video.id" :reportable_type="43" @click.stop class="cursor-auto"/>
                             </template>
                         </Lightbox>
-                        <div v-if="isAdmin()" @click.stop="remove" class="box !py-2 !px-2 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-600"><Icon name="trash" class="size-4"/></div>
+                        <div v-if="isAdmin()" @click.stop="remove" class="box !py-2 !px-2 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-600"><Icon name="trash" scale="size-4"/></div>
                     </div>
                     <a @click.stop :href="`https://youtube.com/watch?v=${video.video_id}`" target="_blank" class="x items-center space-x-1 box !py-1 !px-3">
                         <span>YouTube Video</span>
-                        <Icon name="arrow-top-right-on-square" class="size-4"/>
+                        <Icon name="arrow-top-right-on-square" scale="size-4"/>
                     </a>
                 </div>
             </div>

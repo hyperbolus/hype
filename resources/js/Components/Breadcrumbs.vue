@@ -21,12 +21,12 @@ const props = defineProps({
             <div class="x flex-wrap gap-2 py-2">
                 <Link :href="route('home')">{{ siteName() }}</Link>
                 <div class="x items-center gap-2" v-if="$page.props.__meta_breadcrumbs" v-for="crumb in $page.props.__meta_breadcrumbs">
-                    <Icon class="size-4" name="chevron-right"/>
+                    <Icon scale="size-4" name="chevron-right"/>
                     <Link v-if="crumb.url" :href="crumb.url.toString()">{{ crumb.text }}</Link>
                     <span v-else>{{ crumb.text }}</span>
                 </div>
                 <template v-else>
-                    <Icon class="size-4" name="chevron-right"/>
+                    <Icon scale="size-4" name="chevron-right"/>
                     <slot/>
                 </template>
             </div>

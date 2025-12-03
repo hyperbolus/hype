@@ -78,7 +78,7 @@ const progress = ref(0)
         <div class="!hidden y gap-2 p-4 bg-ui-800">
             <span class="tracking-widest uppercase text-sm text-ui-500">Attachments:</span>
             <div ref="dropbox" class="y cursor-pointer place-items-center gap-2 p-4 rounded border-2 text-ui-500 border-dashed border-ui-700 bg-ui-900">
-                <Icon class="w-8" size="24" type="outline" name="arrow-up-tray"/>
+                <Icon scale="size-8" size="24" type="outline" name="arrow-up-tray"/>
                 <span>Click or drag and drop some file(s) here to upload</span>
             </div>
             <div v-for="(file, id) in filelist" :key="id" class="y gap-2">
@@ -92,7 +92,7 @@ const progress = ref(0)
                         - Gif
                         - Film
                         -->
-                        <Icon class="w-4" size="20" type="solid" name="document"/>
+                        <Icon scale="size-4" size="20" type="solid" name="document"/>
                         <a class="text-sm text-blue-500 hover:underline truncate whitespace-nowrap" href="/download/X3D76GqO">{{ file.name }}</a>
                         <span class="text-xs whitespace-nowrap">({{ prettyBytes(file.size) }})</span>
                     </div>

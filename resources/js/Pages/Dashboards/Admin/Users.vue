@@ -43,11 +43,11 @@ const impersonate = (id) => {
                 </div>
                 <div class="x items-center gap-2">
                     <div title="Impersonate User" class="cursor-pointer" @click="impersonate(user.id)">
-                        <Icon class="w-5" name="user"/>
+                        <Icon name="user"/>
                     </div>
-                    <Icon class="w-5" name="scale"/>
-                    <Icon class="w-5" name="pencil-square"/>
-                    <Icon class="w-5" name="x-mark"/>
+                    <Icon name="scale"/>
+                    <Icon name="pencil-square"/>
+                    <Icon name="x-mark"/>
                 </div>
             </div>
         </div>

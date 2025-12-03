@@ -104,7 +104,7 @@ const submitVideo = () => {
                 <div class="w-full space-y-2">
                     <h2 class="font-bold text-2xl">Info</h2>
                     <div v-if="ranking && ranking.rank <= 100" class="x items-center pane !px-3 !bg-amber-500 text-white">
-                        <Icon size="24" class="w-8 mr-2" name="trophy"/>
+                        <Icon size="24" scale="size-8" class="mr-2" name="trophy"/>
                         <div class="y leading-tight">
                             <span class="font-bold">#{{ ranking.rank }} User Rated Overall</span>
                             <span class="text-xs" v-if="ranking.joint_ranked > 1">{{ ranking.joint_ranked }}-Way Tie</span>
@@ -129,7 +129,7 @@ const submitVideo = () => {
                             <span>ID</span>
                             <div class="x space-x-1 items-center">
                                 <Tooltip @click="copy(level.id)" class="cursor-pointer" :class="{'text-green-500': copied}" :message="copied ? 'Copied!' : 'Copy ID'">
-                                    <Icon class="w-4" name="clipboard-document-list"/>
+                                    <Icon scale="w-4" name="clipboard-document-list"/>
                                 </Tooltip>
                                 <span>{{ level.id }}</span>
                             </div>

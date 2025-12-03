@@ -89,7 +89,7 @@ const props = defineProps({
                     </div>
                 </div>
                 <div class="relative border-t border-ui-700">
-                    <Icon name="paper-airplane" class="text-ui-400 absolute right-2 top-1/2 translate-y-[-50%] w-5"/>
+                    <Icon name="paper-airplane" class="text-ui-400 absolute right-2 top-1/2 translate-y-[-50%]"/>
                     <input class="rounded-b-lg border-0 bg-ui-950 w-full placeholder-ui-600" placeholder="Chat..."/>
                 </div>
             </div>

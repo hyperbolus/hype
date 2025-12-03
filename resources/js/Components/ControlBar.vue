@@ -27,7 +27,7 @@ const instantLogout = useStorage('instantLogout', false)
                         <span class="animate-ping absolute inline-flex bg-blue-500 rounded-full h-full w-full opacity-75"></span>
                         <span class="inline-flex bg-blue-500 rounded-full h-3 w-3"></span>
                     </span>
-                    <Icon class="w-5" size="24" name="bell"/>
+                    <Icon size="24" name="bell"/>
                 </div>
             </template>
             <template #content>
@@ -52,17 +52,17 @@ const instantLogout = useStorage('instantLogout', false)
                 <span class="animate-ping absolute inline-flex bg-blue-500 rounded-full h-full w-full opacity-75"></span>
                 <span class="inline-flex bg-blue-500 rounded-full h-3 w-3"></span>
             </span>
-            <Icon class="w-5" size="24" name="chat-bubble-oval-left"/>
+            <Icon size="24" name="chat-bubble-oval-left"/>
         </Link>
         <Link v-if="isModerator() || isAdmin()" :href="route('moderation.home')">
-            <Icon class="w-5" size="24" name="exclamation-triangle"/>
+            <Icon size="24" name="exclamation-triangle"/>
         </Link>
         <Dropdown class="shrink-0">
             <template #trigger>
                 <div class="x bg-ui-950 p-1 rounded-full items-center cursor-pointer">
                     <Avatar class="w-8 mr-2" :user="$page.props.user"/>
                     <span>{{ $page.props.user.name }}</span>
-                    <Icon class="w-5 mx-1" size="20" name="chevron-down"/>
+                    <Icon class="mx-1" size="20" name="chevron-down"/>
                 </div>
             </template>
             <template #content>

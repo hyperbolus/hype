@@ -58,7 +58,7 @@ const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Ma
             <Dropdown align="left">
                 <template #trigger>
                     <div class="x items-center space-x-1 bg-ui-800 rounded-md pl-1 pr-2 py-1 text-sm cursor-pointer">
-                        <Icon class="w-4" name="chevron-down"/>
+                        <Icon scale="size-4" name="chevron-down"/>
                         <span class="capitalize">{{ title }}</span>
                     </div>
                 </template>

@@ -27,10 +27,10 @@ const props = defineProps({
             </div>
             <div class="x space-x-1">
                 <Tooltip v-if="macro.notes" position="top" :message="macro.notes ?? 'This macro has no notes'" class="x items-center rounded p-1 bg-ui-800">
-                    <Icon class="w-4" name="information-circle"/>
+                    <Icon scale="size-4" name="information-circle"/>
                 </Tooltip>
                 <Lightbox v-if="isAdmin()" class="rounded bg-ui-800 p-1">
-                    <Icon class="w-4" name="cog-6-tooth" size="20" type="solid"/>
+                    <Icon scale="size-4" name="cog-6-tooth" size="20" type="solid"/>
                     <template #content>
                         <div @click.stop class="y space-y-2 pane text-ui-200 w-[32rem]">
                             <h1 class="font-bold text-3xl">Replay Moderation</h1>
@@ -42,7 +42,7 @@ const props = defineProps({
                 </Lightbox>
                 <Tooltip class="block" :message="macro.files[0].filename">
                     <a :href="macro.files[0].url" class="block rounded bg-ui-800 p-1">
-                        <Icon class="w-4" name="arrow-down-tray"/>
+                        <Icon scale="size-4" name="arrow-down-tray"/>
                     </a>
                 </Tooltip>
             </div>

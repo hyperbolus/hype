@@ -30,7 +30,7 @@ const props = defineProps({
                     <Username :user="article.author"/>
                 </div>
                 <div class="x items-center space-x-1 text-sm text-right shrink-0" :class="card ? 'text-ui-200' : 'text-ui-500'">
-                    <Icon name="clock" class="size-4"/>
+                    <Icon name="clock" scale="size-4"/>
                     <span>{{ readingTime(article.content) }}m</span>
                     <span v-if="!small">&middot; {{ new Date(article.created_at).toLocaleDateString() }}</span>
                 </div>

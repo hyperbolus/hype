@@ -196,8 +196,8 @@ const currentTab = computed(() => {
                     <input type="text" @input="mirrorParams(true)" v-model="url" class="grow focus-visible:ring-0 pr-0 pl-2"/>
                 </div>
                 <button @click="showQueryInURL = !showQueryInURL" class="group p-1 bg-ui-800 rounded hover:bg-ui-700 w-fit border border-ui-700 text-ui-500 hover:text-red-500">
-                    <Icon class="size-4" v-show="showQueryInURL" name="eye"/>
-                    <Icon class="size-4" v-show="!showQueryInURL"  name="eye-slash"/>
+                    <Icon scale="size-4" v-show="showQueryInURL" name="eye"/>
+                    <Icon scale="size-4" v-show="!showQueryInURL"  name="eye-slash"/>
                 </button>
             </div>
 
@@ -219,13 +219,13 @@ const currentTab = computed(() => {
                 <input type="text" @input="mirrorParams(false)" v-model="item.key" class="w-1/2" :placeholder="tab === 0 ? 'Header' : 'Parameter'"/>
                 <input type="text" @input="mirrorParams(false)" v-model="item.value" class="w-1/2" placeholder="Value"/>
                 <button @click="currentTab.splice(i, 1) && mirrorParams(false)" class="bg-ui-800 rounded text-red-500 hover:text-white hover:bg-red-500 border border-ui-700 hover:border-red-600">
-                    <Icon class="size-5" name="x-mark"/>
+                    <Icon name="x-mark"/>
                 </button>
             </div>
             <p v-if="tab !== 2 && (tab === 0 ? headers : parameters).length === 0" class="bg-ui-950 px-2 py-1 text-center text-ui-500 rounded-lg select-none">No {{ tab === 0 ? 'Headers' : 'Parameters' }}</p>
             <p v-if="tab === 2 && contentType === 'x-www-form-urlencoded' && Object.keys(body).length === 0" class="bg-ui-950 px-2 py-1 text-center text-ui-500 rounded-lg select-none">No Body Data</p>
             <button v-if="tab !== 2 || (tab === 2 && contentType === 'x-www-form-urlencoded')" @click="currentTab.push({key: '', value: ''})" class="p-0.5 bg-ui-800 rounded hover:bg-ui-700 w-fit mx-1 border border-ui-700">
-                <Icon class="size-4" name="plus"/>
+                <Icon scale="size-4" name="plus"/>
             </button>
         </div>
         <div class="y w-1/2 border border-ui-700 rounded-lg divide-y divide-ui-700">

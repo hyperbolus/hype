@@ -151,13 +151,13 @@ watch(options, (value) => {
             <div class="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0 md:space-x-2 p-2 rounded-t-lg">
                 <div class="x space-x-2">
                     <div @click="path = [1]" class="cursor-pointer border border-ui-700 rounded bg-ui-800 shadow text-sm p-1">
-                        <Icon class="w-4" name="home"/>
+                        <Icon scale="size-4" name="home"/>
                     </div>
                     <div @click="path.length === 1 ? void(0) : path.pop()" class="cursor-pointer border border-ui-700 rounded bg-ui-800 shadow text-sm p-1">
-                        <Icon class="w-4" name="arrow-up"/>
+                        <Icon scale="size-4" name="arrow-up"/>
                     </div>
                     <div v-if="false" @click="path.length === 1 ? void(0) : path.pop()" class="cursor-pointer border border-ui-700 rounded bg-ui-800 shadow text-sm p-1">
-                        <Icon class="w-4" name="arrow-uturn-left"/>
+                        <Icon scale="size-4" name="arrow-uturn-left"/>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 grow w-full">
@@ -165,35 +165,35 @@ watch(options, (value) => {
                         <button @click="path = [1]" class="rounded px-1 hover:bg-ui-900">Root</button>
                         <template v-for="(bit, key) in path.slice(1, path.length)">
                             <button class="rounded py-0.5 px-1 hover:bg-ui-900">
-                                <Icon class="w-4" name="chevron-right"/>
+                                <Icon scale="size-4" name="chevron-right"/>
                             </button>
                             <button @click="path = path.slice(0, path.indexOf(bit) + 1)" class="rounded px-1 hover:bg-ui-900">{{ typeof library.folders[bit] === 'undefined' ? bit : library.folders[bit].name}}</button>
                         </template>
                         <input ref="pathInput" @focusout="pathFocus = false" type="text" placeholder="Path" class="!hidden shadow border-0 grow rounded-md bg-ui-950 text-sm py-0.5 px-2 w-full"/>
                     </div>
                     <div class="x space-x-1 items-center shadow grow rounded-md bg-ui-950 py-0.5 px-2 focus-within:ring-1 ring-blue-500">
-                        <Icon class="w-4" name="magnifying-glass"/>
+                        <Icon scale="size-4" name="magnifying-glass"/>
                         <input v-model="searchQuery" type="text" placeholder="Search" class="text-sm border-0 bg-transparent p-0 focus-visible:ring-0"/>
                     </div>
                 </div>
                 <div class="x space-x-2">
                     <div v-if="false" class="x divide-x divide-ui-700 border border-ui-700 rounded bg-ui-800 shadow text-sm">
                         <div class="p-1 rounded-l bg-ui-900">
-                            <Icon class="w-4" name="table-cells" type="solid" size="20"/>
+                            <Icon scale="size-4" name="table-cells" type="solid" size="20"/>
                         </div>
                         <div class="p-1">
-                            <Icon class="w-4" name="queue-list" type="solid" size="20"/>
+                            <Icon scale="size-4" name="queue-list" type="solid" size="20"/>
                         </div>
                     </div>
                     <div v-if="false" class="x space-x-1 items-center border border-ui-700 rounded bg-ui-800 shadow text-sm p-1">
-                        <Icon class="w-4" name="funnel" type="solid" size="20"/>
-                        <Icon class="w-4" name="chevron-down" type="solid" size="20"/>
+                        <Icon scale="size-4" name="funnel" type="solid" size="20"/>
+                        <Icon scale="size-4" name="chevron-down" type="solid" size="20"/>
                     </div>
                     <Dropdown>
                         <template #trigger>
                             <div class="x space-x-1 items-center border border-ui-700 rounded bg-ui-800 shadow text-sm p-1">
-                                <Icon class="w-4" name="cog-6-tooth" type="solid" size="20"/>
-                                <Icon class="w-4" name="chevron-down" type="solid" size="20"/>
+                                <Icon scale="size-4" name="cog-6-tooth" type="solid" size="20"/>
+                                <Icon scale="size-4" name="chevron-down" type="solid" size="20"/>
                             </div>
                         </template>
                         <template #content>
@@ -224,7 +224,7 @@ watch(options, (value) => {
                                     <p>These sound effects are owned by the following parties and are licensed to Robtop Games AB for use in Geometry Dash. This means that while you may be able to grab these sounds from his server, <u>you likely do not have the rights to use them</u> and should consult the individual rights holders for permission or licensing.</p>
                                     <a target="_blank" v-for="credit in library.credits" :href="credit.website" class="x items-center space-x-1 rounded-md bg-ui-800 px-2 py-0.5">
                                         <span>{{ credit.name }}</span>
-                                        <Icon class="w-4" name="arrow-top-right-on-square"/>
+                                        <Icon scale="size-4" name="arrow-top-right-on-square"/>
                                     </a>
                                     <p class="text-center text-sm text-ui-600">SFX Library Version {{ library.version }} &bull; {{ Object.keys(library.files).length }} Files</p>
                                 </div>
@@ -239,7 +239,7 @@ watch(options, (value) => {
                     <div class="y sticky top-0 bg-ui-950 z-10 justify-center relative" :class="{'border-l border-ui-700': columns.length === 2}" v-if="i === columns.length - 1">
                         <div class="y items-center space-y-4 p-8" :class="{'invisible': !currentFile}">
                             <div class="rounded-full bg-ui-800 p-8">
-                                <Icon class="w-16" name="speaker-wave" type="solid" size="24"/>
+                                <Icon scale="size-16" name="speaker-wave" type="solid" size="24"/>
                             </div>
                             <div class="y items-center">
                                 <span class="text-center font-bold text-2xl">{{ currentFile ? library.files[currentFile].name : 'Hidden Message :)' }}</span>
@@ -253,14 +253,14 @@ watch(options, (value) => {
                             </div>
                             <div class="x space-x-2 justify-center">
                                 <button v-if="audioLoaded" @click="audio.play()" class="rounded bg-ui-800 border border-ui-700 px-2 py-1">
-                                    <Icon class="w-5" name="play"/>
+                                    <Icon name="play"/>
                                 </button>
                                 <div v-else class="rounded bg-ui-800 border border-ui-700 px-2 py-1">
-                                    <Icon class="w-5 animate-spin" name="arrow-path"/>
+                                    <Icon class="animate-spin" name="arrow-path"/>
                                 </div>
                                 <Tooltip v-if="options.allowDownloads" message="Right Click &#10141; Save Link As">
                                     <a target="_blank" :href="`https://geometrydashfiles.b-cdn.net/sfx/s${currentFile}.ogg`" class="block rounded bg-ui-800 border border-ui-700 px-2 py-1">
-                                        <Icon class="w-5" name="document-arrow-down"/>
+                                        <Icon name="document-arrow-down"/>
                                     </a>
                                 </Tooltip>
                             </div>
@@ -271,11 +271,11 @@ watch(options, (value) => {
                     <div class="y" :class="{'border-x border-ui-700': i === 1}">
                         <div v-for="(folder, id) in panels[i].folders" @click="selectFolder(id|0)" class="x px-2 py-0.5 items-center justify-between cursor-pointer" :class="{'bg-blue-600 text-white': path.includes(id|0), 'text-ui-600 [&>*:nth-child(even)]:hidden cursor-normal': (searchQuery !== '' && !highlightedFolders.includes(id|0)), '!hidden': (searchQuery !== '' && !highlightedFolders.includes(id|0) && options.pruneResults)}">
                             <div class="x items-center space-x-2">
-                                <Icon v-if="path.includes(id|0)" class="w-4" name="folder-open" type="solid" size="20"/>
-                                <Icon v-else class="w-4" name="folder" type="solid" size="20"/>
+                                <Icon v-if="path.includes(id|0)" scale="size-4" name="folder-open" type="solid" size="20"/>
+                                <Icon v-else scale="size-4" name="folder" type="solid" size="20"/>
                                 <span class="text-sm">{{ folder.name }}</span>
                             </div>
-                            <Icon class="w-4" name="chevron-right" type="solid" size="20"/>
+                            <Icon scale="size-4" name="chevron-right" type="solid" size="20"/>
                         </div>
                     </div>
                     <div v-if="Object.keys(panels[i].folders).length > 0 && Object.keys(panels[i].files).length > 0" class="border-t border-ui-700 bg-ui-900"></div>

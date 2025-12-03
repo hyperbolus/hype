@@ -92,7 +92,7 @@ const tiptapEditor = useTemplateRef('tiptapEditor');
         <Breadcrumbs class="px-2 text-ui-400 !mt-0" :decoration="false"/>
 
         <div v-if="permalink" class="x space-x-2 items-center rounded-md p-2 border" :class="outdated ? 'bg-amber-500/10 border-amber-500' : 'bg-blue-500/10 border-blue-500'">
-            <Icon class="w-8 mx-1" :name="outdated ? 'exclamation-triangle' : 'information-circle'" :class="outdated ? 'text-amber-500' : 'text-blue-500'"/>
+            <Icon scale="size-8" class="mx-1" :name="outdated ? 'exclamation-triangle' : 'information-circle'" :class="outdated ? 'text-amber-500' : 'text-blue-500'"/>
             <div class="y">
                 <span v-if="outdated">This is a permalink to an outdated revision of this page</span>
                 <span v-else>This is a permalink to the the latest revision of this page, but it may become outdated later.</span>

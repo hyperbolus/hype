@@ -18,7 +18,7 @@ const anchor = _ => (props.node?.content?.content[0]?.text ?? '').replaceAll(' '
     <node-view-wrapper :as="element()" :id="anchor()" class="x space-x-2 items-center group">
         <node-view-content as="span"/>
         <a class="anchor invisible group-hover:visible" :href="'#' + anchor()">
-            <Icon name="link" class="size-5"/>
+            <Icon name="link"/>
         </a>
     </node-view-wrapper>
 </template>

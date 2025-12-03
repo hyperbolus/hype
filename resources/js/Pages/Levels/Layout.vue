@@ -32,7 +32,7 @@ const tabs = {
                 <div class="py-2 select-none border-r border-ui-400 border-ui-700"></div>
                 <span v-if="level.top_tags.length === 0" class="text-ui-500">No Tags</span>
                 <Link v-else v-for="tag in level.top_tags" :href="route('tags.show', tag)" :title="`${tag.pivot.verified ? 'Verified' : 'Unverified'} tag`" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
-                    <Icon v-if="tag.pivot.verified" name="check-badge" class="inline mr-1 rounded-full text-green-500 w-5"/>
+                    <Icon v-if="tag.pivot.verified" name="check-badge" class="inline mr-1 rounded-full text-green-500"/>
                     {{tag.name}}
                 </Link>
             </div>

@@ -43,10 +43,10 @@ const prettify = () => {
                     <span>{{ setting.name ?? setting.key }}</span>
                 </div>
                 <div class="x items-center gap-2">
-                    <Icon class="w-5" name="pencil-square"/>
-                    <Icon class="w-5" name="x-mark"/>
-                    <Icon v-if="setting.public" class="w-5" name="eye"/>
-                    <Icon v-else class="w-5 text-red-500" name="eye-slash"/>
+                    <Icon name="pencil-square"/>
+                    <Icon name="x-mark"/>
+                    <Icon v-if="setting.public" name="eye"/>
+                    <Icon v-else class="text-red-500" name="eye-slash"/>
                 </div>
             </div>
         </div>

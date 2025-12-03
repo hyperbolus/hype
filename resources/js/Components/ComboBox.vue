@@ -155,7 +155,7 @@ onClickOutside(base, () => dropdown.value = false);
     <div ref="base" class="relative w-fit">
         <div @click="input.focus()" class="flex flex-wrap gap-2 bg-ui-900 p-1.5 rounded z-0">
             <div v-for="(selection, i) in selected" @click.stop="highlighted = i" class="x items-center space-x-1 bg-ui-800 px-2 py-1 text-sm cursor-pointer rounded-md border border-transparent" :class="{'border-blue-600': highlighted === i && !selectModeDropdown}">
-                <Icon name="x-mark" class="size-5 hover:text-red-500" @click.stop="deleteSelection(i)"/>
+                <Icon name="x-mark" class="hover:text-red-500" @click.stop="deleteSelection(i)"/>
                 <span>{{ keyName ? options[selection]?.[keyName] : options[selection] }}</span>
             </div>
             <input ref="input" @focusin="highlighted = -1; focused = true; dropdown = true; selectModeDropdown = false;" @focusout="focused = false;" v-model="query" type="text" class="p-0 border-none bg-transparent focus-visible:ring-0 pr-2" :class="{'pl-2': selected.length === 0}"/>

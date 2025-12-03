@@ -148,7 +148,7 @@ const endTrolling = () => {
                 <div class="x">
                     <div class="px-2 pt-2 font-bold">__</div>
                     <div class="grow polka"></div>
-                    <Icon @click="endTrolling" class="w-6 m-0.5 cursor-pointer" size="24" type="outline" name="x-mark"/>
+                    <Icon @click="endTrolling" class="m-0.5 cursor-pointer" size="24" type="outline" name="x-mark" scale="size-6"/>
                 </div>
                 <textarea readonly class="bg-black h-16 text-xs text-white p-1 resize-none border-ui-700">#block_me_to_hide_notice > div</textarea>
                 <div class="x space-x-1 p-0.5">

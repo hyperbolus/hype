@@ -15,8 +15,8 @@ const open = ref(false)
             <span>{{ forum.name }}</span>
         </div>
         <div class="x items-center gap-2">
-            <Icon @click="open = !open" class="w-5" name="pencil-square"/>
-            <Icon class="w-5" name="x-mark"/>
+            <Icon @click="open = !open" name="pencil-square"/>
+            <Icon name="x-mark"/>
         </div>
     </div>
     <div v-show="open" class="x bg-ui-900 p-2">

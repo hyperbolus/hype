@@ -23,19 +23,19 @@ const props = defineProps({
                         <div class="x space-x-3">
                             <Tooltip message="Reviews" container-class="x items-center space-x-1">
                                 <div class="x items-center space-x-1">
-                                    <Icon class="w-5" name="pencil-square"/>
+                                    <Icon name="pencil-square"/>
                                     <span class="text-sm">{{ item.reviews_count }}</span>
                                 </div>
                             </Tooltip>
                             <Tooltip message="Reputation" container-class="x items-center space-x-1">
                                 <div class="x items-center space-x-1">
-                                    <Icon class="w-5" name="scale"/>
+                                    <Icon name="scale"/>
                                     <span class="text-sm">{{ item.reputation }}</span>
                                 </div>
                             </Tooltip>
                             <Tooltip message="Credits" container-class="x items-center space-x-1">
                                 <div class="x items-center space-x-1">
-                                    <Icon class="w-5" name="currency-dollar"/>
+                                    <Icon name="currency-dollar"/>
                                     <span class="text-sm">{{ item.credits }}</span>
                                 </div>
                             </Tooltip>

@@ -33,7 +33,7 @@ const props = defineProps({
                 <div class="x space-x-2 items-center bg-ui-950 p-1.5 border-t border-ui-700 rounded-b-md">
                     <Link :href="route('system.scripts.run', classname + '::' + method.name)" class="x items-center divide-x divide-ui-700 bg-ui-800 rounded">
                         <div class="px-2 py-1">
-                            <Icon class="w-5 text-green-500" name="play"/>
+                            <Icon class="text-green-500" name="play"/>
                         </div>
                         <span class="font-mono text-sm px-2 text-ui-500">{{ method.name }}()</span>
                     </Link>

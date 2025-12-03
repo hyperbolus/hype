@@ -55,7 +55,7 @@ const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase
                 <template #trigger>
                     <div class="flex items-center space-x-2 bg-ui-900 px-2 py-1 rounded-md text-sm cursor-pointer">
                         <span>{{ transformName(sortBy) }}</span>
-                        <Icon class="w-4" name="chevron-down"/>
+                        <Icon scale="size-4" name="chevron-down"/>
                     </div>
                 </template>
                 <template #content>
@@ -68,7 +68,7 @@ const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase
                 <template #trigger>
                     <div class="x items-center space-x-2 pane !px-2 !py-1 rounded text-sm cursor-pointer">
                         <span class="capitalize">{{ transformName(filter) }}</span>
-                        <Icon class="w-4" name="chevron-down"/>
+                        <Icon scale="size-4" name="chevron-down"/>
                     </div>
                 </template>
                 <template #content>
@@ -82,7 +82,7 @@ const transformName = (str) => str.split('_').map((w) => w.charAt(0).toUpperCase
                 <template #trigger>
                     <div class="flex items-center space-x-2 bg-ui-900 px-2 py-1 rounded-md text-sm cursor-pointer">
                         <span class="capitalize">{{ sortDir }}ending</span>
-                        <Icon class="w-4" name="chevron-down"/>
+                        <Icon scale="size-4" name="chevron-down"/>
                     </div>
                 </template>
                 <template #content>

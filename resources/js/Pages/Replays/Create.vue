@@ -96,7 +96,7 @@ const query = useForm({
             <h1 class="font-bold text-3xl">Submit Replay</h1>
             <div class="y space-y-2 pane w-full">
                 <div class="x space-x-2 items-center rounded-md p-2 bg-amber-500/10 border border-amber-500">
-                    <Icon class="w-8 text-amber-500" name="exclamation-triangle"/>
+                    <Icon scale="size-8" class="text-amber-500" name="exclamation-triangle"/>
                     <span>All replay formats except GDR are being deprecated, please only use .gdr moving forward</span>
                 </div>
 

@@ -26,7 +26,7 @@ const links = computed(() => {
         <div class="y md:flex-row lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full gap-2 py-2">
             <div class="y md:w-1/4 space-y-2 px-2 md:px-0">
                 <Link v-for="(link, key) in links" :href="route(key)" :class="{ 'text-blue-500': route().current(key) }" class="x items-center space-x-2 pane transition-colors hover:bg-ui-800">
-                    <Icon :name="link.icon" class="size-6"/>
+                    <Icon :name="link.icon" scale="size-6"/>
                     <span>{{ link.title }}</span>
                 </Link>
             </div>

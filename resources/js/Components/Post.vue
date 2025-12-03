@@ -159,13 +159,13 @@ const sendLike = () => {
                         </div>
                     </template>
                     <div v-if="!preview && (post.created_at !== post.updated_at)" class="x mb-2 items-center space-x-1 text-xs text-ui-400">
-                        <Icon name="pencil" class="w-3"/>
+                        <Icon name="pencil" scale="size-3"/>
                         <span>This post last modified <Timestamp :time="post.updated_at"/>, by <Username :user="user"/></span>
                     </div>
                     <div v-if="!preview" class="x justify-between">
                         <Lightbox v-if="isAuthenticated()">
                             <div class="p-1.5 cursor-pointer bg-ui-800 text-ui-400 hover:text-white hover:bg-red-500 transition rounded">
-                                <Icon name="flag" class="w-4"/>
+                                <Icon name="flag" scale="size-4"/>
                             </div>
                             <template #content>
                                 <ReportModal :reportable_id="post.id" :reportable_type="21" @click.stop class="cursor-auto"/>
@@ -173,11 +173,11 @@ const sendLike = () => {
                         </Lightbox>
                         <div class="x space-x-2">
                             <div @click="sendLike" class="p-1.5 cursor-pointer bg-ui-800 hover:text-white transition rounded" :class="liked ? 'text-red-500 hover:bg-red-500' : 'text-green-500 hover:bg-green-500'">
-                                <Icon name="heart" class="w-4"/>
+                                <Icon name="heart" scale="size-4"/>
                             </div>
                             <Tooltip container-class="!right-0">
                                 <div class="p-1.5 cursor-pointer bg-ui-800 text-ui-400 hover:text-white transition rounded">
-                                    <Icon name="share" class="w-4"/>
+                                    <Icon name="share" scale="size-4"/>
                                 </div>
                                 <template #content>
                                     <div class="p-2 w-fit">
@@ -197,7 +197,7 @@ const sendLike = () => {
         </div>
         <div v-if="!preview && post.reactions && post.reactions.length > 0" class="x items-center border-t p-2 space-x-2 border-t-ui-700">
             <div class="x items-center space-x-1 text-green-500">
-                <Icon name="heart" class="w-4"/>
+                <Icon name="heart" scale="size-4"/>
                 <span>{{ post.reactions.length }}</span>
             </div>
             <Username class="!text-sm" v-for="reaction in post.reactions" :user="reaction.reacter"/>
