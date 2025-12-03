@@ -264,5 +264,29 @@ div[data-youtube-video] > iframe {
     .footnote-ref::after {
         content: ']';
     }
+
+    .tiptap-invisible-character::before {
+        opacity: 0.35;
+        margin-left: 0.1rem;
+    }
 }
 
+.v-codemirror {
+    @apply border-ui-700 border-t;
+
+    .cm-focused {
+        @apply shadow-none;
+    }
+
+    .cm-editor {
+        @apply bg-ui-1000 max-h-[75vh] w-full;
+
+        .cm-gutters {
+            @apply bg-ui-900;
+        }
+        .cm-activeLineGutter {
+            @apply bg-ui-800
+        }
+    }
+
+}

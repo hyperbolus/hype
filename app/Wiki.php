@@ -6,13 +6,16 @@ use App\Models\ModelRevision;
 use App\Models\RevisionText;
 use App\Models\System\User;
 use App\Models\WikiPage;
+use Dom\HTMLDocument;
 use Illuminate\Support\Str;
 
 class Wiki
 {
     public static array $namespaces = [
         // Functional
-        'Special' => -1,
+        'Module' => -2,
+        'Template' => -1,
+        'Special' => null,
 
         // Standard
         'Article' => 0,
@@ -50,6 +53,37 @@ class Wiki
     public static array $specialPages = [
         'Random' => 'random',
     ];
+
+    public static function prepareContent(ModelRevision $revision): ModelRevision
+    {
+        $dom = \Dom\HTMLDocument::createFromString($revision->text->content, LIBXML_NOERROR);
+
+        foreach ($dom->querySelectorAll('include') as $include) {
+            $title = $include->attributes->getNamedItem('title')?->value;
+            $lang = $include->attributes->getNamedItem('lang')?->value ?? Wiki::$defaultLang;
+            $ns = $include->attributes->getNamedItem('ns')?->value ?? Wiki::$defaultNamespace;
+
+            if ($title) {
+                $page = WikiPage::query()
+                    ->where('lang', Wiki::$languages[$lang])
+                    ->where('namespace', Wiki::$namespaces[$ns])
+                    ->where('title', $title)
+                    ->with(['revision.text'])
+                    ->first();
+
+                $include->innerHTML = $page?->revision?->text?->content ?? '';
+            }
+        }
+
+//        dd($dom->querySelector('module'));
+
+        $revision->setAttribute('blurb', $dom->querySelector('p')?->innerHTML);
+        $revision->text->setAttribute('content', $dom->body->innerHTML);
+
+//        dd($revision->text);
+
+        return $revision;
+    }
 
     public static function makePage(
         string     $title,

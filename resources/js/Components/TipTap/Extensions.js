@@ -1,8 +1,55 @@
-import {Mark, mergeAttributes, Node} from '@tiptap/core'
+import {Mark, mergeAttributes, Node, nodeInputRule} from '@tiptap/core'
 import {VueMarkViewRenderer, VueNodeViewRenderer} from '@tiptap/vue-3'
-
 import TTSpoilerComponent from './TTSpoiler.vue'
 import TTLargeLinkComponent from './TTLargeLink.vue'
+import TTInclude from "@/Components/TipTap/TTInclude.vue";
+
+export const Include = Node.create({
+    name: 'include',
+
+    content: 'block+',
+
+    group: 'block',
+
+    atom: true,
+
+    addAttributes() {
+        return {
+            title: {
+                default: 'TITLE',
+            },
+            lang: {
+                default: 'en',
+            },
+            namespace: {
+                default: 'Article',
+            },
+        }
+    },
+
+    parseHTML() {
+        return [
+            { tag: 'include' }
+        ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+        return ['include', HTMLAttributes]
+    },
+
+    addNodeView() {
+        return VueNodeViewRenderer(TTInclude)
+    },
+
+    addInputRules() {
+        return [
+            nodeInputRule({
+                find: /\{\{ $/,
+                type: this.editor.schema.nodes.template,
+            }),
+        ]
+    },
+})
 
 export const Spoiler = Mark.create({
     name: 'spoiler',

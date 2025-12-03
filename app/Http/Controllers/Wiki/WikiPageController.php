@@ -51,7 +51,9 @@ class WikiPageController extends Controller
     {
         $routePrefix = '';
 
+        // If we are on the dedicated wiki domain, the language won't be in the URL path
         if (Hype::isSubsite()) {
+            // TODO@wiki: set language based on subdomain
             $path = 'en/' . $path;
             $routePrefix = 'wiki$';
         }
@@ -70,10 +72,12 @@ class WikiPageController extends Controller
 
         if ($redirect) return redirect()->route($routePrefix . 'wiki', $redirect);
 
+        // Special pages aren't fetched from the database, they have their own controllers
         if ($namespace === 'Special') {
+            // Make sure it's a valid special page, they are explicitly defined
             abort_if(!array_key_exists($title, Wiki::$specialPages), 404);
 
-            // Defer to special page controller
+            // Dispatch to special page controller
             return (new SpecialPageController)->{Wiki::$specialPages[$title]}($request);
         } else {
             $page = WikiPage::query()
@@ -84,20 +88,20 @@ class WikiPageController extends Controller
 
             if ($page) {
                 if ($action === 'history') {
-                    // include revision history
+                    // Get the revision history
                     $revisions = $page?->revisions()
                         ->with(['author', 'size'])
                         ->latest()
                         ->paginate(25);
                 } else {
-                    // If viewing or editing grab the latest revision
-
+                    // If viewing or editing grab the latest revision.
+                    // If specified, grab an old revision
                     $q = !$request->has('revision') ? $page->revision() : ModelRevision::query()
                         ->where('model_type', 70)
                         ->where('model_id', $page->id)
                         ->where('id', $request->integer('revision'));
 
-                    $revision = $q->with(['author', 'text'])->firstOrFail();
+                    $revision = Wiki::prepareContent($q->with(['author', 'text'])->firstOrFail());
                 }
             }
         }

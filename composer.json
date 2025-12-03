@@ -36,7 +36,9 @@
         "socialiteproviders/patreon": "^5.0",
         "spatie/laravel-permission": "^6.0",
         "stancl/tenancy": "^3.7",
-        "tightenco/ziggy": "^v1.8.2"
+        "tightenco/ziggy": "^v1.8.2",
+        "ext-dom": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^v3.0",

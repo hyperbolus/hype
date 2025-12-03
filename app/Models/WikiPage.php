@@ -17,8 +17,8 @@ class WikiPage extends Model
 
     public function getURIPath(): string
     {
-        $lang = array_search($this->lang, Wiki::$languages);
-        $ns = array_search($this->namespace, Wiki::$namespaces);
+        $lang = array_search($this->lang, Wiki::$languages, true);
+        $ns = array_search($this->namespace, Wiki::$namespaces, true);
 
         $path = '';
         if (!Hype::isSubsite()) $path = $lang . '/';
