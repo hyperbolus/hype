@@ -126,7 +126,7 @@ const tiptapEditor = useTemplateRef('tiptapEditor');
             <div v-else class="y space-y-2 items-center pane !py-4">
                 <span class="font-bold text-2xl">Hold Up!</span>
                 <p class="text-center">Wiki page editing is only available to select users. If you would like to contribute to the wiki, please join our Discord!</p>
-                <DiscordInvite code="JJc8nndmFE"/>
+                <DiscordInvite code="fRGdc6hUSy"/>
             </div>
         </template>
     </WikiLayout>
