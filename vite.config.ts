@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-const { resolve } = require('path');
+import { resolve } from 'node:path';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
@@ -41,5 +41,10 @@ export default defineConfig({
     },
     define: {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true
+    },
+    server: {
+        // This is a multi-domain application, so we have to be lenient here
+        // TODO@later: consider requiring .local origins
+        cors: true,
     }
 });
