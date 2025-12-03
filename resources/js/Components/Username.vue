@@ -4,8 +4,7 @@ import {Link} from '@inertiajs/vue3';
 import Tooltip from "@/Components/Tooltip.vue";
 import Avatar from "@/Components/Avatar.vue";
 import UserFlag from "@/Components/UserFlag.vue";
-import {invisiblePixel} from "@/util.js";
-import sparkle from '@/../images/sparkle_4.gif'
+import sparkle from '@/../images/sparkle_2.gif'
 import UserTitle from "@/Components/UserTitle.vue";
 import Icon from "@/Components/Icon.vue";
 import {computed} from "vue";
@@ -38,23 +37,26 @@ const groups = {
     1: {
         name: 'Administrator',
         badge: 'check-badge',
-        color: 'rgb(255, 75, 75)',
+        color: 'rgb(255 75 75)',
         sparkle: true,
-        style: '',
     },
     2: {
-        name: 'Verified',
-        badge: 'check-badge',
-        color: 'rgb(255,125,125)',
-        sparkle: true,
-        style: 'filter: hue-rotate(120deg);',
-    },
-    3: {
         name: 'Moderator',
         badge: 'check-badge',
-        color: '#f59e0b',
+        color: '#a467ea',
         sparkle: true,
-        style: '',
+    },
+    3: {
+        name: 'Verified',
+        badge: 'check-badge',
+        color: 'rgb(34 197 94)',
+        sparkle: true,
+    },
+    4: {
+        name: 'Wiki Contributor',
+        badge: 'open-book',
+        color: '#8eb3ff',
+        sparkle: true,
     }
 };
 
@@ -63,7 +65,6 @@ const style = computed(() => {
     let a = ['text-shadow: black 0 1px 3px;'];
 
     if (group.color) a.push(`color:${group.color};`);
-    if (group.sparkle) a.push(`background-image: url('${sparkle}');`);
     if (group.style) a.push(group.style);
 
     return a.join('');
@@ -76,14 +77,20 @@ const style = computed(() => {
             <Icon class="scale-[205%] size-2.5 badge" :name="group.badge"/>
         </Tooltip>
         <Tooltip v-if="card" :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'} right-full`">
-            <Link v-if="link" :href="link" :style="style">{{ user.name }}</Link>
+            <Link v-if="link" :href="link" :style="style" class="relative">
+                <span class="z-10 relative">{{ user.name }}</span>
+                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>
+            </Link>
             <span v-else :style="style">{{ user.name }}</span>
             <template #content>
-                <div class="x box shadow-xl !p-0 overflow-hidden bg-cover bg-center" :style="`background-image: url('${user.banner_url ?? invisiblePixel}');`">
+                <div class="x box shadow-xl !p-0 overflow-hidden bg-cover bg-center">
                     <div class="x items-center bg-black/50 space-x-4 p-4 min-w-[20rem]">
                         <Avatar width="w-16" :user="user"/>
                         <div class="y [text-shadow:black_0_1px_3px]">
-                            <span class="font-bold text-lg w-fit" :class="{'line-through': user.banned_at}" :style="style">{{ user.name }}</span>
+                            <div class="font-bold text-lg w-fit relative" :class="{'line-through': user.banned_at}" :style="style">
+                                <span class="z-10 relative">{{ user.name }}</span>
+<!--                                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>-->
+                            </div>
                             <UserTitle class="[text-shadow:black_0_1px_3px]" :user="user"/>
                         </div>
                     </div>
@@ -91,8 +98,14 @@ const style = computed(() => {
             </template>
         </Tooltip>
         <template v-else>
-            <Link v-if="link" :href="link" :style="style">{{ user.name }}</Link>
-            <span v-else :style="style">{{ user.name }}</span>
+            <Link v-if="link" :href="link" :style="style" class="relative">
+                <span class="z-10 relative">{{ user.name }}</span>
+                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>
+            </Link>
+            <div v-else :style="style" class="relative">
+                <span class="z-10 relative">{{ user.name }}</span>
+                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>
+            </div>
         </template>
     </div>
 </template>
