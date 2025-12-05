@@ -164,7 +164,7 @@ div[data-youtube-video] > iframe {
 .ProseMirror {
 
     h1 {
-        @apply font-serif text-2xl pb-1 border-b border-ui-600;
+        @apply font-serif text-2xl pb-1 border-b border-ui-600 my-1;
     }
 
     h2 {
@@ -173,6 +173,10 @@ div[data-youtube-video] > iframe {
 
     h3 {
         @apply font-bold text-lg;
+    }
+
+    table {
+        @apply my-2;
     }
 
     p.is-editor-empty:first-child::before {
