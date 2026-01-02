@@ -30,6 +30,7 @@
     "dependencies": {
         "@codemirror/commands": "^6.10.0",
         "@codemirror/lang-html": "^6.4.11",
+        "@codemirror/lang-liquid": "^6.3.0",
         "@codemirror/language": "^6.11.3",
         "@codemirror/legacy-modes": "^6.5.2",
         "@codemirror/search": "^6.5.11",
@@ -50,7 +51,6 @@
         "@tiptap/extension-subscript": "^3.11.1",
         "@tiptap/extension-superscript": "^3.11.1",
         "@tiptap/extension-table": "^3.11.1",
-        "@tiptap/extension-table-of-contents": "^3.11.1",
         "@tiptap/extension-text-align": "^3.11.1",
         "@tiptap/extension-text-style": "^3.11.1",
         "@tiptap/extension-youtube": "^3.11.1",
@@ -65,6 +65,7 @@
         "get-youtube-id": "^1.0.1",
         "highlight.js": "^11.11.1",
         "laravel-echo": "^2.2.6",
+        "liquidjs": "^10.24.0",
         "meilisearch": "^0.35.1",
         "pinia": "^2.3.1",
         "pretty-bytes": "^6.1.1",

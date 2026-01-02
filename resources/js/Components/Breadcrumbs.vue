@@ -13,13 +13,17 @@ const props = defineProps({
         type: Boolean,
         default: true
     },
+    homeLink: {
+        type: String,
+        default: route('home')
+    }
 })
 </script>
 <template>
     <div class="x justify-center w-full" :class="{'decorated': decoration, 'fullwidth': fullwidth}">
         <div class="x items-start gap-2 justify-between w-full text-xs">
             <div class="x flex-wrap gap-2 py-2">
-                <Link :href="route('home')">{{ siteName() }}</Link>
+                <Link :href="homeLink">{{ siteName() }}</Link>
                 <div class="x items-center gap-2" v-if="$page.props.__meta_breadcrumbs" v-for="crumb in $page.props.__meta_breadcrumbs">
                     <Icon scale="size-4" name="chevron-right"/>
                     <Link v-if="crumb.url" :href="crumb.url.toString()">{{ crumb.text }}</Link>

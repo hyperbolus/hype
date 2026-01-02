@@ -7,8 +7,8 @@ use App\Http\Controllers\Wiki\Special\SpecialPageController;
 use App\Hype;
 use App\Models\ModelRevision;
 use App\Models\WikiPage;
+use App\Quicksilver;
 use App\Wiki;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -101,7 +101,10 @@ class WikiPageController extends Controller
                         ->where('model_id', $page->id)
                         ->where('id', $request->integer('revision'));
 
-                    $revision = Wiki::prepareContent($q->with(['author', 'text'])->firstOrFail());
+                    $revision = $q->with(['author', 'text'])->firstOrFail();
+
+                    if ($action === 'read') $revision = Quicksilver::prepareWikiContent($revision, $namespace);
+
                 }
             }
         }
@@ -118,7 +121,8 @@ class WikiPageController extends Controller
             'namespace' => $namespace,
 
             'action' => $action,
-        ])->meta($title, 'CHANGE ME')
+            // TODO@wiki: editing does not proccess so we dont get a blurb. have another description ready
+        ])->meta($title, $revision?->blurb ?? 'This page has no content')
             ->breadcrumbs([crumb('Wiki', route($routePrefix . 'wiki'), !Hype::isSubsite())]);
     }
 

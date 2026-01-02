@@ -11,12 +11,13 @@ const inputAttr = (e) => {
 }
 
 const inputs = {
-    'template': 'The template name',
+    'module': 'The module\'s name',
+    'subscript': 'Which module export to get',
     'args': 'Arguments to the function',
 }
 </script>
 <template>
-    <TTBadgeWrapper label="Template" icon="puzzle-piece" color="blue" :node-props="props" tooltip-classes="y !py-1">
+    <TTBadgeWrapper label="Module" icon="command-line" color="red" :node-props="props" tooltip-classes="y !py-1">
         <label v-for="(input, key) in inputs">
             <span class="capitalize">{{ key }}</span>
             <input v-model="props.HTMLAttributes[key]" :data-attr="key" @input="inputAttr"/>

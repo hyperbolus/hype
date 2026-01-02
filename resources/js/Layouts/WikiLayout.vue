@@ -48,7 +48,6 @@ const links = [
 const footer = {
     'About': route('about'),
     'Contact': route('contact'),
-    'Bans': route('bans.index'),
     'Terms of Service': route('legal.terms'),
     'Privacy': route('legal.privacy'),
 };

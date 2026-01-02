@@ -172,12 +172,32 @@ export const settings = (key = null) => {
     return obj[key];
 }
 
-export const wiki = (title = null, language = 'en') => {
+export const wikiNamespaceName = (ns, asPrefix = false) => {
+    let namespaces = settings('_wiki').namespaces;
+
+    if (namespaces.hasOwnProperty(ns)) return ns;
+
+    let name = objKeyOf(namespaces, ns);
+
+    if (asPrefix) {
+        if (name === settings('_wiki').defaultNamespace) return '';
+
+        return name + ':';
+    }
+
+    return name;
+}
+
+export const wiki = (destination = null, language = 'en') => {
     let routePrefix = settings('_subsite') === 'wiki' ? 'wiki$' : '';
 
-    if (settings('_subsite') !== 'wiki') title = language + '/' + title;
+    if (typeof(destination) === 'object') {
+        destination = wikiNamespaceName(destination.namespace, true) + destination.title;
+    }
 
-    return route(routePrefix + 'wiki', title)
+    if (settings('_subsite') !== 'wiki') destination = language + '/' + destination;
+
+    return route(routePrefix + 'wiki', destination)
 }
 
 export const difficulties = [
@@ -269,6 +289,12 @@ export const toHHMMSS = (n) => {
 }
 
 export const objFirst = (obj, fallback = null) => Object.keys(obj)[0] ?? fallback;
+
+export const objKeyOf = (obj, value) => {
+    for (const key in obj) if (obj[key] === value) return key;
+
+    return null;
+}
 
 export const readonly = (e, reset) => {
     e.currentTarget.value = reset;

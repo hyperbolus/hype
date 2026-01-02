@@ -291,5 +291,8 @@ div[data-youtube-video] > iframe {
             @apply bg-ui-800
         }
     }
+}
 
+.v-codemirror.cm-noedit .cm-editor {
+    @apply rounded-md overflow-hidden;
 }

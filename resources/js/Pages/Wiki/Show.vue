@@ -4,16 +4,13 @@ import {Link, useForm} from "@inertiajs/vue3";
 import {useDateFormat} from '@vueuse/core';
 import TipTap from "@/Components/TipTap.vue";
 import {ref, computed, useTemplateRef} from "vue";
-import {isAdmin} from "@/util.js";
 import DiscordInvite from "@/Components/DiscordInvite.vue";
 import Textbox from "@/Components/Textbox.vue";
 import Button from "../../Jetstream/Button.vue";
 import Username from "../../Components/Username.vue";
 import Icon from "../../Components/Icon.vue";
-import RequestToolbox from "../../Components/RequestToolbox.vue";
 import {hasRole, settings, wiki} from "../../util";
 import Breadcrumbs from "../../Components/Breadcrumbs.vue";
-import LevelTicket from "../../Components/LevelTicket.vue";
 
 const props = defineProps({
     page: Object,
@@ -28,7 +25,7 @@ const props = defineProps({
     action: String
 })
 
-const EMPTY = '<p></p>';
+const EMPTY = ['Module', 'Template'].includes(props.namespace) ? '' : '<p></p>';
 
 // TODO@later: make this a template server-side maybe?
 // const MISSING_PAGE = `<p>This level doesn\'t have an article yet. Do you want to <u>create it</u>?</p>`;
@@ -71,17 +68,31 @@ const fullTitle = computed(() => {
 });
 
 const tiptapEditor = useTemplateRef('tiptapEditor');
+
+const codeLang = computed(() => {
+    if (props.namespace === 'Module') return 'lua';
+
+    return 'html';
+})
 </script>
 <template>
     <WikiLayout :edited_at="revision?.created_at" :language="language" :namespace="namespace" :title="title" :action="action" :outdated="outdated" :permalink="permalink">
         <template #toc>
-            <ul v-if="tiptapEditor" class="links">
-                <li v-for="heading in tiptapEditor.toc" class="py-1"><a :href="'#' + heading.anchor">{{ heading.title }}</a></li>
-            </ul>
+            <div v-if="tiptapEditor" class="links">
+                <div v-for="heading in tiptapEditor.toc" class="mb-1.5">
+                    <a v-if="heading.children.length === 0" :href="'#' + heading.anchor">{{ heading.title }}</a>
+                    <details v-else open>
+                        <summary><a :href="'#' + heading.anchor">{{ heading.title }}</a></summary>
+                        <div class="y pl-3">
+                            <a v-for="child in heading.children" :href="'#' + child.anchor" class="mb-1.5" :style="`margin-left: ${0.75 * child.level - 1}rem;`">{{ child.title }}</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
         </template>
 
         <div class="x justify-between space-x-4 border-b border-ui-700 pb-1 px-4 actions">
-            <Link :href="wiki(title)" class="!border-b-blue-500">{{ namespace }}</Link>
+            <Link :href="wiki(fullTitle)" class="!border-b-blue-500">{{ namespace }}</Link>
             <div class="x space-x-4">
                 <Link v-if="page" :href="wiki(fullTitle)" :class="{'!border-b-blue-500': action === 'read'}">Read</Link>
                 <Link :href="wiki(fullTitle) + '?action=edit'" :class="{'!border-b-blue-500': editing}">{{ page ? 'Edit' : 'Create' }}</Link>
@@ -89,7 +100,7 @@ const tiptapEditor = useTemplateRef('tiptapEditor');
             </div>
         </div>
 
-        <Breadcrumbs class="px-2 text-ui-400 !mt-0" :decoration="false"/>
+        <Breadcrumbs :home-link="wiki('')" class="px-2 text-ui-400 !mt-0" :decoration="false"/>
 
         <div v-if="permalink" class="x space-x-2 items-center rounded-md p-2 border" :class="outdated ? 'bg-amber-500/10 border-amber-500' : 'bg-blue-500/10 border-blue-500'">
             <Icon scale="size-8" class="mx-1" :name="outdated ? 'exclamation-triangle' : 'information-circle'" :class="outdated ? 'text-amber-500' : 'text-blue-500'"/>
@@ -104,7 +115,18 @@ const tiptapEditor = useTemplateRef('tiptapEditor');
             </div>
         </div>
 
-        <TipTap ref="tiptapEditor" v-if="action !== 'history'" v-show="!editing || (editing && hasRole('wiki_contributor'))" v-model="body" :editable="editing" :class="{'border border-ui-700 rounded-lg': editing}"/>
+        <TipTap
+            v-if="action !== 'history'"
+            ref="tiptapEditor"
+            :key="revision?.created_at ?? 1337"
+            :wiki="true"
+            :liquid="props.namespace === 'Template'"
+            :language="codeLang"
+            v-show="!editing || (editing && hasRole('wiki_contributor'))"
+            v-model="body"
+            :editable="editing"
+            :class="{'border border-ui-700 rounded-lg': editing}"
+        />
 
         <div v-if="action === 'history'" class="y space-y-2">
             <div v-for="revision in revisions?.data ?? []" class="x space-x-2 pane text-sm">

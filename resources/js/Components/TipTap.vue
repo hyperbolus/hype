@@ -1,131 +1,104 @@
 <script setup>
-import {EditorContent, useEditor, VueMarkViewRenderer, VueNodeViewRenderer,} from '@tiptap/vue-3'
+import {EditorContent, useEditor} from '@tiptap/vue-3'
 import {ref, watch} from "vue";
-import {Youtube} from "@tiptap/extension-youtube";
-import {TextAlign} from "@tiptap/extension-text-align";
-import {CharacterCount, Placeholder} from "@tiptap/extensions";
-import {Image} from "@tiptap/extension-image";
-import {StarterKit} from "@tiptap/starter-kit";
-import {Heading} from "@tiptap/extension-heading";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import {generateHTML, generateJSON} from "@tiptap/html";
-import {LargeLink, Spoiler, Include} from "./TipTap/Extensions";
-import InvisibleCharacters from "@tiptap/extension-invisible-characters";
-import {Table, TableCell, TableHeader, TableRow} from "@tiptap/extension-table";
-import {Document} from "@tiptap/extension-document";
-import {Footnote, FootnoteReference, Footnotes} from "tiptap-footnotes";
-import {Link as ExtensionLink} from "@tiptap/extension-link";
-import Subscript from "@tiptap/extension-subscript";
-import TableOfContents from "@tiptap/extension-table-of-contents";
-import TTAutoLink from "@/Components/TipTap/TTAutoLink.vue";
-import Superscript from "@tiptap/extension-superscript";
-import TTHeading from "@/Components/TipTap/TTHeading.vue";
 import {Codemirror} from "vue-codemirror";
 import {basicSetup, EditorView} from "codemirror";
 import {lua} from "@codemirror/legacy-modes/mode/lua"
 import {html} from "@codemirror/lang-html"
 import {StreamLanguage} from "@codemirror/language";
 import {githubDark} from "@fsegurai/codemirror-theme-github-dark";
+import {liquid as codemirrorLiquid} from "@codemirror/lang-liquid";
+import {extensions} from "../lib/tiptap/Extensions.js";
 
 const props = defineProps({
     editable: {
         type: Boolean,
         default: true,
     },
-    max: Number
+    max: Number,
+    language: {
+        type: String,
+        default: 'html'
+    },
+    wiki: Boolean,
+    liquid: Boolean
 });
 
 const toc = ref([]);
 
 const model = defineModel();
 
-const extensions = [
-    // Basics
-    StarterKit.configure({
-        document: false,
-        heading: false,
-        link: false,
-    }),
-    Placeholder.configure({
-        placeholder: 'Write something …',
-    }),
-    CharacterCount,
-    InvisibleCharacters.configure({
-        visible: false,
-    }),
-    Document.extend({
-        content: "block+ footnotes?",
-    }),
-
-    // Styling
-    TextAlign,
-    // TextStyle,
-    // list kit is installed but also all but task is in starter
-
-    // Content
-    Heading.extend({
-        addNodeView: _ => VueNodeViewRenderer(TTHeading)
-    }),
-    Table.configure({
-        resizable: false
-    }),
-    TableCell,
-    TableHeader,
-    TableRow,
-    Subscript,
-    Superscript,
-    ExtensionLink.extend({
-        addMarkView: _ => VueMarkViewRenderer(TTAutoLink)
-    }),
-
-    // Media
-    Image,
-    Youtube,
-
-    // Our extensions
-    Spoiler,
-    LargeLink,
-    Include,
-    // TODO: Mentions
-
-    // Other extensions
-    Footnotes,
-    Footnote,
-    FootnoteReference,
-    // TODO: replace
-    TableOfContents.configure({
-        getId: _ => '',
-        onUpdate: (anchors) => {
-            toc.value = [
-                {
-                    id: -1,
-                    title: '(Top)',
-                    anchor: '',
-                    level: 0
-                }
-            ];
-
-            anchors.forEach((a) => {
-                toc.value.push({
-                    id: a.id,
-                    title: a.textContent,
-                    anchor: a.textContent.replaceAll(' ', '_'),
-                    level: a.level,
-                })
-            });
-        },
-    }),
-];
-
 const mounted = ref(false);
 
+const _extensions = props.wiki ? [...extensions.standard, ...extensions.wiki] : extensions.standard;
+
 const editor = useEditor({
-    extensions: extensions,
+    extensions: _extensions,
     content: model.value,
     immediatelyRender: true,
-    onUpdate: () => {
+    parseOptions: {
+        preserveWhitespace: 'full',
+    },
+    onUpdate: (props) => {
+        let top = {
+            id: -1,
+            title: '(Top)',
+            level: 0,
+            anchor: '',
+            children: [],
+        };
+
+        let headings = [];
+        let levels = [top];
+
+        let footnotes = {};
+        let n = 0;
+
+        props.editor.state.doc.descendants((node) => {
+            if (node.type.name === 'heading') headings.push(node)
+            if (node.type.name === 'footnote') {
+                if (!footnotes.hasOwnProperty(node.attrs.group)) footnotes[node.attrs.group] = {};
+                if (!footnotes[node.attrs.group].hasOwnProperty(node.attrs.name)) {
+                    footnotes[node.attrs.group][node.attrs.name] = {
+                        id: n,
+                        content: node.content.content?.[0]?.text ?? ''
+                    }
+                    n++;
+                }
+            }
+        });
+
+        props.editor.storage.footnote.footnotes = footnotes;
+
+        for (let heading of headings) {
+            let content = '';
+
+            for (let c of heading.content.content) content += c?.text ?? '';
+
+            let node = {
+                id: 0,
+                title: content,
+                level: heading.attrs.level,
+                anchor: content.replaceAll(' ', '_'),
+                children: [],
+            };
+
+            while (node.level <= levels[levels.length - 1].level) levels.pop();
+
+            levels[levels.length - 1].children.push(node);
+            // I made this awesome system that nests all the headings and now im gonna nerf it :/
+            if (node.level === 1) levels.push(node);
+        }
+
+        let nodes = top.children;
+        top.children = [];
+
+        toc.value = [top, ...nodes];
+
         if (editability.value) {
             editability.value = false;
             return;
@@ -145,7 +118,7 @@ const editor = useEditor({
     }
 });
 
-const source = ref(false);
+const source = ref(props.language !== 'html' || props.liquid);
 
 const changing = ref(false); // internal change, don't reset cursor position and stuff
 const mutating = ref(false); // external change, used to prevent runaway event loops
@@ -159,14 +132,43 @@ watch(() => props.editable, (v) => {
 watch(model, (v) => {
     if (!changing.value && editor.value) {
         mutating.value = true;
-        editor.value.commands.setContent(v);
+        editor.value.commands.setContent(v, {
+            parseOptions: {
+                preserveWhitespace: 'full',
+            }
+        });
     } else {
         changing.value = false;
     }
 });
 
-const codemirrorExtensions = [basicSetup, EditorView.lineWrapping, html(), githubDark];
-// const codemirrorExtensions = [basicSetup, StreamLanguage.define(lua), EditorView.lineWrapping, html()];
+const codemirrorExtensions = [
+    basicSetup,
+    EditorView.lineWrapping,
+    githubDark,
+    (() => {
+        let lang;
+
+        switch (props.language) {
+            case 'lua':
+                lang = StreamLanguage.define(lua);
+                break;
+            case 'html':
+            default:
+                lang = html();
+        }
+
+        if (props.liquid) return codemirrorLiquid({
+            base: lang,
+            tags: [
+                {label: 'invoke'},
+                {label: 'template'},
+            ]
+        });
+
+        return lang;
+    })()
+];
 
 defineExpose({toc});
 
@@ -185,7 +187,13 @@ const ctrlBar = [
         'Insert': {
             children: {
                 'Footnote': {icon: 'bookmark', click: 'addFootnote'},
+                'References': {icon: 'bookmark-square', click: 'addReferences'},
                 'Table': {icon: 'table-cells', click: _ => editor.value.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()},
+                ...(props.wiki ? {
+                    'Template': {icon: 'puzzle-piece', click: 'addInclude'},
+                    'Liquid': {icon: 'code-bracket', click: 'addLiquid'},
+                    'Module': {icon: 'command-line', click: 'addInvoke'},
+                }: {})
             },
         },
     },
@@ -202,17 +210,15 @@ const ctrlBar = [
         'Spoiler': {icon: 'eye-slash', click: 'toggleSpoiler', active: 'spoiler'},
     },
     {
-        'Source': {icon: 'code-bracket', click: _ => source.value = !source.value, active: _ => source.value},
+        'Source': {icon: 'code-bracket', click: _ => source.value = !source.value || props.language !== 'html' || props.liquid, active: _ => source.value},
         'Whitespace': {icon: 'backspace', click: 'toggleInvisibleCharacters', active: _ => editor.value.storage.invisibleCharacters.visibility()},
     }
 ];
 
-const buttonStyle = b => {
-    return {
-        'bg-ui-700': b.active ? (typeof b.active === 'string' ? editor.value.isActive(b.active) : b.active()) : false,
-        'px-2 py-1.5 rounded cursor-pointer': true,
-    };
-}
+const buttonStyle = b => ({
+    'bg-ui-700': b.active ? (typeof b.active === 'string' ? editor.value.isActive(b.active) : b.active()) : false,
+    'px-2 py-1.5 rounded cursor-pointer': true,
+});
 
 const buttonClick = b => {
     b.click ? (typeof b.click === 'string' ? editor.value.commands[b.click]() : b.click()) : void(0);
@@ -233,7 +239,7 @@ const buttonClick = b => {
                         </template>
                         <template #content>
                             <div @click.stop v-for="(child, name) in button.children" class="x items-center space-x-1" :class="buttonStyle(child)" @click="buttonClick(child)">
-                                <Icon :name="child.icon" scale="size-4" type="outline" size="24"/>
+                                <Icon :name="child.icon" scale="size-5" type="outline" size="24"/>
                                 <span class="text-sm">{{ name }}</span>
                             </div>
                         </template>
@@ -243,15 +249,40 @@ const buttonClick = b => {
             </div>
         </div>
 
-        <Codemirror v-if="source" v-model="model" placeholder="Code goes here..." :autofocus="true" :indent-with-tab="true" :tab-size="4" :extensions="codemirrorExtensions"/>
-        <editor-content v-else-if="mounted" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert" :class="{'p-4 bg-ui-900': editable}" :editor="editor" />
-        <div v-else-if="model" class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 prose-ui !prose-invert">
-            <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(model, extensions), extensions)"></div>
+        <Codemirror
+            :disabled="!editable"
+            v-if="source"
+            v-model="model"
+            placeholder="Code goes here..."
+            :autofocus="true"
+            :indent-with-tab="true"
+            :tab-size="4"
+            :extensions="codemirrorExtensions"
+            :class="{'cm-noedit': !editable}"
+        />
+        <EditorContent
+            v-else-if="mounted"
+            class="tiptap-parent prose-ui"
+            :class="{'p-4 bg-ui-900': editable}"
+            :editor="editor"
+        />
+        <div v-else-if="model" class="tiptap-parent prose-ui">
+            <div class="tiptap ProseMirror" v-html="generateHTML(generateJSON(model, _extensions), _extensions)"></div>
         </div>
 
-        <div v-if="editable && typeof model === 'string'" class="x justify-end text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
-            <span>{{ model.split(' ').length }} Words</span>
-            <span>{{ model.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
+        <div v-if="editable && typeof model === 'string'" class="x justify-between text-sm border-t border-ui-700 w-full px-2 py-0.5 space-x-2">
+            <div>
+                <span v-show="source">{{ liquid ? 'liquid-' : '' }}{{ language }}</span>
+            </div>
+            <div class="x space-x-2">
+                <span>{{ model.split(' ').length }} Words</span>
+                <span>{{ model.length }}<span v-if="max">/{{ max }}</span> Characters (<Tooltip class="underline cursor-help" :inline="true" position="top-left" message="Characters include the rich text source code">?</Tooltip>)</span>
+            </div>
         </div>
     </div>
 </template>
+<style scoped>
+.tiptap-parent {
+    @apply w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 !prose-invert;
+}
+</style>

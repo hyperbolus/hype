@@ -19,4 +19,11 @@ class SpecialPageController extends Controller
 
         return redirect($page->getURL());
     }
+
+    public function all_pages(Request $request)
+    {
+        return page('Wiki/Page/Index', [
+            'pages' => WikiPage::query()->latest()->paginate(),
+        ])->meta('All Pages', 'List of all wiki pages');
+    }
 }

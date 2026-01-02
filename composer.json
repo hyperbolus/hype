@@ -4,7 +4,10 @@
     "license": "proprietary",
     "require": {
         "php": "^8.4",
+        "ext-dom": "*",
         "ext-imagick": "*",
+        "ext-libxml": "*",
+        "ext-luasandbox": "*",
         "ext-zlib": "*",
         "bacon/bacon-qr-code": "^2.0",
         "cviebrock/eloquent-sluggable": "^11.0",
@@ -24,6 +27,7 @@
         "laravel/socialite": "^5.20",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "3.0",
+        "liquid/liquid": "^1.4",
         "matthieumastadenis/couleur": "^0.1.2",
         "meilisearch/meilisearch-php": "^1.4",
         "monicahq/laravel-cloudflare": "^3.8",
@@ -37,8 +41,7 @@
         "spatie/laravel-permission": "^6.0",
         "stancl/tenancy": "^3.7",
         "tightenco/ziggy": "^v1.8.2",
-        "ext-dom": "*",
-        "ext-libxml": "*"
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^v3.0",

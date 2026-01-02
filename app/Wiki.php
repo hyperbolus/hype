@@ -6,15 +6,15 @@ use App\Models\ModelRevision;
 use App\Models\RevisionText;
 use App\Models\System\User;
 use App\Models\WikiPage;
-use Dom\HTMLDocument;
 use Illuminate\Support\Str;
 
 class Wiki
 {
     public static array $namespaces = [
         // Functional
-        'Module' => -2,
-        'Template' => -1,
+        'Module' => -3,
+        'Template' => -2,
+        'Interface' => -1,
         'Special' => null,
 
         // Standard
@@ -47,42 +47,36 @@ class Wiki
 
     public static string $defaultLang = 'en';
 
+    public static string $templateNamespace = 'Template';
+    public static string $moduleNamespace = 'Module';
+
     public static string $mainPage = 'Home';
 
     // Methods of SpecialPageController.php
     public static array $specialPages = [
         'Random' => 'random',
+        'AllPages' => 'all_pages',
     ];
 
-    public static function prepareContent(ModelRevision $revision): ModelRevision
+    public static function getModule(string $title): ?WikiPage
     {
-        $dom = \Dom\HTMLDocument::createFromString($revision->text->content, LIBXML_NOERROR);
+        return self::getPage($title, Wiki::$defaultLang, Wiki::$moduleNamespace);
+    }
 
-        foreach ($dom->querySelectorAll('include') as $include) {
-            $title = $include->attributes->getNamedItem('title')?->value;
-            $lang = $include->attributes->getNamedItem('lang')?->value ?? Wiki::$defaultLang;
-            $ns = $include->attributes->getNamedItem('ns')?->value ?? Wiki::$defaultNamespace;
+    public static function getPage(string $title, int|string|null $language, int|string|null $namespace): ?WikiPage
+    {
+        if ($language === null) $language = Wiki::$defaultLang;
+        if ($namespace === null) $namespace = Wiki::$defaultLang;
 
-            if ($title) {
-                $page = WikiPage::query()
-                    ->where('lang', Wiki::$languages[$lang])
-                    ->where('namespace', Wiki::$namespaces[$ns])
-                    ->where('title', $title)
-                    ->with(['revision.text'])
-                    ->first();
+        if (is_string($language)) $language = Wiki::$languages[$language];
+        if (is_string($namespace)) $namespace = Wiki::$namespaces[$namespace];
 
-                $include->innerHTML = $page?->revision?->text?->content ?? '';
-            }
-        }
-
-//        dd($dom->querySelector('module'));
-
-        $revision->setAttribute('blurb', $dom->querySelector('p')?->innerHTML);
-        $revision->text->setAttribute('content', $dom->body->innerHTML);
-
-//        dd($revision->text);
-
-        return $revision;
+        return WikiPage::query()
+            ->where('lang', $language)
+            ->where('namespace', $namespace)
+            ->where('title', $title)
+            ->with(['revision.text'])
+            ->first();
     }
 
     public static function makePage(
