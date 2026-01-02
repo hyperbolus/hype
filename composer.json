@@ -7,7 +7,6 @@
         "ext-dom": "*",
         "ext-imagick": "*",
         "ext-libxml": "*",
-        "ext-luasandbox": "*",
         "ext-zlib": "*",
         "bacon/bacon-qr-code": "^2.0",
         "cviebrock/eloquent-sluggable": "^11.0",
