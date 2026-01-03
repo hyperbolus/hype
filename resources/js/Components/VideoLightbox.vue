@@ -26,7 +26,7 @@ const remove = () => {
         <template #content>
             <div class="y space-y-2">
                 <div class="relative box !px-0 !py-0">
-                    <iframe class="z-10 relative aspect-video h-[60vh]" :src="'https://www.youtube-nocookie.com/embed/' + video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe class="z-10 relative aspect-video h-[60vh]" referrerpolicy="strict-origin-when-cross-origin" :src="'https://www.youtube-nocookie.com/embed/' + video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     <span class="absolute top-1/2 w-full text-center text-ui-200 text-xl font-bold">Loading&nbsp;Video...</span>
                 </div>
                 <div class="x gap-2 justify-between text-ui-200">
