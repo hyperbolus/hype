@@ -10,6 +10,6 @@ class ReputationLogPolicy
 {
     public function destroy(User $user, ReputationLog $rep): bool
     {
-        return $user->id === $rep->user_id || $user->hasRole(['admin', 'moderator']);
+        return $user->id === $rep->sender_id || $user->hasRole(['admin', 'moderator']);
     }
 }
