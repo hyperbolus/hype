@@ -13,7 +13,7 @@ use Intervention\Image\ImageManager;
 
 class ProfileImageController extends Controller
 {
-    protected array $types = ['avatar', 'banner', 'postbit'];
+    protected array $types = ['avatar', 'banner'];
 
     public function store(Request $request): RedirectResponse
     {
@@ -25,11 +25,13 @@ class ProfileImageController extends Controller
         $key = $request->string('kind') . '_url';
         $url = $user->getAttribute($key);
 
+        $types = $this->types;
+        if ($user->hasRole('admin')) $types[] = 'postbit';
+
         $request->validate([
-            'kind' => ['required', Rule::in($this->types)],
+            'kind' => ['required', Rule::in($types)],
             'image' => ['required', 'mimes:jpeg,jpg,png,webp,gif', 'max:3000'],
         ]);
-
 
         $file = $request->file('image');
         $img = ImageManager::imagick()->read($file);

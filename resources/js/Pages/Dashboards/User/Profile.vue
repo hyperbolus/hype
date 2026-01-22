@@ -246,8 +246,8 @@ onUnmounted(() => {
                     </button>
                 </div>
             </div>
-            <div class="y space-y-4 justify-center items-center relative bg-center bg-cover rounded-lg p-4 w-32 bg-ui-900" :style="`background-image:url(${profile.postbit_url ?? invisiblePixel});`">
-                <button :disabled="imageForm.processing" @click="editImage('postbit')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
+            <div v-if="profile.postbit_url" class="y space-y-4 h-full justify-center items-center relative bg-center bg-cover rounded-lg p-4 w-32 bg-ui-900" :style="`background-image:url(${profile.postbit_url ?? invisiblePixel});`">
+                <button v-if="isAdmin()" :disabled="imageForm.processing" @click="editImage('postbit')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
                     <Icon name="camera" scale="size-6"/>
                 </button>
                 <button v-if="profile.postbit_url" :disabled="imageRemoveForm.processing" @click="removeImage('postbit')" class="x p-4 items-center justify-center bg-ui-800/75 shadow-lg hover:bg-ui-600/75 transition-colors cursor-pointer rounded-full">
