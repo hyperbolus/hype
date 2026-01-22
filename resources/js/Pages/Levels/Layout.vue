@@ -5,6 +5,7 @@ import route from 'ziggy-js'
 import {invisiblePixel} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
 import LevelTicket from "@/Components/LevelTicket.vue";
+import Tooltip from "@/Components/Tooltip.vue";
 
 const props = defineProps({
     level: Object,
@@ -31,9 +32,11 @@ const tabs = {
                 <span class="y items-center font-bold text-sm uppercase">Top Tags</span>
                 <div class="py-2 select-none border-r border-ui-400 border-ui-700"></div>
                 <span v-if="level.top_tags.length === 0" class="text-ui-500">No Tags</span>
-                <Link v-else v-for="tag in level.top_tags" :href="route('tags.show', tag)" :title="`${tag.pivot.verified ? 'Verified' : 'Unverified'} tag`" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
-                    <Icon v-if="tag.pivot.verified" name="check-badge" class="inline mr-1 rounded-full text-green-500"/>
-                    {{tag.name}}
+                <Link v-else v-for="tag in level.top_tags" :href="route('tags.show', tag)" class="x items-center text-ui-300 px-2 py-1 text-sm rounded-md bg-ui-800 capitalize">
+                    <Tooltip v-if="tag.pivot.verified" :inline="true" :message="`${tag.pivot.verified ? 'Verified' : 'Unverified'} tag`" class="mr-0.5">
+                        <Icon name="check" size="16" scale="size-5" class="rounded-full text-green-500"/>
+                    </Tooltip>
+                    <span>{{tag.name}}</span>
                 </Link>
             </div>
             <div class="x space-x-2 px-4">
