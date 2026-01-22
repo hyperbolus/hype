@@ -38,7 +38,7 @@ class Review extends Model
         return [
             'rating_gameplay',
             'rating_visuals',
-            'rating_difficulty',
+//            'rating_difficulty',
             'rating_overall',
             'created_at'
         ];
@@ -61,7 +61,7 @@ class Review extends Model
      * @param literal-string|literal-string[] $columns
      * @return array
      */
-    public static function curve(Builder|User|Level|null $source = null, string|array $columns = ['rating_overall', 'rating_visuals', 'rating_gameplay', 'rating_difficulty']): array
+    public static function curve(Builder|User|Level|null $source = null, string|array $columns = ['rating_overall', 'rating_visuals', 'rating_gameplay'/*, 'rating_difficulty'*/]): array
     {
         // Ensure $source is a query builder of Reviews
         if ($source instanceof Model) $source = $source->reviews();

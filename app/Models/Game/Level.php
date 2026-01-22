@@ -39,7 +39,7 @@ class Level extends Model
             'rating_overall',
             'rating_gameplay',
             'rating_visuals',
-            'rating_difficulty',
+//            'rating_difficulty',
             'reviews_count',
             'created_at',
         ];

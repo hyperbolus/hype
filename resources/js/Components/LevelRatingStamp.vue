@@ -11,7 +11,7 @@ const props = defineProps({
 const hovered = ref(false);
 
 const list = {
-    'rating_difficulty': 'DIFFICULTY',
+    // 'rating_difficulty': 'DIFFICULTY',
     'rating_overall': 'OVERALL',
     'rating_gameplay': 'GAMEPLAY',
     'rating_visuals': 'VISUALS',
@@ -30,8 +30,8 @@ const reviewMessage = computed(() => {
 </script>
 <template>
     <div class="relative z-10 justify-center w-full sm:w-fit">
-        <div class="z-10 relative grid items-end grid-cols-4 sm:grid-cols-5 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
-            <div class="hidden sm:flex flex-col">
+        <div class="z-10 relative grid items-end grid-cols-4 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
+            <div class="x justify-center sm:justify-start">
                 <Tooltip v-if="isAuthenticated()" @mouseenter="hovered = true" @mouseleave="hovered = false" class="group" position="top-right" :message="reviewMessage">
                     <div class="x items-center">
                         <span class="text-xs uppercase">Reviews</span>
@@ -46,7 +46,7 @@ const reviewMessage = computed(() => {
                     <span class="text-lg font-bold">{{ level.reviews_count }}</span>
                 </div>
             </div>
-            <div v-for="(rating, key) in list" class="y">
+            <div v-for="(rating, key) in list" class="y items-center sm:items-start">
                 <span class="text-xs uppercase">{{ rating }}</span>
                 <span class="text-lg font-bold" :class="{'text-green-500': hasRating && hovered}">{{ displayRating(hasRating && hovered ? level.reviews[0][key] : level[key]) }}<span class="text-xs text-ui-600">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
             </div>

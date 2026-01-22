@@ -23,7 +23,7 @@ const props = defineProps({
 });
 
 const list = {
-    'rating_difficulty': 'DIFFICULTY',
+    // 'rating_difficulty': 'DIFFICULTY',
     'rating_overall': 'OVERALL',
     'rating_visuals': 'VISUALS',
     'rating_gameplay': 'GAMEPLAY',

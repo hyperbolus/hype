@@ -31,7 +31,6 @@ class LevelController extends Controller
      */
     public function index(Request $request): Response
     {
-
         $levels = sorting(Level::query()->withCount('reviews'), 'rating_overall');
 
         if (auth()->check()) {
@@ -62,7 +61,7 @@ class LevelController extends Controller
             ]);
         }
 
-        if (in_array($request->string('sortBy'), ['rating_overall', 'rating_overall', 'rating_overall', 'rating_overall'])) {
+        if (in_array($request->string('sortBy'), ['rating_overall', 'rating_visuals', 'rating_gameplay'/*, 'rating_difficulty'*/])) {
             $levels->whereNotNull('levels.' . $request->string('sortBy'));
             $levels->orderBy('reviews_count', 'desc');
         }

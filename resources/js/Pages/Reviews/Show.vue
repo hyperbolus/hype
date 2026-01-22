@@ -64,7 +64,7 @@ const weight = props.review.weight ?? props.review.author?.weight ?? props.weigh
                         <span class="font-bold text-3xl">{{ displayRating(review.rating_visuals, 0) }}<span class="text-base text-ui-600">/10</span></span>
                         <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_visuals === null}" :style="`width: ${review.rating_visuals * 10}%;`"></div></div>
                     </div>
-                    <div class="y">
+                    <div v-if="0" class="y">
                         <span class="font-bold text-sm">DIFFICULTY</span>
                         <span class="font-bold text-3xl">{{ displayRating(review.rating_difficulty, 0) }}<span class="text-base text-ui-600">/100</span></span>
                         <div class="bg-ui-800 overflow-hidden rounded-full"><div class="bg-blue-500 p-[0.2rem] rounded-full" :class="{'invisible': review.rating_difficulty === null}" :style="`width: ${review.rating_difficulty}%;`"></div></div>

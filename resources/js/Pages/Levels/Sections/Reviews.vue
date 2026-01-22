@@ -127,11 +127,11 @@ onMounted(() => {
                         <h2>Overall Rating: {{ form.rating_overall }}<span class="opacity-50 text-xs">/10</span></h2>
                         <input class="w-full" v-model.number="form.rating_overall" type="range" min="0" max="10" step="1"/>
 
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                        <div v-if="0" class="flex flex-col sm:flex-row sm:items-center justify-between">
                             <span>Difficulty Rating: {{ blanks.difficulty ? '-' : form.rating_difficulty }}<span class="opacity-50 text-xs">/100</span></span>
                             <span class="x items-center"><Checkbox :checked="blanks.difficulty" v-model="blanks.difficulty" class="mr-2"/>Leave Empty</span>
                         </div>
-                        <input :disabled="blanks.difficulty" class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
+                        <input v-if="0" :disabled="blanks.difficulty" class="w-full" v-model.number="form.rating_difficulty" type="range" min="0" max="100" step="1"/>
 
                         <h1 class="text-lg font-bold mt-2">Additional Scores (optional)</h1>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between">
