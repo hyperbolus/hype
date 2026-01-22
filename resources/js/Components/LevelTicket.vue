@@ -4,7 +4,10 @@ import {difficulty, face, isAdmin} from "@/util.js";
 import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import route from "ziggy-js";
-import {useFileDialog} from "@vueuse/core";
+import {onClickOutside, onKeyStroke, useFileDialog} from "@vueuse/core";
+import Icon from "@/Components/Icon.vue";
+import {ref, useTemplateRef} from "vue";
+import {isAuthenticated} from "@/util";
 
 const props = defineProps({
     level: Object,
@@ -34,9 +37,20 @@ onChange((files) => {
         errorBag: 'changeBanner',
     })
 })
+
+const context = ref(false);
+const component = useTemplateRef('component');
+
+onClickOutside(component, () => {
+    context.value = false;
+});
+
+onKeyStroke('Escape', () => {
+    context.value = false;
+})
 </script>
 <template>
-    <div class="pane z-10 !px-0 !py-0 relative group/ticket hover:shadow-lg transition-shadow text-ui-300 delay-0">
+    <div ref="component" class="pane !px-0 !py-0 relative group/ticket hover:shadow-lg transition-shadow text-ui-300 delay-0">
         <div class="x relative items-center md:space-x-2 z-20">
             <div class="y w-full items-start relative z-0">
                 <Link :href="route('levels.show', level.id)" class="z-0 absolute inset-0"></Link>
@@ -92,25 +106,26 @@ onChange((files) => {
                 <LevelRatingStamp v-if="showRatings" :level="level"/>
             </div>
         </div>
-        <div v-if="isAdmin()" @click.stop class="hidden sm:block absolute right-0 top-0 h-full z-30 overflow-hidden">
-            <div class="y justify-between relative -right-[100%] group-hover/ticket:right-0 transition-[right] p-2 h-full">
-                <Link v-if="level.reviews && level.reviews.length" :href="route('reviews.show', level.reviews[0].id)" class="block p-2 bg-ui-800 border border-ui-700 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" :class="{'text-amber-500': !!level.reviews[0].rating_difficulty + !!level.reviews[0].rating_gameplay + !!level.reviews[0].rating_visuals + !!level.reviews[0].rating_overall < 4}">
-                        <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
-                    </svg>
-                </Link>
-                <div @click="openBannerFile" v-if="isAdmin()" class="block cursor-pointer p-2 bg-ui-800 border border-ui-700 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
-                        <path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
-                    </svg>
+        <div v-if="context" class="y absolute right-1 top-12 rounded-md border border-ui-700 bg-ui-800 z-50">
+            <div v-if="false && isAuthenticated()" class="group/playlists relative">
+                <button class="px-2 py-1 hover:bg-ui-900 text-left">Add to Playlist</button>
+                <div class="flex-col absolute min-w-32 top-0 right-[95%] shadow-lg bg-ui-800 border border-ui-700 rounded-md hidden group-hover/playlists:flex whitespace-nowrap">
+                    <button v-for="(pl, i) in $page.props.user.playlists" class="px-2 py-1 hover:bg-ui-900 text-left" :class="{'rounded-t-md': i === 0}">{{ pl.title }}</button>
+                    <button class="x items-center px-2 py-1 text-left hover:bg-ui-900 rounded-b-md">
+                        <Icon name="plus-circle" class="mr-1"/>
+                        <span>New Playlist</span>
+                    </button>
                 </div>
-                <div class="block cursor-pointer p-2 bg-ui-800 border border-ui-700 rounded-md invisible">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/50 -z-10"></div>
             </div>
+            <button @click="openBannerFile" v-if="isAdmin()" class="px-2 py-1 hover:bg-ui-900 text-left">Set Banner</button>
+            <div class="border-t border-ui-700 mx-1"></div>
+            <Link :href="route('levels.reviews.show', level.id)" class="px-2 py-1 hover:bg-ui-900 text-left">Reviews</Link>
+            <Link :href="route('levels.replays.show', level.id)" class="px-2 py-1 hover:bg-ui-900 text-left">Macros</Link>
+            <div class="border-t border-ui-700 mx-1"></div>
+            <button @click="context = false" class="px-2 py-1 hover:bg-ui-900 text-red-500 text-left">Close</button>
+        </div>
+        <div @click="context = !context" class="absolute right-2 top-2 group-hover/ticket:block z-30 cursor-pointer p-2 bg-ui-1000/75 rounded-full" :class="{'hidden': !context}">
+            <Icon name="ellipsis-horizontal"/>
         </div>
         <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]">
             <video v-if="level.preview_url" class="absolute top-1/2 w-full -translate-y-1/2 opacity-0 group-hover/ticket:opacity-100 transition-opacity z-10" :src="level.preview_url" muted autoplay loop></video>
