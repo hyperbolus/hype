@@ -10,7 +10,7 @@ import 'vue-advanced-cropper/dist/style.css';
 import Icon from "@/Components/Icon.vue";
 import Textbox from "@/Components/Textbox.vue";
 import TipTap from "@/Components/TipTap.vue";
-import {capitalize, getUser, invisiblePixel} from "@/util.js";
+import {capitalize, getUser, invisiblePixel, isAdmin} from "@/util.js";
 import {useFileDialog} from "@vueuse/core";
 import route from "ziggy-js";
 import Checkbox from "@/Jetstream/Checkbox.vue";
