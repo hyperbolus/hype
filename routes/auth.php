@@ -28,17 +28,35 @@ Route::get('/auth/migrate', function (Request $request) {
     // Use very short-lived expirations to deter session thieves
     $ttl = 15;
 
+    $isRemember = false;
+
+    if ($request->hasCookie(auth()->getRecallerName())) {
+        // Construct expected valid recaller
+        // TODO: Try to see if we can use protected SessionGuard method instead of reimplementing
+        $userRecaller = join('|', [
+            $request->user()->getAuthIdentifier(),
+            $request->user()->getRememberToken(),
+            $request->user()->getAuthPassword()
+        ]);
+
+        // Validate that user has a valid "remember me" cookie
+        if ($request->cookie(auth()->getRecallerName()) === $userRecaller) $isRemember = true;
+    }
+
+    // TODO: encrypt?
     // This and our token will be our users "visa"
     \Illuminate\Support\Facades\Cache::put('auth::migration.' . $token, [
         'session' => session()->getId(),
+        'remember' => $isRemember,
         'agent' => $request->userAgent(),
     ], $ttl);
 
     // Sign URL to prevent tampering
+    // TODO: Support other destinations (gdps, spy, profile, etc.)
     return redirect(URL::temporarySignedRoute('wiki$auth::recapture', now()->addSeconds($ttl), [
         'token' => $token,
     ]));
-})->name('auth::migrate')->middleware(['auth']);
+})->name('auth::migrate')->middleware(['auth', 'throttle:3,1']);
 
 Route::impersonate();
 
