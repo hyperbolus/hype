@@ -101,12 +101,12 @@ watch(height, () => {
         </div>
         <div class="z-10 y sm:flex-row justify-between items-center w-full gap-2 mt-2">
             <div class="x space-x-2 items-center">
-                <template v-if="review.level && review.author">
-                    <Avatar width="w-7" :user="review.author"/>
+                <template v-if="review.level">
+                    <Avatar v-if="review.author" width="w-7" :user="review.author"/>
                     <div class="x items-center relative px-2 py-0.5 rounded-md bg-ui-800">
                         <div class="x space-x-2 items-center">
-                            <Username :user="review.author"/>
-                            <Timestamp class="w-fit text-sm text-ui-500" :time="review.created_at"/>
+                            <Username  v-if="review.author" :user="review.author"/>
+                            <Timestamp class="w-fit text-sm" :class="review.author ? 'text-ui-500' : 'text-ui-400'" :time="review.created_at"/>
                         </div>
                     </div>
                 </template>
