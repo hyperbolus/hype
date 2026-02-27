@@ -162,6 +162,9 @@ div[data-youtube-video] > iframe {
 }
 
 .ProseMirror {
+    &.tiptap {
+        @apply h-full;
+    }
 
     h1 {
         @apply font-serif text-2xl pb-1 border-b border-ui-600 my-1;
@@ -282,7 +285,7 @@ div[data-youtube-video] > iframe {
     }
 
     .cm-editor {
-        @apply bg-ui-1000 max-h-[75vh] w-full;
+        @apply bg-ui-1000 max-h-[75vh] w-full grow;
 
         .cm-gutters {
             @apply bg-ui-900;

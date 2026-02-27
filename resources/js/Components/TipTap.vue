@@ -262,7 +262,7 @@ const buttonClick = b => {
         />
         <EditorContent
             v-else-if="mounted"
-            class="tiptap-parent prose-ui"
+            class="tiptap-parent prose-ui grow"
             :class="{'p-4 bg-ui-900': editable}"
             :editor="editor"
         />
