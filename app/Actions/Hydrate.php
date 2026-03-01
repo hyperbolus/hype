@@ -25,6 +25,13 @@ class Hydrate
                 return null;
             }
 
+            // If we get Generation Retro'd don't update the existing level
+            if ($res['name'] === 'Generation Retro' && $res['author'] === 'ArathhSA' && $id !== 12107595) {
+                if ($level) return $level;
+
+                abort(500, 'Generation Retro Error :(');
+            }
+
             if (!$level) $level = new Level();
             $level->id = $id;
             $level->name = $res['name'];
