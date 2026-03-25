@@ -9,7 +9,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <Layout :level="level">
+    <Layout>
         <div class="y !mt-0 bg-ui-950 border border-ui-900 rounded-lg px-4 py-2 space-y-2">
             <h2 class="font-bold text-2xl">Macros</h2>
             <Pagination :list="replays"/>

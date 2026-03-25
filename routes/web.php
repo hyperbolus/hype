@@ -199,17 +199,17 @@ Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index'
 Route::get('/review/{review:id}', [ReviewController::class, 'show'])->name('reviews.show');
 
 Route::get('/level/{id}', [LevelController::class, 'show'])->name('levels.show');
-Route::get('/level/{level:id}/view', [LevelController::class, 'view'])->name('levels.view');
+Route::get('/level/{id}/view', [LevelController::class, 'view'])->name('levels.view');
 
-Route::get('/level/{level:id}/reviews', [LevelController::class, 'reviews'])->middleware(\App\Http\Middleware\EnsureEmailIsVerifiedIfAuthenticated::class)->name('levels.reviews.show');
-Route::get('/level/{level:id}/replays', [LevelController::class, 'replays'])->name('levels.replays.show');
-Route::get('/level/{level:id}/videos', [LevelController::class, 'videos'])->name('levels.videos.show');
-Route::get('/level/{level:id}/images', [LevelController::class, 'images'])->name('levels.images.show');
+Route::get('/level/{id}/reviews', [LevelController::class, 'reviews'])->middleware(\App\Http\Middleware\EnsureEmailIsVerifiedIfAuthenticated::class)->name('levels.reviews.show');
+Route::get('/level/{id}/replays', [LevelController::class, 'replays'])->name('levels.replays.show');
+Route::get('/level/{id}/videos', [LevelController::class, 'videos'])->name('levels.videos.show');
+Route::get('/level/{id}/images', [LevelController::class, 'images'])->name('levels.images.show');
 
 Route::get('/level/{level:id}/edit', [LevelController::class, 'edit'])->name('levels.edit')->middleware(['auth', 'verified', 'role:admin']);
 Route::post('/level/{level:id}/edit', [LevelController::class, 'update'])->name('levels.update')->middleware(['auth', 'verified', 'role:admin']);
 
-Route::get('/level/{level:id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
+Route::get('/level/{id}/tags', [LevelController::class, 'tags'])->name('levels.tags.show');
 Route::post('/level/{level:id}/tags', [LevelTagVoteController::class, 'store'])->name('levels.tags.store')->middleware(['auth', 'verified']);
 
 Route::get('/tags', [LevelTagController::class, 'index'])->name('tags.index');
@@ -258,8 +258,9 @@ Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 Route::post('/videos/create', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'verified', 'throttle:30,10']);
 Route::delete('/video/{video:id}', [VideoController::class, 'destroy'])->name('videos.destroy')->middleware(['auth', 'verified']);
 
-Route::post('/reviews/create', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified', 'throttle:30,10']);
-Route::delete('/reviews/{review:id}/delete', [ReviewController::class, 'destroy'])->name('reviews.destroy')->middleware(['auth', 'verified']);
+Route::get('/reviews/new', [ReviewController::class, 'create'])->name('reviews.create')->middleware(['auth', 'verified']);
+Route::post('/reviews/new', [ReviewController::class, 'store'])->name('reviews.store')->middleware(['auth', 'verified', 'throttle:30,5']);
+Route::delete('/reviews/{review:id}', [ReviewController::class, 'destroy'])->name('reviews.destroy')->middleware(['auth', 'verified']);
 
 Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette');
 

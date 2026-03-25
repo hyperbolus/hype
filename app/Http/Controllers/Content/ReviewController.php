@@ -27,29 +27,44 @@ class ReviewController extends Controller
         ])->meta('Level Reviews', 'Hear the latest thoughts on levels');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $level = Hydrate::level($request->integer('level'));
+
+        abort_if(!$level, 404, 'Level could not be found');
+
+        return page('Reviews/Create', [
+            'level' => $level,
+            'review' => Review::query()
+                ->where('level_id', $level->id)
+                ->where('user_id', $request->user()->id)
+                ->first(),
+        ])->meta('Write a New Review', 'Rate a level & write a review', false)
+            ->breadcrumbs([
+                crumb('Reviews', route('reviews.index')),
+                crumb('New', route('reviews.create', ['level' => $level->id])),
+            ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $level = Hydrate::level($request->integer('level_id'));
+        $level = Hydrate::level($request->integer('level'));
+
+        if (!$level) abort(500, 'Could not fetch level');
 
         $request->validate([
             'rating_gameplay' => ['nullable', 'integer', 'between:0,10'],
             'rating_visuals' => ['nullable', 'integer', 'between:0,10'],
-            'rating_difficulty' => ['nullable', 'integer', 'between:0,100'],
             'rating_overall' => ['required', 'integer', 'between:0,10'],
             'body' => ['nullable', 'string', 'min:20']
         ]);
 
         // TODO: I think this should be moved to update or something
         Review::query()->updateOrCreate([
-            'level_id' => $request->integer('level_id'),
+            'level_id' => $level->id,
             'user_id' => $request->user()->id,
         ], [
-            'rating_difficulty' => $request->input('rating_difficulty'),
+            'rating_difficulty' => null,
             'rating_gameplay' => $request->input('rating_gameplay'),
             'rating_visuals' => $request->input('rating_visuals'),
             'rating_overall' => $request->input('rating_overall'),

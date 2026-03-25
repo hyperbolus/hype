@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/mention', [\App\Http\Controllers\System\SearchController::class, 'username']);
-Route::get('/search', [\App\Http\Controllers\System\SearchController::class, 'tagname']);
+Route::get('/tags', [\App\Http\Controllers\System\SearchController::class, 'tags']);
 //Route::get('/channel-videos/{id}', function (Request $request, string $id) {
 //    $apiKey = config('hyperbolus.youtube_token');
 //    $api = 'https://youtube.googleapis.com/youtube/v3';

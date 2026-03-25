@@ -33,8 +33,8 @@ class SearchController extends Controller
             ->get();
     }
 
-    public function tagname(Request $request): Collection
+    public function tags(): Collection
     {
-        return Tag::query()->select(['id', 'name'])->where('name', 'LIKE', '%'.\request('name').'%')->get();
+        return Tag::all();
     }
 }

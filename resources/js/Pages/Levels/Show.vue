@@ -3,7 +3,6 @@ import Layout from './Layout.vue'
 import {Link, useForm} from '@inertiajs/vue3';
 import Carousel from "@/Components/Carousel.vue";
 import VideoLightbox from "@/Components/VideoLightbox.vue";
-import Pagination from "@/Components/Pagination.vue";
 import route from 'ziggy-js'
 import {isAuthenticated} from "@/util.js";
 import {ref} from "vue";
@@ -12,52 +11,25 @@ import ReplayTicket from "@/Components/ReplayTicket.vue";
 import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
 import Icon from "@/Components/Icon.vue";
-import Tooltip from "@/Components/Tooltip.vue";
 import {useClipboard} from "@vueuse/core";
 import Lightbox from "@/Components/Lightbox.vue";
 import Errors from "@/Components/Errors.vue";
 import getYouTubeID from "get-youtube-id";
-import Sorting from "@/Components/Sorting.vue";
-import QueryFooter from "@/Components/QueryFooter.vue";
-import RatingOverview from "@/Components/RatingOverview.vue";
 import RatingsCurve from "@/Components/RatingsCurve.vue";
+import PaneTable from "@/Components/PaneTable.vue";
+import LevelTicket from "@/Components/LevelTicket.vue";
+import PlaylistTicket from "@/Components/PlaylistTicket.vue";
 
 const props = defineProps({
     level: Object,
+    playlists: Object,
     ranking: Object,
     review: Object,
     reviews: Object,
     sorting: Object,
-    curve: Object
+    curve: Object,
+    moreBy: Object,
 })
-
-const form = useForm({
-    rating_gameplay: props.review ? props.review.rating_gameplay : 5,
-    rating_difficulty: props.review ? props.review.rating_difficulty : 5,
-    rating_visuals: props.review ? props.review.rating_visuals : 5,
-    rating_overall: props.review ? props.review.rating_overall : 5,
-    body: props.review ? props.review.review : '',
-    level_id: props.level.id
-});
-
-const blanks = ref({
-    difficulty: false,
-    gameplay: false,
-    visuals: false
-});
-
-const submit = () => {
-    form.transform((data) => {
-        let final = {...data}; // Copy
-        final.rating_difficulty = blanks.value.difficulty ? null : final.rating_difficulty;
-        final.rating_gameplay = blanks.value.gameplay ? null : final.rating_gameplay;
-        final.rating_visuals = blanks.value.visuals ? null : final.rating_visuals;
-
-        return final;
-    }).post(route('reviews.store'), {
-        preserveScroll: true,
-    });
-}
 
 const source = ref(props.level.id)
 const { copied, copy } = useClipboard({source, legacy: true})
@@ -74,12 +46,34 @@ const submitVideo = () => {
     })).post(route('videos.store'), {
         onFinish: () => videoForm.reset('video_id'),
     });
-}
+};
+
+const reviewData = ref({
+    'All': props.level.reviews_only_count + props.level.ratings_only_count,
+    'Reviews Only': props.level.reviews_only_count,
+    'Ratings Only': props.level.ratings_only_count,
+});
+
+const levelData = ref({
+    'ID': props.level.id,
+    'Title': props.level.name,
+    'Creator': props.level.creator,
+    'Downloads': props.level.downloads,
+    'Likes': props.level.likes,
+});
+
+const songData = ref({
+    'ID': props.level.song_id,
+    'Song': props.level.song_name,
+    'Artist': props.level.song_author,
+});
 </script>
 <template>
-    <Layout :level="level" :tags="true">
+    <Layout>
         <div class="flex !mt-0 flex-col md:flex-row bg-ui-950 border border-ui-900 rounded-lg p-4 gap-4 my-4">
             <div class="y space-y-2 md:w-3/4">
+                <h2 class="font-bold text-2xl">Description</h2>
+                <p class="pane" :class="{'text-ui-500 text-center': level.description?.trim().length === 0}">{{ level.description?.trim().length > 0 ? level.description : 'No description provided' }}</p>
                 <template v-if="false">
                     <div class="x items-center justify-between">
                         <h2 class="font-bold text-2xl">Images</h2>
@@ -88,17 +82,68 @@ const submitVideo = () => {
                     <div v-if="level.images.length === 0" class="pane">No images available. Add one?</div>
                     <Carousel v-else :images="level.images"/>
                 </template>
-                <h2 class="font-bold text-2xl">Overview</h2>
-                <RatingOverview :level="level"/>
                 <div class="x items-center justify-between">
-                    <h2 class="font-bold text-2xl">Reviews</h2>
-                    <Sorting :sorting="sorting" :url="route('levels.reviews.show', level.id)"/>
+                    <h2 class="font-bold text-2xl">Videos</h2>
+                    <Lightbox>
+                        <span class="pane !py-1 cursor-pointer">Submit</span>
+                        <template #content>
+                            <div @click.stop v-if="isAuthenticated()" class="glass p-4 text-ui-200">
+                                <form @submit.prevent="submitVideo" class="space-y-2">
+                                    <Input v-model="videoForm.video_id" type="text" placeholder="YouTube Video Link" required/>
+                                    <Errors/>
+                                    <Button>Add</Button>
+                                </form>
+                            </div>
+                            <div @click.stop v-else class="pane text-ui-200">
+                                <span>You must <Link class="underline" :href="route('auth::login')">log in</Link> to submit a video</span>
+                            </div>
+                        </template>
+                    </Lightbox>
                 </div>
-                <Pagination :list="reviews"/>
-                <div v-if="reviews.data.length === 0" class="pane">This level has no reviews. Be the first!</div>
-                <LevelReview v-for="review in reviews.data" :review="review" :level="level"/>
-                <QueryFooter :sorting="sorting" :url="route('levels.reviews.show', level.id)" :results="reviews"/>
-                <Pagination :list="reviews"/>
+                <div v-if="level.videos.length === 0" class="pane text-ui-500 text-center">No videos available</div>
+                <div class="x gap-2">
+                    <VideoLightbox v-for="video in level.videos" :video="video"/>
+                    <Lightbox v-if="level.videos.length < 3" class="hidden sm:block w-full">
+                        <div class="y text-ui-400 items-center justify-center border-4 border-ui-600 bg-ui-900 border-dashed rounded-md aspect-video">
+                            <p>Submit a Video</p>
+                            <Icon type="outline" size="24" scale="size-12" name="plus-circle"/>
+                        </div>
+                        <template #content>
+                            <div @click.stop v-if="isAuthenticated()" class="glass p-4 text-ui-200">
+                                <form @submit.prevent="submitVideo" class="space-y-2">
+                                    <Input v-model="videoForm.video_id" type="text" placeholder="YouTube Video Link" required/>
+                                    <Errors/>
+                                    <Button>Add</Button>
+                                </form>
+                            </div>
+                            <div @click.stop v-else class="pane text-ui-200">
+                                <span>You must <Link class="underline" :href="route('auth::login')">log in</Link> to submit a video</span>
+                            </div>
+                        </template>
+                    </Lightbox>
+                    <div v-if="level.videos.length === 1" class="hidden md:block w-full aspect-video rounded-md bg-ui-900"></div>
+                </div>
+
+                <LevelReview v-if="review" :review="review" :level="level"/>
+
+                <div class="x items-center justify-between">
+                    <h2 class="font-bold text-2xl">Recent Reviews</h2>
+                    <Link :href="route('reviews.create') + '?level=' + level.id" class="x items-center space-x-1.5 rounded-md font-bold text-white px-3 py-1 !bg-blue-500">
+                        <span>{{ review ? 'Edit Your' : 'Write a' }} Review</span>
+                        <Icon name="pencil"/>
+                    </Link>
+                </div>
+                <div v-if="reviews.length === 0" class="pane">This level has no reviews. Be the first!</div>
+                <LevelReview v-for="review in reviews" :review="review" :level="level"/>
+                <Link :href="route('levels.reviews.show', level.id)" class="self-end underline !mt-0">More Reviews</Link>
+
+                <h2 class="font-bold text-2xl">More Levels</h2>
+                <div v-if="moreBy.length === 0" class="pane text-ui-500 text-center">No other levels by this creator are tracked on Hyperbolus</div>
+                <LevelTicket v-for="lvl in moreBy" :level="lvl"/>
+
+                <h2 class="font-bold text-2xl">Included in Playlists</h2>
+                <div v-if="playlists.length === 0" class="pane text-ui-500 text-center">This level is not included in any Hyperbolus playlists</div>
+                <PlaylistTicket  v-for="playlist in playlists" :playlist="playlist"/>
             </div>
             <div class="y space-y-2 md:w-1/4">
                 <div class="w-full space-y-2">
@@ -110,67 +155,10 @@ const submitVideo = () => {
                             <span class="text-xs" v-if="ranking.joint_ranked > 1">{{ ranking.joint_ranked }}-Way Tie</span>
                         </div>
                     </div>
-                    <div class="y space-y-2 pane">
-                        <div class="x justify-between">
-                            <span>All</span>
-                            <span>{{ level.reviews_only_count + level.ratings_only_count }}</span>
-                        </div>
-                        <div class="x justify-between">
-                            <span>Reviews Only</span>
-                            <span>{{ level.reviews_only_count }}</span>
-                        </div>
-                        <div class="x justify-between">
-                            <span>Ratings Only</span>
-                            <span>{{ level.ratings_only_count }}</span>
-                        </div>
-                    </div>
-                    <div class="y space-y-2 pane">
-                        <div class="x justify-between items-center">
-                            <span>ID</span>
-                            <div class="x space-x-1 items-center">
-                                <Tooltip @click="copy(level.id)" class="cursor-pointer" :class="{'text-green-500': copied}" :message="copied ? 'Copied!' : 'Copy ID'">
-                                    <Icon scale="w-4" name="clipboard-document-list"/>
-                                </Tooltip>
-                                <span>{{ level.id }}</span>
-                            </div>
-                        </div>
-                        <div class="x justify-between">
-                            <span>Title</span>
-                            <span>{{ level.name }}</span>
-                        </div>
-                        <div class="x justify-between">
-                            <span>Creator</span>
-                            <span>{{ level.creator }}</span>
-                        </div>
-                    </div>
-                    <div v-if="false" class="flex items-center justify-center rounded-md px-4 py-2 bg-rose-500 text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-2">
-                            <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
-                            <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
-                        </svg>
-                        <span class="font-bold cursor-pointer">Download Level</span>
-                    </div>
+                    <PaneTable :data="levelData" :copyables="['ID']" :links="{'Creator': route('profiles.show', level.creator)}"/>
+                    <PaneTable :data="songData" :copyables="['ID']" :links="{'Artist': `//${level.song_author}.newgrounds.com`, 'Song': `//newgrounds.com/audio/listen/${level.song_id}`}"/>
                     <RatingsCurve :model="level" :curve="curve"/>
-                    <div class="x items-center justify-between">
-                        <h2 class="font-bold text-2xl">Videos</h2>
-                        <Lightbox>
-                            <span class="pane !py-1 cursor-pointer">Submit</span>
-                            <template #content>
-                                <div @click.stop v-if="isAuthenticated()" class="glass p-4 text-ui-200">
-                                    <form @submit.prevent="submitVideo" class="space-y-2">
-                                        <Input v-model="videoForm.video_id" type="text" placeholder="YouTube Video Link" required/>
-                                        <Errors/>
-                                        <Button>Add</Button>
-                                    </form>
-                                </div>
-                                <div @click.stop v-else class="pane text-ui-200">
-                                    <span>You must <Link class="underline" :href="route('auth::login')">log in</Link> to submit a video</span>
-                                </div>
-                            </template>
-                        </Lightbox>
-                    </div>
-                    <div v-if="level.videos.length === 0" class="pane">No videos available</div>
-                    <VideoLightbox v-for="video in level.videos" :video="video" class="w-full"/>
+                    <PaneTable :data="reviewData"/>
                 </div>
                 <div class="hidden md:block w-full space-y-2">
                     <div class="x items-center justify-between">

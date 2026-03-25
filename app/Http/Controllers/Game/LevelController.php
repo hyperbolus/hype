@@ -7,6 +7,7 @@ use App\Actions\Hydrate;
 use App\FilterBuilder;
 use App\Http\Controllers\Controller;
 use App\Models\Content\CrowdVote;
+use App\Models\Content\Playlist;
 use App\Models\Content\Review;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
@@ -26,9 +27,77 @@ use Intervention\Image\ImageManager;
 
 class LevelController extends Controller
 {
-    /**
-     * Display level list (light search functions)
-     */
+    protected function common(Request $request, string $component, int $id, callable $props, ?string $title = null, ?string $description = null)
+    {
+        $level = Hydrate::level($id)->loadCount([
+            'reviewsOnly',
+            'ratingsOnly',
+            'reviews',
+            'tags',
+            'replays',
+            'videos'
+        ])->load([
+            'images',
+            'topTags',
+            'videos' => function ($q) {
+                $q->inRandomOrder()->limit(3);
+            },
+            'replays' => function ($q) {
+                $q->inRandomOrder()->limit(5);
+            },
+            'replays.author',
+            'replays.files',
+        ]);
+
+//        $level = $level->first();
+
+        if (!$level) abort(400);
+
+        // Edit replay download links to use our tracked download route
+        if ($level->hasAttribute('replays')) $level->replays->transform(function (LevelReplay $replay) {
+            $replay->files->transform(function (Media $media) {
+                $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
+                $result = $hashids->encode([$media->id, 0]);
+                $media->setAttribute('url', route('download', $result));
+                return $media;
+            });
+            return $replay;
+        });
+
+        $breadcrumbs = [
+            crumb('Levels', route('levels.index')),
+        ];
+
+        if ($component !== 'Levels/Show') $breadcrumbs[] = crumb($level->name, route('levels.show', $level));
+
+        if (!$title) $title = $level->name;
+        if (!$description) $description = $level->description;
+
+        return page($component, [
+            'level' => $level,
+            'levelTagVotes' => auth()->check() ? CrowdVote::query()
+                ->where('user_id', auth()->id())
+                ->where('related_id', $level->id)
+                ->where('related_type', $level->getMorphClass())
+                ->where('votable_type', new Tag()->getMorphClass())
+                ->get() : [],
+            'tags' => Tag::all(),
+
+            'ranking' => CalculateRatings::rank($id),
+
+            'reviews' => Review::query()
+                ->where('level_id', $level->id)
+                ->whereNot('review', '')
+                ->with('author')
+                ->latest()
+                ->limit(3)
+                ->get(),
+
+            ...$props($level),
+        ])->meta($title, $description)
+            ->breadcrumbs($breadcrumbs);
+    }
+
     public function index(Request $request): Response
     {
         $levels = sorting(Level::query()->withCount('reviews'), 'rating_overall');
@@ -75,138 +144,101 @@ class LevelController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, $id): Responsable
     {
-        $level = Hydrate::level($id)->load([
-            'images',
-            'topTags',
-            'videos' => function ($q) {
-                $q->inRandomOrder()->limit(5);
-            },
-            'replays' => function ($q) {
-                $q->inRandomOrder()->limit(5);
-            },
-            'replays.author',
-            'replays.files',
-        ]);
+        return $this->common($request, 'Levels/Show', $id, function (Level $level) use ($request) {
+            $moreBy = Level::query()
+                ->where('creator', $level->creator)
+                ->whereNot('id', $level->id)
+                ->withCount('reviews')
+                ->limit(3);
 
-        $level->replays->transform(function (LevelReplay $replay) {
-            $replay->files->transform(function (Media $media) {
-                $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
-                $result = $hashids->encode([$media->id, 0]);
-                $media->setAttribute('url', route('download', $result));
-                return $media;
-            });
-            return $replay;
+            // Get user's own review for the level ticket
+            if (auth()->check()) $moreBy->with(['reviews' => function ($query) use ($request) {
+                $query->where('user_id', $request->user()->id);
+            }]);
+
+            return [
+                'ranking' => CalculateRatings::rank($level->id),
+                'reviews' => Review::query()
+                    ->where('level_id', $level->id)
+                    ->whereNot('review', '')
+                    ->with('author')
+                    ->latest()
+                    ->limit(3)
+                    ->get(),
+                'moreBy' => $moreBy->limit(3)->get(),
+                'review' => auth()->check() ? Review::query()
+                    ->where('level_id', $level->id)
+                    ->where('user_id', auth()->id())
+                    ->with(['author', 'level'])
+                    ->first() : null,
+                'playlists' => Playlist::query()->whereHas('levels', function ($query) use ($level) {
+                    $query->where('level_id', $level->id);
+                })->get(),
+                'curve' => Review::curve($level),
+            ];
         });
-
-        $reviews = sorting(Review::query()->where('level_id', $level->id))->with(['author']);
-
-        return page('Levels/Show', [
-            'level' => $level->loadCount(['reviewsOnly', 'ratingsOnly']),
-            'ranking' => CalculateRatings::rank($id),
-            'reviews' => $reviews
-                ->filters()
-                ->paginatorOptions(10, 1, 50)
-                ->paginate()
-                ->withPath(route('levels.reviews.show', $id)),
-            'review' => auth()->check() ? Review::query()
-                ->where('level_id', $id)
-                ->where('user_id', auth()->id())
-                ->first() : null,
-            'sorting' => sorting(Review::class)->filters(),
-            'curve' => Review::curve($level),
-        ])->meta($level->name, $level->description)
-            ->breadcrumbs([
-                crumb('Levels', route('levels.index'))
-            ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function tags(Level $level): Responsable
+    public function tags(Request $request, int $id): Responsable
     {
-        $votes = [];
-        if (auth()->check()) {
-            $votes = CrowdVote::query()
-                ->where('user_id', auth()->id())
-                ->where('related_id', $level->id)
-                ->where('related_type', $level->getMorphClass())
-                ->where('votable_type', (new Tag())->getMorphClass())
-                ->get();
-        }
-
-        return page('Levels/Sections/Tags', [
-            'level' => $level->load('tags'),
-            'tags' => Tag::all(),
-            'votes' => $votes
-        ])->meta('Tags', $level->description)->breadcrumbs([
-            crumb('Levels', route('levels.index')),
-            crumb($level->name, route('levels.show', $level)),
-        ]);
+        return $this->common($request, 'Levels/Sections/Tags', $id, function (Level $level) {
+            $level->load(['tags']);
+            return [];
+        }, 'Tags', 'View level tags');
     }
 
-    public function reviews(Level $level): Responsable
+    public function reviews(Request $request, int $id): Responsable
     {
-        return page('Levels/Sections/Reviews', [
-            'level' => $level,
-            'reviews' => sorting(Review::query()->where('level_id', $level->id))
-                ->with('author')
-                ->filters()
-                ->paginatorOptions(10, 1, 50)
-                ->paginate(),
-            'review' => auth()->check() ? Review::query()
-                ->where('level_id', $level->id)
-                ->where('user_id', auth()->id())
-                ->first() : null,
-            'sorting' => sorting(Review::class)->filters(),
-            'curve' => Review::curve($level),
-        ])->meta('Reviews', $level->description)->breadcrumbs([
-            crumb('Levels', route('levels.index')),
-            crumb($level->name, route('levels.show', $level)),
-        ]);
+        return $this->common($request, 'Levels/Sections/Reviews', $id, function (Level $level) {
+            return [
+                'sorting' => sorting(Review::class)->filters(),
+                'reviews' => sorting(Review::query()->where('level_id', $level->id))
+                    ->with('author')
+                    ->filters()
+                    ->paginatorOptions(10, 1, 50)
+                    ->paginate(),
+                'review' => auth()->check() ? Review::query()
+                    ->where('level_id', $level->id)
+                    ->where('user_id', auth()->id())
+                    ->with(['author', 'level'])
+                    ->first() : null,
+            ];
+        }, 'Reviews', 'View level reviews');
     }
 
-    public function replays(Level $level)
+    public function replays(Request $request, int $id)
     {
-        return page('Levels/Sections/Replays', [
-            'level' => $level,
-            'replays' => $level->replays()
-                ->with([
-                    'author',
-                    'files'
-                ])->paginate(12)
-                ->through(function (LevelReplay $r) {
-                    $r->files->transform(function (Media $media) {
+        return $this->common($request, 'Levels/Sections/Replays', $id, function (Level $level) {
+            return [
+                'replays' => $level->replays()
+                    ->with([
+                        'author',
+                        'files'
+                    ])->paginate(12)
+                    ->through(function (LevelReplay $r) {
+                        $r->files->transform(function (Media $media) {
 
-                        $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
-                        $result = $hashids->encode([$media->id, 0]);
-                        $media->setAttribute('url', route('download', $result));
-                        return $media;
-                    });
+                            $hashids = new Hashids(bin2hex(Crypt::getKey()), 8);
+                            $result = $hashids->encode([$media->id, 0]);
+                            $media->setAttribute('url', route('download', $result));
+                            return $media;
+                        });
 
-                    return $r;
-                })
-        ])->meta('Replays', $level->description)->breadcrumbs([
-            crumb('Levels', route('levels.index')),
-            crumb($level->name, route('levels.show', $level)),
-        ]);
+                        return $r;
+                    })
+            ];
+        }, 'Replays', 'View level replays');
     }
 
-    public function videos(Level $level)
+    public function videos(Request $request, int $id)
     {
-        return page('Levels/Sections/Videos', [
-            'level' => $level,
-            'videos' => $level->videos()
-                ->paginate(12)
-        ])->meta('Videos', $level->description)->breadcrumbs([
-            crumb('Levels', route('levels.index')),
-            crumb($level->name, route('levels.show', $level)),
-        ]);
+        return $this->common($request, 'Levels/Sections/Videos', $id, function (Level $level) {
+            return [
+                'videos' => $level->videos()->paginate(12)
+            ];
+        }, 'Videos', 'View level videos');
     }
 
     public function view(Level $level): Responsable
@@ -229,14 +261,11 @@ class LevelController extends Controller
 
     public function images(Level $level): Response
     {
-        return Inertia::render('Levels/Images', [
+        return Inertia::render('Levels/Sections/Images', [
             'level' => $level,
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Level $level): Responsable
     {
         return page('Levels/Edit', [
@@ -244,9 +273,6 @@ class LevelController extends Controller
         ])->meta('Edit', 'Edit level metadata');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Level $level): RedirectResponse
     {
         $disk = Storage::disk('contabo');
@@ -298,8 +324,6 @@ class LevelController extends Controller
 
     public function random(): RedirectResponse
     {
-        $level = Level::query()->inRandomOrder()->first();
-
-        return redirect()->route('levels.show', $level->id);
+        return redirect()->route('levels.show', Level::query()->inRandomOrder()->first()->id);
     }
 }

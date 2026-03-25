@@ -65,11 +65,12 @@ class LevelTagVoteController extends Controller
         }
 
         // TODO: when making this poly I forgot to add the other columns to this check
-        if (! $level->tags()->where('tag_id', '=', $request->integer('tag_id'))->first()) {
+        // If this tag doesn't have a record with the level yet
+        if (!$level->tags()->where('tag_id', '=', $request->integer('tag_id'))->first()) {
+            // Create a record
             $level->tags()->save($tag);
         }
 
-        // TODO: ChatGPT'd. Make sure it actually is sound.
         CrowdVote::query()->updateOrCreate([
             'user_id' => $request->user()->id,
             'related_id' => $level->id,

@@ -15,6 +15,7 @@ import {ref, useTemplateRef, watch} from "vue";
 import UserFlag from "@/Components/UserFlag.vue";
 import WeightBadge from "@/Components/WeightBadge.vue";
 import {useElementSize} from "@vueuse/core";
+import RatingInput from "@/Components/RatingInput.vue";
 
 const props = defineProps({
     review: Object,
@@ -23,7 +24,6 @@ const props = defineProps({
 });
 
 const list = {
-    // 'rating_difficulty': 'DIFFICULTY',
     'rating_overall': 'OVERALL',
     'rating_visuals': 'VISUALS',
     'rating_gameplay': 'GAMEPLAY',
@@ -54,6 +54,32 @@ const { height } = useElementSize(body);
 watch(height, () => {
     long.value = height.value !== body.value.$el.parentElement.clientHeight;
 });
+
+const form = useForm({
+    rating_gameplay: props.review.rating_gameplay,
+    rating_visuals: props.review.rating_visuals,
+    rating_overall: props.review.rating_overall,
+    level: props.review.level_id,
+    body: props.review.review,
+});
+
+const optionals = ref({
+    overall: props.review.rating_overall !== null,
+    gameplay: props.review.rating_gameplay !== null,
+    visuals: props.review.rating_visuals !== null,
+});
+
+const submit = () => {
+    form.transform((data) => {
+        let final = {...data};
+        final.rating_gameplay = optionals.value.gameplay ? final.rating_gameplay : null;
+        final.rating_visuals = optionals.value.visuals ? final.rating_visuals : null;
+        final.body = final.body === '<p></p>' ? null : final.body;
+        return final;
+    }).post(route('reviews.store'), {
+        preserveScroll: true,
+    });
+};
 </script>
 <template>
     <div class="y">
@@ -138,6 +164,26 @@ watch(height, () => {
                                     <div class="px-2 py-1 hover:bg-ui-700 last:rounded-b">Report This</div>
                                     <template #content>
                                         <ReportModal :reportable_id="review.id" :reportable_type="42" @click.stop class="cursor-auto"/>
+                                    </template>
+                                </Lightbox>
+                                <Lightbox v-if="isAdmin() || isUser(review.user_id)">
+                                    <div class="px-2 py-1 hover:bg-ui-700 last:rounded-b">Edit Review</div>
+                                    <template #content>
+                                        <div @click.stop class="y items-center space-y-2 bg-ui-950 rounded-lg p-4">
+                                            <h2 class="text-2xl font-bold w-full">Edit Review</h2>
+                                            <TipTap class="pane !p-0 border border-ui-700 grow" v-model="form.body"/>
+                                            <button @click="submit" :disabled="form.processing" :class="{'opacity-50': form.processing}" class="bg-blue-500 rounded-md px-2 py-1">{{ form.processing ? 'Processing...' : 'Submit Edit' }}</button>
+                                        </div>
+                                    </template>
+                                </Lightbox>
+                                <Lightbox v-if="isUser(review.user_id)">
+                                    <div class="px-2 py-1 hover:bg-ui-700 last:rounded-b">Edit Rating</div>
+                                    <template #content>
+                                        <div @click.stop class="y items-center space-y-2 bg-ui-950 rounded-lg p-4">
+                                            <h2 class="text-2xl font-bold w-full">Edit Rating</h2>
+                                            <RatingInput :form="form" :optionals="optionals"/>
+                                            <button @click="submit" :disabled="form.processing" :class="{'opacity-50': form.processing}" class="bg-blue-500 rounded-md px-2 py-1">{{ form.processing ? 'Processing...' : 'Submit Edit' }}</button>
+                                        </div>
                                     </template>
                                 </Lightbox>
                                 <div v-if="isModerator() || isAdmin() || isUser(review.user_id)" @click="remove" class="text-red-500 hover:text-white hover:bg-red-500 last:rounded-b px-2 py-1">Delete</div>

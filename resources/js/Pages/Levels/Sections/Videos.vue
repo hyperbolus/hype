@@ -31,7 +31,7 @@ const submit = () => {
 }
 </script>
 <template>
-    <Layout :level="level">
+    <Layout>
         <div class="y space-y-2 !mt-0 bg-ui-950 border border-ui-900 rounded-lg px-4 py-2 space-x-2">
             <div class="x items-center justify-between">
                 <h2 class="font-bold text-2xl">Videos</h2>
