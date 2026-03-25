@@ -286,3 +286,10 @@ const buttonClick = b => {
     @apply w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-ui-600 !prose-invert;
 }
 </style>
+<style>
+/* Scrolling nodes into view can get obstructed by sticky toolbar */
+html {
+    scroll-padding-top:4rem;
+}
+</style>
+
