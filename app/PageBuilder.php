@@ -64,7 +64,7 @@ class PageBuilder implements Responsable
     {
         $this->breadcrumbs = array_filter($this->breadcrumbs, fn ($crumb) => $crumb['show']);
 
-        if ($this->title && $this->titleBreadcrumb) $this->breadcrumbs[] = crumb($this->title, $request->url());
+        if ($this->title && $this->titleBreadcrumb) $this->breadcrumbs[] = crumb($this->title, $request->fullUrl());
 
         return Inertia::render($this->component, [
             ...$this->props,
