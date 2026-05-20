@@ -166,10 +166,10 @@ const submit = () => {
                                         <ReportModal :reportable_id="review.id" :reportable_type="42" @click.stop class="cursor-auto"/>
                                     </template>
                                 </Lightbox>
-                                <Lightbox v-if="isAdmin() || isUser(review.user_id)">
+                                <Lightbox v-if="isUser(review.user_id)">
                                     <div class="px-2 py-1 hover:bg-ui-700 last:rounded-b">Edit Review</div>
                                     <template #content>
-                                        <div @click.stop class="y items-center space-y-2 bg-ui-950 rounded-lg p-4">
+                                        <div @click.stop class="y items-center space-y-2 bg-ui-950 rounded-lg p-4 cursor-auto">
                                             <h2 class="text-2xl font-bold w-full">Edit Review</h2>
                                             <TipTap class="pane !p-0 border border-ui-700 grow" v-model="form.body"/>
                                             <button @click="submit" :disabled="form.processing" :class="{'opacity-50': form.processing}" class="bg-blue-500 rounded-md px-2 py-1">{{ form.processing ? 'Processing...' : 'Submit Edit' }}</button>
@@ -179,7 +179,7 @@ const submit = () => {
                                 <Lightbox v-if="isUser(review.user_id)">
                                     <div class="px-2 py-1 hover:bg-ui-700 last:rounded-b">Edit Rating</div>
                                     <template #content>
-                                        <div @click.stop class="y items-center space-y-2 bg-ui-950 rounded-lg p-4">
+                                        <div @click.stop class="y items-center space-y-2 bg-ui-950 rounded-lg p-4 cursor-auto">
                                             <h2 class="text-2xl font-bold w-full">Edit Rating</h2>
                                             <RatingInput :form="form" :optionals="optionals"/>
                                             <button @click="submit" :disabled="form.processing" :class="{'opacity-50': form.processing}" class="bg-blue-500 rounded-md px-2 py-1">{{ form.processing ? 'Processing...' : 'Submit Edit' }}</button>
