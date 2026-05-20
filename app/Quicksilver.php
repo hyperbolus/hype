@@ -190,6 +190,7 @@ class Quicksilver {
         }
 
         $revision->setAttribute('blurb', $dom->querySelector('p')?->innerHTML);
+        $revision->setAttribute('__meta_blurb', $dom->querySelector('p')?->textContent);
         $revision->text->setAttribute('content', $dom->body->innerHTML);
 
         return $revision;

@@ -122,7 +122,7 @@ class WikiPageController extends Controller
 
             'action' => $action,
             // TODO@wiki: editing does not proccess so we dont get a blurb. have another description ready
-        ])->meta($title, $revision?->blurb ?? 'This page has no content')
+        ])->meta($title, $revision?->__meta_blurb ?? 'This page has no content')
             ->breadcrumbs([crumb('Wiki', route($routePrefix . 'wiki'), !Hype::isSubsite())]);
     }
 
