@@ -1,6 +1,6 @@
 <script setup>
 import {nodeViewProps, NodeViewWrapper} from "@tiptap/vue-3";
-import {computed, ref, useTemplateRef} from "vue";
+import {computed, nextTick, ref, useTemplateRef} from "vue";
 
 const props = defineProps(nodeViewProps);
 
@@ -10,37 +10,81 @@ const first = ref(false);
 const leaderPos = ref(0);
 const leaderNode = ref(null);
 
+const initializedAuto = ref(false);
+
+// Function for getting the "index" of a footnote in a document
+// The index is not logical and is instead for the reader as it
+// is augmented such that any subsequent footnote which has the
+// same identifier or `name` as another footnote earlier in the
+// document will not increment the index. New node IDs are auto
 const count = computed(() => {
+    // The "index" counter used for counting unique footnotes
     let n = 0;
+
+    // Variable holding the returned value. Set as '?' as an indicator for errors
     let out = '?';
+
+    // If this component is rendering the first occurrence of it's footnote and not a later reference
     let firstNode = null;
-    let seen = {};
+
+    let seenGroups = {};
+
+    // We call this function to iterate on all nodes in the TipTap document
     props.editor.state.doc.descendants((node, pos) => {
+        // We only are interested in footnote nodes
         if (node.type.name === 'footnote') {
-            if (node.attrs.name === props.HTMLAttributes.name && node.attrs.group === props.HTMLAttributes.group) {
+            let name = node.attrs.name.toString();
+
+            // We loop until we find the data of the footnote that is rendering this Vue component instance
+            // HOWEVER at this point we don't know if is component is the only instance of this footnote in
+            // the document. Later in this code block we will perform futher checks to determine if this is
+            if (name === props.HTMLAttributes.name && node.attrs.group === props.HTMLAttributes.group) {
+                // If the footnote has no name then we will assign it a new one from the next available index
+                // if (name === '') {
+                //     // This should only happen once, otherwise we may fall into an infinite loop
+                //     if (!initializedAuto.value) {
+                //         initializedAuto.value = true;
+                //         name = `${n + 1}`; // must set to string!!
+                //         // setAttr('name', name);
+                //         return;
+                //     } else {
+                //         // We already initialized this blank node with a default name
+                //         console.log('Could not give footnote default integer name (name possibly being edited)')
+                //     }
+                // }
+
+                // Check if this node is the first occurrence of this footnote (matching name and group)
                 if (firstNode === null) {
+                    // We save the document position and node so edits to any occurence are routed to the first node
                     leaderPos.value = pos;
                     leaderNode.value = node;
                 }
 
+                // If this component is at the position then we are the first node of this footnote in the document
                 if (firstNode === null && pos === props.getPos()) {
                     first.value = true;
                     firstNode = true;
                 } else {
                     first.value = false;
-                    firstNode = false;
+                    firstNode = null;
                 }
 
+                // At this point we've determined the non-repeating index for this node
                 out = n;
 
+                // Fetch and copy the footnote content to display here. We have group and name only because we are a reference
                 if (content.value) content.value.value = props.editor.storage.footnote.footnotes[node.attrs.group]?.[node.attrs.name]?.content ?? '';
-                return;
-            }
 
-            if (!seen.hasOwnProperty(node.attrs.group)) seen[node.attrs.group] = [];
-            if (!seen[node.attrs.group].includes(node.attrs.name)) {
-                seen[node.attrs.group].push(node.attrs.name)
-                n++;
+                // We process up to here and no further. Other nodes will do that for themselves
+            } else {
+                // If this is the first fn of this group, create an array for it
+                if (!seenGroups.hasOwnProperty(node.attrs.group)) seenGroups[node.attrs.group] = [];
+
+                // Push named fn and increment counter only for the first instance of it (repeats don't increment)
+                if (!seenGroups[node.attrs.group].includes(name)) {
+                    seenGroups[node.attrs.group].push(name);
+                    n++;
+                }
             }
         }
     });
@@ -59,22 +103,24 @@ const active = computed(() => {
 const subselected = computed(() => {
     if (!editing.value) return false;
 
-
     let selection = props.editor.reactiveState.value.selection;
     let contentSize = props.node.content.size;
     let pos = props.getPos();
 
-    return selection.$anchor.pos < pos && selection.$head.pos > pos + contentSize + 2;
+    let min = Math.min(selection.$anchor.pos, selection.$head.pos);
+    let max = Math.max(selection.$anchor.pos, selection.$head.pos);
+
+    return min < pos || max > pos + contentSize + 2;
 });
 
 const inputAttr = (e) => {
     setAttr(e.target.dataset.attr, e.target.value);
 }
 
-const setAttr = (key, value) => {
+const setAttr = (key, value, skip = false) => {
     props.updateAttributes({[key]: value});
     // Using the input loses the editor's focus so we need to manually force it back
-    props.editor.commandManager.commands.setNodeSelection(props.getPos());
+    if (!skip) props.editor.commandManager.commands.setNodeSelection(props.getPos());
 }
 
 const inputContent = (e) => {
@@ -99,7 +145,7 @@ const inputContent = (e) => {
             </div>
             <div class="carrot"></div>
         </div>
-        <sup><a>[{{count + 1}}]</a></sup>
+        <sup><a>[{{ count + 1 }}]</a></sup>
     </NodeViewWrapper>
 </template>
 <style scoped>

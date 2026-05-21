@@ -56,7 +56,10 @@ const subselected = computed(() => {
     let contentSize = props.nodeProps.node.content.size;
     let pos = props.nodeProps.getPos();
 
-    return selection.$anchor.pos < pos && selection.$head.pos > pos + contentSize + 2;
+    let min = Math.min(selection.$anchor.pos, selection.$head.pos);
+    let max = Math.max(selection.$anchor.pos, selection.$head.pos);
+
+    return min < pos && max > pos + contentSize + 2;
 });
 
 const borderColor = computed(() => active.value ? c.value.border : `border-transparent`);

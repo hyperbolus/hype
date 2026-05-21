@@ -21,7 +21,7 @@ export const Footnote = Node.create({
     addAttributes() {
         return {
             'name': {
-                default: '',
+                default: '#####',
                 isRequired: false,
             },
             'group': {

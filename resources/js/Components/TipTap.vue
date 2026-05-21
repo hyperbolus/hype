@@ -1,6 +1,6 @@
 <script setup>
 import {EditorContent, useEditor} from '@tiptap/vue-3'
-import {ref, watch} from "vue";
+import {nextTick, ref, watch} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
@@ -58,19 +58,41 @@ const editor = useEditor({
         let footnotes = {};
         let n = 0;
 
-        props.editor.state.doc.descendants((node) => {
+        let unset = [];
+
+        let { view } = props.editor;
+
+        props.editor.state.doc.descendants((node, pos) => {
             if (node.type.name === 'heading') headings.push(node)
             if (node.type.name === 'footnote') {
+                // If we don't have this node's group yet create a new blank one
                 if (!footnotes.hasOwnProperty(node.attrs.group)) footnotes[node.attrs.group] = {};
+
+                if (node.attrs.name === '#####') unset.push({node, pos});
+
+                // If we haven't seen this named node yet then append it
                 if (!footnotes[node.attrs.group].hasOwnProperty(node.attrs.name)) {
                     footnotes[node.attrs.group][node.attrs.name] = {
-                        id: n,
+                        id: n++,
                         content: node.content.content?.[0]?.text ?? ''
                     }
-                    n++;
                 }
             }
         });
+
+        if (unset.length > 0) {
+            let tr = view.state.tr.setMeta('addToHistory', false);
+
+            for (let i = 0; i < unset.length; i++) tr.setNodeAttribute(unset[i].pos, 'name', `${n++}`);
+
+            view.dispatch(tr);
+
+            // WORST HACK OF ALL TIME
+            // forces re-render
+            // still not sure if this is tiptap needs to rerender or the vue component
+            source.value = true;
+            nextTick(() => source.value = false)
+        }
 
         props.editor.storage.footnote.footnotes = footnotes;
 
