@@ -78,21 +78,24 @@ class CalculateRatings
 
     public static function all(): void
     {
+        $threshold = 5;
+        $chunk_select = 4000;
+        $chunk_update = 1000;
+        $columns = ['overall', 'gameplay', 'visuals'];
+
         // Reset all level averages
         Level::withoutTimestamps(function () {
             Level::query()->update([
-                'rating_difficulty' => null,
                 'rating_gameplay' => null,
                 'rating_visuals' => null,
                 'rating_overall' => null
             ]);
         });
 
-        $levels = Level::query()
-            ->select('id')
-            ->withCount('reviews')
-            ->whereHas('reviews')
-            ->get();
+        $levels = [];
+
+        $counts = array_fill_keys($columns, []);
+        $totals = array_fill_keys($columns, []);
 
         $users = User::query()
             ->select(['id', 'weight', 'banned_at'])
@@ -100,28 +103,79 @@ class CalculateRatings
             ->get()
             ->keyBy('id');
 
-        $reviews = Review::query()
-            ->select(['id', 'rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'weight', 'level_id', 'user_id'])
-            ->get()
-            ->mapToGroups(fn (Review $review) => [$review->level_id => $review]);
+        Review::query()
+            ->select(['id', 'rating_gameplay', 'rating_visuals', 'rating_overall', 'weight', 'level_id', 'user_id'])
+            ->chunk($chunk_select, function (Collection $reviews) use (&$users, &$counts, &$totals, &$levels, &$columns) {
+                for ($i = 0, $count = $reviews->count(); $i < $count; $i++) {
+                    $review = $reviews[$i];
+                    $level_id = $review->level_id;
+                    $levels[] = $level_id;
+
+                    array_map(function ($column) use (&$counts, &$level_id) {
+                        if (!array_key_exists($level_id, $counts[$column])) $counts[$column][$level_id] = 0;
+                    }, $columns);
+
+                    array_map(function ($column) use (&$totals, &$level_id) {
+                        if (!array_key_exists($level_id, $totals[$column])) $totals[$column][$level_id] = 0;
+                    }, $columns);
+
+                    $weight = 0;
+
+                    // Get review's user and set their weight based on column or if banned set to 0
+                    if ($users->has($reviews[$i]->user_id)) {
+                        $user = $users->get($reviews[$i]->user_id);
+                        $weight = $user->banned_at === null ? $user->weight : 0;
+                    }
+
+                    // Review's weight trumps all weights
+                    $weight = $review->weight ?? $weight;
+
+                    // Tally up weighted scores
+                    array_map(function ($column) use (&$counts, &$level_id, &$weight) {
+                        $counts[$column][$level_id] += $weight;
+                    }, $columns);
+
+                    array_map(function ($column) use (&$totals, &$level_id, &$review, &$weight) {
+                        $totals[$column][$level_id] += $review->rating_overall * $weight;
+                    }, $columns);
+                }
+            });
+
+        // try to free from memory
+        $users = null;
 
         $updates = [];
 
+        // average out review tallies if the count is over threshold
         for ($i = 0, $count = count($levels); $i < $count; $i++) {
-            if ($levels[$i]->reviews_count >= 5) {
-                $results = self::filter($reviews[$levels[$i]->id] ?? null, $users);
-                $results['id'] = $levels[$i]->id;
-                $updates[] = $results;
+            $id = $levels[$i];
+
+            $update = [
+                'id' => $levels[$i],
+                'rating_gameplay' => 0,
+                'rating_visuals' => 0,
+                'rating_overall' => 0,
+            ];
+
+            array_map(function ($c) use (&$counts, &$totals, &$id, &$threshold, &$update) {
+                // If review count passes threshold, then calculate the final average score
+                if ($counts[$c][$id] >= $threshold) $update['rating_' . $c] = $totals[$c][$id] / $counts[$c][$id];
+            }, $columns);
+
+            $updates[] = $update;
+
+            if ($i % $chunk_update === 0 || $i + 1 >= $count) {
+                Level::withoutTimestamps(function () use (&$updates) {
+                    Level::query()->upsert(
+                        $updates,
+                        'id',
+                        ['rating_gameplay', 'rating_visuals', 'rating_overall']
+                    );
+                });
+
+                $updates = [];
             }
         }
-
-        Level::withoutTimestamps(function () use (&$updates) {
-            Level::query()->upsert(
-                $updates,
-                'id',
-                ['rating_difficulty', 'rating_gameplay', 'rating_visuals', 'rating_overall']
-            );
-        });
     }
 
     public static function level(Level $level): void
