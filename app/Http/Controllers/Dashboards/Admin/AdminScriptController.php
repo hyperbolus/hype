@@ -17,15 +17,15 @@ class AdminScriptController extends Controller
      */
     public function __invoke(Request $request, string $script)
     {
+        $params = $request->all();
+
         try {
-            Script::execute($script, $request->all());
+            dispatch(function () use (&$params, $script) {
+                Script::execute($script, $params);
+            });
         } catch (Exception $e) {
             dd($e);
         }
-
-//        dispatch(function () use ($class, $method, $request) {
-//            $class::$method(...$request->array('arguments'));
-//        });
 
         return back();
     }
