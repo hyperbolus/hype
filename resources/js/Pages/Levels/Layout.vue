@@ -109,7 +109,7 @@ const {formVote, searchQuery, searchResults, vote, verify} = useTagManager(tags.
                 <span class="y items-center font-bold text-sm uppercase md:ml-48">Top Tags</span>
                 <div class="py-2 select-none border-r border-ui-700"></div>
                 <span v-if="level.top_tags.length === 0" class="text-ui-500">No Tags</span>
-                <div v-else v-for="tag in level.top_tags" class="x items-center text-ui-300 pl-2 pr-0.5 py-1 text-sm rounded-md bg-ui-800 capitalize group/tag">
+                <div v-else v-for="tag in level.top_tags" class="x items-center text-ui-300 pl-2 py-1 text-sm rounded-md bg-ui-800 capitalize group/tag" :class="isAuthenticated() ? 'pr-0.5' : 'pr-2'">
                     <Tooltip @click="isAdmin() ? verify(tag.id, !tag.pivot.verified) : void(0)" v-if="tag.pivot.verified || isAdmin()" :inline="true" :message="`${tag.pivot.verified ? 'Verified' : 'Unverified'} tag`" class="mr-0.5" :class="{'cursor-pointer': isAdmin()}">
                         <Icon name="check" size="16" scale="size-5" class="rounded-full" :class="tag.pivot.verified ? 'text-blue-500' : 'text-ui-600'"/>
                     </Tooltip>
