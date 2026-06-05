@@ -67,6 +67,12 @@ onKeyStroke('Escape', () => {
                     </Tooltip>
                     <div class="y">
                         <Link :href="route('levels.show', level.id)" class="x z-10 pt-2 items-center w-fit">
+                            <Tooltip v-if="level.length === -1" message="Platformer Level">
+                                <Icon name="moon" scale="size-4" class="mr-1 text-ui-500"/>
+                            </Tooltip>
+                            <Tooltip v-else message="Classic Level">
+                                <Icon name="star" scale="size-4" class="mr-1 text-ui-500"/>
+                            </Tooltip>
                             <h2 class="text-2xl font-bold">{{ level.name }}</h2>
                             <div class="hidden sm:flex items-center [text-shadow:black_0px_2px_2px]">
                                 <div class="pl-2 pr-0.5 py-2 group">
