@@ -19,7 +19,6 @@ const all = (value) => {
 
 const close = () => {
     // TODO@later: logic for disabling/enabling the stuff when it's added
-
     consent.value.dismissed = true;
 }
 </script>
@@ -27,7 +26,7 @@ const close = () => {
     <div v-show="!consent.dismissed" class="space-y-2 pane border border-ui-700 shadow-xl md:w-full md:max-w-xl fixed bottom-2 left-2 right-2 md:left-4 md:bottom-4 md:right-auto z-50">
         <div class="x items-center justify-between">
             <h2 class="text-2xl font-bold">GDPR Cookie Consent</h2>
-            <Icon v-if="false" @click="close" name="x-mark" scale="size-6" class="cursor-pointer"/>
+            <Icon @click="close" name="x-mark" scale="size-6" class="cursor-pointer"/>
         </div>
         <p>{{ siteName() }} uses cookies and local browser storage to enable basic functionality of the site. If we make any changes to these options we will ask for your consent again.</p>
         <div class="x space-x-2 items-center">
@@ -46,7 +45,6 @@ const close = () => {
             <button @click="all(false)" class="px-4 py-1 rounded-md bg-ui-700 text-white w-full">Reject non-essential</button>
             <button @click="all(true)" class="px-4 py-1 rounded-md bg-ui-700 text-white w-full">Accept all</button>
         </div>
-        <p class="text-center">sorry about this gang</p>
         <div class="y md:flex-row space-x-2 items-center justify-between text-sm text-ui-500">
             <div class="x space-x-4">
                 <Link class="hover:underline" :href="route('legal.terms')">Terms of Service</Link>
