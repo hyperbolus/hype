@@ -14,6 +14,18 @@ const props = defineProps({
     showRatings: {
         type: Boolean,
         default: true
+    },
+    clickable: {
+        type: Boolean,
+        default: true,
+    },
+    contextMenu: {
+        type: Boolean,
+        default: true,
+    },
+    fadeType: {
+        type: String,
+        default: 'half'
     }
 })
 
@@ -53,7 +65,7 @@ onKeyStroke('Escape', () => {
     <div ref="component" class="pane !px-0 !py-0 relative group/ticket hover:shadow-lg transition-shadow text-ui-300 delay-0">
         <div class="x relative items-center md:space-x-2 z-20">
             <div class="y w-full items-start relative z-0">
-                <Link :href="route('levels.show', level.id)" class="z-0 absolute inset-0"></Link>
+                <Link v-if="clickable" :href="route('levels.show', level.id)" class="z-0 absolute inset-0"></Link>
                 <div class="x items-stretch relative z-10 [text-shadow:black_0_0_10px]">
                     <span class="y sm:hidden space-y-1 justify-center mx-3">
                         <span class="rounded-full p-[.15rem] px-2 bg-yellow-400" :class="{'invisible': level.stars === 0}"></span>
@@ -66,7 +78,7 @@ onKeyStroke('Escape', () => {
                         <img :src="face(level)" alt=""/>
                     </Tooltip>
                     <div class="y">
-                        <Link :href="route('levels.show', level.id)" class="x z-10 pt-2 items-center w-fit">
+                        <component :is="clickable ? Link : 'div'" :href="route('levels.show', level.id)" class="x z-10 pt-2 items-center w-fit">
                             <Tooltip v-if="level.length === -1" message="Platformer Level">
                                 <Icon name="moon" scale="size-4" class="mr-1 text-ui-500"/>
                             </Tooltip>
@@ -101,19 +113,19 @@ onKeyStroke('Escape', () => {
                                     </div>
                                 </div>
                             </div>
-                        </Link>
+                        </component>
                         <p v-if="level.creator === '-'" class="text-lg">{{ level.creator }}</p>
                         <div v-else class="x">
-                            <Link class="text-lg w-fit" :href="route('profiles.show', level.creator)">{{ level.creator }}</Link>
-                            <Link :href="route('levels.show', level.id)" class="grow"></Link>
+                            <component :is="clickable ? Link : 'span'" class="text-lg w-fit" :href="route('profiles.show', level.creator)">{{ level.creator }}</component>
+                            <Link v-if="clickable" :href="route('levels.show', level.id)" class="grow"></Link>
                         </div>
                     </div>
                 </div>
                 <LevelRatingStamp v-if="showRatings" :level="level"/>
             </div>
         </div>
-        <div v-if="context" class="y absolute right-1 top-12 rounded-md border border-ui-700 bg-ui-800 z-50">
-            <div v-if="false && isAuthenticated()" class="group/playlists relative">
+        <div v-if="contextMenu && context" class="y absolute right-1 top-12 rounded-md border border-ui-700 bg-ui-800 z-50">
+            <div v-if="isAuthenticated()" class="group/playlists relative">
                 <button class="px-2 py-1 hover:bg-ui-900 text-left">Add to Playlist</button>
                 <div class="flex-col absolute min-w-32 top-0 right-[95%] shadow-lg bg-ui-800 border border-ui-700 rounded-md hidden group-hover/playlists:flex whitespace-nowrap">
                     <button v-for="(pl, i) in $page.props.user.playlists" class="px-2 py-1 hover:bg-ui-900 text-left" :class="{'rounded-t-md': i === 0}">{{ pl.title }}</button>
@@ -130,12 +142,21 @@ onKeyStroke('Escape', () => {
             <div class="border-t border-ui-700 mx-1"></div>
             <button @click="context = false" class="px-2 py-1 hover:bg-ui-900 text-red-500 text-left">Close</button>
         </div>
-        <div @click="context = !context" class="absolute right-2 top-2 group-hover/ticket:block z-30 cursor-pointer p-2 bg-ui-1000/75 rounded-full" :class="{'hidden': !context}">
+        <div v-if="contextMenu" @click="context = !context" class="absolute right-2 top-2 group-hover/ticket:block z-30 cursor-pointer p-2 bg-ui-1000/75 rounded-full" :class="{'hidden': !context}">
             <Icon name="ellipsis-horizontal"/>
         </div>
-        <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden [mask-image:linear-gradient(to_right,rgba(0,0,0,0.1)_25%,rgba(0,0,0,1)_60%);]">
+        <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden" :class="{'full-fade': fadeType === 'full', 'half-fade': fadeType === 'half'}">
             <video v-if="level.preview_url" class="absolute top-1/2 w-full -translate-y-1/2 opacity-0 group-hover/ticket:opacity-100 transition-opacity z-10" :src="level.preview_url" muted autoplay loop></video>
             <img loading="lazy" class="absolute top-1/2 w-full -translate-y-1/2 -md:w-4/5 group-hover/ticket:scale-105 transition-transform" :src="level.banner_url ?? ('https://levelthumbs.prevter.me/thumbnail/' + level.id + '/small')" alt="">
         </div>
     </div>
 </template>
+<style>
+.half-fade {
+    mask-image: linear-gradient(to right, rgba(0,0,0,0.1) 25%, rgba(0,0,0,1) 60%);
+}
+
+.full-fade {
+    mask-image: linear-gradient(to right, rgba(0,0,0,0.1) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0.1) 80%);
+}
+</style>
