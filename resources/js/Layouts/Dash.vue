@@ -47,7 +47,6 @@ onBeforeMount(() => {
 <template>
     <div ref="base" class="y relative items-center text-ui-200 min-h-screen grow overflow-x-clip" :class="getGame() === 'soundodger' ? 'theme-soundodger' : ''">
         <Head v-if="title"><title>{{ title }}</title></Head>
-        <NetworkNav/>
         <SiteNav/>
         <div class="y relative grow items-center w-full">
             <AdUnit v-if="!isAuthenticated() && !fullwidth" :cta="false" type="banner" slot-key="2978602886" ad-style="height:90px;min-width:400px;width:100%;" class="mt-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
