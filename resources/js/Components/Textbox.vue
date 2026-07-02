@@ -16,7 +16,7 @@ const model = defineModel();
 </script>
 <template>
     <div class="y space-x-0.5">
-        <textarea v-model="model" :placeholder="placeholder" :maxlength="max" class="resize-none resize-y w-full placeholder-ui-600 bg-ui-950 rounded-md border-none focus:ring-0 focus:outline-none"></textarea>
-        <span v-if="max !== null" class="text-sm" :class="{'text-amber-500': model.length > max - (max * 0.15)}">{{ model.length }}/{{ max }}</span>
+        <textarea v-model="model" :placeholder="placeholder" :maxlength="max" class="resize-y w-full placeholder-ui-600 bg-ui-950 rounded-md border-none focus:ring-0 focus:outline-none"></textarea>
+        <span v-if="max !== null" class="text-sm" :class="{'text-amber-500': model?.length ?? 0 > max - (max * 0.15)}">{{ model?.length ?? 0 }}/{{ max }}</span>
     </div>
 </template>
