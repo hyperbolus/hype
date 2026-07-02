@@ -100,7 +100,7 @@ const results = computed(() => {
         <div v-show="open" @click="open = false" class="x items-center justify-end px-4 md:hidden absolute right-0 top-0 bg-ui-900 h-16 w-1/3">
             <Icon scale="size-6" size="20" name="x-mark"/>
         </div>
-        <div v-show="open" @click="open = false" class="y cursor-pointer items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[5.5rem] md:p-4 z-30">
+        <div v-show="open" @click="open = false" class="y cursor-pointer items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[4rem] md:p-4 z-30">
             <div class="y md:space-y-4 cursor-auto w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl h-full">
                 <div @click.stop class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-md md:bg-ui-950">
                     <Icon scale="size-6" class="shrink-0" size="24" name="magnifying-glass"/>
