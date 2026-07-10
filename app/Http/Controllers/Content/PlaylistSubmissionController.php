@@ -10,6 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PlaylistSubmissionController extends Controller
 {
@@ -43,14 +44,25 @@ class PlaylistSubmissionController extends Controller
 
         Hydrate::level($request->input('level_id'));
 
+        $rank = '00000-0';
+
+        if (!$request->has('rank')) {
+            $last = $playlist->submissions()->orderByDesc('rank')->first();
+            if ($last && Str::contains($last->rank, '-')) {
+                $next = intval(Str::after($last->rank, '-')) + 1;
+                $rank = Str::padLeft($next, 5, '0') . '-' . $next;
+            }
+        }
+
         $submission = new PlaylistSubmission();
         $submission->submitter_id = auth()->check() ? auth()->id() : null;
         $submission->playlist_id = $playlist->id;
         $submission->level_id = $request->integer('level_id');
+        $submission->rank = $request->string('rank', $rank);
         $submission->server_id = 0;
         $submission->save();
 
-        return redirect()->route('playlists.show', $playlist);
+        return back();
     }
 
     public function show(PlaylistSubmission $playlistSubmission)
@@ -76,6 +88,19 @@ class PlaylistSubmissionController extends Controller
         $this->authorize('destroy', [PlaylistSubmission::class, $submission->playlist]);
 
         $submission->delete();
+
+        $submissions = $submission->playlist->submissions()->orderBy('rank')->get();
+
+        $rankings = [];
+
+        for ($i = 0; $i < count($submissions); $i++) {
+            $rankings[$i] = [
+                'id' => $submissions[$i]->id,
+                'rank' => Str::padLeft($i, 5, '0') . '-' . $i,
+            ];
+        }
+
+        PlaylistSubmission::query()->upsert($rankings, 'id', ['rank']);
 
         return back();
     }

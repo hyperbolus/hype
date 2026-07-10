@@ -11,7 +11,7 @@ class PlaylistSubmissionPolicy
     {
         return match ($playlist->collaboration) {
             'public' => true,
-            'invite' => false,
+            'invite' => $user?->id === $playlist->owner_id,
             'none' => $user?->id === $playlist->owner_id,
             default => false,
         };

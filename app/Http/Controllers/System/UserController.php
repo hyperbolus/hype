@@ -99,10 +99,11 @@ class UserController extends Controller
 
     public function playlists(User $user): Responsable
     {
-        $playlists = sorting(Playlist::class)
-            ->where('owner_id', $user->id)
-            ->where('visibility', 'public')
-            ->paginate(10);
+        $playlists = sorting(Playlist::class)->with('owner')->where('owner_id', $user->id);
+
+        if (auth()->id() !== $user->id && !auth()->user()->hasAnyRole(['moderator', 'admin'])) $playlists->where('visibility', 'public');
+
+        $playlists = $playlists->paginate(10);
 
         return page('Users/Sections/Playlists', [
             'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews']),

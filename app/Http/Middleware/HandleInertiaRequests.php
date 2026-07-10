@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Actions\Statistics;
 use App\Hype;
+use App\Models\Content\Playlist;
 use App\Models\System\Message;
 use App\Models\System\Setting;
 use App\Models\System\User;
@@ -112,6 +113,11 @@ class HandleInertiaRequests extends Middleware
                         return $user->unreadNotifications()->get();
                     })(),
                     'messages' => Message::query()->where('recipient_id', '=', $request->user()->id)->where('read_at', '=', null)->count(),
+                    'playlists' => $request->user()->playlists()->with(['levels' => function ($query) {
+                        $query->select('levels.id');
+                    }])->get()->each(function (Playlist $playlist) {
+                        $playlist->setAttribute('levelIDs', $playlist->levels->modelKeys());
+                    }),
                 ]);
             },
             'errors' => [],

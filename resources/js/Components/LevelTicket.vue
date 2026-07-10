@@ -8,6 +8,8 @@ import {onClickOutside, onKeyStroke, useFileDialog} from "@vueuse/core";
 import Icon from "@/Components/Icon.vue";
 import {ref, useTemplateRef} from "vue";
 import {isAuthenticated} from "@/util";
+import {usePlaylistManager} from "@/lib/composables/usePlaylistManager";
+import AutoLink from "@/Components/AutoLink.vue";
 
 const props = defineProps({
     level: Object,
@@ -59,7 +61,9 @@ onClickOutside(component, () => {
 
 onKeyStroke('Escape', () => {
     context.value = false;
-})
+});
+
+const {submit} = usePlaylistManager();
 </script>
 <template>
     <div ref="component" class="pane !px-0 !py-0 relative group/ticket hover:shadow-lg transition-shadow text-ui-300 delay-0">
@@ -125,14 +129,34 @@ onKeyStroke('Escape', () => {
             </div>
         </div>
         <div v-if="contextMenu && context" class="y absolute right-1 top-12 rounded-md border border-ui-700 bg-ui-800 z-50">
+            <slot name="context-additions"/>
+            <div v-if="$slots['context-additions']" class="border-t border-ui-700 mx-1"></div>
+            <div class="group/playlists relative">
+                <button class="px-2 py-1 hover:bg-ui-900 text-left w-full">Quick Info</button>
+                <div class="flex-col px-2 py-1 absolute min-w-32 top-0 right-[95%] shadow-lg bg-ui-800 border border-ui-700 rounded-md hidden group-hover/playlists:flex whitespace-nowrap">
+                    <div class="x space-x-2 items-center justify-between" v-for="rating in ['overall', 'visuals', 'gameplay']">
+                        <span class="capitalize">{{ rating }}</span>
+                        <span class="text-right">{{ level[`rating_${rating}`] ?? '-' }}</span>
+                    </div>
+                </div>
+            </div>
             <div v-if="isAuthenticated()" class="group/playlists relative">
-                <button class="px-2 py-1 hover:bg-ui-900 text-left">Add to Playlist</button>
+                <button class="px-2 py-1 hover:bg-ui-900 text-left w-full">Add to Playlist</button>
                 <div class="flex-col absolute min-w-32 top-0 right-[95%] shadow-lg bg-ui-800 border border-ui-700 rounded-md hidden group-hover/playlists:flex whitespace-nowrap">
-                    <button v-for="(pl, i) in $page.props.user.playlists" class="px-2 py-1 hover:bg-ui-900 text-left" :class="{'rounded-t-md': i === 0}">{{ pl.title }}</button>
-                    <button class="x items-center px-2 py-1 text-left hover:bg-ui-900 rounded-b-md">
+                    <div v-for="(pl, i) in $page.props.user.playlists" class="w-full">
+                        <div v-if="pl.levelIDs.includes(level.id)" class="x items-center space-x-1 px-2 py-1 text-left w-full" :class="{'rounded-t-md': i === 0}">
+                            <Icon class="text-green-500" scale="size-4" name="check"/>
+                            <span>{{ pl.title }}</span>
+                        </div>
+                        <button v-else @click="submit(pl.id, level.id)" class="x items-center space-x-1 px-2 py-1 hover:bg-ui-900 text-left w-full" :class="{'rounded-t-md': i === 0}">
+                            <span>{{ pl.title }}</span>
+                        </button>
+                    </div>
+                    <div class="border-t border-ui-700 mx-1"></div>
+                    <AutoLink :to="route('playlists.create')" class="x items-center px-2 py-1 text-left hover:bg-ui-900 rounded-b-md">
                         <Icon name="plus-circle" class="mr-1"/>
                         <span>New Playlist</span>
-                    </button>
+                    </AutoLink>
                 </div>
             </div>
             <button @click="openBannerFile" v-if="isAdmin()" class="px-2 py-1 hover:bg-ui-900 text-left">Set Banner</button>
@@ -142,7 +166,7 @@ onKeyStroke('Escape', () => {
             <div class="border-t border-ui-700 mx-1"></div>
             <button @click="context = false" class="px-2 py-1 hover:bg-ui-900 text-red-500 text-left">Close</button>
         </div>
-        <div v-if="contextMenu" @click="context = !context" class="absolute right-2 top-2 group-hover/ticket:block z-30 cursor-pointer p-2 bg-ui-1000/75 rounded-full" :class="{'hidden': !context}">
+        <div v-if="contextMenu" @click="context = !context" class="absolute right-2 top-2 md:group-hover/ticket:block block z-30 cursor-pointer p-2 bg-ui-1000/75 rounded-full" :class="{'md:hidden': !context}">
             <Icon name="ellipsis-horizontal"/>
         </div>
         <div class="absolute z-0 right-0 top-0 h-full w-full rounded-lg overflow-hidden" :class="{'full-fade': fadeType === 'full', 'half-fade': fadeType === 'half'}">

@@ -5,6 +5,7 @@ import AppLayout from "@/Layouts/Dash.vue";
 import QueryResults from "@/Components/QueryResults.vue";
 import route from "ziggy-js";
 import look from "../../../images/playlist_look.png"
+import PlaylistTicket from "@/Components/PlaylistTicket.vue";
 
 const props = defineProps({
     playlists: Object,
@@ -15,16 +16,7 @@ const props = defineProps({
     <app-layout>
         <div class="md:w-3/4">
             <QueryResults :sorting="sorting" :url="route('playlists.index')" title="Playlists" :results="playlists" container-classes="y space-y-2" v-slot="{ item, key }">
-                <Link :href="route('playlists.show', item.id)" class="block y pane">
-                    <div class="x items-center justify-between">
-                        <h1 class="text-xl font-bold">{{ item.title }}</h1>
-                        <span></span>
-                    </div>
-                    <div class="x items-center justify-between">
-                        <p>{{ item.description }}</p>
-                        <span></span>
-                    </div>
-                </Link>
+                <PlaylistTicket :playlist="item" :key="key"/>
             </QueryResults>
         </div>
         <div class="y space-y-4 md:w-1/4">

@@ -296,6 +296,14 @@ export const objKeyOf = (obj, value) => {
     return null;
 }
 
+export const objKeyBy = (obj, property) => {
+    let out = {};
+
+    for (const key in obj) if (obj[key].hasOwnProperty(property)) out[obj[key][property]] = obj[key];
+
+    return out;
+}
+
 export const readonly = (e, reset) => {
     e.currentTarget.value = reset;
     return true;

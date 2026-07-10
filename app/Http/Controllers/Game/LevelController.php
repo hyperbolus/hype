@@ -158,6 +158,13 @@ class LevelController extends Controller
                 $query->where('user_id', $request->user()->id);
             }]);
 
+            $playlistQuery = Playlist::query()->with(['owner'])->whereHas('levels', function ($query) use ($level) {
+                $query->where('level_id', $level->id);
+            });
+
+            // TODO: use scope maybe and include own playlists if unlisted or private
+            if ((auth()->check() && !auth()->user()->hasAnyRole(['moderator', 'admin'])) || !auth()->check()) $playlistQuery->where('visibility', 'public');
+
             return [
                 'ranking' => CalculateRatings::rank($level->id),
                 'reviews' => Review::query()
@@ -173,9 +180,7 @@ class LevelController extends Controller
                     ->where('user_id', auth()->id())
                     ->with(['author', 'level'])
                     ->first() : null,
-                'playlists' => Playlist::query()->whereHas('levels', function ($query) use ($level) {
-                    $query->where('level_id', $level->id);
-                })->get(),
+                'playlists' => $playlistQuery->get(),
                 'curve' => Review::curve($level),
             ];
         });

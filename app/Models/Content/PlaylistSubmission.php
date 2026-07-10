@@ -19,6 +19,10 @@ class PlaylistSubmission extends Model
         'accepted' => 'boolean',
     ];
 
+    protected $fillable = [
+        'rank',
+    ];
+
     public function playlist(): BelongsTo
     {
         return $this->belongsTo(Playlist::class, 'playlist_id');
@@ -31,6 +35,6 @@ class PlaylistSubmission extends Model
 
     public function submitter(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'submitter_id')->select(['id', 'name', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url']);
+        return $this->belongsTo(User::class, 'submitter_id');
     }
 }

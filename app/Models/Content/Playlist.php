@@ -15,19 +15,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Playlist extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'title',
         'description',
         'owner_id',
         'visibility',
         'collaboration',
+        'attribution',
+        'type',
     ];
 
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'owner_id')->select(['id', 'name', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url']);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function levels(): BelongsToMany

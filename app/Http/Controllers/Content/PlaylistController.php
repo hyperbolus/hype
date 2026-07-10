@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Playlist;
+use App\Models\Content\PlaylistSubmission;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class PlaylistController extends Controller
 {
     public function index(): Responsable
     {
         $sorting = sorting(Playlist::class)
+            ->with(['owner'])
             ->where('visibility', '=', 'public')
             ->paginatorOptions(10, 1, 30);
 
@@ -52,7 +53,9 @@ class PlaylistController extends Controller
 
     public function show(Request $request, Playlist $playlist): Responsable
     {
-        $playlist->load(['owner', 'submissions']);
+        $playlist->load(['owner', 'submissions' => function ($query) {
+            $query->orderBy('rank', 'asc');
+        }]);
 
         return page('Playlists/Show', [
             'playlist' => $playlist
@@ -70,11 +73,14 @@ class PlaylistController extends Controller
         $this->authorize('edit', [$playlist]);
 
         return page('Playlists/Edit', [
-            'playlist' => $playlist,
-        ])->meta('Edit ' . $playlist->title, $playlist->description)
+            'playlist' => $playlist->load(['owner', 'submissions' => function ($query) {
+                $query->orderBy('rank', 'asc');
+            }, 'submissions.submitter']),
+        ])->meta('Edit ' . $playlist->title, $playlist->description, false)
             ->breadcrumbs([
                 crumb('Playlists', route('playlists.index')),
                 crumb($playlist->title, route('playlists.show', $playlist->id)),
+                crumb('Edit', route('playlists.edit', $playlist->id)),
             ]);
     }
 
@@ -89,8 +95,21 @@ class PlaylistController extends Controller
             'title' => 'required|max:64',
             'description' => 'max:255',
             'visibility' => [Rule::in(['public', 'unlisted', 'private'])],
-            'collaboration' => [Rule::in('public', 'invite', 'none')]
+            'collaboration' => [Rule::in('public', 'invite', 'none')],
+            'attribution' => [Rule::in('shown', 'others', 'hidden')],
+            'type' => [Rule::in('ordered', 'unordered')],
         ]);
+
+        $rankings = $request->array('rankings');
+
+        for ($i = 0; $i < count($rankings); $i++) {
+            $rankings[$i] = [
+                'id' => $rankings[$i]|0,
+                'rank' => Str::padLeft($i, 5, '0') . '-' . $i,
+            ];
+        }
+
+        PlaylistSubmission::query()->upsert($rankings, 'id', ['rank']);
 
         $playlist->update($validated);
 
