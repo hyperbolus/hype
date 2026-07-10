@@ -125,7 +125,7 @@ const submit = () => {
                 <div class="w-full" :class="{'max-h-48 overflow-hidden': !expanded, '[mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0.1)_85%,rgba(0,0,0,0)_100%);]': long && !expanded}">
                     <TipTap :key="review.id" ref="body" :editable="false" v-model="review.review"/>
                 </div>
-                <button v-if="long" @click="expanded = !expanded" class="py-1 z-20 bg-ui-600 px-2 rounded text-xs my-1" :class="{'absolute bottom-1 tracking-widest uppercase': !expanded}">{{ expanded ? 'ok umm,, now please stop reading' : 'read' }} more...</button>
+                <button v-if="long" @click="expanded = !expanded" class="py-1 z-20 bg-ui-600 px-2 rounded text-xs my-1" :class="{'absolute bottom-1 tracking-widest uppercase': !expanded}">read {{ expanded ? 'less' : 'more' }}...</button>
             </div>
             <div class="z-10 y sm:flex-row justify-between items-center w-full gap-2 mt-2">
                 <div class="x space-x-2 items-center">
