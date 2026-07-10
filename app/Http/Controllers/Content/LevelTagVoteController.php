@@ -96,10 +96,10 @@ class LevelTagVoteController extends Controller
             ->where('votable_type', '=', 11)
             ->count();
 
-        $all_avg = 0.25; // Assume this for now
+        $all_avg = 0.5; // Assume this for now
 
         // Lower quartile 25%
-        $confidence = 15; // placeholder
+        $confidence = 10; // placeholder
 
         $score = ($this_upvotes + $confidence * $all_avg) / ($this_votes + $confidence);
 
