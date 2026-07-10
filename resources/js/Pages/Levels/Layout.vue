@@ -6,8 +6,7 @@ import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import {difficulty, face, isAdmin, isAuthenticated} from "@/util";
 import RatingOverview from "@/Components/RatingOverview.vue";
-import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
-import {computed, ref, toRef, toRefs, useTemplateRef} from "vue";
+import {computed, reactive, ref, useTemplateRef} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import {useTagManager} from "@/lib/composables/useTagManager";
 import Lightbox from "@/Components/Lightbox.vue";
@@ -19,27 +18,27 @@ const level = computed(() => usePage().props.level);
 const levelTagVotes = computed(() => usePage().props.levelTagVotes);
 const tags = computed(() => usePage().props.tags);
 
-const tabs = {
+const tabs = reactive({
     'levels.show': {
         title: 'Overview',
     },
     'levels.reviews.show': {
         title: 'Reviews',
-        count: level.value.reviews_count
+        count: 'reviews_count',
     },
     'levels.tags.show': {
         title: 'Tags',
-        count: level.value.tags_count
+        count: 'tags_count',
     },
     'levels.replays.show': {
         title: 'Macros',
-        count: level.value.replays_count
+        count: 'replays_count',
     },
     'levels.videos.show': {
         title: 'Videos',
-        count: level.value.videos_count
+        count: 'videos_count',
     },
-};
+});
 
 const tagActive = ref(false);
 const tagInput = useTemplateRef('tagInput');
@@ -119,24 +118,26 @@ const {formVote, searchQuery, searchResults, vote, verify} = useTagManager(tags.
                         <Icon @click="!tag.voted || (tag.voted && tag.approved) ? vote(tag.id, false) : void(0)" :class="`${!tag.voted || (tag.voted && tag.approved) ? 'cursor-pointer text-ui-600' : 'text-red-500'}`" name="arrow-up" size="16" scale="size-4 rotate-180"/>
                     </div>
                 </div>
-                <div>
-                    <input @keydown.enter="vote(searchQuery, true, () => searchQuery = '')" @click="dropdown.open = true" v-model="searchQuery" placeholder="Tag" ref="tagInput" class="px-0 py-0.5 text-sm mr-0 rounded-md bg-ui-950 border-transparent border-0 w-0 transition-all duration-300 ease-out" :class="{'w-32 !px-2 !mr-2 !border border-ui-700': tagActive}"/>
-                    <Dropdown align="left" ref="dropdown">
-                        <template #content>
-                            <ul class="max-h-[50vh] overflow-y-auto">
-                                <li class="px-4 py-1" v-if="searchResults.length === 0">No Results</li>
-                                <li class="px-2 py-1 hover:bg-ui-700 cursor-pointer" v-for="tag in searchResults" @click="searchQuery = tag.name">{{ tag.name }}</li>
-                            </ul>
-                        </template>
-                    </Dropdown>
+                <div class="flex gap-2">
+                    <div>
+                        <input @keydown.enter="vote(searchQuery, true, () => searchQuery = '')" @click="dropdown.open = true" v-model="searchQuery" placeholder="Tag" ref="tagInput" class="px-0 py-0.5 text-sm mr-0 rounded-md bg-ui-950 border-transparent border-0 w-0 transition-all duration-300 ease-out" :class="{'w-32 !px-2 !mr-2 !border border-ui-700': tagActive}"/>
+                        <Dropdown align="left" ref="dropdown">
+                            <template #content>
+                                <ul class="max-h-[50vh] overflow-y-auto">
+                                    <li class="px-4 py-1" v-if="searchResults.length === 0">No Results</li>
+                                    <li class="px-2 py-1 hover:bg-ui-700 cursor-pointer" v-for="tag in searchResults" @click="searchQuery = tag.name">{{ tag.name }}</li>
+                                </ul>
+                            </template>
+                        </Dropdown>
+                    </div>
+                    <button v-show="tagActive" @click="vote(searchQuery, true, () => searchQuery = '')" class="bg-ui-800 p-0.5 -ml-3 mr-1 rounded" :class="tagActive ? 'text-green-500 hover:bg-green-500 hover:text-white' : 'hover:bg-ui-700'">
+                        <Icon name="paper-airplane" size="16" scale="size-4" class="transition-transform duration-300 ease-out p-0.5"/>
+                    </button>
+                    <button @click="toggleTagInput" class="bg-ui-800 rounded -ml-2" :class="tagActive ? 'text-red-500 hover:bg-red-500 hover:text-white' : 'hover:bg-ui-700'">
+                        <Icon name="plus" class="transition-transform duration-300 ease-out p-0.5" :class="{'rotate-45': tagActive}"/>
+                    </button>
+                    <span class="text-sm text-green-500" v-show="formVote.recentlySuccessful && tagActive">Submitted</span>
                 </div>
-                <button v-show="tagActive" @click="vote(searchQuery, true, () => searchQuery = '')" class="bg-ui-800 p-0.5 -ml-3 mr-1 rounded" :class="tagActive ? 'text-green-500 hover:bg-green-500 hover:text-white' : 'hover:bg-ui-700'">
-                    <Icon name="paper-airplane" size="16" scale="size-4" class="transition-transform duration-300 ease-out p-0.5"/>
-                </button>
-                <button @click="toggleTagInput" class="bg-ui-800 rounded -ml-2" :class="tagActive ? 'text-red-500 hover:bg-red-500 hover:text-white' : 'hover:bg-ui-700'">
-                    <Icon name="plus" class="transition-transform duration-300 ease-out p-0.5" :class="{'rotate-45': tagActive}"/>
-                </button>
-                <span class="text-sm text-green-500" v-show="formVote.recentlySuccessful && tagActive">Submitted</span>
             </div>
         </div>
         <div class="y justify-center w-full bg-ui-950 items-center px-4">
@@ -202,7 +203,7 @@ const {formVote, searchQuery, searchResults, vote, verify} = useTagManager(tags.
                 </Lightbox>
                 <Link v-for="(tab, key) in tabs" :href="route(key, level.id)" :class="{'bg-ui-900': route().current(key)}" class="py-1.5 px-4">
                     <span class="font-bold">{{ tab.title }}</span>
-                    <span class="text-ui-500" v-if="tab.hasOwnProperty('count')"> ({{ tab.count }})</span>
+                    <span class="text-ui-500" v-if="tab.hasOwnProperty('count')"> ({{ level[tab.count] }})</span>
                 </Link>
             </div>
         </div>
