@@ -81,7 +81,7 @@ class CalculateRatings
         $threshold = 5;
         $chunk_select = 4000;
         $chunk_update = 1000;
-        $columns = ['overall', 'gameplay', 'visuals'];
+        $columns = ['gameplay', 'visuals', 'overall'];
 
         // Reset all level averages
         Level::withoutTimestamps(function () {
@@ -136,7 +136,7 @@ class CalculateRatings
                     }, $columns);
 
                     array_map(function ($column) use (&$totals, &$level_id, &$review, &$weight) {
-                        $totals[$column][$level_id] += $review->rating_overall * $weight;
+                        $totals[$column][$level_id] += $review['rating_' . $column] * $weight;
                     }, $columns);
                 }
             });
@@ -152,9 +152,9 @@ class CalculateRatings
 
             $update = [
                 'id' => $levels[$i],
-                'rating_gameplay' => 0,
-                'rating_visuals' => 0,
-                'rating_overall' => 0,
+                'rating_gameplay' => null,
+                'rating_visuals' => null,
+                'rating_overall' => null,
             ];
 
             array_map(function ($c) use (&$counts, &$totals, &$id, &$threshold, &$update) {
