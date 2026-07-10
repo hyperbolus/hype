@@ -49,7 +49,8 @@ export function useTagManager(tags, level, votes, tagsKey = 'top_tags') {
             onSuccess: () => {
                 if (typeof callback === 'function') callback();
                 formVote.reset();
-            }
+            },
+            preserveScroll: true,
         });
     }
 
@@ -60,7 +61,8 @@ export function useTagManager(tags, level, votes, tagsKey = 'top_tags') {
         formVerify.post(route('levels.tags.store', level.value.id), {
             onSuccess: () => {
                 formVerify.reset();
-            }
+            },
+            preserveScroll: true,
         });
     }
 
