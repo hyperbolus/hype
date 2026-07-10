@@ -104,7 +104,7 @@ const songData = ref({
                 <div class="x gap-2">
                     <VideoLightbox v-for="video in level.videos" :video="video"/>
                     <Lightbox v-if="level.videos.length < 3" class="hidden sm:block w-full">
-                        <div class="y text-ui-400 items-center justify-center border-4 border-ui-600 bg-ui-900 border-dashed rounded-md aspect-video">
+                        <div class="y text-ui-400 items-center justify-center border-4 border-ui-600 bg-ui-900 border-dashed rounded-md py-5" :class="{'aspect-video': level.videos.length > 0}">
                             <p>Submit a Video</p>
                             <Icon type="outline" size="24" scale="size-12" name="plus-circle"/>
                         </div>
@@ -143,7 +143,7 @@ const songData = ref({
 
                 <h2 class="font-bold text-2xl">Included in Playlists</h2>
                 <div v-if="playlists.length === 0" class="pane text-ui-500 text-center">This level is not included in any Hyperbolus playlists</div>
-                <PlaylistTicket  v-for="playlist in playlists" :playlist="playlist"/>
+                <PlaylistTicket  v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"/>
             </div>
             <div class="y space-y-2 md:w-1/4">
                 <div class="w-full space-y-2">
