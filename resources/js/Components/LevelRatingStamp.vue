@@ -11,7 +11,6 @@ const props = defineProps({
 const hovered = ref(false);
 
 const list = {
-    // 'rating_difficulty': 'DIFFICULTY',
     'rating_overall': 'OVERALL',
     'rating_gameplay': 'GAMEPLAY',
     'rating_visuals': 'VISUALS',
@@ -48,7 +47,11 @@ const reviewMessage = computed(() => {
             </div>
             <div v-for="(rating, key) in list" class="y items-center sm:items-start">
                 <span class="text-xs uppercase">{{ rating }}</span>
-                <span class="text-lg font-bold" :class="{'text-green-500': hasRating && hovered}">{{ displayRating(hasRating && hovered ? level.reviews[0][key] : level[key]) }}<span class="text-xs text-ui-600">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
+                <div class="text-lg font-bold" :class="{'text-green-500': hasRating && hovered}">
+                    <span v-if="Math.round(level[key] * 10) === 67 && Math.random() > 0.67" class="sixseven">.</span>
+                    <span v-else>{{ displayRating(hasRating && hovered ? level.reviews[0][key] : level[key]) }}</span>
+                    <span class="text-xs text-ui-600">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span>
+                </div>
             </div>
         </div>
         <div class="absolute z-0 inset-0 overflow-hidden rounded-bl-lg rounded-br-lg sm:rounded-br-none">
@@ -56,3 +59,40 @@ const reviewMessage = computed(() => {
         </div>
     </div>
 </template>
+<style scoped>
+.sixseven::before {
+    content: '6';
+    display: inline-block;
+    translate: 0;
+    animation: 1s linear 1s 3 reverse both wigglel;
+}
+
+.sixseven {
+    content: '.';
+}
+
+.sixseven::after {
+    content: '7';
+    display: inline-block;
+    translate: 0;
+    animation: 1s linear 1s 3 reverse both wiggler;
+}
+
+@keyframes wigglel {
+    25% {
+        transform: translateY(0.25rem);
+    }
+    75% {
+        transform: translateY(-0.25rem);
+    }
+}
+
+@keyframes wiggler {
+    25% {
+        transform: translateY(-0.25rem);
+    }
+    75% {
+        transform: translateY(0.25rem);
+    }
+}
+</style>
