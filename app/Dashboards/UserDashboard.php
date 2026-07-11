@@ -29,6 +29,12 @@ class UserDashboard extends Dashboard
             'description' => 'Manage your account settings',
             'icon' => 'cog'
         ],
+        'settings.connections' => [
+            'title' => 'Connections',
+            'component' => 'Dashboards/User/Connections',
+            'description' => 'Manage your connected accounts',
+            'icon' => 'link'
+        ],
     ];
 
     public static string $title = 'Settings';

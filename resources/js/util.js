@@ -117,6 +117,16 @@ export const isAuthenticated = () => {
     return usePage().props.auth;
 }
 
+export const isPremium = (user = null) => {
+    if (user === null) user = isAuthenticated() ? getUser() : null;
+
+    if (user === null) return false;
+
+    if (user.premium_expires_at === null) return false;
+
+    return isAuthenticated() && new Date(user.premium_expires_at) > new Date();
+}
+
 export const getUser = () => {
     return usePage().props.user;
 }

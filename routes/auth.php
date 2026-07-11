@@ -63,15 +63,66 @@ Route::impersonate();
 Route::get('/confirm', [ConfirmablePasswordController::class, 'show'])->name('password.confirm')->middleware('auth');
 Route::post('/confirm', [ConfirmablePasswordController::class, 'store'])->middleware('auth');
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('patreon')->redirect();
-});
+Route::get('/auth/oauth/{driver}', function (Request $request, string $driver) {
+    $map = [
+        'patreon' => \App\Enums\OAuthPlatform::Patreon,
+        'twitter' => \App\Enums\OAuthPlatform::Twitter,
+        'discord' => \App\Enums\OAuthPlatform::Discord,
+        'gd' => \App\Enums\OAuthPlatform::GeometryDash,
+    ];
 
+    abort_if(!in_array($driver, ['patreon']), 400);
 
-Route::get('/auth/callback', function () {
+    if ($request->boolean('unlink') || ($request->has('unlink') && $request->string('unlink') == '')) {
+        \App\Models\LinkedAccount::query()
+            ->where('user_id', $request->user()->id)
+            ->where('platform', $map[$driver])
+            ->delete();
+
+        return back();
+    } else {
+        if (\App\Models\LinkedAccount::query()
+            ->where('user_id', $request->user()->id)
+            ->where('platform', $map[$driver])
+            ->exists()) return back();
+
+        return Socialite::driver('patreon')->redirect();
+    }
+})->name('auth::oauth')->middleware(['auth', 'verified']);
+
+Route::get('/auth/callback/patreon', function (Request $request) {
     $user = Socialite::driver('patreon')->user();
-    dd($user);
-});
+
+    $account = \App\Models\LinkedAccount::query()
+        ->where('account_id', $user->getId())
+        ->where('platform', \App\Enums\OAuthPlatform::Patreon)
+        ->first();
+
+    $oldOwner = $account->user_id !== $request->user()->id ? $account->user_id : null;
+
+    // Creates new if not exists, otherwise overwrite, including user owner
+    if (!$account) $account = new \App\Models\LinkedAccount();
+
+    $account->user_id = $request->user()->id;
+    $account->platform = \App\Enums\OAuthPlatform::Patreon;
+    $account->token = $user->token;
+    $account->refresh_token = $user->refreshToken;
+    $account->expires_at = now()->addSeconds($user->expiresIn);
+
+    $account->account_id = $user->getId();
+    $account->nickname = $user->getNickname();
+    $account->username = $user->getName();
+    $account->email = $user->getEmail();
+    $account->avatar = $user->getAvatar();
+
+    $account->json = json_encode($user);
+    $account->save();
+
+    // If the linked account changed hands then revoke the old user's premium if applicable
+    if ($oldOwner !== null) \App\Actions\VerifyPremiumPatreon::check(\App\Models\System\User::find($oldOwner));
+
+    return redirect()->route('settings.connections');
+})->middleware(['auth', 'verified']);
 
 Route::name('auth::')->group(function () {
     Route::get('/auth/banned', function (\Illuminate\Http\Request $request) {

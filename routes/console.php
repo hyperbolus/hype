@@ -14,3 +14,11 @@
 Schedule::call(function () {
     \App\Security::updateTorBlockList();
 })->everySixHours();
+
+Schedule::call(function () {
+    $users = \App\Models\System\User::query()->where('premium_expires_at', '<', now())->get();
+
+    $users->each(function ($user) {
+        \App\Actions\VerifyPremiumPatreon::check($user);
+    });
+})->twiceDaily();

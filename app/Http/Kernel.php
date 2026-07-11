@@ -46,7 +46,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\LogoutDeleted::class,
             \App\Http\Middleware\UserActivity::class,
             \App\Http\Middleware\LogIP::class,
-            \App\Http\Middleware\Unbanned::class
+            \App\Http\Middleware\Unbanned::class,
+            \App\Http\Middleware\CheckPremium::class,
         ],
 
         'api' => [

@@ -44,7 +44,10 @@ return [
     'patreon' => [
         'client_id' => env('PATREON_CLIENT_ID'),
         'client_secret' => env('PATREON_CLIENT_SECRET'),
-        'redirect' => env('PATREON_REDIRECT_URI')
+        'redirect' => env('PATREON_REDIRECT_URI'),
+        'campaign_id' => env('PATREON_CAMPAIGN_ID'),
+        'tier_id' => env('PATREON_TIER_ID'),
+        'webhook_secret' => env('PATREON_WEBHOOK_SECRET'),
     ],
 
     'ipapi_is' => [

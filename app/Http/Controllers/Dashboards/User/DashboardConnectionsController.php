@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Dashboards\User;
 
+use App\Dashboards\UserDashboard;
 use App\Models\System\User;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class DashboardConnectionsController extends Controller
 {
-    public function show(): Response
+    public function show(Request $request): Responsable
     {
-        return Inertia::render('Dashboard/Connections');
+        return UserDashboard::page('settings.connections', [
+            'accounts' => $request->user()->linkedAccounts->keyBy('platform'),
+        ]);
     }
     public function update(Request $request): RedirectResponse
     {

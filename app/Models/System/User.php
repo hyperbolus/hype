@@ -74,6 +74,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * The attributes that should be cast.
      */
     protected $casts = [
+        'premium_expires_at' => 'datetime',
+        'premium_started_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'last_seen' => 'datetime',
         'time_online' => 'integer',
@@ -203,12 +205,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return ! $this->hasRole('admin');
     }
 
-    /*
-    public function accounts(): HasMany
+
+    public function linkedAccounts(): HasMany
     {
-        return $this->hasMany(\App\Models\Player::class, 'owner_id');
+        return $this->hasMany(\App\Models\LinkedAccount::class, 'user_id');
     }
-    */
+
     public function scopeProfile(Builder $query): void
     {
         $query->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits', 'banned_at']);

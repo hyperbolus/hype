@@ -45,6 +45,20 @@ Route::get('/level/{id}', function ($id) {
     return $level;
 });
 
+Route::get('/webhooks/patreon', function (Request $request) {
+    // Verify webhook comes from Patreon
+    if (hash_hmac('md5', $request->getContent(), config('services.patreon.webhook_secret')) !== $request->header('X-Patreon-Signature')) abort(403);
+
+    if ($request->header('X-Patreon-Event') === 'members:pledge:create') {
+        $account = \App\Models\LinkedAccount::query()->where('account_id', $request->json('relationships.user.data.id'))->first();
+
+        // if the account doesn't come up that's fine, this member hasn't linked their Patreon to Hype
+        if ($account) \App\Actions\VerifyPremiumPatreon::check(\App\Models\System\User::find($account->user_id));
+    }
+
+    return response('OK', 200);
+});
+
 //Route::get('/test/lvls', function () {
 //    $lvls = \App\Models\Game\Level::query()->limit(100)->orderBy('id', 'DESC')->get()->pluck('id')->toArray();
 //    return join(',', $lvls);
