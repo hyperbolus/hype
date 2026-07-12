@@ -54,7 +54,7 @@ class PlaylistController extends Controller
     public function show(Request $request, Playlist $playlist): Responsable
     {
         $playlist->load(['owner', 'submissions' => function ($query) {
-            $query->orderBy('rank', 'asc')->orderBy('created_at', 'desc');
+            $query->orderBy('rank', 'asc')->orderBy('created_at', 'asc');
         }]);
 
         return page('Playlists/Show', [
