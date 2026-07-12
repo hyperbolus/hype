@@ -98,10 +98,14 @@ Route::get('/auth/callback/patreon', function (Request $request) {
         ->where('platform', \App\Enums\OAuthPlatform::Patreon)
         ->first();
 
-    $oldOwner = $account->user_id !== $request->user()->id ? $account->user_id : null;
+    $oldOwner = null;
 
     // Creates new if not exists, otherwise overwrite, including user owner
-    if (!$account) $account = new \App\Models\LinkedAccount();
+    if (!$account) {
+        $account = new \App\Models\LinkedAccount();
+    } else if ($account->user_id !== $request->user()->id) {
+        $oldOwner = $account->user_id;
+    }
 
     $account->user_id = $request->user()->id;
     $account->platform = \App\Enums\OAuthPlatform::Patreon;
@@ -120,6 +124,8 @@ Route::get('/auth/callback/patreon', function (Request $request) {
 
     // If the linked account changed hands then revoke the old user's premium if applicable
     if ($oldOwner !== null) \App\Actions\VerifyPremiumPatreon::check(\App\Models\System\User::find($oldOwner));
+
+    \App\Actions\VerifyPremiumPatreon::check($request->user());
 
     return redirect()->route('settings.connections');
 })->middleware(['auth', 'verified']);
