@@ -46,6 +46,6 @@ onMounted(() => {
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         </div>
-        <span v-if="cta" class="text-sm">Don't want to see ads? <Link class="underline" :href="route('auth::login')">Sign in.</Link></span>
+        <span v-if="cta" class="text-sm">Don't want to see ads? <a class="underline" href="https://patreon.com/hyperbolus">Support us on Patreon.</a></span>
     </div>
 </template>
