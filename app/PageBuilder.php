@@ -55,8 +55,6 @@ class PageBuilder implements Responsable
     public function dashboard(string $dashboard): PageBuilder {
         if (!(new $dashboard() instanceof Dashboard)) return $this;
 
-
-
         return $this;
     }
 
