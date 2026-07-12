@@ -76,7 +76,7 @@ class ReviewController extends Controller
         CalculateRatings::level($level);
         CalculateRatings::rankings(true);
 
-        return redirect()->back();
+        return redirect()->route('levels.show', $level);
     }
 
     public function show(Review $review)
