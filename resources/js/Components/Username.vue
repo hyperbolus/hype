@@ -8,6 +8,7 @@ import sparkle from '@/../images/sparkle_2.gif'
 import UserTitle from "@/Components/UserTitle.vue";
 import Icon from "@/Components/Icon.vue";
 import {computed} from "vue";
+import {isPremium} from "@/util";
 
 const props = defineProps({
     user: Object,
@@ -57,6 +58,12 @@ const groups = {
         badge: 'open-book',
         color: '#8eb3ff',
         sparkle: true,
+    },
+    5: {
+        name: 'Supporter',
+        badge: 'heart',
+        color: '#d28eff',
+        sparkle: true,
     }
 };
 
@@ -69,13 +76,23 @@ const style = computed(() => {
 
     return a.join('');
 });
+
+const allGroups = computed(() => {
+    let arr = [group];
+
+    if (props.user.primary_group_id === null && isPremium(props.user)) arr.push(groups[5]);
+
+    return arr;
+});
 </script>
 <template>
     <div class="inline-flex items-center text-ui-200 break-all">
         <UserFlag v-if="flag" :user="user" size="md" class="mr-1.5"/>
-        <Tooltip v-if="group.badge" :inline="true" :message="group.name" class="w-3.5 ml-1 mr-1 badge-cover" :style="`color: ${group.color};`">
-            <Icon scale="size-2.5" class="scale-[205%] badge" :name="group.badge"/>
-        </Tooltip>
+        <div v-for="g in allGroups" class="inline-flex items-center">
+            <Tooltip v-if="g.badge" :inline="true" :message="g.name" class="w-3.5 ml-1 mr-1 badge-cover" :style="`color: ${g.color};`">
+                <Icon scale="size-2.5" class="scale-[205%] badge" :name="g.badge"/>
+            </Tooltip>
+        </div>
         <Tooltip v-if="card" :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'} right-full`">
             <Link v-if="link" :href="link" :style="style" class="relative">
                 <span class="z-10 relative">{{ user.name }}</span>
