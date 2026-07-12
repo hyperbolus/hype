@@ -118,7 +118,8 @@ class UserController extends Controller
 
     public function posts(User $user): Responsable
     {
-        $posts = sorting(Post::class)
+        // TODO: trashed should be automatic
+        $posts = sorting(Post::query()->withoutTrashed())
             ->where('author_id', $user->id)
             ->with(['author', 'thread'])
             ->paginate(10);
