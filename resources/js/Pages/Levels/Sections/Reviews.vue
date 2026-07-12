@@ -25,7 +25,7 @@ const props = defineProps({
                 <div class="flex flex-wrap items-center gap-2">
                     <Sorting :sorting="sorting" :url="route('levels.reviews.show', level.id)"/>
                     <Link :href="route('reviews.create') + '?level=' + level.id" class="x items-center space-x-1.5 rounded-md font-bold text-white px-3 py-1 !bg-blue-500">
-                        <span>{{ review ? 'Edit Your' : 'Write a' }} Review/Rating</span>
+                        <span>{{ review ? 'Edit Your' : 'Submit' }} Rating</span>
                         <Icon name="pencil"/>
                     </Link>
                 </div>
