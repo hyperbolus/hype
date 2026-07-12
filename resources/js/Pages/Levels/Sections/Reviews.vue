@@ -5,6 +5,8 @@ import route from 'ziggy-js'
 import LevelReview from "@/Components/LevelReview.vue";
 import QueryFooter from "@/Components/QueryFooter.vue";
 import Sorting from "@/Components/Sorting.vue";
+import {Link} from "@inertiajs/vue3";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     level: Object,
@@ -20,7 +22,13 @@ const props = defineProps({
 
             <div class="y md:flex-row items-center gap-2 justify-between">
                 <h2 class="font-bold text-2xl">Reviews</h2>
-                <Sorting :sorting="sorting" :url="route('levels.reviews.show', level.id)"/>
+                <div class="flex flex-wrap items-center gap-2">
+                    <Sorting :sorting="sorting" :url="route('levels.reviews.show', level.id)"/>
+                    <Link :href="route('reviews.create') + '?level=' + level.id" class="x items-center space-x-1.5 rounded-md font-bold text-white px-3 py-1 !bg-blue-500">
+                        <span>{{ review ? 'Edit Your' : 'Write a' }} Review/Rating</span>
+                        <Icon name="pencil"/>
+                    </Link>
+                </div>
             </div>
             <Pagination :list="reviews"/>
             <div v-if="reviews.data.length === 0" class="pane">This level has no reviews. Be the first!</div>

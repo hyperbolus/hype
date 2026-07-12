@@ -129,7 +129,7 @@ const songData = ref({
                 <div class="x items-center justify-between">
                     <h2 class="font-bold text-2xl">Recent Reviews</h2>
                     <Link :href="route('reviews.create') + '?level=' + level.id" class="x items-center space-x-1.5 rounded-md font-bold text-white px-3 py-1 !bg-blue-500">
-                        <span>{{ review ? 'Edit Your' : 'Write a' }} Review</span>
+                        <span>{{ review ? 'Edit Your' : 'Write a' }} Review/Rating</span>
                         <Icon name="pencil"/>
                     </Link>
                 </div>
