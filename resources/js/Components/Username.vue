@@ -88,11 +88,11 @@ const allGroups = computed(() => {
 <template>
     <div class="inline-flex items-center text-ui-200 break-all">
         <UserFlag v-if="flag" :user="user" size="md" class="mr-1.5"/>
-        <div v-for="g in allGroups" class="inline-flex items-center">
+        <template v-for="g in allGroups">
             <Tooltip v-if="g.badge" :inline="true" :message="g.name" class="w-3.5 ml-1 mr-1 badge-cover" :style="`color: ${g.color};`">
                 <Icon scale="size-2.5" class="scale-[205%] badge" :name="g.badge"/>
             </Tooltip>
-        </div>
+        </template>
         <Tooltip v-if="card" :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'} right-full`">
             <Link v-if="link" :href="link" :style="style" class="relative">
                 <span class="z-10 relative">{{ user.name }}</span>
