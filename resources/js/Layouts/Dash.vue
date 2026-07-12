@@ -58,7 +58,7 @@ onBeforeMount(() => {
                     <Avatar :user="$page.props.app.patron"/>
                     <Username :user="$page.props.app.patron"/>
                 </div>
-                <span>on Patreon!</span>
+                <span>on <a target="_blank" href="https://patreon.com/hyperbolus" class="font-bold underline text-[#FF424D]">Patreon</a>!</span>
             </div>
             <AdUnit v-else-if="!isAuthenticated() && !fullwidth" :cta="false" type="banner" slot-key="2978602886" ad-style="height:90px;min-width:400px;width:100%;" class="mt-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
             <ABPlea v-if="!isPremium()" :fullwidth="fullwidth"/>
