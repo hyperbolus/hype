@@ -142,7 +142,7 @@ const {formVote, searchQuery, searchResults, vote, verify} = useTagManager(tags.
         </div>
         <div class="y justify-center w-full bg-ui-950 items-center px-4">
             <div class="flex flex-wrap items-center text-sm justify-center z-10">
-                <Lightbox>
+                <Lightbox v-if="0">
                     <button class="px-2 py-1">
                         <Icon name="cog-6-tooth" scale="size-4"/>
                     </button>
