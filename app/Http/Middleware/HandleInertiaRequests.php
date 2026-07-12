@@ -88,7 +88,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), array_filter([
             'app' => function () use ($firstLoad, $request) {
                 return [
-                    'patron' => User::query()->whereAfterToday('premium_expires_at')->inRandomOrder()->first(),
+                    'patron' => User::query()->where('premium_expires_at', '>', now())->inRandomOrder()->first(),
                     'auth' => auth()->check(),
                     'flash' => $request->session()->get('flash', []),
                     'csrf' => csrf_token(),
