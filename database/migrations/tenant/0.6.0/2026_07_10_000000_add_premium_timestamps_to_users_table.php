@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('premium_months_total')->after('banned_at')->nullable();
             $table->timestamp('premium_started_at')->after('banned_at')->nullable();
             $table->timestamp('premium_expires_at')->after('banned_at')->nullable();
         });
@@ -23,6 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('premium_months_total');
             $table->dropColumn('premium_started_at');
             $table->dropColumn('premium_expires_at');
         });
