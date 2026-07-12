@@ -51,8 +51,11 @@ const props = defineProps({
                 </div>
 
                 <h2 class="font-bold text-2xl">Who's Online</h2>
-                <div class="pane">
-                    <span v-for="user in online"><Username :card="false" :badge="false" :user="user"/>, </span>
+                <div class="pane flex flex-wrap">
+                    <div v-for="user in online" class="x items-center">
+                        <Username :card="false" :badge="false" :user="user"/>
+                        <span class="mr-2">,</span>
+                    </div>
                     <span class="text-ui-600">Guests</span>
                 </div>
             </div>
