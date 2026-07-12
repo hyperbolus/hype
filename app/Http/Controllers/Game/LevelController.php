@@ -174,7 +174,7 @@ class LevelController extends Controller
                     ->latest()
                     ->limit(3)
                     ->get(),
-                'moreBy' => $moreBy->limit(3)->get(),
+                'moreBy' => $moreBy->inRandomOrder()->limit(3)->get(),
                 'review' => auth()->check() ? Review::query()
                     ->where('level_id', $level->id)
                     ->where('user_id', auth()->id())
