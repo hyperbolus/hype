@@ -135,7 +135,7 @@ const endTrolling = () => {
 }
 </script>
 <template>
-    <div ref="plea" v-if="blocked" id="block_me_to_hide_notice" class="x justify-center w-full text-sm select-none" :class="{'bg-ui-950 border-t border-ui-900': fullwidth, 'mt-2': !fullwidth}">
+    <div ref="plea" v-if="blocked" id="block_me_to_hide_notice" class="x justify-center w-full text-sm select-none" :class="{'bg-ui-950 border-y border-ui-900': fullwidth, 'mt-2': !fullwidth}">
         <div class="w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl text-sm py-1 text-center px-4" :class="fullwidth ? '' : 'border-y border-ui-800 bg-ui-900 md:mx-4 md:rounded-lg md:border-x'">
             <p v-if="altMessage === -1">We noticed you're using an <span class="inline-flex flex-row-reverse font-bold text-transparent bg-gradient-to-r from-red-400 to-fuchsia-500 bg-clip-text"><span>ocker</span><span>d bl</span><span>a</span></span>. Visit our <a target="_blank" href="https://patreon.com/hyperbolus" class="font-bold underline text-[#FF424D]">Patreon</a> to support our work and enjoy an ad-free experience!</p>
             <p v-else>{{ retorts[altMessage] }} <a target="_blank" href="https://patreon.com/hyperbolus" class="font-bold underline text-[#FF424D]">Patreon</a></p>
