@@ -5,7 +5,7 @@ import {useForm} from "@inertiajs/vue3";
 import Errors from "@/Components/Errors.vue";
 import TipTap from "@/Components/TipTap.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useEventListener} from "@vueuse/core/index";
 import Icon from "@/Components/Icon.vue";
 import RaRGuidelines from "@/Components/RaRGuidelines.vue";
@@ -24,7 +24,9 @@ const form = useForm({
     rating_visuals: props.review?.rating_visuals ?? 5,
     rating_overall: props.review?.rating_overall ?? 5,
     body: props.review?.review ?? DEFAULT_BODY,
-    level: props.level.id
+    level: props.level.id,
+    confirm_honest: false,
+    confirm_nice: false,
 });
 
 // TODO: remember with cookie?
@@ -34,7 +36,11 @@ const optionals = ref({
     visuals: false,
 });
 
+const startingSubmit = ref(false);
+
 const submit = () => {
+    startingSubmit.value = true;
+
     form.transform((data) => {
         let final = {...data};
         final.rating_gameplay = optionals.value.gameplay ? final.rating_gameplay : null;
@@ -43,6 +49,9 @@ const submit = () => {
         return final;
     }).post(route('reviews.store'), {
         preserveScroll: true,
+        onFinish: () => {
+            startingSubmit.value = false;
+        }
     });
 };
 
@@ -51,10 +60,18 @@ const unload = (e) => form.isDirty ? e.preventDefault() : void(0)
 onMounted(() => {
     useEventListener(window, 'beforeunload', unload)
     useEventListener(document, 'inertia:before', (e) => {
-        if (form.isDirty && !form.processing && !confirm('You have unsaved changes with your rating/review that might be lost! Are you sure you want to leave?')) {
+        if (form.isDirty && !form.processing && !startingSubmit.value && !confirm('You have unsaved changes with your rating/review that might be lost! Are you sure you want to leave?')) {
             e.preventDefault()
         }
     })
+});
+
+const canSubmit = computed(() => {
+    if (form.processing) return false;
+    if (!form.confirm_honest) return false;
+    if (form.body.length > DEFAULT_BODY.length && !form.confirm_nice) return false;
+
+    return true;
 });
 </script>
 <template>
@@ -73,19 +90,19 @@ onMounted(() => {
                 </div>
             </div>
             <div class="y space-y-1 !mt-2">
-                <label class="pane">
-                    <Checkbox class="mr-1.5 -mt-0.5"/>
+                <label class="pane cursor-pointer">
+                    <Checkbox v-model="form.confirm_honest" class="mr-1.5 -mt-0.5"/>
                     <span>This is my own honest rating and my written review is not spam.</span>
                 </label>
-                <label v-if="form.body.length > DEFAULT_BODY.length" class="pane">
-                    <Checkbox class="mr-1.5 -mt-0.5"/>
+                <label v-if="form.body.length > DEFAULT_BODY.length" class="pane cursor-pointer">
+                    <Checkbox v-model="form.confirm_nice" class="mr-1.5 -mt-0.5"/>
                     <span>I understand threats, harassment, and hateful personal attacks are prohibited and can get my account banned</span>
                 </label>
             </div>
             <Errors/>
 
             <div class="review-submit group">
-                <button @click="submit" :class="{ '!bg-blue-800 !text-ui-400': form.processing }" :disabled="form.processing">
+                <button @click="submit" :class="{ '!bg-blue-800 !text-ui-400 cursor-not-allowed': !canSubmit }" :disabled="!canSubmit">
                     <span v-if="form.processing" class="font-bold">Processing</span>
                     <span v-else class="font-bold">{{ review ? 'Edit' : 'Submit' }} Rating{{ form.body.length > DEFAULT_BODY.length ? ' & Review' : '' }}</span>
                     <Icon v-if="form.processing" name="ellipsis-horizontal" size="24"/>
