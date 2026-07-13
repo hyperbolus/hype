@@ -17,17 +17,15 @@ class VerifyPremiumPatreon
     const string API = 'https://patreon.com/api/oauth2/';
     const string APIv2 = 'https://patreon.com/api/oauth2/v2/';
 
-    public static function check(User $user)
+    public static function getAccount(int $user_id): ?LinkedAccount
     {
         $account = LinkedAccount::query()
-            ->where('user_id', $user->id)
+            ->where('user_id', $user_id)
             ->where('platform', OAuthPlatform::Patreon)
             ->first();
 
         // Account not linked, cancels premium as you MUST have your account linked. To one at a time.
-        if (!$account) return static::clear($user);
-
-        static::refresh($account);
+        if (!$account) return null;
 
         // check if token expired. if so grab a new one
         if ($account->expires_at->subHour() < Carbon::now()) {
@@ -35,9 +33,22 @@ class VerifyPremiumPatreon
             if (!static::refresh($account)) {
                 // If fails unlink
                 $account->delete();
-                return static::clear($user);
+                return null;
             }
         }
+
+        return $account;
+    }
+
+    public static function check(User $user): bool
+    {
+        $account = static::getAccount($user->id);
+
+        if (!$account) return static::clear($user);
+
+        $client = static::getAccount(0); // Thanks a lot Patreon OAuth-only API
+
+        if (!$client) return static::clear($user); // System account has no Patreon linked. Causes issues. Fuck it all.
 
         $includes = [];
 
@@ -77,7 +88,7 @@ class VerifyPremiumPatreon
         // Could not find a membership for the right campaign in the right tier
         if ($membership_id === null) return static::clear($user);
 
-        $res = static::request($account->token, 'members/' . $membership_id, fields: [
+        $res = static::request($client->token, 'members/' . $membership_id, fields: [
             'member' => [
                 'campaign_lifetime_support_cents',
                 'last_charge_date',
@@ -99,7 +110,7 @@ class VerifyPremiumPatreon
         return true;
     }
 
-    protected static function clear(User $user)
+    protected static function clear(User $user): false
     {
         $user->premium_started_at = null;
         $user->premium_expires_at = null;
@@ -108,23 +119,24 @@ class VerifyPremiumPatreon
         return false;
     }
 
-    /**
-     * @throws ConnectionException
-     */
     protected static function request(string $token, string $endpoint, array|string $includes = [], array $fields = []): PromiseInterface|Response
     {
-        $q = [];
+        try {
+            $q = [];
 
-        foreach ($fields as $k => $data) $q["fields[{$k}]"] = is_array($data) ? join(',', $data) : $data;
+            foreach ($fields as $k => $data) $q["fields[{$k}]"] = is_array($data) ? join(',', $data) : $data;
 
-        return Http::withHeader('Authorization', 'Bearer ' . $token)
-            ->get(static::APIv2 . $endpoint . '?' . http_build_query([
-                    'include' => is_array($includes) ? join(',', $includes) : $includes,
-                    ...$q,
-                ]));
+            return Http::withHeader('Authorization', 'Bearer ' . $token)
+                ->get(static::APIv2 . $endpoint . '?' . http_build_query([
+                        'include' => is_array($includes) ? join(',', $includes) : $includes,
+                        ...$q,
+                    ]));
+        } catch (ConnectionException $e) {
+            abort(500, 'Could not connect to Patreon API. Please inform an admin.');
+        }
     }
 
-    protected static function refresh(LinkedAccount $account)
+    protected static function refresh(LinkedAccount $account): bool
     {
         if ($account->platform !== OAuthPlatform::Patreon->value) return false;
 
