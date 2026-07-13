@@ -19,13 +19,15 @@ class AdminScriptController extends Controller
     {
         $params = $request->all();
 
-        try {
-            dispatch(function () use (&$params, $script) {
-                Script::execute($script, $params);
-            });
-        } catch (Exception $e) {
-            dd($e);
-        }
+        Script::execute($script, $params);
+
+//        try {
+//            dispatch(function () use (&$params, $script) {
+//                Script::execute($script, $params);
+//            });
+//        } catch (Exception $e) {
+//            dd($e);
+//        }
 
         return back();
     }

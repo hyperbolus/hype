@@ -3,10 +3,40 @@ import Icon from "../../../Components/Icon.vue";
 import Input from "../../../Jetstream/Input.vue";
 import DashboardLayout from "../../../Layouts/DashboardLayout.vue";
 import {Link} from '@inertiajs/vue3';
+import {computed, onBeforeMount, ref} from "vue";
 
 const props = defineProps({
     scripts: Object
 });
+
+const parameters = ref({});
+
+onBeforeMount(() => {
+    for (let classname in props.scripts) {
+        parameters.value[classname] = {};
+
+        for (let method of props.scripts[classname]) {
+            parameters.value[classname][method.name] = {};
+
+            for (let parameter of method.parameters) {
+                parameters.value[classname][method.name][parameter.name] = '';
+            }
+        }
+    }
+});
+
+const query = (script, method) => {
+    let url = new URLSearchParams();
+    let func = parameters.value[script]?.[method];
+
+    if (!func) return '';
+
+    for (let param in func) {
+        url.set(param, func[param]);
+    }
+
+    return url;
+}
 </script>
 <template>
     <dashboard-layout>
@@ -26,12 +56,12 @@ const props = defineProps({
                     <p v-if="Object.keys(method.parameters).length === 0" class="italic text-ui-500">This script takes no arguments</p>
                     <label v-for="parameter in method.parameters">
                         <span class="text-sm">{{ parameter.attributes.title ?? parameter.name }}</span>
-                        <Input type="text"/>
+                        <Input v-model="parameters[classname][method.name][parameter.name]" type="text"/>
                         <span v-if="parameter.attributes.description" class="text-sm text-ui-500">{{ parameter.attributes.description }}</span>
                     </label>
                 </div>
                 <div class="x space-x-2 items-center bg-ui-950 p-1.5 border-t border-ui-700 rounded-b-md">
-                    <Link :href="route('system.scripts.run', classname + '::' + method.name)" class="x items-center divide-x divide-ui-700 bg-ui-800 rounded">
+                    <Link :href="route('system.scripts.run', classname + '::' + method.name) + '?' + query(classname, method.name)" class="x items-center divide-x divide-ui-700 bg-ui-800 rounded">
                         <div class="px-2 py-1">
                             <Icon class="text-green-500" name="play"/>
                         </div>
