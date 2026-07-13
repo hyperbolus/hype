@@ -118,13 +118,17 @@ export const isAuthenticated = () => {
 }
 
 export const isPremium = (user = null) => {
-    if (user === null) user = isAuthenticated() ? getUser() : null;
+    if (user === null) {
+        if (!isAuthenticated()) return false;
+        if (getUser().premium_expires_at === null) return false;
 
-    if (user === null) return false;
+        return new Date(getUser().premium_expires_at) > new Date();
+    } else {
+        if (user.premium_expires_at === null) return false;
 
-    if (user.premium_expires_at === null) return false;
+        return new Date(user.premium_expires_at) > new Date();
+    }
 
-    return isAuthenticated() && new Date(user.premium_expires_at) > new Date();
 }
 
 export const getUser = () => {
