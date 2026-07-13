@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 <template>
     <component :is="link ? Link : 'span'" :href="link ? route('users.show', user.id) : null" class="relative">
-        <span class="absolute z-0 rounded-full bg-ui-700 animate-pulse inset-0"></span>
+        <span class="absolute z-0 rounded-full bg-ui-700 animate-pulse inset-0 aspect-square" :class="width ?? 'w-8'"></span>
         <div v-if="user.flag?.length > 2" class="absolute z-20 -inset-[20%] pointer-events-none">
             <img alt="" :src="kitty">
         </div>
