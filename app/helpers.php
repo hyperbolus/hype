@@ -31,6 +31,13 @@ if (! function_exists('page')) {
     }
 }
 
+if (! function_exists('discohook')) {
+    function discohook(string $content = '', string $title = '', string $description = '', array $fields = []): \App\DiscoHookBuilder
+    {
+        return new \App\DiscoHookBuilder($content, $title, $description, $fields);
+    }
+}
+
 if (! function_exists('sorting')) {
     /**
      * @param class-string|\Illuminate\Database\Eloquent\Builder $model
