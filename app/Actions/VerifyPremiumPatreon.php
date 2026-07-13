@@ -48,7 +48,21 @@ class VerifyPremiumPatreon
 
         $client = static::getAccount(0); // Thanks a lot Patreon OAuth-only API
 
-        if (!$client) return static::clear($user); // System account has no Patreon linked. Causes issues. Fuck it all.
+        if (!$client) {
+            // System account has no Patreon linked. Causes issues. Fuck it all.
+
+            // Send gentle reminder every few mins
+            cacheOr(
+                'system::patreon::no-system-linked',
+                function () {
+                    discohook('<@902261587166003251> System account needs to link to Patreon!')->send();
+                    return now();
+                },
+                now()->addMinutes(10)
+            );
+
+            return static::clear($user);
+        }
 
         $includes = [];
 

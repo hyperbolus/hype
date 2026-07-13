@@ -26,7 +26,7 @@ class CheckPremium
              */
             $user = auth()->user();
 
-            if ($user->premium_expires_at < Carbon::now()) VerifyPremiumPatreon::check($user);
+            if ($user->premium_expires_at !== null && $user->premium_expires_at < Carbon::now()) VerifyPremiumPatreon::check($user);
         }
     }
 }

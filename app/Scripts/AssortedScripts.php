@@ -5,6 +5,7 @@ namespace App\Scripts;
 use App\Actions\CalculateRatings;
 use App\Actions\CalculateReputation;
 use App\Actions\MacroMetadata;
+use App\Actions\VerifyPremiumPatreon;
 use App\Attributes\Script;
 use App\Models\System\User;
 use App\Notifications\Announcement;
@@ -26,6 +27,19 @@ class AssortedScripts
     ): void
     {
         Notification::send(User::all(), new Announcement($message, $link));
+    }
+
+    #[Script(
+        title: 'Check Patreon',
+        description: 'Runs a verification to see if a user is subscribed on Patreon',
+        permissions: ['role:admin'],
+    )]
+    public static function patreonAudit(
+        #[Script(title: 'User ID')]
+        string $user_id,
+    ): void
+    {
+        VerifyPremiumPatreon::check(User::findOrFail($user_id));
     }
 
     #[Script(
