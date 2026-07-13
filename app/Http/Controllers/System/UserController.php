@@ -101,7 +101,13 @@ class UserController extends Controller
     {
         $playlists = sorting(Playlist::class)->with('owner')->where('owner_id', $user->id);
 
-        if (auth()->id() !== $user->id && !auth()->user()->hasAnyRole(['moderator', 'admin'])) $playlists->where('visibility', 'public');
+        if (auth()->check()) {
+            if (auth()->id() !== $user->id && !auth()->user()->hasAnyRole(['moderator', 'admin'])) {
+                $playlists->where('visibility', 'public');
+            }
+        } else {
+            $playlists->where('visibility', 'public');
+        }
 
         $playlists = $playlists->paginate(10);
 
