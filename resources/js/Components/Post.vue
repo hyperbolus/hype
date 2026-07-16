@@ -200,7 +200,7 @@ const sendLike = () => {
                 <Icon name="heart" scale="size-4"/>
                 <span>{{ post.reactions.length }}</span>
             </div>
-            <Username class="!text-sm" v-for="reaction in post.reactions" :user="reaction.reacter"/>
+            <Username class="!text-sm" v-for="reaction in post.reactions" :key="reaction.id" :user="reaction.reacter"/>
         </div>
     </div>
 </template>
