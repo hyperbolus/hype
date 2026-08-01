@@ -69,18 +69,18 @@ const sendLike = () => {
     <div :id="`~post/${post.id}`" class="y pane !p-0 border border-ui-700">
         <div class="flex flex-col md:flex-row">
             <div v-if="postbit" class="relative rounded-tl-lg bg-ui-800 !bg-opacity-50 shrink-0 items-center md:border-r border-r-ui-700">
-                <div class="flex md:flex-col z-10 gap-4 p-4 sticky top-0">
+                <div class="flex md:flex-col md:items-center z-10 gap-4 p-4 sticky top-0 md:w-48">
                     <div v-if="user.postbit_url" class="absolute rounded-tl-lg -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
-                        <span class="x items-center gap-1.5"><UserFlag :user="user"/><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
+                        <span class="x items-center gap-1.5"><Username :flag="true" :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
                         <UserTitle class="text-sm" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}" :user="user"/>
                     </div>
-                    <div class="flex place-center px-2">
+                    <div class="flex place-center">
                         <Avatar width="w-32 md:w-40" :user="user"/>
                     </div>
-                    <div class="y grow gap-4 items-start">
-                        <div class="flex flex-col md:hidden gap-1 text-center items-center py-1">
-                            <span class="x items-center gap-2"><UserFlag :user="user"/><Username :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
+                    <div class="y grow gap-4 items-start md:w-full">
+                        <div class="flex flex-col md:hidden gap-1 text-center py-1">
+                            <span class="x items-center gap-2"><Username :flag="true" :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
                             <UserTitle class="text-sm" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}" :user="user"/>
                         </div>
                         <div class="pane !px-3 space-y-1 w-full h-fit text-xs backdrop-blur-sm">
