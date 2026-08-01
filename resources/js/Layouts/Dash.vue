@@ -73,7 +73,7 @@ onBeforeMount(() => {
                 <AdUnit v-if="!true" type="skyscraper" slot-key="idk"  class="hidden 2xl:block sticky top-2"/>
             </div>
             <slot v-else/>
-            <AdUnit v-if="!isPremium()" :cta="true" type="banner" slot-key="4229314886" ad-style="min-height:50px;min-width:400px;width:100%;" class="mb-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
+            <AdUnit v-if="!isPremium()" :cta="true" type="banner" slot-key="4229314886" ad-style="min-width:400px;width:100%;" class="mb-2 w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-8"/>
         </div>
         <Footer/>
         <CookieConsent/>

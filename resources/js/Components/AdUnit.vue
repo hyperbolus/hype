@@ -19,6 +19,8 @@ const style = computed(() => {
 });
 
 const height = computed(() => {
+    return ''; // Fuck you adsense
+
     if (props.adStyle) return '';
     if (props.type === 'banner') return 'h-[100px]';
     if (props.type === 'skyscraper') return 'h-[600px]';
@@ -40,11 +42,11 @@ onMounted(() => {
     <div class="shrink-0 text-sm text-ui-500 h-fit" :class="{'hidden': !client}">
         <span v-if="cta" class="text-sm">Advertisement</span>
         <div :class="{[style]: true, [height]: dev, 'border border-red-500 bg-red-500/25': dev}">
-            <ins :style="adStyle" class="block" :class="{'adsbygoogle': mounted}"
+            <ins :style="adStyle" class="inline-block" :class="{'adsbygoogle': mounted}"
                  :data-ad-client="client"
                  :data-ad-slot="slotKey"
                  data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+                 data-full-width-responsive="false"></ins>
         </div>
         <span v-if="cta" class="text-sm">Don't want to see ads? <a class="underline" href="https://patreon.com/hyperbolus">Support us on Patreon.</a></span>
     </div>
