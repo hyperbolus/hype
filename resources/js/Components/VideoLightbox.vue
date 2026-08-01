@@ -27,7 +27,7 @@ const remove = () => {
             <div class="y space-y-2">
                 <div class="relative shadow bg-ui-900/50 backdrop-blur-lg border border-ui-700 rounded-lg h-[60vh] aspect-video">
                     <iframe class="z-10 relative w-full h-full rounded-lg" referrerpolicy="strict-origin-when-cross-origin" :src="'https://www.youtube-nocookie.com/embed/' + video.video_id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <img class="absolute inset-0 blur-xl h-full w-full opacity-75 object-cover [mask-image:linear-gradient(to_top,rgba(0,0,0,0.1)_0%,rgba(0,0,0,1)_100%);]" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt=""/>
+                    <img class="absolute inset-0 blur-xl h-full w-full opacity-75 rounded-lg object-cover [mask-image:linear-gradient(to_top,rgba(0,0,0,0.1)_0%,rgba(0,0,0,1)_100%);]" loading="lazy" :src="`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`" alt=""/>
                     <span class="absolute top-1/2 w-full text-center text-ui-200 text-xl font-bold">Loading&nbsp;Video...</span>
                 </div>
                 <div class="x gap-2 justify-between text-ui-200">
