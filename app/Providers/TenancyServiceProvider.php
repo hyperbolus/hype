@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Stancl\JobPipeline\JobPipeline;
 use Stancl\Tenancy\Events;
+use Stancl\Tenancy\Features\TenantConfig;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
@@ -100,12 +101,16 @@ class TenancyServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        TenantConfig::$storageToConfigMap = [
+            'main_domain' => 'tenant.main_domain', // is the id of the domain in the domain table
+        ];
+
         $this->bootEvents();
         $this->mapRoutes();
 
         $this->makeTenancyMiddlewareHighestPriority();
 
-        DomainTenantResolver::$shouldCache = true;
+        DomainTenantResolver::$shouldCache = false;
     }
 
     protected function bootEvents()
