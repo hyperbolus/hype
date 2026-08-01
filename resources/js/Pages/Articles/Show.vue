@@ -18,15 +18,15 @@ const props = defineProps({
         <div class="w-full x justify-center mb-4">
             <div class="w-full md:mx-4 mt-4 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
                 <div class="y bg-ui-950 border border-ui-900 md:rounded-lg">
-                    <div class="relative y space-y-4 p-4 justify-end items-center md:rounded-t-lg w-full bg-center bg-cover h-[24rem]" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -75px 55px -25px inset;" :style="`background-image: url(${bg})`">
-                        <h1 class="font-bold text-5xl md:text-6xl text-center" style="text-shadow: black 1px 1px 1px">{{ article.title }}</h1>
+                    <div class="relative y space-y-4 p-4 justify-end items-center md:rounded-t-lg w-full bg-center bg-cover h-[24rem]" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -75px 55px -25px inset;" :style="`background-image: url(${article.banner_url ?? bg})`">
+                        <h1 class="font-bold text-4xl md:text-5xl text-center" style="text-shadow: black 1px 1px 1px">{{ article.title }}</h1>
                         <div class="x space-x-2 items-center text-sm">
                             <span class="y bg-ui-900 border border-ui-700 rounded-md px-2 py-1">{{ new Date(article.created_at).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'}) }}</span>
                             <span class="y bg-ui-900 border border-ui-700 rounded-md px-2 py-1">{{ readingTime(article.content) }} Minute Read</span>
                         </div>
                     </div>
-                    <div class="x space-x-8 p-8">
-                        <div class="sticky top-4 y w-1/4 shrink-0 h-fit space-y-4 items-center">
+                    <div class="flex flex-col-reverse md:flex-row space-x-8 p-8">
+                        <div class="sticky top-4 y shrink-0 h-fit space-y-4 items-center">
                             <div class="x items-center space-x-4 w-full bg-ui-900 p-4 rounded-lg">
                                 <Avatar width="w-10" :user="article.author"/>
                                 <div class="y">
@@ -37,8 +37,8 @@ const props = defineProps({
                             <div v-if="article.tags" class="flex flex-wrap bg-ui-900 gap-2 rounded-lg p-2 w-full">
                                 <span class="text-sm bg-ui-800 px-2 py-1 rounded">tag</span>
                             </div>
-                            <Link v-for="rec in articles" :href="route('articles.show', rec.slug)" class="block relative w-full rounded-lg overflow-hidden">
-                                <div class="h-40 bg-cover bg-center hover:scale-105 transition-transform" :style="`background-image:url(${bg});`" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 75px -25px inset;"></div>
+                            <Link v-for="rec in articles" :href="route('articles.show', rec.slug)" class="block relative w-full rounded-lg overflow-hidden aspect-video h-40">
+                                <div class="w-full h-full bg-cover bg-center hover:scale-105 transition-transform" :style="`background-image:url(${rec.banner_url ?? bg});`" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 75px -25px inset;"></div>
                                 <div class="absolute bottom-2 left-2 ">
                                     <h2 class="font-bold text-xl mt-2">{{ rec.title }}</h2>
                                     <span class="text-sm">{{ rec.author.name }} &bull; {{ new Date(rec.created_at).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'}) }}</span>

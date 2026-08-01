@@ -52,15 +52,28 @@ class ArticleController extends Controller
         // should slug be globally unique or unique to dated SEO url?
         $request->validate([
             'title' => ['required'],
-            'content' => ['required']
+            'content' => ['required'],
+            'banner' => ['image', 'max:5000'],
         ]);
 
         $article = new Article();
         $article->title = $request->string('title');
         if ($request->has('slug')) $article->slug = $request->string('slug');
+        $article->tagline = $request->string('tagline');
+        $article->blurb = $request->string('blurb');
         $article->content = $request->string('content');
         $article->author_id = $request->user()->id;
         $article->save();
+
+        if ($request->hasFile('banner')) {
+            $file = $request->file('banner');
+            $article->banner_url = config('app.storage_url') . $file->storePubliclyAs(
+                'articles/' . $article->id,
+                $file->hashName(),
+                'contabo'
+            );
+            $article->save();
+        }
 
         return redirect()->route('articles.show', $article->slug);
     }

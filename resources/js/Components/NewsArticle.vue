@@ -4,7 +4,7 @@ import route from "ziggy-js";
 import Avatar from "@/Components/Avatar.vue";
 import Username from "@/Components/Username.vue";
 import {readingTime} from "../util.js";
-import banner from "@/../images/wellrestedbg.jpg"
+import bg from "@/../images/soundparty.jpg"
 import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
@@ -16,7 +16,7 @@ const props = defineProps({
 <template>
     <div class="bg-ui-900 rounded-lg relative" :class="{'p-2 y md:flex-row': !card, 'text-white x': card}" :style="card ? 'text-shadow:black 0 0 4px,black 0 1px 2px' : ''">
         <Link :href="route('articles.show', article.slug)" class="aspect-video overflow-hidden shrink-0 relative" :class="card ? 'w-full rounded-lg' : 'md:w-1/2 rounded'">
-            <div class="absolute inset-0 hover:scale-105 transition-transform bg-cover bg-center" :style="`background-image: url(${article.banner ?? banner});`"></div>
+            <div class="absolute inset-0 hover:scale-105 transition-transform bg-cover bg-center" :style="`background-image: url(${article.banner_url ?? bg});`"></div>
         </Link>
         <div class="y px-2 py-2" :class="{'absolute z-10 backdrop-blur-sm bg-ui-1000/50': card, 'bottom-0 h-fit w-full rounded-b-lg pt-1': small, 'rounded m-2 inset-0': !small && card, 'justify-between space-y-2': !small, 'md:pl-4 grow': !card}">
             <div class="y">
