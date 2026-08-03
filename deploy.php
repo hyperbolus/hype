@@ -94,3 +94,4 @@ after('deploy:success', 'crontab:sync');
 add('crontab:jobs', [
     '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
 ]);
+set('crontab:identifier', 'hype');
