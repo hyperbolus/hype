@@ -231,7 +231,7 @@ const deleteMessage = (id) => {
 }
 </script>
 <template>
-    <app-layout :fullwidth="true" :decorations="false">
+    <app-layout :fullwidth="true" :decorations="false" :no-ads="true">
         <div class="x flex-grow shadow-xl bg-ui-950 border border-ui-900/75 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full md:mx-4 md:my-4 rounded-lg">
             <div class="flex-col space-y-4 md:w-2/5 relative z-10 grow" :class="recipient ? 'hidden md:flex' : 'flex'">
                 <div class="x justify-between p-2">
