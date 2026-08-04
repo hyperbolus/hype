@@ -30,7 +30,7 @@ class Post extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id')
-            ->select(['id', 'name', 'flag', 'primary_group_id', 'signature_visibility', 'created_at', 'reputation', 'credits', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'postbit_url', 'signature', 'custom_title'])
+            ->select(['id', 'name', 'flag', 'primary_group_id', 'signature_visibility', 'created_at', 'reputation', 'credits', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'postbit_url', 'signature', 'custom_title', 'banned_at', 'premium_expires_at'])
             ->withCount('posts');
     }
 

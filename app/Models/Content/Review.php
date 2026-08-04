@@ -113,7 +113,7 @@ class Review extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')
-            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'weight', 'flag', 'banned_at']);
+            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'weight', 'flag', 'banned_at', 'premium_expires_at']);
     }
 
     public function level(): BelongsTo
