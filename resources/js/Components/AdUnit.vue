@@ -39,8 +39,8 @@ onMounted(() => {
 <template>
     <div class="y items-center text-left shrink-0 text-sm text-ui-500 h-fit" :class="{'hidden': !client}">
         <span class="text-sm" :class="style">Advertisement</span>
-        <div :class="{[style]: true, [height]: true, 'border border-red-500 bg-red-500/25': dev}">
-            <ins :style="adStyle" class="inline-block" :class="{'adsbygoogle': mounted}"
+        <div :class="{'border border-red-500 bg-red-500/25': dev}">
+            <ins :style="adStyle" class="inline-block" :class="{'adsbygoogle': mounted, [style]: true, [height]: true}"
                  :data-ad-client="client"
                  :data-ad-slot="slotKey"
                  :data-ad-format="type === 'skyscraper' ? undefined : 'auto'"
