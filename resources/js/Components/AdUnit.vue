@@ -19,8 +19,6 @@ const style = computed(() => {
 });
 
 const height = computed(() => {
-    return ''; // Fuck you adsense
-
     if (props.adStyle) return '';
     if (props.type === 'banner') return 'h-[100px]';
     if (props.type === 'skyscraper') return 'h-[600px]';
