@@ -20,7 +20,7 @@
     @if(array_key_exists('__meta_canonical', $page['props']))<link rel="canonical" href="{{ $page['props']['__meta_canonical'] }}" />@endif
     @if(array_key_exists('sorting', $page['props']) && request()->getQueryString())<meta name="robots" content="noindex">@endif
 
-    @if(config('hyperbolus.gtag_id'))
+    @if(config('hyperbolus.gtag_id') && !premium_request() && false)
         <!-- Google -->
         <script>
             window.dataLayer = [
@@ -43,7 +43,7 @@
         window.as_loaded = null;
     </script>
 
-    @if(config('hyperbolus.adsense_client'))
+    @if(config('hyperbolus.adsense_client') && !premium_request())
         <script>
             window.as_loaded = false;
 

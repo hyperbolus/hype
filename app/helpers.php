@@ -137,6 +137,13 @@ if (! function_exists('base64_urlencode')) {
     }
 }
 
+if (! function_exists('premium_request')) {
+    function premium_request(): bool|string
+    {
+        return auth()->check() && request()->user()->premium_expires_at > now();
+    }
+}
+
 if (! function_exists('base64_urldecode')) {
     function base64_urldecode($string): bool|string
     {
