@@ -43,8 +43,8 @@ onMounted(() => {
             <ins :style="adStyle" class="inline-block" :class="{'adsbygoogle': mounted}"
                  :data-ad-client="client"
                  :data-ad-slot="slotKey"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+                 :data-ad-format="type === 'skyscraper' ? undefined : 'auto'"
+                 :data-full-width-responsive="type === 'skyscraper' ? undefined : true"></ins>
         </div>
         <span v-if="cta" class="text-sm" :class="style">Don't want to see ads? <a class="underline" href="https://patreon.com/hyperbolus">Support us on Patreon.</a></span>
     </div>
