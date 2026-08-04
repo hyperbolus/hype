@@ -20,7 +20,7 @@ const style = computed(() => {
 
 const height = computed(() => {
     if (props.adStyle) return '';
-    if (props.type === 'banner') return 'h-[100px]';
+    if (props.type === 'banner') return 'h-[200px]';
     if (props.type === 'skyscraper') return 'h-[600px]';
 });
 
@@ -37,15 +37,15 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div class="shrink-0 text-sm text-ui-500 h-fit" :class="{'hidden': !client}">
-        <span v-if="cta" class="text-sm">Advertisement</span>
-        <div :class="{[style]: true, [height]: dev, 'border border-red-500 bg-red-500/25': dev}">
+    <div class="y items-center text-left shrink-0 text-sm text-ui-500 h-fit" :class="{'hidden': !client}">
+        <span class="text-sm" :class="style">Advertisement</span>
+        <div :class="{[style]: true, [height]: true, 'border border-red-500 bg-red-500/25': dev}">
             <ins :style="adStyle" class="inline-block" :class="{'adsbygoogle': mounted}"
                  :data-ad-client="client"
                  :data-ad-slot="slotKey"
                  data-ad-format="auto"
-                 data-full-width-responsive="false"></ins>
+                 data-full-width-responsive="true"></ins>
         </div>
-        <span v-if="cta" class="text-sm">Don't want to see ads? <a class="underline" href="https://patreon.com/hyperbolus">Support us on Patreon.</a></span>
+        <span v-if="cta" class="text-sm" :class="style">Don't want to see ads? <a class="underline" href="https://patreon.com/hyperbolus">Support us on Patreon.</a></span>
     </div>
 </template>
