@@ -22,21 +22,24 @@
 
     @if(config('hyperbolus.gtag_id') && !premium_request())
         <!-- Google Analy tics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('hyperbolus.gtag_id') }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            window.gtag = (..._) => window.dataLayer.push(_);
 
-            window.gtag('js', new Date());
-            window.gtag('config', '{{ config('hyperbolus.gtag_id') }}');
-            window.gtag('consent', 'default', {
+            function gtag() {
+                window.dataLayer.push(arguments);
+            }
+
+            gtag('consent', 'default', {
                 'ad_user_data': 'denied',
                 'ad_personalization': 'denied',
                 'ad_storage': 'denied',
                 'analytics_storage': 'denied',
                 'wait_for_update': 500,
             });
+            gtag('js', new Date());
+            gtag('config', '{{ config('hyperbolus.gtag_id') }}');
         </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('hyperbolus.gtag_id') }}"></script>
     @endif
 
     <script>
