@@ -32,6 +32,13 @@ export const getGDPR = () => {
             'analytics_storage': tracking,
         });
 
+        console.log('consent', 'update', {
+            'ad_personalization': targeting,
+            'ad_user_data': tracking,
+            'ad_storage': tracking,
+            'analytics_storage': tracking,
+        });
+
         // Updated consents, we need to ask again
         if (consent.value.version < GDPR_VERSION) consent.value.dismissed = false;
 
