@@ -13,7 +13,7 @@ class ProfileCommentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'body' => 'required|max:140',
+            'body' => 'required|max:200',
             'user_id' => 'required|exists:App\Models\System\User,id'
         ]);
 

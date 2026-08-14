@@ -9,6 +9,7 @@ import ReportModal from "@/Components/ReportModal.vue";
 import {getUser, isAdmin, isAuthenticated, isModerator} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
 import Button from "@/Jetstream/Button.vue";
+import Textbox from "@/Components/Textbox.vue";
 
 const props = defineProps({
     profile: Object,
@@ -72,7 +73,7 @@ const deleteComment = (id) => {
         <div class="px-2">
             <Pagination class="py-2" :list="comments"/>
             <div v-if="isAuthenticated()" class="y items-center gap-2 pb-2">
-                <textarea class="textbox" v-model="newComment.body" placeholder="Comment..." style="min-height: 4rem !important;"/>
+                <Textbox v-model="newComment.body" placeholder="Comment..." :max="200" class="w-full"/>
                 <Button @click="postComment" class="w-fit bg-ui-800 px-2 py-1 rounded" :class="{ 'opacity-25': newComment.processing }" :disabled="newComment.processing">{{ newComment.processing ? 'Submitting' : 'Submit Comment' }}</Button>
             </div>
         </div>
