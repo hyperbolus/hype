@@ -26,13 +26,15 @@ export default defineConfig({
         chunkSizeWarningLimit: 800
     },
     resolve: {
-        alias: [{
-            find: '@',
-            replacement: resolve(__dirname, './resources/js')
-        }],
+        alias: [
+            {
+                find: '@',
+                replacement: resolve(__dirname, './resources/js')
+            },
+        ],
     },
     optimizeDeps: {
-        esbuildOptions: {
+        rolldownOptions: {
             loader: {
                 '.frag': 'text',
                 '.vert': 'text',
