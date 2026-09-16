@@ -12,6 +12,7 @@
 
     @if($page['props']['__meta_image'] ?? null)
         <meta property="og:image" content="{{ $page['props']['__meta_image'] }}" />
+        <meta property="twitter:card" content="summary_large_image" />
     @endif
 
     <link rel="icon" type="image/svg+xml" href="/icon.svg"/>
