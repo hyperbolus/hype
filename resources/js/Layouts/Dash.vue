@@ -1,12 +1,11 @@
 <script setup>
 import {onBeforeMount} from 'vue';
-import {Head, Link, usePage} from '@inertiajs/vue3';
-import NetworkNav from "@/Components/NetworkNav.vue";
+import {Head, usePage} from '@inertiajs/vue3';
 import SiteNav from "@/Components/SiteNav.vue";
 import Breadcrumbs from "../Components/Breadcrumbs.vue";
 import Footer from "@/Components/Footer.vue";
-import patternBGSD from "@/../images/soundshine.svg"
-import patternBG from "@/../images/card_background_outline.svg"
+import patternBGSD from "@/../images/soundshine.svg?no-inline"
+import patternBG from "@/../images/card_background_outline.svg?no-inline"
 import {useSettingsStore} from "@/stores/settings.ts";
 import {useStatisticsStore} from "@/stores/statistics.ts";
 import {getGame, isAuthenticated} from "@/util.js";
@@ -49,7 +48,6 @@ onBeforeMount(() => {
     useSettingsStore()
     useStatisticsStore()
 });
-
 </script>
 <template>
     <div ref="base" class="y relative items-center text-ui-200 min-h-screen grow overflow-x-clip" :class="getGame() === 'soundodger' ? 'theme-soundodger' : ''">
