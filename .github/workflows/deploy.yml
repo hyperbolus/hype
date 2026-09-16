@@ -1,18 +1,17 @@
-#thx atymic bby <3
 name: CI-CD
 
 on: push
 
 jobs:
   build-js:
-    name: Build Js/Css
+    name: Build JS/CSS
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 6.0.2
+          version: 12.4.2
 
       - name: Build
         run: |
