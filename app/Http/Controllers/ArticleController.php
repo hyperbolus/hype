@@ -85,7 +85,8 @@ class ArticleController extends Controller
             'articles' => Article::query()
                 ->whereNot('id', '=', $article->id)
                 ->limit(3)
-                ->get()
+                ->get(),
+            '__meta_image' => $article->banner_url,
         ])->meta($article->title, $article->blurb ?? 'Read articles and news on Hyperbolus')
             ->breadcrumbs([crumb('News', route('news'))]);
     }

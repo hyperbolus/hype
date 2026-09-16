@@ -10,6 +10,10 @@
     <meta property="og:title" content="{{ $page['props']['__meta_title'] ?? 'Hyperbolus' }}">
     <meta property="og:description" content="{{ $page['props']['__meta_description'] ?? 'Your source for everything Geometry Dash' }}">
 
+    @if($page['props']['__meta_image'] ?? null)
+        <meta property="og:image" content="{{ $page['props']['__meta_image'] }}" />
+    @endif
+
     <link rel="icon" type="image/svg+xml" href="/icon.svg"/>
     <link rel="manifest" href="/site.webmanifest">
 
