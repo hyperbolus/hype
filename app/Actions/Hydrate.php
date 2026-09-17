@@ -18,10 +18,10 @@ class Hydrate
 
             $res = Http::get('https://gdbrowser.com/api/level/'.$id)->json();
 
-            if ($res == -1) {
+            if ($res == -1 || $res == null) {
                 if ($level) return $level;
 
-                if ($abort) abort(400, 'Invalid Level ID');
+                if ($abort) abort(400, 'Level could not be fetched');
                 return null;
             }
 
