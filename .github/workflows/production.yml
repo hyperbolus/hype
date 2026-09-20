@@ -1,0 +1,100 @@
+name: CI-CD Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+concurrency: production_environment
+
+jobs:
+  build:
+    name: Build Assets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: pnpm/setup@v1
+        with:
+          version: 11
+          runtime: node@24
+          cache: true
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 8.5
+          extensions: mbstring, bcmath, luasandbox-4.1.2, dom, libxml, imagick, zlib
+
+      - name: Composer install
+        run: composer install
+
+      - name: Build
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Tar build files
+        run: tar -czvf assets.tar.gz public/build/
+
+      - name: Upload build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: assets
+          path: assets.tar.gz
+
+      - name: Tar SSR build files
+        run: tar -czvf ssr.tar.gz bootstrap/ssr/
+
+      - name: Upload SSR file
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssr
+          path: ssr.tar.gz
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Download build assets
+        uses: actions/download-artifact@v4
+        with:
+          name: assets
+          path: public
+
+      - name: Extract build files
+        run: tar -xzvf public/assets.tar.gz
+
+      - name: Download SSR files
+        uses: actions/download-artifact@v4
+        with:
+          name: ssr
+          path: bootstrap
+
+      - name: Extract build files
+        run: tar -xzvf bootstrap/ssr.tar.gz
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: '8.5'
+          extensions: mbstring, bcmath, luasandbox-4.1.2, dom, libxml, imagick, zlib
+
+      - name: Composer install
+        run: composer install
+
+      - name: Deployer
+        uses: deployphp/action@v1
+        env:
+          DOT_ENV: ${{ secrets.DOT_ENV }}
+          CI_PROJECT_NAME: ${{ secrets.CI_PROJECT_NAME }}
+          CI_SSH_HOST: ${{ secrets.CI_SSH_HOST }}
+          CI_SSH_PORT: ${{ secrets.CI_SSH_PORT }}
+        with:
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          dep: 'deploy env=production'
+          verbosity: '-vvv'
