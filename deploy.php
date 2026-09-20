@@ -31,7 +31,6 @@ add('rsync', [
     'exclude' => [
         '.git',
         '/.env',
-        '/storage/',
         '/vendor/',
         '/node_modules/',
         '.github',
@@ -92,7 +91,7 @@ task('cron', function () {
     add('crontab:jobs', [
         '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
     ]);
-    set('crontab:identifier', 'are-'.get('labels')['env']);
+    set('crontab:identifier', 'hype-'.get('labels')['env']);
 });
 
 after('cron', 'crontab:sync');
