@@ -91,7 +91,7 @@ task('cron', function () {
     add('crontab:jobs', [
         '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
     ]);
-    set('crontab:identifier', 'hype-'.get('labels')['env']);
+    set('crontab:identifier', 'hype-'.get('labels')['environment']);
 });
 
 after('cron', 'crontab:sync');
