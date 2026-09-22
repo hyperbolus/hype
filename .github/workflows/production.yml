@@ -23,8 +23,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: 8.5
-          extensions: mbstring, bcmath, luasandbox-4.1.2, dom, libxml, imagick, zlib
+          tools: 'pie'
+          php-version: '8.5'
+          extensions: mbstring, bcmath, dom, libxml, imagick, zlib
+
+      - name: Install LuaSandbox
+        run: sudo pie install wikimedia/luasandbox
 
       - name: Composer install
         run: composer install
@@ -80,8 +84,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
+          tools: 'pie'
           php-version: '8.5'
-          extensions: mbstring, bcmath, luasandbox-4.1.2, dom, libxml, imagick, zlib
+          extensions: mbstring, bcmath, dom, libxml, imagick, zlib
+
+      - name: Install LuaSandbox
+        run: sudo pie install wikimedia/luasandbox
 
       - name: Composer install
         run: composer install
