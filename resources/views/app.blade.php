@@ -62,7 +62,7 @@
                 script.crossOrigin = 'anonymous';
                 script.addEventListener('load', () => {
                     let pushLen = window.adsbygoogle?.push.toString().length;
-                    window.as_loaded = pushLen < 20 && pushLen > 14;
+                    window.as_loaded = pushLen < 26 && pushLen > 16;
                 });
                 script.addEventListener('error', () => {
                     window.as_loaded = false;
