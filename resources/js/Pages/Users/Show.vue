@@ -32,7 +32,17 @@ const info = {
     }
 };
 
-const serviceColor = ['text-white', 'text-cyan-300','text-fuchsia-300', 'text-amber-400', 'text-red-400'][profileAge - 1]
+const serviceColor = [
+    'text-white',
+    'text-cyan-300',
+    'text-fuchsia-300',
+    'text-amber-400',
+    'text-red-400',
+
+    'text-green-400',
+    'text-orange-500',
+    'text-indigo-500'
+][profileAge - 1];
 </script>
 <template>
     <app-layout :fullwidth="true" title="Profile" :decorations="false">
