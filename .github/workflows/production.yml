@@ -27,8 +27,8 @@ jobs:
           php-version: '8.5'
           extensions: mbstring, bcmath, dom, libxml, imagick, zlib
 
-      - name: Install LuaSandbox
-        run: sudo pie install wikimedia/luasandbox
+#      - name: Install LuaSandbox
+#        run: sudo pie install wikimedia/luasandbox
 
       - name: Composer install
         run: composer install
