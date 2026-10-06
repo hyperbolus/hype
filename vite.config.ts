@@ -23,7 +23,8 @@ export default defineConfig({
         noExternal: ['@inertiajs/server'],
     },
     build: {
-        chunkSizeWarningLimit: 800
+        chunkSizeWarningLimit: 800,
+        manifest: 'manifest.json',
     },
     resolve: {
         alias: [
