@@ -5,6 +5,7 @@ import Tooltip from "@/Components/Tooltip.vue";
 import {computed, ref} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import Icon from "@/Components/Icon.vue";
+import {getPrefs} from "@/util";
 
 const props = defineProps({
     model: Object,
@@ -50,7 +51,10 @@ const format = string => string.split('_').pop();
 const current = ref('rating_overall');
 
 const title = computed(() => format(current.value))
-const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Math.max(s, sum(n)), 0))
+const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Math.max(s, sum(n)), 0));
+
+const prefs = getPrefs();
+const forceShow = ref(false);
 </script>
 <template>
     <div class="y space-y-2 pane !pl-2">
@@ -70,7 +74,11 @@ const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Ma
             </Dropdown>
             <h1>Rating Curve</h1>
         </div>
-        <div class="relative">
+        <div v-if="prefs.data.zen" class="flex flex-col gap-1 px-2">
+            <p>You have zen mode enabled. Show curve anyways?</p>
+            <button @click="forceShow = !forceShow" class="bg-ui-700 rounded-lg px-2 py-1 w-full">{{ forceShow ? 'Hide' : 'Show' }}</button>
+        </div>
+        <div v-if="!prefs.data.zen || forceShow" class="relative">
             <div v-for="(strata, column) in curve" class="flex flex-col-reverse" :class="{'!hidden': column !== current}">
                 <div class="x items-center justify-between text-sm px-1">
                     <span class="text-ui-500">Total</span>

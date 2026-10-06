@@ -1,23 +1,25 @@
 <script setup>
-import {displayRating} from "../util.js";
+import {displayRating, getPrefs} from "../util.js";
 
 const props = defineProps({
     level: Object
 });
+
+const prefs = getPrefs();
 </script>
 <template>
     <div class="x pane justify-between space-x-8">
         <div class="y">
             <span class="text-xs uppercase">Overall</span>
-            <span class="text-xl font-bold">{{ displayRating(level.rating_overall, 2) }}<span class="text-xs text-ui-600">/10</span></span>
+            <span class="text-xl font-bold">{{ prefs.data.zen ? '😌' : displayRating(level.rating_overall, 2) }}<span class="text-xs text-ui-600">/10</span></span>
         </div>
         <div class="y">
             <span class="text-xs uppercase">Gameplay</span>
-            <span class="text-xl font-bold">{{ displayRating(level.rating_gameplay, 2) }}<span class="text-xs text-ui-600">/10</span></span>
+            <span class="text-xl font-bold">{{ prefs.data.zen ? '😌' : displayRating(level.rating_gameplay, 2) }}<span class="text-xs text-ui-600">/10</span></span>
         </div>
         <div class="y">
             <span class="text-xs uppercase">Visuals</span>
-            <span class="text-xl font-bold">{{ displayRating(level.rating_visuals, 2) }}<span class="text-xs text-ui-600">/10</span></span>
+            <span class="text-xl font-bold">{{ prefs.data.zen ? '😌' : displayRating(level.rating_visuals, 2) }}<span class="text-xs text-ui-600">/10</span></span>
         </div>
     </div>
 </template>

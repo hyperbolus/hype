@@ -4,7 +4,7 @@ import Username from "@/Components/Username.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import {Link, useForm} from "@inertiajs/vue3";
 import ReportModal from "@/Components/ReportModal.vue";
-import {displayRating, face, isAdmin, isAuthenticated, isModerator, isUser} from "@/util.js";
+import {displayRating, face, getPrefs, isAdmin, isAuthenticated, isModerator, isUser} from "@/util.js";
 import route from "ziggy-js";
 import TipTap from "@/Components/TipTap.vue";
 import Timestamp from "@/Components/Timestamp.vue";
@@ -80,6 +80,8 @@ const submit = () => {
         preserveScroll: true,
     });
 };
+
+const prefs = getPrefs();
 </script>
 <template>
     <div class="y">
@@ -115,7 +117,7 @@ const submit = () => {
                                 <Icon v-else-if="review[key] !== null && !lvl[key]" name="plus" scale="size-5" class="mr-0.5 invisible"/>
                                 <span v-else class="font-bold text-lg px-1">&thickapprox;</span>
                             </template>
-                            <span class="font-bold text-2xl">{{ displayRating(hovering ? lvl[key] : review[key], hovering ? 2 : 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
+                            <span class="font-bold text-2xl">{{ prefs.data.zen ? '😌' : displayRating(hovering ? lvl[key] : review[key], hovering ? 2 : 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>
                         </div>
                         <span class="text-xs">{{ item }}</span>
                     </div>

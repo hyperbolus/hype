@@ -4,7 +4,7 @@ import Avatar from '@/Components/Avatar.vue'
 import Dropdown from '@/Jetstream/Dropdown.vue'
 import { Link } from '@inertiajs/vue3'
 import route from 'ziggy-js'
-import {logout, isDark, toggleDark, isAdmin, isModerator} from '@/util.js'
+import {logout, isDark, toggleDark, isAdmin, isModerator, getPrefs} from '@/util.js'
 import {ref} from "vue";
 import {useSettingsStore} from "@/stores/settings.ts";
 import Icon from "@/Components/Icon.vue";
@@ -16,7 +16,9 @@ import {useStorage} from "@vueuse/core";
 const mobileNavOpen = ref(false);
 const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore().settings['navigation']['value'] : [];
 
-const instantLogout = useStorage('instantLogout', false)
+const instantLogout = useStorage('instantLogout', false);
+
+const prefs = getPrefs();
 </script>
 <template>
     <div v-if="$page.props.auth" class="flex items-center space-x-4 w-full">
@@ -68,6 +70,13 @@ const instantLogout = useStorage('instantLogout', false)
                 <Link :href="route('users.show', $page.props.user.id)" class="block px-2 py-1 hover:bg-ui-800">Profile</Link>
                 <Link :href="route('settings.home')" class="block px-2 py-1 hover:bg-ui-800">Settings</Link>
                 <Link v-if="$page.props.user.roles.includes('admin')" :href="route('system.home')" class="block px-2 py-1 hover:bg-ui-800">Admin Panel</Link>
+                <div class="py-1 px-2">
+                    <div @click.stop class="flex items-center gap-2">
+                        <Toggle v-model="prefs.data.zen"/>
+                        <span>Zen Mode</span>
+                    </div>
+                    <span class="text-sm text-ui-500">Hide Scores</span>
+                </div>
                 <template v-if="false">
                     <div class="border-t border-t-ui-700"></div>
                     <label @click.stop class="x items-center justify-between px-2 py-1">

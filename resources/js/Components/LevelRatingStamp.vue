@@ -1,5 +1,5 @@
 <script setup>
-import {displayRating, isAuthenticated} from "../util.js";
+import {displayRating, getPrefs, isAuthenticated} from "../util.js";
 import Tooltip from "@/Components/Tooltip.vue";
 import {computed, ref} from "vue";
 import Icon from "@/Components/Icon.vue";
@@ -25,11 +25,13 @@ const reviewMessage = computed(() => {
     if (!hasRating.value && hasReview.value) return 'You reviewed this but did not rate it';
 
     return 'You haven\'t rated or reviewed this';
-})
+});
+
+const prefs = getPrefs();
 </script>
 <template>
     <div class="relative z-10 justify-center w-full sm:w-fit">
-        <div class="z-10 relative grid items-end grid-cols-4 gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]">
+        <div class="z-10 relative grid items-end gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]" :class="{'grid-cols-4': !prefs.data.zen}">
             <div class="x justify-center sm:justify-start">
                 <Tooltip v-if="isAuthenticated()" @mouseenter="hovered = true" @mouseleave="hovered = false" class="group" position="top-right" :message="reviewMessage">
                     <div class="x items-center">
@@ -45,14 +47,16 @@ const reviewMessage = computed(() => {
                     <span class="text-lg font-bold">{{ level.reviews_count }}</span>
                 </div>
             </div>
-            <div v-for="(rating, key) in list" class="y items-center sm:items-start">
-                <span class="text-xs uppercase">{{ rating }}</span>
-                <div class="text-lg font-bold" :class="{'text-green-500': hasRating && hovered}">
-                    <span v-if="Math.round(level[key] * 10) === 67 && Math.random() > 0.67" class="sixseven">.</span>
-                    <span v-else>{{ displayRating(hasRating && hovered ? level.reviews[0][key] : level[key]) }}</span>
-                    <span class="text-xs text-ui-600">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span>
+            <template v-if="!prefs.data.zen">
+                <div v-for="(rating, key) in list" class="y items-center sm:items-start">
+                    <span class="text-xs uppercase">{{ rating }}</span>
+                    <div class="text-lg font-bold" :class="{'text-green-500': hasRating && hovered}">
+                        <span v-if="Math.round(level[key] * 10) === 67 && Math.random() > 0.67" class="sixseven">.</span>
+                        <span v-else>{{ displayRating(hasRating && hovered ? level.reviews[0][key] : level[key]) }}</span>
+                        <span class="text-xs text-ui-600">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span>
+                    </div>
                 </div>
-            </div>
+            </template>
         </div>
         <div class="absolute z-0 inset-0 overflow-hidden rounded-bl-lg rounded-br-lg sm:rounded-br-none">
             <div class="h-full md:-translate-x-4 sm:skew-x-12 sm:rounded-tr-lg bg-ui-800"></div>

@@ -61,6 +61,24 @@ export const getGDPR = () => {
     return consent;
 }
 
+export const PREFS_VERSION = 1;
+export const PREFS_KEY = 'HYPE::PREFS';
+export const getPrefs = () => {
+    let prefs = useStorage(PREFS_KEY, {
+        version: PREFS_VERSION,
+        data: {
+            zen: false,
+        },
+        dismissals: [],
+    });
+
+    if (prefs.value.version < GDPR_VERSION) {
+        // future schema migration code
+    }
+
+    return prefs;
+}
+
 export const promptGDPR = () => {
     getGDPR().value.dismissed = false;
 }
