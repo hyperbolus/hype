@@ -11,6 +11,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ReviewController extends Controller
 {
@@ -52,11 +53,17 @@ class ReviewController extends Controller
 
         if (!$level) abort(500, 'Could not fetch level');
 
+        $hasRating = $request->filled('rating_gameplay') || $request->filled('rating_visuals') || $request->filled('rating_overall');
+
+        $hasAnything = $hasRating || ($request->filled('body') && $request->string('body')->toString() !== '');
+
+        if (!$hasAnything) throw ValidationException::withMessages(['body' => 'You must leave either a rating or review']);
+
         $request->validate([
             'rating_gameplay' => ['nullable', 'integer', 'between:0,10'],
             'rating_visuals' => ['nullable', 'integer', 'between:0,10'],
-            'rating_overall' => ['required', 'integer', 'between:0,10'],
-            'body' => ['nullable', 'string', 'min:20']
+            'rating_overall' => ['nullable', 'integer', 'between:0,10'],
+            'body' => ['nullable', 'string', $hasRating ? 'min:20' : 'min:500']
         ]);
 
         // TODO: I think this should be moved to update or something

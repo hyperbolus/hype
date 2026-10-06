@@ -45,6 +45,7 @@ const submit = () => {
         let final = {...data};
         final.rating_gameplay = optionals.value.gameplay ? final.rating_gameplay : null;
         final.rating_visuals = optionals.value.visuals ? final.rating_visuals : null;
+        final.rating_overall = optionals.value.overall ? final.rating_overall : null;
         final.body = final.body === '<p></p>' ? null : final.body;
         return final;
     }).post(route('reviews.store'), {
@@ -81,7 +82,10 @@ const canSubmit = computed(() => {
 
             <div class="flex flex-col-reverse md:flex-row gap-2">
                 <div class="y space-y-1 md:w-2/3">
-                    <h2 class="text-2xl font-bold">Review</h2>
+                    <div>
+                        <h2 class="text-2xl font-bold">Review</h2>
+                        <span class="text-ui-500">Minimum: {{ optionals.overall ? 50 : 500 }} chars (including formatting)</span>
+                    </div>
                     <TipTap class="pane !p-0 border border-ui-700 grow" v-model="form.body"/>
                 </div>
                 <div class="y space-y-1 md:w-1/3">
@@ -99,6 +103,7 @@ const canSubmit = computed(() => {
                     <span>I understand threats, harassment, and hateful personal attacks are prohibited and can get my account banned</span>
                 </label>
             </div>
+            <p v-if="!optionals.overall" class="text-red-500 text-center">The site now allows text-only reviews however the threshold for quality is higher when there are no rating attached! See "What is considered spam?" below for more info.</p>
             <Errors/>
 
             <div class="review-submit group">
