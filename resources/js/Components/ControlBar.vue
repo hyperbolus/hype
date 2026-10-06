@@ -59,10 +59,9 @@ const instantLogout = useStorage('instantLogout', false)
         </Link>
         <Dropdown class="shrink-0">
             <template #trigger>
-                <div class="x bg-ui-950 p-1 rounded-full items-center cursor-pointer">
-                    <Avatar class="w-8 mr-2" :user="$page.props.user"/>
-                    <span>{{ $page.props.user.name }}</span>
-                    <Icon class="mx-1" size="20" name="chevron-down"/>
+                <div class="flex items-center">
+                    <Avatar width="w-10" class="cursor-pointer" :user="$page.props.user"/>
+                    <Icon class="ml-0.5" size="20" name="chevron-down"/>
                 </div>
             </template>
             <template #content>
