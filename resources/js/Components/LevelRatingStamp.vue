@@ -31,7 +31,7 @@ const prefs = getPrefs();
 </script>
 <template>
     <div class="relative z-10 justify-center w-full sm:w-fit">
-        <div class="z-10 relative grid items-end gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]" :class="{'grid-cols-4': !prefs.data.zen}">
+        <div class="z-10 relative grid items-end gap-4 py-1.5 px-4 -[text-shadow:black_0_0_10px]" :class="prefs.data.zen ? 'pr-8' : 'grid-cols-4'">
             <div class="x justify-center sm:justify-start">
                 <Tooltip v-if="isAuthenticated()" @mouseenter="hovered = true" @mouseleave="hovered = false" class="group" position="top-right" :message="reviewMessage">
                     <div class="x items-center">
