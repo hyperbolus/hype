@@ -45,7 +45,8 @@ const color = (column) => {
     }
 }
 
-const sum = array => array.reduceRight((s, n) => s + n, 0);
+// Our curve could be an array but due to null score is an object, we get values as an array to reduce
+const sum = array => Object.values(array).reduceRight((s, n) => s + n, 0);
 const format = string => string.split('_').pop();
 
 const current = ref('rating_overall');
@@ -55,6 +56,18 @@ const total = computed(() => Object.values(props.curve).reduceRight((s, n) => Ma
 
 const prefs = getPrefs();
 const forceShow = ref(false);
+
+// We need to sort our keys so that the null rating counts go first
+const fuckYouSort = (a, b) => {
+    if (a === b) return 0;
+
+    // 'null' goes before zero, it's a string set in the review curve generating function in php
+    if (a === 'null') return -1;
+    if (b === 'null') return 1;
+
+    // In an object, numeric keys are strings. Sort them numerically not alphabetically (ex. 1, 10, 2, 3 is wrong)
+    return a|0 < b|0 ? -1 : 1;
+}
 </script>
 <template>
     <div class="y space-y-2 pane !pl-2">
@@ -89,26 +102,19 @@ const forceShow = ref(false);
                     <span class="overflow-hidden">{{ sum(curve[current]) }} Ratings</span>
                 </div>
                 <div class="border-b border-ui-700 mt-1 mb-1.5"></div>
-                <Tooltip :message="`${total - sum(curve[current])} reviews without ${title} rating`">
-                    <div class="flex items-center text-sm text-ui-500">
-                        <span class="w-5 text-right mr-2">&empty;</span>
-                        <div class="bg-ui-800 rounded w-full">
-                            <div class="bg-ui-600 p-0.5 rounded" :style="`width: ${ (total - sum(curve[current])) / total * 100 }%;`"></div>
-                        </div>
-                    </div>
-                </Tooltip>
-                <template v-for="(count, score) in strata">
-                    <component :is="url(score) ? Link : 'div'" :href="url(score, column)" class="x items-center text-sm group">
+                <template v-for="score in Object.keys(strata).sort(fuckYouSort)">
+                    <component :is="url(strata[score]) && score !== 'null' ? Link : 'div'" :href="url(score, column)" class="x items-center text-sm group">
                         <div class="text-ui-500 mr-2 text-right select-none" :class="column === 'rating_difficulty' ? 'w-12' : 'w-5'">
                             <span v-if="column === 'rating_difficulty' && score !== 10">{{ score * 10 }}-{{score * 10 + 9}}</span>
+                            <span v-else-if="score === 'null'">&empty;</span>
                             <span v-else>{{ column === 'rating_difficulty' ? 100 : score }}</span>
                         </div>
                         <div class="x items-center w-full">
                             <div class="bg-ui-800 rounded overflow-hidden grow">
-                                <div class="p-0.5" :class="{'invisible': count === 0, [color(column)]: 1}" :style="`width: ${count / Math.max(...strata) * 100}%;`"></div>
+                                <div class="p-0.5" :class="{'invisible': strata[score] === 0, [score === 'null' ? 'bg-ui-600' : color(column)]: 1}" :style="`width: ${strata[score] / Math.max(...Object.values(strata)) * 100}%;`"></div>
                             </div>
                             <!-- TODO: make it so bar does not change and is proportionally correct instead of shrinking and being inaccurate -->
-                            <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden">{{ count }}&nbsp;Ratings</div>
+                            <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden">{{ strata[score] }}&nbsp;Ratings</div>
                         </div>
                     </component>
                 </template>

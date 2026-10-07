@@ -79,14 +79,17 @@ class Review extends Model
 
             // TODO@later: condense into one query
             $counts = $source->clone()->select([DB::raw('COUNT(*) as count'), $column])
-                ->groupBy($column)
+                ->groupBy(DB::raw('COALESCE('.$column.', "null")'))
                 ->get()
-                ->keyBy($column)
-                ->map(fn(Review $review) => $review->count);
+                ->mapWithKeys(function (Review $r) use ($column) {
+                    $key = $r->{$column} ?? 'null';
+                    return [$key => $r->count];
+                });
 
             $curves[$column] = [];
 
             // zero and 10/100 inclusive
+            $curves[$column]['null'] = $counts['null'] ?? 0;
             for ($i = 0; $i <= ($isDifficulty ? 100 : 10); $i++) $curves[$column][$i] = $counts[$i] ?? 0;
 
             // condense 0-100 scale into 10 grouped strata plus 0
