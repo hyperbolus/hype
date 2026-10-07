@@ -71,7 +71,11 @@ const fuckYouSort = (a, b) => {
 </script>
 <template>
     <div class="y space-y-2 pane !pl-2">
-        <div class="x items-center pr-2 space-x-1.5">
+        <div v-if="prefs.data.zen" class="flex flex-col gap-1 pl-2 py-1">
+            <p>You have zen mode enabled. Show curve anyways?</p>
+            <button @click="forceShow = !forceShow" class="bg-ui-700 rounded-lg px-2 py-1 w-full">{{ forceShow ? 'Hide' : 'Show' }}</button>
+        </div>
+        <div v-if="!prefs.data.zen || forceShow" class="x items-center pr-2 space-x-1.5">
             <Dropdown align="left">
                 <template #trigger>
                     <div class="x items-center space-x-1 bg-ui-800 rounded-md pl-1 pr-2 py-1 text-sm cursor-pointer">
@@ -86,10 +90,6 @@ const fuckYouSort = (a, b) => {
                 </template>
             </Dropdown>
             <h1>Rating Curve</h1>
-        </div>
-        <div v-if="prefs.data.zen" class="flex flex-col gap-1 px-2">
-            <p>You have zen mode enabled. Show curve anyways?</p>
-            <button @click="forceShow = !forceShow" class="bg-ui-700 rounded-lg px-2 py-1 w-full">{{ forceShow ? 'Hide' : 'Show' }}</button>
         </div>
         <div v-if="!prefs.data.zen || forceShow" class="relative">
             <div v-for="(strata, column) in curve" class="flex flex-col-reverse" :class="{'!hidden': column !== current}">
