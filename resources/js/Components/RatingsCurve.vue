@@ -89,6 +89,14 @@ const forceShow = ref(false);
                     <span class="overflow-hidden">{{ sum(curve[current]) }} Ratings</span>
                 </div>
                 <div class="border-b border-ui-700 mt-1 mb-1.5"></div>
+                <Tooltip :message="`${total - sum(curve[current])} reviews without ${title} rating`">
+                    <div class="flex items-center text-sm text-ui-500">
+                        <span class="w-5 text-right mr-2">&empty;</span>
+                        <div class="bg-ui-800 rounded w-full">
+                            <div class="bg-ui-600 p-0.5 rounded" :style="`width: ${ (total - sum(curve[current])) / total * 100 }%;`"></div>
+                        </div>
+                    </div>
+                </Tooltip>
                 <template v-for="(count, score) in strata">
                     <component :is="url(score) ? Link : 'div'" :href="url(score, column)" class="x items-center text-sm group">
                         <div class="text-ui-500 mr-2 text-right select-none" :class="column === 'rating_difficulty' ? 'w-12' : 'w-5'">
