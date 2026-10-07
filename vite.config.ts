@@ -49,5 +49,10 @@ export default defineConfig({
         // This is a multi-domain application, so we have to be lenient here
         // TODO@later: consider requiring .local origins
         cors: true,
+        server: {
+            watch: {
+                usePolling: true,
+            }
+        },
     }
 });
