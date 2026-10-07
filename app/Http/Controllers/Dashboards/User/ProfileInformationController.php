@@ -36,22 +36,6 @@ class ProfileInformationController extends Controller
             'signature_visibility' => ['integer', Rule::in([0, 1])],
         ]));
 
-        $user->pronouns = $request->string('pronouns');
-        $user->pronouns_visibility = $request->boolean('pronouns_visibility');
-
-        $user->flag = $request->string('flag');
-
-        $user->location = $request->string('location');
-        $user->location_visibility = $request->boolean('location_visibility');
-
-        $user->birthday = $request->date('birthday');
-        $user->birthday_visibility = $request->boolean('birthday_visibility');
-
-        $user->bio = $request->string('bio');
-
-        $user->signature = $request->string('signature');
-        $user->signature_visibility = $request->boolean('signature_visibility');
-
         return back();
     }
 }
