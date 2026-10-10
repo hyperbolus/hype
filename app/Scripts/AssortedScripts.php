@@ -7,6 +7,7 @@ use App\Actions\CalculateReputation;
 use App\Actions\MacroMetadata;
 use App\Actions\VerifyPremiumPatreon;
 use App\Attributes\Script;
+use App\Models\System\Setting;
 use App\Models\System\User;
 use App\Notifications\Announcement;
 use Illuminate\Support\Facades\Notification;
@@ -27,6 +28,21 @@ class AssortedScripts
     ): void
     {
         Notification::send(User::all(), new Announcement($message, $link));
+    }
+
+    #[Script(
+        title: 'Set featured',
+        description: 'Set featured level. Please make sure level is added and has a banner.',
+        permissions: ['role:admin', 'role:moderator'],
+    )]
+    public static function setFeatured(
+        #[Script(title: 'Level ID')]
+        int $id,
+    ): void
+    {
+        $setting = Setting::query()->where('key', 'frontpage_level')->first();
+        $setting->value = $id;
+        $setting->save();
     }
 
     #[Script(
