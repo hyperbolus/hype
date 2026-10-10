@@ -66,7 +66,7 @@ const fuckYouSort = (a, b) => {
     if (b === 'null') return 1;
 
     // In an object, numeric keys are strings. Sort them numerically not alphabetically (ex. 1, 10, 2, 3 is wrong)
-    return a|0 < b|0 ? -1 : 1;
+    return (a|0) < (b|0) ? -1 : 1;
 }
 </script>
 <template>
