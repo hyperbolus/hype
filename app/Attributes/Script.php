@@ -103,6 +103,7 @@ class Script {
         $validator = [];
 
         foreach (static::methodParameters($method) as $parameter) {
+            // TODO: optional arguments
             $validator[$parameter['name']] = ['required', $parameter['type']];
         }
 

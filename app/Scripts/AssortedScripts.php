@@ -7,6 +7,7 @@ use App\Actions\CalculateReputation;
 use App\Actions\MacroMetadata;
 use App\Actions\VerifyPremiumPatreon;
 use App\Attributes\Script;
+use App\Models\System\NameChange;
 use App\Models\System\Setting;
 use App\Models\System\User;
 use App\Notifications\Announcement;
@@ -56,6 +57,39 @@ class AssortedScripts
     ): void
     {
         VerifyPremiumPatreon::check(User::findOrFail($user_id));
+    }
+
+    #[Script(
+        title: 'Change Username',
+        description: 'Change account username. Request',
+        permissions: ['role:admin'],
+    )]
+    public static function changeUsername(
+        #[Script(title: 'Target User ID')]
+        int $user_id,
+        #[Script(title: 'New Username')]
+        string $newName,
+        #[Script(title: 'Reason')]
+        ?string $reason = null,
+        #[Script(title: 'Hidden', description: '0 or 1. Hides from username history')]
+        bool $hidden = false,
+    ): void
+    {
+        $user = User::findOrFail($user_id);
+
+        if (!$user) return;
+
+        $change = new NameChange();
+        $change->user_id = $user_id;
+        $change->from = $user->name;
+        $change->to = $newName;
+        $change->reason = $reason;
+        $change->setAttribute('hidden', $hidden);
+        $change->changer_id = auth()->check() ? auth()->user()->id : null;
+        $change->save();
+
+        $user->name = $newName;
+        $user->save();
     }
 
     #[Script(
