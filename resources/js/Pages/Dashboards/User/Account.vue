@@ -4,23 +4,40 @@ import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import {useForm} from "@inertiajs/vue3";
 import route from "ziggy-js";
+import {isPremium} from "@/util.js";
+import PremiumButton from "@/Components/PremiumButton.vue";
 
 const props = defineProps({
     profile: Object
-})
+});
+
+const name = useForm({
+    action: 'update username',
+    name: props.profile.name,
+    password: null,
+});
 
 const email = useForm({
     action: 'update email',
     email: props.profile.email,
-    password: null
-})
+    password: null,
+});
 
 const password = useForm({
     action: 'update password',
     current_password: null,
     new_password: null,
     new_password_confirmation: null,
-})
+});
+
+const changeName = () => {
+    name.post(route('settings.home'), {
+        errorBag: 'changeName',
+        onSuccess: () => {
+            name.password = ''
+        }
+    })
+}
 
 const changeEmail = () => {
     email.post(route('settings.home'), {
@@ -45,14 +62,25 @@ const changePassword = () => {
 </script>
 <template>
     <dashboard-layout>
-        <div class="y pane space-y-2">
+        <form @submit.prevent="changeName" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Username</h2>
             <div>
                 <span class="block font-medium text-sm text-ui-300">Username</span>
-                <Input disabled v-model="profile.name" class="mt-1 text-ui-600 cursor-not-allowed" type="email" placeholder="Email"/>
-                <span class="text-sm text-ui-500">NOTE: Changing usernames is not currently supported</span>
+                <Input :disabled="!isPremium()" v-model="name.name" class="mt-1" :input-style="isPremium() ? '' : 'cursor-not-allowed text-ui-500'" type="text" placeholder="Email"/>
             </div>
-        </div>
+            <div v-if="isPremium()">
+                <span class="block font-medium text-sm text-ui-300">Confirm Password</span>
+                <Input v-model="name.password" class="mt-1" type="password" placeholder="Confirm Password"/>
+            </div>
+            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                <li v-for="(error, key) in $page.props.errors.changeName" :key="key">
+                    {{ error }}
+                </li>
+            </ul>
+            <Button v-if="isPremium()" class="w-fit">Change Username</Button>
+            <PremiumButton v-else/>
+            <span>Supporters may change their username up to 2 times a month</span>
+        </form>
         <form @submit.prevent="changeEmail" class="y pane space-y-2">
             <h2 class="font-bold text-xl">Change Email</h2>
             <div>

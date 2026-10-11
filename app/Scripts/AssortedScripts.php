@@ -79,17 +79,7 @@ class AssortedScripts
 
         if (!$user) return;
 
-        $change = new NameChange();
-        $change->user_id = $user_id;
-        $change->from = $user->name;
-        $change->to = $newName;
-        $change->reason = $reason;
-        $change->setAttribute('hidden', $hidden);
-        $change->changer_id = auth()->check() ? auth()->user()->id : null;
-        $change->save();
-
-        $user->name = $newName;
-        $user->save();
+        $user->changeName($newName, $reason, $hidden, auth()->check() ? auth()->user()->id : null);
     }
 
     #[Script(

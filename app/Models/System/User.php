@@ -10,7 +10,7 @@ use App\Models\Content\Post;
 use App\Models\Content\Review;
 use App\Models\Content\Thread;
 use App\Models\Content\Video;
-use App\Models\Forge\Mod;
+use App\Models\Cosmetic;
 use App\Models\Game\Level;
 use App\Models\Game\LevelReplay;
 use App\Models\IP;
@@ -20,7 +20,6 @@ use App\Notifications\VerifyEmail;
 use App\Traits\Sortable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,11 +34,13 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
     use HasRoles;
     use Impersonate;
     use Searchable;
     use Sortable;
+
+    // <editor-fold desc="Internals">
 
     /**
      * The attributes that are mass assignable.
@@ -98,26 +99,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'weight' => 'weight_visibility',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
+        // Determines attribute visibility for $controlled based on <field>_visibility value
         static::retrieved(function (User $user) {
             foreach ($user->controlled as $field => $vis) {
                 $visibility = $user->getAttribute($vis);
+                // TODO: public, private, friends etc.
                 if ($visibility === 1) $user->makeVisible($field);
             }
         });
-    }
-
-    /**
-     * Make controllable hidden fields visible to the user itself
-     *
-     * @return $this
-     */
-    public function itsMe(): static
-    {
-        if (auth()->id() === $this->id) foreach ($this->controlled as $field => $vis) $this->makeVisible($field);
-
-        return $this;
     }
 
     public function getSortableAttributes(): array
@@ -135,6 +126,29 @@ class User extends Authenticatable implements MustVerifyEmail
             'reviews_count',
             'created_at'
         ];
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'flag' => $this->flag,
+            'primary_group_id' => $this->primary_group_id
+        ];
+    }
+
+    // </editor-fold>
+
+    // <editor-fold desc="Helpers">
+    /**
+     * Make controllable hidden fields visible to the user itself despite visibility
+     */
+    public function itsMe(): static
+    {
+        if (auth()->id() === $this->id) foreach ($this->controlled as $field => $vis) $this->makeVisible($field);
+
+        return $this;
     }
 
     public function isBlocking(int|User|null $user): bool
@@ -163,18 +177,25 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this;
     }
 
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token): void
+    public function changeName(string $new, ?string $reason = null, bool $hide = false, ?int $changer = null): void
     {
-        $this->notify(new ResetPassword($token));
+        // Create name change log
+        $change = new NameChange();
+        $change->user_id = $this->id;
+        $change->from = $this->name;
+        $change->to = $new;
+        $change->reason = $reason;
+        $change->setAttribute('hidden', $hide);
+        $change->changer_id = $changer;
+        $change->save();
+
+        // Change user's actual name
+        $this->name = $new;
+        $this->save();
     }
 
-    public function recalculateReputation(bool $save = false) {
+    public function recalculateReputation(bool $save = false): void
+    {
         $this->reputation = ReputationLog::query()
             ->whereHas('sender', function ($q) {
                 $q->whereNull('banned_at');
@@ -183,16 +204,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->sum('reputation');
 
         if ($save) $this->save();
-    }
-
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => (int) $this->id,
-            'name' => $this->name,
-            'flag' => $this->flag,
-            'primary_group_id' => $this->primary_group_id
-        ];
     }
 
     public function canImpersonate(): bool
@@ -205,15 +216,46 @@ class User extends Authenticatable implements MustVerifyEmail
         return ! $this->hasRole('admin');
     }
 
+    public function isPremium(): bool
+    {
+        return !is_null($this->premium_expires_at) && $this->premium_expires_at > now();
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Scopes">
+
+    public function scopeProfile(Builder $query): void
+    {
+        $query->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits', 'banned_at']);
+    }
+
+    // </editor-fold>
+
+    // <editor-fold desc="Auth">
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmail);
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword($token));
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Relationships">
 
     public function linkedAccounts(): HasMany
     {
         return $this->hasMany(\App\Models\LinkedAccount::class, 'user_id');
     }
 
-    public function scopeProfile(Builder $query): void
-    {
-        $query->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'reputation', 'credits', 'banned_at']);
+    public function videos(): HasMany {
+        return $this->hasMany(Video::class);
+    }
+
+    public function playlists(): HasMany {
+        return $this->hasMany(Playlist::class, 'owner_id');
     }
 
     public function blockedUsers(): BelongsToMany
@@ -244,6 +286,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments(): HasMany
     {
         return $this->hasMany(ProfileComment::class, 'user_id')->with('commenter');
+    }
+
+    public function cosmetics(): BelongsToMany
+    {
+        return $this->belongsToMany(Cosmetic::class);
     }
 
     public function replays(): HasMany
@@ -286,24 +333,5 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Level::class, 'reviews', 'user_id', 'level_id');
     }
 
-    public function purchasedMods(): BelongsToMany
-    {
-        return $this->belongsToMany(Mod::class, 'purchases', 'user_id', 'level_id')->wherePivot('type', '=', '1');
-    }
-
-    /**
-     * Send the email verification notification.
-     */
-    public function sendEmailVerificationNotification(): void
-    {
-        $this->notify(new VerifyEmail);
-    }
-
-    public function videos(): HasMany {
-        return $this->hasMany(Video::class);
-    }
-
-    public function playlists(): HasMany {
-        return $this->hasMany(Playlist::class, 'owner_id');
-    }
+    // </editor-fold>
 }

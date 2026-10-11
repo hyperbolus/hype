@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManager;
 
 class ProfileImageController extends Controller
@@ -26,22 +25,61 @@ class ProfileImageController extends Controller
         $url = $user->getAttribute($key);
 
         $types = $this->types;
-        if ($user->hasRole('admin')) $types[] = 'postbit';
+        if ($user->isPremium()) $types[] = 'postbit';
 
         $request->validate([
             'kind' => ['required', Rule::in($types)],
+            'coordinates' => ['required'],
+            'coordinates.height' => ['required', 'numeric', 'min:1'],
+            'coordinates.width' => ['required', 'numeric', 'min:1'],
+            'coordinates.top' => ['required', 'numeric', 'min:0'],
+            'coordinates.left' => ['required', 'numeric', 'min:0'],
             'image' => ['required', 'mimes:jpeg,jpg,png,webp,gif', 'max:3000'],
         ]);
 
         $file = $request->file('image');
+        $path = 'avatars/'.$file->hashName();
+
+        [$w, $h] = getimagesize($file->getRealPath()) ?: [0, 0];
+        abort_if($w < 1 || $h < 1, 422, 'Image is invalid');
+        abort_if($w * $h > 3000 * 3000, 422, 'Image is too large');
+
         $img = ImageManager::imagick()->read($file);
 
-        // Server-side cropping and re-encoding
-        if ($request->string('kind') == 'avatar') $img->resize(250, 250);
+        if ($img->isAnimated()) {
+            // memory safeguard
+            abort_if(count($img) > 300, 422, 'Too many frames');
+        }
+
+        // server-side cropping and re-encoding
+        // get full image size
+        $w = $img->width();
+        $h = $img->height();
+
+        // Round, then clamp the box inside the image
+        $x = min($request->integer('coordinates.left'), $w - 1);
+        $y = min($request->integer('coordinates.top'),  $h - 1);
+
+        // get cropped size, clamp max bc max x & y raise the lower bound/reduce remaining size
+        $w = clamp($request->integer('coordinates.width'), 1, $w - $x);
+        $h = clamp($request->integer('coordinates.height'), 1, $h - $y);
+
+        if ($request->string('kind') == 'avatar') {
+            // force square
+            $size = min($w, $h);
+            $img->crop($size, $size, $x, $y)->resize(250, 250);
+        } else {
+            $img->crop($w, $h, $x, $y);
+        }
+
+        if ($img->isAnimated() && $user->isPremium()) {
+            $img = $img->toGif();
+        } else {
+            $img = $img->toJpeg(80);
+        }
 
         // Save new image to disk
-        $path = 'avatars/'.$file->hashName();
-        $disk->put($path, $img->toJpeg(80), 'public');
+        $disk->put($path, $img, 'public');
 
         // Delete old image if no other occurrences
         if (User::query()->where($key, $url)->count() === 0) $disk->delete(parse_url($url, PHP_URL_PATH));
@@ -50,13 +88,14 @@ class ProfileImageController extends Controller
         $user->setAttribute($key, config('app.storage_url') . $path);
         $user->save();
 
-        return back();
+        return redirect()->route('settings.profile');
     }
 
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([
-            'kind' => ['required', Rule::in($this->types)],
+            // you can always delete
+            'kind' => ['required', Rule::in(['postbit', ...$this->types])],
         ]);
 
         /**
@@ -71,6 +110,6 @@ class ProfileImageController extends Controller
         $user->setAttribute($key, null);
         $user->save();
 
-        return back();
+        return redirect()->route('settings.profile');
     }
 }

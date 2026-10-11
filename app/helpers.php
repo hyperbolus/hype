@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Validation\ValidationException;
+
 if (! function_exists('cacheOr')) {
     function cacheOr(string $key, callable $default, $ttl = null): mixed
     {
@@ -11,6 +13,13 @@ if (! function_exists('cacheOr')) {
         }
 
         return $value;
+    }
+}
+
+if (! function_exists('invalid')) {
+    function invalid(array|string $field, ?string $message = null): array
+    {
+        throw ValidationException::withMessages(is_array($field) ? $field : [$field => $message]);
     }
 }
 
