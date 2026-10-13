@@ -7,7 +7,7 @@ import soundparty from '@/../images/soundparty.jpg'
 import {Link, router} from '@inertiajs/vue3'
 import route from "ziggy-js"
 import Avatar from "@/Components/Avatar.vue";
-import {isAuthenticated, isUser} from "@/util.js";
+import {isAdmin, isAuthenticated, isUser} from "@/util.js";
 import UserTitle from "@/Components/UserTitle.vue";
 import 'vue-advanced-cropper/dist/style.css';
 import Username from "@/Components/Username.vue";
@@ -53,6 +53,7 @@ const isOnline = (time) => {
                                         </template>
                                     </Lightbox>
                                     <div v-if="false" class="px-2 py-1 hover:bg-ui-800">Add Friend</div>
+                                    <div v-if="isAdmin()" class="px-2 py-1 hover:bg-ui-800">Impersonate</div>
                                     <div v-if="profile.blocked" @click="router.delete(route('relationships.destroy', profile.id))" class="px-2 py-1 hover:bg-ui-800">Unblock</div>
                                     <div v-else @click="router.post(route('relationships.store'), {user_id: profile.id})" class="px-2 py-1 hover:bg-ui-800">Block</div>
                                 </div>

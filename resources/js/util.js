@@ -61,6 +61,13 @@ export const getGDPR = () => {
     return consent;
 }
 
+export const impersonate = (id) => {
+    router.post(route('system.users'), {
+        action: 'impersonate',
+        user: id,
+    })
+}
+
 export const PREFS_VERSION = 1;
 export const PREFS_KEY = 'HYPE::PREFS';
 export const getPrefs = () => {
