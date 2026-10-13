@@ -6,14 +6,18 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Pusher = Pusher;
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: '',
-    wsHost: import.meta.env.VITE_PUSHER_HOST,
-    wsPath: import.meta.env.VITE_PUSHER_PATH,
-    wsPort: 80,
-    wssPort: 443,
-    forceTLS: import.meta.env.PROD,
-    enabledTransports: import.meta.env.PROD ? ['ws', 'wss'] : ['wss'],
-});
+try {
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: '',
+        wsHost: import.meta.env.VITE_PUSHER_HOST,
+        wsPath: import.meta.env.VITE_PUSHER_PATH,
+        wsPort: 80,
+        wssPort: 443,
+        forceTLS: import.meta.env.PROD,
+        enabledTransports: import.meta.env.PROD ? ['ws', 'wss'] : ['wss'],
+    });
+} catch (e) {
+    console.error(e);
+}
