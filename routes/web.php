@@ -117,6 +117,7 @@ Route::group(['prefix' => '/settings', 'middleware' => ['auth']], function () {
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('settings.profile')->middleware(['verified']);
     Route::patch('/profile', [ProfileInformationController::class, 'update'])->name('settings.profile.update')->middleware(['verified']);
+    Route::patch('/cosmetics', [ProfileInformationController::class, 'cosmetics'])->name('settings.cosmetics.update')->middleware(['verified']);
 
     Route::post('/profile/image', [ProfileImageController::class, 'store'])->name('settings.profile.image.store')->middleware(['verified']);
     Route::delete('/profile/image', [ProfileImageController::class, 'destroy'])->name('settings.profile.image.destroy')->middleware(['verified']);
