@@ -50,7 +50,7 @@ class ForumController extends Controller
         ])->meta($forum->name, $forum->description)
             ->breadcrumbs([
                 crumb('Forums', route('forums.index')),
-                crumb($forum->parent->name, route('forums.show', $forum->parent->slug ?? ''), !$forum->parent->category),
+                crumb($forum->parent->name, route('forums.show', $forum->parent->slug ?? 'invalid'), !$forum->parent->category),
             ]);
     }
 }
