@@ -41,7 +41,8 @@ class DashboardController extends Controller
                     ->get();
 
                 // Next date when you have a name change available
-                $nextChangeableDate = $monthChanges->last()->created_at->addMonth();
+
+                $nextChangeableDate = $monthChanges->count() > 0 ? $monthChanges->last()->created_at->addMonth() : now();
 
                 if ($monthChanges->count() > 1) invalid('changes', 'You can only change your name 2 times in a month. Next change in ' . $nextChangeableDate->diff(now()));
 
