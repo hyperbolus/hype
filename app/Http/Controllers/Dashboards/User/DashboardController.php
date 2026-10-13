@@ -94,7 +94,7 @@ class DashboardController extends Controller
         return UserDashboard::page('settings.profile', [
             'flags' => Hype::$flags,
             'cosmetics' => Cosmetic::all()->groupBy('type'),
-            'owned_cosmetics' => $request->user()->cosmetics,
+            'owned_cosmetics' => $request->user()->ownedCosmetics(),
         ]);
     }
 

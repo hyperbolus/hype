@@ -50,6 +50,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'referrer_id',
+
+        'flag',
+        'bio',
+
+        'pronouns',
+        'pronouns_visibility',
+
+        'location',
+        'location_visibility',
+
+        'birthday',
+        'birthday_visibility',
+
+        'signature',
+        'signature_visibility',
     ];
 
     /**
@@ -87,6 +102,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthday_visibility' => 'integer',
         'pronoun_visibility' => 'integer',
         'weight_visibility' => 'integer',
+
+        'cosmetics' => 'array',
     ];
 
     /**
@@ -288,7 +305,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ProfileComment::class, 'user_id')->with('commenter');
     }
 
-    public function cosmetics(): BelongsToMany
+    public function ownedCosmetics(): BelongsToMany
     {
         return $this->belongsToMany(Cosmetic::class);
     }

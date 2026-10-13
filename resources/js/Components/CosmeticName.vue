@@ -1,36 +1,47 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed} from "vue";
 
 const props = defineProps({
-    cosmetics: Object,
+    cosmetics: {
+        type: Object,
+        default: {},
+    },
+    banned: Boolean,
 });
 
 const style = computed(() => {
     let out = {
-        classes: [],
-        styleText: {},
-        styleShadow: {},
+        classes: {},
+        style: {},
     };
 
-    for (let c of props.cosmetics) {
-        if (c.type === 'name_color') {
-            out.styleText['color'] = c.value;
+    if (!props.cosmetics) return {};
+
+    for (let slot in props.cosmetics) {
+        let c = props.cosmetics[slot];
+
+        if (c.slot === 'name_color') {
+            out.style['--cosmetic-text-color'] = c.value;
         }
 
-        if (c.type === 'glow_color') {
-            out.styleShadow['--cosmetic-glow-color'] = c.value;
+        if (c.slot === 'glow_color') {
+            out.style['--cosmetic-glow-color'] = c.value;
+            out.classes['font-bold'] = true;
+        }
+
+        if (c.slot === 'sparkle_color') {
+            out.classes['cosmetic-sparkle'] = true;
+            out.style['--cosmetic-sparkle-color'] = c.value;
         }
     }
-
-    console.log(out)
 
     return out;
 });
 </script>
 <template>
-    <span class="relative w-fit" :class="style.classes">
-        <span class="relative z-20 cosmetic-text" :style="style.styleText"><slot/></span>
-        <span class="absolute left-0 z-10 cosmetic-shadow" :style="style.styleShadow"><slot/></span>
+    <span class="relative w-fit cosmetic-name" :class="style.classes" :style="style.style">
+        <span class="relative z-20 cosmetic-text" :class="{'line-through': banned}"><slot/></span>
+        <span class="absolute left-0 z-10 cosmetic-shadow"><slot/></span>
         <span class="cosmetic-background"></span>
     </span>
 </template>

@@ -6,6 +6,7 @@ use App\Models\Media;
 use App\Models\System\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -13,17 +14,14 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 class LevelReplay extends Model
 {
-    use HasFactory;
-
-    public function level(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class, 'level_id');
     }
 
-    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'submitter_id')
-            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url']);
+        return $this->belongsTo(User::class, 'submitter_id');
     }
 
     public function files(): MorphMany {

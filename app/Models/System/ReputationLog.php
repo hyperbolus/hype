@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ReputationLog extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'sender_id',

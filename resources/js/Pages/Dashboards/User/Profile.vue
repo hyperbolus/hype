@@ -3,14 +3,14 @@ import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import Button from "@/Jetstream/Button.vue";
 import Input from "@/Jetstream/Input.vue";
 import {useForm} from "@inertiajs/vue3";
-import {onBeforeMount, onUnmounted, ref} from "vue";
+import {computed, onBeforeMount, onUnmounted, ref} from "vue";
 import Errors from "@/Components/Errors.vue";
-import { Cropper } from 'vue-advanced-cropper';
+import {Cropper} from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import Icon from "@/Components/Icon.vue";
 import Textbox from "@/Components/Textbox.vue";
 import TipTap from "@/Components/TipTap.vue";
-import {capitalize, getUser, invisiblePixel, isAdmin} from "@/util.js";
+import {capitalize, getUser, invisiblePixel} from "@/util.js";
 import {useFileDialog} from "@vueuse/core";
 import route from "ziggy-js";
 import Checkbox from "@/Jetstream/Checkbox.vue";
@@ -18,6 +18,8 @@ import {isPremium} from "@/util";
 import CosmeticCard from "@/Components/CosmeticCard.vue";
 import CosmeticName from "@/Components/CosmeticName.vue";
 import PremiumButton from "@/Components/PremiumButton.vue";
+import Toggle from "@/Components/Toggle.vue";
+import {hex, score} from "wcag-contrast/index.js";
 
 const props = defineProps({
     flags: Object,
@@ -88,7 +90,7 @@ const fields = {
         type: 'area',
         placeholder: 'Sincerely, Summer Glau',
         max: 200
-    }
+    },
 };
 
 // <editor-fold desc="Flags">
@@ -238,6 +240,96 @@ onUnmounted(() => {
 });
 
 const tab = ref(0);
+
+const cosmeticForm = useForm({
+    name: getUser().cosmetics?.['name_color']?.value ?? '#ffffff',
+    glow: getUser().cosmetics?.['glow_color']?.value ?? '#ffffff',
+    sparkle: getUser().cosmetics?.['sparkles_color']?.value ?? '#ffffff',
+    name_enabled: (getUser().cosmetics ?? {}).hasOwnProperty('name_color'),
+    glow_enabled: (getUser().cosmetics ?? {}).hasOwnProperty('glow_color'),
+    sparkle_enabled: (getUser().cosmetics ?? {}).hasOwnProperty('sparkle_color'),
+});
+
+const resetCosmetics = () => {
+    cosmeticForm.name_enabled = false;
+    cosmeticForm.glow_enabled = false;
+    cosmeticForm.sparkle_enabled = false;
+    saveCosmetic();
+};
+
+const saveCosmetic = () => {
+    cosmeticForm.patch(route('settings.cosmetics.update'), {
+        preserveScroll: true,
+        errorBag: 'cosmetic'
+    });
+};
+
+const nameContrast = ref(1);
+
+const bgCol = computed(() => {
+    if (!window) return 0;
+
+    let rgb = window.getComputedStyle(document.body).getPropertyValue('--color-ui-900');
+
+    return rgb.split(/\s+/).map(n => n|0);
+});
+
+const rgbToHex = (r, g, b) => {
+    return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
+}
+
+const hexToRgb = (hex) => {
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+        parseInt(result[1], 16),
+        parseInt(result[2], 16),
+        parseInt(result[3], 16),
+    ] : null;
+}
+
+const cosm = computed(() => {
+    let out = {};
+
+    if (cosmeticForm.name_enabled) {
+        out['name_color'] = {
+            slot: 'name_color',
+            value: cosmeticForm.name,
+            classes: null,
+            styles: null,
+        };
+    }
+
+    if (cosmeticForm.glow_enabled) {
+        out['glow_color'] = {
+            slot: 'glow_color',
+            value: cosmeticForm.glow,
+            classes: null,
+            styles: null,
+        };
+    }
+
+    if (cosmeticForm.sparkle_enabled) {
+        out['sparkle_color'] = {
+            slot: 'sparkle_color',
+            value: cosmeticForm.sparkle,
+            classes: 'cosmetic-sparkles',
+            styles: null,
+        };
+    }
+
+    let bg = bgCol.value;
+
+    if (cosmeticForm.glow_enabled) {
+        // how much to combine
+        const alpha = 0.5;
+        const glow = hexToRgb(cosmeticForm.glow);
+        bg = bg.map((col, i) => Math.round(glow[i] * alpha + col * (1 - alpha)));
+    }
+
+    nameContrast.value = hex(cosmeticForm.name, rgbToHex(...bg));
+
+    return out;
+});
 </script>
 <template>
     <dashboard-layout :show-title="false">
@@ -258,7 +350,7 @@ const tab = ref(0);
                     <button :disabled="imageRemoveForm.processing" @click="removeImage('avatar')" class="px-2 py-1 bg-ui-800/75 rounded-lg">Remove Image</button>
                 </div>
             </div>
-            <div class="bg-center bg-cover rounded-lg bg-ui-900 shrink-0 md:w-1/3 h-32" :style="`background-image:url(${profile.avatar_url ?? invisiblePixel});`"></div>
+            <div class="bg-center bg-cover rounded-lg bg-ui-950 shrink-0 md:w-1/3 h-32" :style="`background-image:url(${profile.avatar_url ?? invisiblePixel});`"></div>
         </div>
         <div class="flex flex-col md:flex-row gap-4 pane !p-4">
             <div class="flex flex-col grow">
@@ -269,7 +361,7 @@ const tab = ref(0);
                     <button :disabled="imageRemoveForm.processing" @click="removeImage('banner')" class="px-2 py-1 bg-ui-800/75 rounded-lg">Remove Image</button>
                 </div>
             </div>
-            <div class="bg-center bg-cover rounded-lg bg-ui-900 shrink-0 md:w-1/3 h-32" :style="`background-image:url(${profile.banner_url ?? invisiblePixel});`"></div>
+            <div class="bg-center bg-cover rounded-lg bg-ui-950 shrink-0 md:w-1/3 h-32" :style="`background-image:url(${profile.banner_url ?? invisiblePixel});`"></div>
         </div>
         <div class="flex flex-col md:flex-row gap-4 pane !p-4">
             <div class="flex flex-col grow">
@@ -281,7 +373,7 @@ const tab = ref(0);
                     <button v-if="profile.postbit_url || isPremium()" :disabled="imageRemoveForm.processing" @click="removeImage('postbit')" class="px-2 py-1 bg-ui-800/75 rounded-lg">Remove Image</button>
                 </div>
             </div>
-            <div class="bg-center bg-cover rounded-lg bg-ui-900 shrink-0 md:w-1/3 h-32" :style="`background-image:url(${profile.postbit_url ?? invisiblePixel});`"></div>
+            <div class="bg-center bg-cover rounded-lg bg-ui-950 shrink-0 md:w-1/3 h-32" :style="`background-image:url(${profile.postbit_url ?? invisiblePixel});`"></div>
         </div>
         <teleport to="#app">
             <div v-if="imageModal" class="y items-center justify-center z-[100] fixed inset-0 bg-ui-1000/50" >
@@ -303,6 +395,36 @@ const tab = ref(0);
                 </div>
             </div>
         </teleport>
+        <div class="flex flex-col gap-2 pane !p-4">
+            <h2 class="text-xl font-bold">Username Customization</h2>
+            <CosmeticName class="text-xl" :cosmetics="cosm">{{ getUser().name }}</CosmeticName>
+            <CosmeticName :cosmetics="cosm">{{ getUser().name }}</CosmeticName>
+            <p class="grow">Customize your username with colors and effects</p>
+            <div class="px-2 py-1 border border-amber-500 bg-amber-500/10 text-white rounded-lg" v-show="nameContrast < 4.5">
+                <p>Your chosen name and glow colors may be difficulty for visually impaired people to see against the background. Please be considerate about the readability of your name for other users.</p>
+                <p class="font-bold">WCAG Accessibility rating: {{ score(nameContrast) }} ({{ nameContrast.toFixed(2) }})</p>
+            </div>
+            <div v-if="isPremium()" class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <Toggle v-model="cosmeticForm.name_enabled"/>
+                    <input @change="cosmeticForm.name_enabled = true" type="color" v-model="cosmeticForm.name"/>
+                    <span>Username Color</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <Toggle v-model="cosmeticForm.glow_enabled"/>
+                    <input @change="cosmeticForm.glow_enabled = true" type="color" v-model="cosmeticForm.glow"/>
+                    <span>Username Glow</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <Toggle v-model="cosmeticForm.sparkle_enabled"/>
+                    <input @change="cosmeticForm.sparkle_enabled = true" type="color" v-model="cosmeticForm.sparkle"/>
+                    <span>Username Sparkle</span>
+                </div>
+                <button @click="saveCosmetic" class="bg-ui-800 rounded-md p-2">Save</button>
+                <button @click="resetCosmetics" class="bg-ui-800 rounded-md p-2">Reset</button>
+            </div>
+            <PremiumButton v-else/>
+        </div>
         <div class="x justify-center" v-if="0">
             <div class="p-1 bg-ui-900 x w-fit rounded-lg border border-ui-700">
                 <button class="x items-center space-x-1 px-2 rounded-lg border" :class="tab === 0 ? 'bg-blue-500/25 border-blue-500 text-white' : 'border-transparent'" @click="tab = 0">

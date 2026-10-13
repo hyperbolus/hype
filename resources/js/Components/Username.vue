@@ -4,11 +4,11 @@ import {Link} from '@inertiajs/vue3';
 import Tooltip from "@/Components/Tooltip.vue";
 import Avatar from "@/Components/Avatar.vue";
 import UserFlag from "@/Components/UserFlag.vue";
-import sparkle from '@/../images/sparkle_2.gif'
 import UserTitle from "@/Components/UserTitle.vue";
 import Icon from "@/Components/Icon.vue";
 import {computed} from "vue";
-import {isPremium} from "@/util";
+import {invisiblePixel, isPremium} from "@/util";
+import CosmeticName from "@/Components/CosmeticName.vue";
 
 const props = defineProps({
     user: Object,
@@ -39,31 +39,26 @@ const groups = {
         name: 'Administrator',
         badge: 'check-badge',
         color: 'rgb(255 75 75)',
-        sparkle: true,
     },
     2: {
         name: 'Moderator',
         badge: 'check-badge',
         color: '#a467ea',
-        sparkle: true,
     },
     3: {
         name: 'Verified',
         badge: 'check-badge',
         color: 'rgb(34 197 94)',
-        sparkle: true,
     },
     4: {
         name: 'Wiki Contributor',
         badge: 'open-book',
         color: '#8eb3ff',
-        sparkle: true,
     },
     5: {
         name: 'Supporter',
         badge: 'heart',
         color: '#d28eff',
-        sparkle: true,
     }
 };
 
@@ -94,20 +89,15 @@ const allGroups = computed(() => {
             </Tooltip>
         </template>
         <Tooltip v-if="card" :caret="false" :decoration="false" :inline="true" :container-class="`${popUnder ? 'top-full' : 'pb-1 bottom-full'} right-full`">
-            <Link v-if="link" :href="link" :style="style" class="relative">
-                <span class="z-10 relative">{{ user.name }}</span>
-                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>
-            </Link>
-            <span v-else :style="style">{{ user.name }}</span>
+            <component :is="link ? Link : 'div'" :href="link ? link : null">
+                <CosmeticName :cosmetics="user.cosmetics" :banned="user.banned_at">{{ user.name }}</CosmeticName>
+            </component>
             <template #content>
-                <div class="x box shadow-xl !p-0 overflow-hidden bg-cover bg-center">
+                <div class="x box shadow-xl !p-0 overflow-hidden bg-cover bg-center" :style="`background-image:url(${user.banner_url ?? invisiblePixel});`">
                     <div class="x items-center bg-black/50 space-x-4 p-4 min-w-[20rem]">
                         <Avatar width="w-16" :user="user"/>
                         <div class="y [text-shadow:black_0_1px_3px]">
-                            <div class="font-bold text-lg w-fit relative" :class="{'line-through': user.banned_at}" :style="style">
-                                <span class="z-10 relative">{{ user.name }}</span>
-<!--                                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>-->
-                            </div>
+                            <CosmeticName :cosmetics="user.cosmetics"  :banned="user.banned_at">{{ user.name }}</CosmeticName>
                             <UserTitle class="[text-shadow:black_0_1px_3px]" :user="user"/>
                         </div>
                     </div>
@@ -115,14 +105,9 @@ const allGroups = computed(() => {
             </template>
         </Tooltip>
         <template v-else>
-            <Link v-if="link" :href="link" :style="style" class="relative">
-                <span class="z-10 relative">{{ user.name }}</span>
-                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>
-            </Link>
-            <div v-else :style="style" class="relative">
-                <span class="z-10 relative">{{ user.name }}</span>
-                <div v-if="group.sparkle" class="absolute inset-0" :style="`background-color:${group.color};mask-image:url('${sparkle}');`"></div>
-            </div>
+            <component :is="link ? Link : 'div'" :href="link ? link : null">
+                <CosmeticName :cosmetics="user.cosmetics" :banned="user.banned_at">{{ user.name }}</CosmeticName>
+            </component>
         </template>
     </div>
 </template>

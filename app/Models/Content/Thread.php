@@ -55,8 +55,7 @@ class Thread extends Model
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id')
-            ->select(['id', 'name', 'primary_group_id', 'created_at', 'last_seen', 'time_online', 'pronouns', 'avatar_url', 'banner_url', 'banned_at', 'premium_expires_at']);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function subscribers(): BelongsToMany

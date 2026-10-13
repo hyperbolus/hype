@@ -149,6 +149,81 @@ body {
     }
 }
 
+:root {
+    --cosmetic-text-color: var(--color-ui-200);
+    --cosmetic-glow-size: 0.15rem;
+    --cosmetic-glow-color: transparent;
+    --cosmetic-sparkle-color: transparent;
+}
+
+.cosmetic-text {
+    color: var(--cosmetic-text-color);
+}
+
+.cosmetic-shadow {
+    /*text-shadow: 0 0 0.1rem var(--cosmetic-glow-color), 0 0 0.25rem var(--cosmetic-glow-color), 0 0 0.4rem var(--cosmetic-glow-color);*/
+    text-shadow:
+        0 0 calc(var(--cosmetic-glow-size) - 0.1rem) var(--cosmetic-glow-color),
+        0 0 var(--cosmetic-glow-size) var(--cosmetic-glow-color),
+        0 0 calc(var(--cosmetic-glow-size) + 0.1rem) var(--cosmetic-glow-color);
+
+    color: transparent;
+}
+
+.cosmetic-text-transparent > .cosmetic-text {
+    color: rgb(var(--color-ui-900));
+}
+
+.cosmetic-pulse > .cosmetic-shadow {
+    animation: 1s linear infinite alternate anim-cosmetic-pulse;
+    will-change: filter;
+}
+
+@keyframes anim-cosmetic-pulse {
+    0% {
+        --cosmetic-glow-size: 0.1rem;
+        text-shadow: 0 0 var(--cosmetic-glow-size) var(--cosmetic-glow-color);
+    }
+    100% {
+        --cosmetic-glow-size: 0.5rem;
+        text-shadow: 0 0 var(--cosmetic-glow-size) var(--cosmetic-glow-color);
+    }
+}
+
+.cosmetic-rainbow > .cosmetic-text {
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: 4s linear infinite anim-cosmetic-rainbow;
+    background-size: 200%;
+    background-image: repeating-linear-gradient(
+        to right,
+        tomato,
+        orange,
+        springgreen,
+        deepskyblue,
+        mediumpurple,
+        tomato
+    );
+}
+
+.cosmetic-sparkle > .cosmetic-background {
+    content: '';
+    position: absolute;
+    inset: 0;
+    mask-image: url('../images/sparkle_2.gif');
+    background-color: var(--cosmetic-sparkle-color);
+    z-index: 0;
+}
+
+@keyframes anim-cosmetic-rainbow {
+    0% {
+        background-position-x: -100%;
+    }
+    100% {
+        background-position-x: 100%;
+    }
+}
+
 div[data-youtube-video] > iframe {
     @apply rounded-lg aspect-video max-h-[20rem] w-full
 }

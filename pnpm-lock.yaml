@@ -173,6 +173,9 @@ importers:
       vue-virtual-scroller:
         specifier: 2.0.0-beta.8
         version: 2.0.0-beta.8(vue@3.5.42(typescript@4.9.5))
+      wcag-contrast:
+        specifier: ^3.0.0
+        version: 3.0.0
     devDependencies:
       '@iconify-json/heroicons':
         specifier: ^1.2.3
@@ -1031,6 +1034,10 @@ packages:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
     engines: {node: '>=6'}
 
+  esm@3.2.25:
+    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
+    engines: {node: '>=6'}
+
   estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
 
@@ -1536,6 +1543,9 @@ packages:
   reading-time@1.5.0:
     resolution: {integrity: sha512-onYyVhBNr4CmAxFsKS7bz+uTLRakypIe4R+5A824vBSkQy/hB3fZepoVEf8OVAxzLvK+H/jm9TzpI3ETSm64Kg==}
 
+  relative-luminance@2.0.1:
+    resolution: {integrity: sha512-wFuITNthJilFPwkK7gNJcULxXBcfFZvZORsvdvxeOdO44wCeZnuQkf3nFFzOR/dpJNxYsdRZJLsepWbyKhnMww==}
+
   resolve@1.22.12:
     resolution: {integrity: sha512-TyeJ1zif53BPfHootBGwPRYT1RUt6oGWsaQr8UyZW/eAm9bKoijtvruSDEmZHm92CwS9nj7/fWttqPCgzep8CA==}
     engines: {node: '>= 0.4'}
@@ -1754,6 +1764,9 @@ packages:
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
+
+  wcag-contrast@3.0.0:
+    resolution: {integrity: sha512-RWbpg/S7FOXDCwqC2oFhN/vh8dHzj0OS6dpyOSDHyQFSmqmR+lAUStV/ziTT1GzDqL9wol+nZQB4vCi5yEak+w==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -2682,6 +2695,8 @@ snapshots:
 
   escalade@3.2.0: {}
 
+  esm@3.2.25: {}
+
   estree-walker@2.0.2: {}
 
   fast-glob@3.3.3:
@@ -3136,6 +3151,10 @@ snapshots:
 
   reading-time@1.5.0: {}
 
+  relative-luminance@2.0.1:
+    dependencies:
+      esm: 3.2.25
+
   resolve@1.22.12:
     dependencies:
       es-errors: 1.3.0
@@ -3366,6 +3385,10 @@ snapshots:
       typescript: 4.9.5
 
   w3c-keyname@2.2.8: {}
+
+  wcag-contrast@3.0.0:
+    dependencies:
+      relative-luminance: 2.0.1
 
   webidl-conversions@3.0.1: {}
 
