@@ -71,7 +71,7 @@ const sendLike = () => {
                 <div class="flex md:flex-col md:items-center z-10 gap-4 p-4 sticky top-0 md:w-48">
                     <div v-if="user.postbit_url" class="absolute rounded-tl-lg -z-10 top-0 left-0 w-full h-full opacity-50" :style="'-webkit-mask:linear-gradient(rgba(255, 255, 255, 0.65) 50%, transparent 100%);background-image: url(\'' + user.postbit_url + '\');background-size:cover;background-position:top;'"></div>
                     <div class="hidden md:flex flex-col gap-1 text-center items-center py-1">
-                        <span class="x items-center gap-1.5"><Username :flag="true" :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
+                        <span class="x items-center gap-1.5 z-50"><Username :flag="true" :class="{'glass px-2 backdrop-blur-sm': user.postbit_url}" :user="user"/></span>
                         <UserTitle class="text-sm" :class="{'glass px-2 py-0.5 backdrop-blur-sm': user.postbit_url}" :user="user"/>
                     </div>
                     <div class="flex place-center">
@@ -194,7 +194,7 @@ const sendLike = () => {
                 </div>
             </div>
         </div>
-        <div v-if="!preview && post.reactions && post.reactions.length > 0" class="x items-center border-t p-2 space-x-2 border-t-ui-700">
+        <div v-if="!preview && post.reactions && post.reactions.length > 0" class="x z-10 items-center border-t p-2 space-x-2 border-t-ui-700">
             <div class="x items-center space-x-1 text-green-500">
                 <Icon name="heart" scale="size-4"/>
                 <span>{{ post.reactions.length }}</span>
