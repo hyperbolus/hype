@@ -45,6 +45,8 @@ const profileForm = useForm({
 
     bio: profile.value.bio ?? '',
 
+    custom_title: profile.value.custom_title ?? '',
+
     signature: profile.value.signature ?? '',
     signature_visibility: profile.value.signature_visibility,
 });
@@ -70,26 +72,32 @@ const fields = {
     pronouns: {
         type: 'field',
         placeholder: 'ex. they/them',
-        visibility: true
+        visibility: true,
     },
     birthday: {
         type: 'date',
-        visibility: true
+        visibility: true,
     },
     location: {
         type: 'field',
         placeholder: 'ex. New York, NY',
-        visibility: true
+        visibility: true,
+    },
+    custom_title: {
+        type: 'field',
+        placeholder: 'Review Master',
+        description: 'Customize your user flair, visible on your profile and username hover card',
+        premium: true,
     },
     bio: {
         type: 'rich',
         placeholder: 'Tell us about yourself...',
-        max: 2000
+        max: 2000,
     },
     signature: {
         type: 'area',
         placeholder: 'Sincerely, Summer Glau',
-        max: 200
+        max: 200,
     },
 };
 
@@ -400,7 +408,7 @@ const cosm = computed(() => {
             <CosmeticName class="text-xl" :cosmetics="cosm">{{ getUser().name }}</CosmeticName>
             <CosmeticName :cosmetics="cosm">{{ getUser().name }}</CosmeticName>
             <p class="grow">Customize your username with colors and effects</p>
-            <div class="px-2 py-1 border border-amber-500 bg-amber-500/10 text-white rounded-lg" v-show="nameContrast < 4.5">
+            <div class="px-2 py-1 border border-amber-500 bg-amber-500/10 text-white rounded-lg" v-show="nameContrast < 4.5 && isPremium()">
                 <p>Your chosen name and glow colors may be difficulty for visually impaired people to see against the background. Please be considerate about the readability of your name for other users.</p>
                 <p class="font-bold">WCAG Accessibility rating: {{ score(nameContrast) }} ({{ nameContrast.toFixed(2) }})</p>
             </div>
@@ -422,8 +430,12 @@ const cosm = computed(() => {
                 </div>
                 <button @click="saveCosmetic" class="bg-ui-800 rounded-md p-2">Save</button>
                 <button @click="resetCosmetics" class="bg-ui-800 rounded-md p-2">Reset</button>
+                <span v-show="cosmeticForm.recentlySuccessful" class="text-green-500">Changes Saved</span>
             </div>
-            <PremiumButton v-else/>
+            <div v-else>
+                <p v-if="getUser().cosmetics" class="text-[#d28eff] mb-2">Join our Patreon to regain access to your username customizations!</p>
+                <PremiumButton/>
+            </div>
         </div>
         <div class="x justify-center" v-if="0">
             <div class="p-1 bg-ui-900 x w-fit rounded-lg border border-ui-700">
@@ -478,14 +490,20 @@ const cosm = computed(() => {
             </div>
             <div v-for="(field, key) in fields" class="flex flex-col md:flex-row space-y-1 md:space-y-0 md:space-x-2 mt-2">
                 <div class="y w-full" :class="{'md:w-1/2': field.visibility}">
-                    <div class="x justify-between mt-2 capitalize text-sm px-2">
-                        <span>{{ key }}</span>
-                        <button @click="profileForm[key] = null" class="text-ui-500 hover:text-white hover:underline">Reset</button>
+                    <div class="x justify-between mt-2 text-sm px-2">
+                        <span class="capitalize">{{ key.replaceAll('_', ' ') }}</span>
+                        <button v-if="!(field.premium && !isPremium())" @click="profileForm[key] = null" class="text-ui-500 hover:text-white hover:underline">Reset</button>
                     </div>
-                    <Input v-if="field.type === 'field'" v-model="profileForm[key]" type="text" :placeholder="field.placeholder ?? capitalize(key)"/>
-                    <input v-if="field.type === 'date'" v-model="profileForm[key]" type="date" class="px-2 py-1 bg-ui-800 rounded-lg border-none w-full"/>
-                    <Textbox v-if="field.type === 'area'" v-model="profileForm[key]" :max="field.max" :placeholder="field.placeholder ?? capitalize(key)"/>
-                    <TipTap v-if="field.type === 'rich'" v-model="profileForm[key]" :max="field.max" class="border border-ui-700 rounded-lg"/>
+                    <div v-if="field.premium && !isPremium()">
+                        <p v-if="getUser()[key]" class="mb-2 text-[#d28eff] px-3 py-1 bg-ui-950 rounded-lg">To regain access to this customization, join our Patreon!</p>
+                        <PremiumButton/>
+                    </div>
+                    <div v-else>
+                        <Input v-if="field.type === 'field'" v-model="profileForm[key]" type="text" :placeholder="field.placeholder ?? capitalize(key)"/>
+                        <input v-if="field.type === 'date'" v-model="profileForm[key]" type="date" class="px-2 py-1 bg-ui-800 rounded-lg border-none w-full"/>
+                        <Textbox v-if="field.type === 'area'" v-model="profileForm[key]" :max="field.max" :placeholder="field.placeholder ?? capitalize(key)"/>
+                        <TipTap v-if="field.type === 'rich'" v-model="profileForm[key]" :max="field.max" class="border border-ui-700 rounded-lg"/>
+                    </div>
                 </div>
                 <div v-if="field.visibility" class="md:w-1/2">
                     <span class="text-sm px-2 capitalize">{{ key }} Visibility</span>

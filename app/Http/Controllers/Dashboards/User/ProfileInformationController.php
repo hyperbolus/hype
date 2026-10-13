@@ -18,6 +18,11 @@ class ProfileInformationController extends Controller
          */
         $user = $request->user();
 
+        if ($request->filled('custom_title')) {
+            $user->custom_title = $user->isPremium() ? $request->string('custom_title') : null;
+            $user->save();
+        }
+
         $user->update($request->validate([
             'pronouns' => ['string', 'max:32', 'nullable'],
             'pronouns_visibility' => ['integer', Rule::in([0, 1])],
@@ -52,6 +57,7 @@ class ProfileInformationController extends Controller
             $cosmetics['name_color'] = [
                 'slot' => 'name_color',
                 'value' => $request->string('name'),
+                'premium' => true,
             ];
         } else if (array_key_exists('name_color', $cosmetics)) {
             unset($cosmetics['name_color']);
@@ -61,6 +67,7 @@ class ProfileInformationController extends Controller
             $cosmetics['glow_color'] = [
                 'slot' => 'glow_color',
                 'value' => $request->string('glow'),
+                'premium' => true,
             ];
         } else if (array_key_exists('glow_color', $cosmetics)) {
             unset($cosmetics['glow_color']);
@@ -71,6 +78,7 @@ class ProfileInformationController extends Controller
                 'slot' => 'sparkle_color',
                 'value' => $request->string('sparkle'),
                 'classes' => 'cosmetic-sparkle',
+                'premium' => true,
             ];
         } else if (array_key_exists('sparkle_color', $cosmetics)) {
             unset($cosmetics['sparkle_color']);

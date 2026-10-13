@@ -7,7 +7,6 @@ import TipTap from "@/Components/TipTap.vue";
 import Timestamp from "@/Components/Timestamp.vue";
 import {onBeforeMount, onUpdated, ref} from "vue";
 import prettyBytes from "pretty-bytes";
-import UserFlag from "@/Components/UserFlag.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import ReportModal from "@/Components/ReportModal.vue";
 import {isAuthenticated, readonly} from "@/util.js";

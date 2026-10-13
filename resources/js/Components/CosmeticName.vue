@@ -1,5 +1,6 @@
 <script setup>
 import {computed} from "vue";
+import {isPremium} from "@/util.js";
 
 const props = defineProps({
     cosmetics: {
@@ -7,6 +8,7 @@ const props = defineProps({
         default: {},
     },
     banned: Boolean,
+    premium: Boolean,
 });
 
 const style = computed(() => {
@@ -19,6 +21,8 @@ const style = computed(() => {
 
     for (let slot in props.cosmetics) {
         let c = props.cosmetics[slot];
+
+        if (c.premium && !isPremium()) continue;
 
         if (c.slot === 'name_color') {
             out.style['--cosmetic-text-color'] = c.value;
