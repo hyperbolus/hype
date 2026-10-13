@@ -93,7 +93,7 @@ const allGroups = computed(() => {
                 <CosmeticName :cosmetics="user.cosmetics" :banned="user.banned_at" :premium="isPremium(user)">{{ user.name }}</CosmeticName>
             </component>
             <template #content>
-                <div class="x box shadow-xl !p-0 overflow-hidden bg-cover bg-center" :style="`background-image:url(${user.banner_url ?? invisiblePixel});`">
+                <div class="x box shadow-xl !p-0 overflow-hidden bg-cover bg-center text-lg" :style="`background-image:url(${user.banner_url ?? invisiblePixel});`">
                     <div class="x items-center bg-black/50 space-x-4 p-4 min-w-[20rem]">
                         <Avatar width="w-16" :user="user"/>
                         <div class="y [text-shadow:black_0_1px_3px]">
