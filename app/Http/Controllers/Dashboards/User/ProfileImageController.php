@@ -41,14 +41,14 @@ class ProfileImageController extends Controller
         $path = 'avatars/'.$file->hashName();
 
         [$w, $h] = getimagesize($file->getRealPath()) ?: [0, 0];
-        abort_if($w < 1 || $h < 1, 422, 'Image is invalid');
-        abort_if($w * $h > 3000 * 3000, 422, 'Image is too large');
+        if ($w < 1 || $h < 1) invalid('image', 'Image is invalid');
+        if ($w * $h > 3000 * 3000) invalid('image', 'Image is too big');
 
         $img = ImageManager::imagick()->read($file);
 
         if ($img->isAnimated()) {
             // memory safeguard
-            abort_if(count($img) > 300, 422, 'Too many frames');
+            if (count($img) > 350) invalid('image', 'Image has too many frames (max 350)');
         }
 
         // server-side cropping and re-encoding
