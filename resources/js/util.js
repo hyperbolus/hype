@@ -61,6 +61,10 @@ export const getGDPR = () => {
     return consent;
 }
 
+export const impersonating = () => {
+    return getUser()?.impersonating ?? false;
+}
+
 export const impersonate = (id) => {
     router.post(route('system.users'), {
         action: 'impersonate',
@@ -68,22 +72,39 @@ export const impersonate = (id) => {
     })
 }
 
+export const stopImpersonating = () => {
+    router.get(route('impersonate.leave'));
+}
+
 export const PREFS_VERSION = 1;
 export const PREFS_KEY = 'HYPE::PREFS';
+export const PREFS_DEFAULT = {
+    version: PREFS_VERSION,
+    open: false,
+    data: {
+        zen: false,
+        rating_comparators: true,
+    },
+    dismissals: [],
+};
 export const getPrefs = () => {
-    let prefs = useStorage(PREFS_KEY, {
-        version: PREFS_VERSION,
-        data: {
-            zen: false,
-        },
-        dismissals: [],
-    });
+    let prefs = useStorage(PREFS_KEY, PREFS_DEFAULT);
 
-    if (prefs.value.version < GDPR_VERSION) {
+    // Backfill new defaults the current preferences don't have yet
+    for (let key in PREFS_DEFAULT.data) {
+        if (!prefs.value.data.hasOwnProperty(key)) prefs.value.data[key] = PREFS_DEFAULT.data[key];
+    }
+
+    // Migrate more drastic format changes
+    if (prefs.value.version < PREFS_VERSION) {
         // future schema migration code
     }
 
     return prefs;
+}
+
+export const togglePrefs = () => {
+    getPrefs().value.open = !getPrefs().value.open;
 }
 
 export const promptGDPR = () => {

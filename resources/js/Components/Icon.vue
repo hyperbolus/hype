@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, onMounted, ref} from "vue";
+import {ref} from "vue";
 import {icons} from '@iconify-json/heroicons/icons.json';
 
 const props = defineProps({

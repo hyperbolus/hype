@@ -1,5 +1,6 @@
 <script setup>
-import {computed} from "vue";
+import {defineModel} from "vue";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     modelValue: {
@@ -8,28 +9,25 @@ const props = defineProps({
     disabled: Boolean
 })
 
-const value = computed({
-    get() {
-        return props.modelValue
-    },
-    set(value) {
-        emit('update:modelValue', value)
-    }
-})
+const model = defineModel();
 
 const toggle = () => {
     if (!props.disabled) {
-        value.value = !value.value // lol???
+        model.value = !model.value;
     }
 }
-const emit = defineEmits(['update:modelValue'])
+
 </script>
 <template>
-    <div class="relative" :class="{ 'opacity-50': disabled, 'cursor-pointer': !disabled }" @click="toggle">
+    <div class="relative" :class="disabled ? 'opacity-50' : 'cursor-pointer'" @click="toggle">
       <label>
-        <input type="checkbox" class="sr-only" v-model="value">
+        <input type="checkbox" class="sr-only" v-model="model">
       </label>
-      <div class="block w-9 h-5 rounded-full"  :class="value ? 'bg-green-400' : 'bg-ui-800'"></div>
-      <div class="absolute shadow left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform" :class="value ? 'translate-x-full' : ''"></div>
+      <div class="rounded-full p-1 transition-colors"  :class="model ? 'bg-green-500 text-green-500' : 'bg-ui-600 text-ui-600'">
+          <div class="shadow size-5 rounded-full transition-[margin] bg-white" :class="model ? 'ml-5' : 'mr-5'">
+              <Icon v-show="model" name="check" size="16"/>
+              <Icon v-show="!model" name="x-mark" size="16"/>
+          </div>
+      </div>
     </div>
 </template>

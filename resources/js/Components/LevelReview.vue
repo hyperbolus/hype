@@ -112,9 +112,9 @@ const prefs = getPrefs();
                     <span class="[text-orientation:mixed] [writing-mode:sideways-lr] text-center text-xs tracking-tighter" :class="{'invisible': !hovering}">AVERAGE</span>
                     <div v-for="(item, key) in list" class="y items-end justify-center bg-ui-950 rounded-md px-2 py-1 first-of-type:!ml-0.5">
                         <div class="x items-center">
-                            <template v-if="!hovering && lvl && review[key] !== null">
+                            <template v-if="!prefs.data.rating_comparators && !hovering && lvl && review[key] !== null">
                                 <Icon v-if="lvl[key] !== null && review[key] > lvl[key] + 0.5 || review[key] < lvl[key] - 0.5" name="arrow-up" scale="size-4" class="mr-0.5" :class="{'rotate-180': review[key] < lvl[key],'text-green-500': review[key] > lvl[key] + 2.5, 'text-red-500': review[key] < lvl[key] - 2.5}"/>
-                                <Icon v-else-if="review[key] !== null && !lvl[key]" name="plus" scale="size-5" class="mr-0.5 invisible"/>
+                                <Icon v-else-if="review[key] !== null && !lvl[key]" name="plus" scale="size-4" class="mr-0.5 text-ui-500"/>
                                 <span v-else class="font-bold text-lg px-1">&thickapprox;</span>
                             </template>
                             <span class="font-bold text-2xl">{{ prefs.data.zen ? '😌' : displayRating(hovering ? lvl[key] : review[key], hovering ? 2 : 0) }}<span class="text-sm font-normal text-ui-700">/10{{ key === 'rating_difficulty' ? '0' : '' }}</span></span>

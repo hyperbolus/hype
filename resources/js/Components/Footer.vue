@@ -2,7 +2,7 @@
 import {Link} from '@inertiajs/vue3'
 import route from "ziggy-js";
 import Tooltip from "@/Components/Tooltip.vue";
-import {getGame, promptGDPR, siteName} from "@/util.js";
+import {getGame, promptGDPR, siteName, togglePrefs} from "@/util.js";
 
 const game = getGame();
 </script>
@@ -19,6 +19,7 @@ const game = getGame();
                     <Link :href="route('legal.terms')">Terms of Service</Link>
                     <Link :href="route('legal.privacy')">Privacy</Link>
                     <button @click="promptGDPR()">Cookies</button>
+                    <button @click="togglePrefs()">Preferences</button>
                 </div>
             </div>
         </div>

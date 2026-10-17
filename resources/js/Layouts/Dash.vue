@@ -15,6 +15,7 @@ import ABPlea from "../Components/ABPlea.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Username from "@/Components/Username.vue";
 import {isPremium} from "@/util";
+import PreferencePopup from "@/Components/PreferencePopup.vue";
 
 const props = defineProps({
     title: {
@@ -79,5 +80,6 @@ onBeforeMount(() => {
         </div>
         <Footer/>
         <CookieConsent/>
+        <PreferencePopup/>
     </div>
 </template>
