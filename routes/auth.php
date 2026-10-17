@@ -147,7 +147,7 @@ Route::name('auth::')->group(function () {
 
         Route::get('/auth/register', [RegisteredUserController::class, 'create'])->name('register');
 
-        Route::post('/auth/register', [RegisteredUserController::class, 'store'])->name('register.store')->middleware('throttle:3,30');
+        Route::post('/auth/register', [RegisteredUserController::class, 'store'])->name('register.store')->middleware('throttle:5,5');
     });
 
     Route::post('/auth/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout')->middleware('auth');
