@@ -89,7 +89,7 @@ const logoutButton = (e) => {
                     <Icon name="command-line" scale="size-5" class="text-ui-300"/>
                     <span>Admin Panel</span>
                 </Link>
-                <div v-if="!impersonating()" @click="stopImpersonating()" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800">
+                <div v-if="impersonating()" @click="stopImpersonating()" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800">
                     <Icon name="user-minus" scale="size-5" class="text-ui-300"/>
                     <span>Stop&nbsp;Impersonating</span>
                 </div>
