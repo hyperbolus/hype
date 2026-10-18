@@ -24,7 +24,37 @@ const logoutButton = (e) => {
         logout();
         e.stopPropagation();
     }
-}
+};
+
+const menu = [
+    {
+        name: 'Profile',
+        icon: 'user-circle',
+        href: route('users.show', getUser().id),
+    },
+    {
+        name: 'Settings',
+        icon: 'cog-6-tooth',
+        href: route('settings.home'),
+    },
+    {
+        name: 'Preferences',
+        icon: 'wrench',
+        onclick: togglePrefs,
+    },
+    {
+        name: 'Admin Panel',
+        icon: 'command-line',
+        href: route('system.home'),
+        if: isAdmin,
+    },
+    {
+        name: 'Stop Impersonating',
+        icon: 'user-minus',
+        onclick: stopImpersonating,
+        if: impersonating,
+    }
+];
 </script>
 <template>
     <div v-if="isAuthenticated()" class="flex items-center space-x-4 w-full">
@@ -73,26 +103,12 @@ const logoutButton = (e) => {
                 </div>
             </template>
             <template #content>
-                <Link :href="route('users.show', getUser().id)" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800 rounded-t-lg">
-                    <Icon name="user-circle" scale="size-5" class="text-ui-300"/>
-                    <span>Profile</span>
-                </Link>
-                <Link :href="route('settings.home')" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800">
-                    <Icon name="cog-6-tooth" scale="size-5" class="text-ui-300"/>
-                    <span>Settings</span>
-                </Link>
-                <div @click="togglePrefs()" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800">
-                    <Icon name="wrench" scale="size-5" class="text-ui-300"/>
-                    <span>Preferences</span>
-                </div>
-                <Link v-if="isAdmin()" :href="route('system.home')" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800">
-                    <Icon name="command-line" scale="size-5" class="text-ui-300"/>
-                    <span>Admin Panel</span>
-                </Link>
-                <div v-if="impersonating()" @click="stopImpersonating()" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800">
-                    <Icon name="user-minus" scale="size-5" class="text-ui-300"/>
-                    <span>Stop&nbsp;Impersonating</span>
-                </div>
+                <template v-for="item in menu">
+                    <component v-if="item.if ? item.if() : true" :is="item.href ? Link : 'div'" @click="item.onclick ?? void(0)" :href="item.href ?? null" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800 first:rounded-t-lg ">
+                        <Icon :name="item.icon" scale="size-5" class="text-ui-300"/>
+                        <span class="text-nowrap">{{ item.name }}</span>
+                    </component>
+                </template>
                 <Lightbox @click.prevent classes="!border-t-none">
                     <div v-if="isAdmin()" @click="logoutButton" class="flex items-center gap-2 px-3 py-2 hover:bg-red-500 text-red-500 hover:text-white rounded-b-lg">
                         <Icon name="arrow-right-start-on-rectangle" scale="size-5"/>
