@@ -3,19 +3,27 @@ import AppLayout from "@/Layouts/Dash.vue";
 import Accordion from "@/Components/Accordion.vue";
 import {Link} from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
+import Username from "@/Components/Username.vue";
+import Avatar from "@/Components/Avatar.vue";
+import Timestamp from "@/Components/Timestamp.vue";
+import UserFlag from "@/Components/UserFlag.vue";
+
+const props = defineProps({
+    supporters: Object,
+});
 
 const perks = [
-    'GIF Banner and Avatar',
+    'GIF Banner & Avatar',
+    'Custom Post Background',
     'Ad-free Browsing',
     'Change Username (twice a month)',
     'Set Custom User Flair',
     // 'Customize GD Profile Card',
     'Name credit on supporters page & rotating header slot',
     'Supporter Badge',
-    'Supporter Nameplate',
+    // 'Supporter Nameplate',
     // 'Signature on Reviews',
-    // 'Profile Customization?',
-    // '25 Site Credits (every month)',
+    'Username Customizations',
     // 'View Level Analytics',
     // 'Creator/Profile Analytics',
     // 'Level Viewer',
@@ -49,7 +57,7 @@ const perks = [
             <Accordion title="How long does it take to receive benefits on my Hyperbolus account?">
                 <p>You must link your Patreon to your Hyperbolus account in the <Link :href="route('settings.connections')">connections</Link> page in settings. You should receive benefits immediately after doing so.</p>
             </Accordion>
-            <Accordion title="I linked my account and I haven't recieved benefits!">
+            <Accordion title="I linked my account and I haven't received benefits!">
                 <p>Try unlinking and relinking your Patreon account in settings. Some benefits might not be fully available due to active bans, blocks, or other account restrictions. If after 24 hours you are not receiving benefits even with a linked account, please <Link :href="route('contact')">contact us</Link>.</p>
             </Accordion>
             <Accordion title="Are there any requirements to support?">
@@ -58,6 +66,18 @@ const perks = [
             <Accordion title="There is a problem with my payment, can I have a refund?">
                 <p>Memberships are digital goods to support the site and are not refundable. If you are having trouble with your payment method or some other technical issue using Patreon, contact patreon support. Otherwise, feel free to <Link :href="route('contact')">contact us</Link>.</p>
             </Accordion>
+
+            <h2 class="font-bold text-2xl">Supporters</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+                <div v-for="user in supporters" class="pane flex items-center gap-3">
+                    <Avatar :user="user"/>
+                    <div class="flex flex-col grow">
+                        <Username :user="user"/>
+                        <Timestamp class="text-xs text-ui-500" position="left" :length="true" :time="(new Date().getTime() - new Date(user.premium_started_at).getTime()) / 1000"/>
+                    </div>
+                    <UserFlag :user="user"/>
+                </div>
+            </div>
         </div>
     </app-layout>
 </template>

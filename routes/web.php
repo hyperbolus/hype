@@ -41,7 +41,6 @@ use App\Http\Controllers\System\ProfileCommentController;
 use App\Http\Controllers\System\ReputationLogController;
 use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\System\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -229,8 +228,11 @@ Route::get('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 
 Route::post('/playlist/{playlist}/submit', [PlaylistSubmissionController::class, 'store'])->name('submissions.store');
 Route::delete('/playlist-submission/{submission:id}', [PlaylistSubmissionController::class, 'destroy'])->name('submissions.destroy')->middleware(['auth', 'verified']);;
 
+//Route::inertia('/communities', 'Communities/Index')->name('communities.index');
+//Route::get('/communities', [ContestController::class, 'index'])->name('contests.index');
+
 //Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');
-//Route::get('/contests/create', [ContestController::class, 'create'])->name('contests.create')->middleware(['auth', 'verified']);
+//Route::get('/contests/new', [ContestController::class, 'create'])->name('contests.create')->middleware(['auth', 'verified']);
 //Route::post('/contests/create', [ContestController::class, 'store'])->name('contests.store')->middleware(['auth', 'verified']);
 //Route::get('/contest/{contest}', [ContestController::class, 'show'])->name('contests.show');
 //Route::post('/contest/{contest}', [ContestController::class, 'update'])->name('contests.update')->middleware(['auth', 'verified']);
@@ -267,6 +269,12 @@ Route::get('/roulette', [RouletteController::class, '__invoke'])->name('roulette
 
 Route::inertia('/docs/privacy', 'Docs/PrivacyPolicy')->name('legal.privacy');
 Route::inertia('/docs/terms', 'Docs/TermsOfService')->name('legal.terms');
+
+Route::get('/supporter', function () {
+    return page('Supporter', [
+        'supporters' => \App\Models\System\User::query()->where('premium_expires_at', '<', now())->get(),
+    ])->meta('Supporters', 'Contribute to the website to support it\'s development');
+})->name('supporter');
 
 Route::post('/media/upload', [\App\Http\Controllers\System\UploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('media.upload');
 

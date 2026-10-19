@@ -105,7 +105,7 @@ const menu = ref([
             </template>
             <template #content>
                 <template v-for="item in menu">
-                    <component v-if="item.if ? item.if() : true" :is="item.href ? Link : 'div'" @click="item.onclick ?? void(0)" :href="item.href ?? null" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800 first:rounded-t-lg ">
+                    <component v-if="item.if ? item.if() : true" :is="item.href ? Link : 'div'" @click="item.onclick ? item.onclick() : void(0)" :href="item.href ?? null" class="flex items-center gap-2 px-3 py-2 hover:bg-ui-800 first:rounded-t-lg ">
                         <Icon :name="item.icon" scale="size-5" class="text-ui-300"/>
                         <span class="text-nowrap">{{ item.name }}</span>
                     </component>
