@@ -16,6 +16,7 @@ import Lightbox from "@/Components/Lightbox.vue";
 import Button from "@/Jetstream/Button.vue";
 import Checkbox from "@/Jetstream/Checkbox.vue";
 import {useStorage} from "@vueuse/core";
+import {ref} from "vue";
 
 const instantLogout = useStorage('instantLogout', false);
 
@@ -26,11 +27,11 @@ const logoutButton = (e) => {
     }
 };
 
-const menu = [
+const menu = ref([
     {
         name: 'Profile',
         icon: 'user-circle',
-        href: route('users.show', getUser().id),
+        href: route('users.show', getUser()?.id ?? 0),
     },
     {
         name: 'Settings',
@@ -54,7 +55,7 @@ const menu = [
         onclick: stopImpersonating,
         if: impersonating,
     }
-];
+]);
 </script>
 <template>
     <div v-if="isAuthenticated()" class="flex items-center space-x-4 w-full">
