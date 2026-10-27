@@ -111,7 +111,7 @@ const fuckYouSort = (a, b) => {
                         </div>
                         <div class="x items-center w-full">
                             <div class="bg-ui-800 rounded overflow-hidden grow">
-                                <div class="p-0.5" :class="{'invisible': strata[score] === 0, [score === 'null' ? 'bg-ui-600' : color(column)]: 1}" :style="`width: ${strata[score] / Math.max(...Object.values(strata)) * 100}%;`"></div>
+                                <div class="p-0.5 rounded-full" :class="{'invisible': strata[score] === 0, [score === 'null' ? 'bg-ui-600' : color(column)]: 1}" :style="`width: ${strata[score] / Math.max(...Object.values(strata)) * 100}%;`"></div>
                             </div>
                             <!-- TODO: make it so bar does not change and is proportionally correct instead of shrinking and being inaccurate -->
                             <div class="max-w-0 group-hover:max-w-[10rem] group-hover:px-2 transition-all duration-300 ease-out overflow-hidden">{{ strata[score] }}&nbsp;{{ score === 'null' ? 'Unrated' : 'Ratings' }}</div>
