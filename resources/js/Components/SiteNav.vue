@@ -84,7 +84,7 @@ const navigation = useSettingsStore().settings['navigation'] ? useSettingsStore(
         </template>
         <div v-if="!isAuthenticated()" class="flex space-x-2 px-2 border-t pt-3 border-ui-700 text-center">
             <Link :href="route('auth::login')" class="w-1/2 bg-ui-700 text-ui-200 rounded-lg font-bold px-2 py-1">Login</Link>
-            <Link :href="route('auth::register')" class="w-1/2 bg-ui-700 text-ui-200 rounded-lg font-bold px-2 py-1">Register</Link>
+            <a :href="route('auth::register')" class="w-1/2 bg-ui-700 text-ui-200 rounded-lg font-bold px-2 py-1">Register</a>
         </div>
         <Link :href="route('supporter')" class="flex items-center gap-1 text-[#d28eff] font-bold px-2 py-1 justify-center">
             <Icon name="heart"/>
