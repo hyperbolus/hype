@@ -111,7 +111,7 @@ const menu = ref([
                     </component>
                 </template>
                 <Lightbox @click.prevent classes="!border-t-none">
-                    <div v-if="isAdmin()" @click="logoutButton" class="flex items-center gap-2 px-3 py-2 hover:bg-red-500 text-red-500 hover:text-white rounded-b-lg">
+                    <div @click="logoutButton" class="flex items-center gap-2 px-3 py-2 hover:bg-red-500 text-red-500 hover:text-white rounded-b-lg">
                         <Icon name="arrow-right-start-on-rectangle" scale="size-5"/>
                         <span>Logout</span>
                     </div>
