@@ -74,7 +74,7 @@ const submit = () => {
                     <Checkbox v-model:checked="form.remember" name="remember" />
                     <span class="ml-2 text-sm text-ui-200">Stay logged in</span>
                 </label>
-                <Link :href="route('auth::register')" class="text-sm underline hover:text-ui-400">Don't have an account?</Link>
+                <a :href="route('auth::register')" class="text-sm underline hover:text-ui-400">Don't have an account?</a>
             </div>
 
             <div class="flex items-center justify-end mt-4">

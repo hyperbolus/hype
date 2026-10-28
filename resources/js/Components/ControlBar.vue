@@ -135,6 +135,6 @@ const menu = ref([
     </div>
     <div v-else class="x items-center space-x-4">
         <Link :href="route('auth::login')">Login</Link>
-        <Link :href="route('auth::register')" class="bg-cyan-500 bg-ui-700 text-ui-200 rounded-md font-bold px-2 py-0.5">Register</Link>
+        <a :href="route('auth::register')" class="bg-cyan-500 bg-ui-700 text-ui-200 rounded-md font-bold px-2 py-0.5">Register</a>
     </div>
 </template>
