@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\LevelDifficulty;
 use App\Models\Game\Level;
 use App\Models\Game\Profile;
 use Illuminate\Support\Facades\Http;
@@ -14,74 +15,70 @@ class Hydrate
 
         // TODO: Find some heuristic for updating levels, maybe more frequently if in mod queue
         if (!$level || !$level->last_fetched_at || $level->last_fetched_at->timestamp < now()->subWeek()->timestamp) {
+            // Main game level do not get fetched
             if ($level && $level->id <= 20) return $level;
 
-            $res = Http::get('https://gdbrowser.com/api/level/'.$id)->json();
+            $batch = \Hyperbolus\Dynamite\Models\Level::batch([$id]);
 
-            if ($res == -1 || $res == null) {
+            // No result
+            if (count($batch) === 0) {
                 if ($level) return $level;
 
                 if ($abort) abort(400, 'Level could not be fetched');
+
                 return null;
-            }
-
-            // If we get Generation Retro'd don't update the existing level
-            if ($res['name'] === 'Generation Retro' && $res['author'] === 'ArathhSA' && $id !== 12107595) {
-                if ($level) return $level;
-
-                abort(500, 'Generation Retro Error :(');
+            } else {
+                $batch = $batch[0];
             }
 
             if (!$level) $level = new Level();
             $level->id = $id;
-            $level->name = $res['name'];
-            $level->creator = $res['author'];
-            $level->description = $res['description'];
+            $level->name = $batch->name;
+            $level->creator = $batch->uploader['name'];
+//            $level->uploader_player_id = $batch->uploader['player_id'];
+            $level->description = $batch->description;
 
-            $difficulties = [
-                'unrated' => 0,
-                'auto' => 1,
-                'easy' => 2,
-                'normal' => 3,
-                'hard' => 4,
-                'harder' => 5,
-                'insane' => 6,
-                'easy demon' => 7,
-                'medium demon' => 8,
-                'hard demon' => 9,
-                'insane demon' => 10,
-                'extreme demon' => 11,
-            ];
-
-            $lengths = [
-                'plat' => -1,
-                'tiny' => 0,
-                'short' => 1,
-                'medium' => 2,
-                'long' => 3,
-                'xl' => 4,
-            ];
-
-            $level->difficulty = $difficulties[strtolower($res['difficulty'])];
-            $level->featured = $res['featured'];
-            $level->epic = $res['epicValue'];
-            $level->coins_verified = $res['verifiedCoins'];
-            $level->coins = $res['coins'];
-            $level->stars = $res['stars'];
-            if ($res['officialSong'] === 0) {
-                $level->song_id = $res['songID'];
-                $level->song_url = $res['songLink'] ?? null;
+            if ($batch->isAuto) {
+                $level->difficulty = LevelDifficulty::Auto;
+            } else if ($batch->isDemon) {
+                $level->difficulty = [
+                    0 => LevelDifficulty::HardDemon,
+                    3 => LevelDifficulty::EasyDemon,
+                    4 => LevelDifficulty::MediumDemon,
+                    5 => LevelDifficulty::InsaneDemon,
+                    6 => LevelDifficulty::ExtremeDemon,
+                ][$batch->demonDifficulty];
+            } else {
+                $level->difficulty = [
+                    0 => LevelDifficulty::Unrated,
+                    10 => LevelDifficulty::Easy,
+                    20 => LevelDifficulty::Normal,
+                    30 => LevelDifficulty::Hard,
+                    40 => LevelDifficulty::Harder,
+                    50 => LevelDifficulty::Insane,
+                ][$batch->difficultyNumerator];
             }
-            $level->song_name = $res['songName'];
-            $level->song_author = $res['songAuthor'];
-            $level->objects = $res['objects'];
-            $level->downloads = $res['downloads'];
-            $level->likes = $res['likes'];
-            $level->length = $lengths[strtolower($res['length'])];
+
+            $level->featured = (bool)$batch->featureScore;
+            $level->epic = $batch->epicRating;
+            $level->coins_verified = $batch->verifiedCoins;
+            $level->coins = $batch->coins;
+            $level->stars = $batch->stars;
+            if ($batch->officialSong === 0) {
+                $level->song_id = $batch?->song[1] ?? null;
+                $level->song_url = $batch?->song[10] ?? null;
+            }
+            $level->song_name = $batch?->song[2] ?? null;
+            $level->song_author = $batch?->song[4] ?? null;
+            $level->objects = $batch->objects;
+            $level->downloads = $batch->downloads;
+            $level->likes = $batch->likes;
+            $level->length = $batch->length;
             $level->last_fetched_at = now();
+
             $level->save();
 
-            // Get defaults from database
+            // re-fetch from database (w/ defaults and query)
             $level = Level::find($level->id);
         }
 
