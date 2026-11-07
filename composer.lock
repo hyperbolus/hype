@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "516158ced1765c17f64bf10c23e0e6ac",
+    "content-hash": "d87f2408ab8196cfe84cd8b91e122209",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1851,16 +1851,16 @@
         },
         {
             "name": "hype/dynamite",
-            "version": "0.2.2",
+            "version": "0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperbolus/dynamite.git",
-                "reference": "da0ba4a0b10012c5df1b951dadb7d0be879a22a7"
+                "reference": "14a54d6364c4a10a7826cb40022317cf3941f266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperbolus/dynamite/zipball/da0ba4a0b10012c5df1b951dadb7d0be879a22a7",
-                "reference": "da0ba4a0b10012c5df1b951dadb7d0be879a22a7",
+                "url": "https://api.github.com/repos/hyperbolus/dynamite/zipball/14a54d6364c4a10a7826cb40022317cf3941f266",
+                "reference": "14a54d6364c4a10a7826cb40022317cf3941f266",
                 "shasum": ""
             },
             "require": {
@@ -1887,9 +1887,9 @@
             "description": "Wrapper for Geometry Dash's Boomlings API",
             "support": {
                 "issues": "https://github.com/hyperbolus/dynamite/issues",
-                "source": "https://github.com/hyperbolus/dynamite/tree/v0.2.2"
+                "source": "https://github.com/hyperbolus/dynamite/tree/v0.2.3"
             },
-            "time": "2026-11-07T17:54:31+00:00"
+            "time": "2026-11-07T18:28:17+00:00"
         },
         {
             "name": "inertiajs/inertia-laravel",
