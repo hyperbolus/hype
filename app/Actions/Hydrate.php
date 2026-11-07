@@ -74,12 +74,48 @@ class Hydrate
             $level->coins_verified = $batch->verifiedCoins;
             $level->coins = $batch->coins;
             $level->stars = $batch->stars;
-            if ($batch->officialSong === 0) {
+            if ($batch->customSongID === 0) {
+                $songs = [
+                    ['Stereo Madness', 0],
+                    ['Back On Track', 1],
+                    ['Polargeist', 2],
+                    ['Dry Out', 1],
+                    ['Base After Base', 1],
+                    ['Cant Let Go', 1],
+                    ['Jumper', 3],
+                    ['Time Machine', 3],
+                    ['Cycles', 1],
+                    ['xStep', 1],
+                    ['Clutterfunk', 3],
+                    ['Theory of Everything', 4],
+                    ['Electroman Adventures', 3],
+                    ['Clubstep', 4],
+                    ['Electrodynamix', 4],
+                    ['Hexagaon Force', 4],
+                    ['Blast Processing', 4],
+                    ['Theory of Everything 2', 4],
+                    ['Geometrical Dominator', 4],
+                    ['Deadlocked', 6],
+                    ['Fingerdash', 7],
+                    ['Dash', 7],
+                ];
+                $artists = [
+                    'ForeverBound',
+                    'DJVI',
+                    'Step',
+                    'Waterflame',
+                    'DJ-Nate',
+                    'F-777',
+                    'MDK',
+                ];
+                $level->song_name = $songs[$batch->officialSong][0];
+                $level->song_author = $artists[$songs[$batch->officialSong][1]];
+            } else {
                 $level->song_id = $batch?->song[1] ?? null;
                 $level->song_url = $batch?->song[10] ?? null;
+                $level->song_name = $batch?->song[2] ?? null;
+                $level->song_author = $batch?->song[4] ?? null;
             }
-            $level->song_name = $batch?->song[2] ?? null;
-            $level->song_author = $batch?->song[4] ?? null;
             $level->objects = $batch->objects;
             $level->downloads = $batch->downloads;
             $level->likes = $batch->likes;

@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "hashids/hashids": "^5.0",
         "http-interop/http-factory-guzzle": "*",
-        "hype/dynamite": "^0.2.1",
+        "hype/dynamite": "^0.2.2",
         "inertiajs/inertia-laravel": "^v3.0",
         "intervention/image": "^3.11",
         "itsgoingd/clockwork": "^5.3",
