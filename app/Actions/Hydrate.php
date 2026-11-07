@@ -22,7 +22,7 @@ class Hydrate
 
             try {
                 $batch = \Hyperbolus\Dynamite\Models\Level::batch([$id]);
-            } catch ($e) {
+            } catch (Exception $e) {
                 if ($level) return $level;
 
                 if ($abort) abort(400, 'Level could not be fetched');
