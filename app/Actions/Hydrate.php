@@ -18,7 +18,17 @@ class Hydrate
             // Main game level do not get fetched
             if ($level && $level->id <= 20) return $level;
 
-            $batch = \Hyperbolus\Dynamite\Models\Level::batch([$id]);
+            $batch = null;
+
+            try {
+                $batch = \Hyperbolus\Dynamite\Models\Level::batch([$id]);
+            } catch ($e) {
+                if ($level) return $level;
+
+                if ($abort) abort(400, 'Level could not be fetched');
+
+                return null;
+            }
 
             // No result
             if (count($batch) === 0) {
