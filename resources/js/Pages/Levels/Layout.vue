@@ -4,13 +4,14 @@ import {Link, usePage} from '@inertiajs/vue3';
 import route from 'ziggy-js'
 import Icon from "@/Components/Icon.vue";
 import Tooltip from "@/Components/Tooltip.vue";
-import {difficulty, face, isAdmin, isAuthenticated} from "@/util";
+import {difficulty, isAdmin, isAuthenticated} from "@/util";
 import RatingOverview from "@/Components/RatingOverview.vue";
 import {computed, reactive, ref, useTemplateRef} from "vue";
 import Dropdown from "@/Jetstream/Dropdown.vue";
 import {useTagManager} from "@/lib/composables/useTagManager";
 import Lightbox from "@/Components/Lightbox.vue";
 import Toggle from "@/Components/Toggle.vue";
+import DifficultyFace from "@/Components/DifficultyFace.vue";
 
 const props = computed(() => usePage().props);
 
@@ -61,8 +62,8 @@ const {formVote, searchQuery, searchResults, vote, verify} = useTagManager(tags.
             <div class="absolute w-full bottom-0 h-1/2 bg-gradient-to-b from-transparent to-black"></div>
             <RatingOverview class="md:hidden w-full !rounded-none" :level="level"/>
             <div class="x items-end lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl w-full px-4 py-2 z-10">
-                <Tooltip :message="difficulty(level)" class="md:ml-3 mr-2 md:mr-5 -mb-[0.5rem] md:-mb-10 md:flex place-items-center w-20 md:w-40 aspect-square shrink-0">
-                    <img :src="face(level)" alt=""/>
+                <Tooltip :message="difficulty(level)" class="ml-1 md:ml-3 mr-5 md:mr-9 -mb-1 md:-mb-10 md:flex shrink-0">
+                    <DifficultyFace v-bind="level" class="w-20 md:w-36"/>
                 </Tooltip>
                 <div class="grow">
                     <div class="x text-white">

@@ -2,7 +2,7 @@
 import route from "ziggy-js";
 import {Link} from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
-import {face} from "@/util";
+import DifficultyFace from "@/Components/DifficultyFace.vue";
 
 const props = defineProps({
     level: Object,
@@ -21,7 +21,7 @@ const tiny = n => format.format(n);
 </script>
 <template>
     <component :is="link ? Link : 'div'" :href="link ? route('levels.show', level.id) : null" class="x space-x-2 items-center px-2 py-1 hover:bg-ui-800 cursor-pointer">
-        <img class="w-12" alt="Difficulty" :src="face(level)"/>
+        <DifficultyFace v-bind="level" class="w-16 ml-2 mr-2"/>
         <div class="y leading-tight grow">
             <h1 class="font-bold">{{ level.name }}</h1>
             <h2 class="text-xs text-ui-500">{{ level.creator }}</h2>

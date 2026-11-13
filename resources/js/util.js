@@ -282,24 +282,6 @@ export const difficulties = [
     "Extreme Demon",
 ];
 
-export const face = (level) => {
-    if (!level.difficulty) return `https://browser.gdps.io/assets/difficulties/${difficulties[0].toLowerCase()}.png`
-
-    let name = difficulties[level.difficulty].toLowerCase().split(' ').reverse().join('-')
-
-    if (level.epic > 2) {
-        name += '-mythic'
-    } else if (level.epic > 1) {
-        name += '-legendary'
-    } else if (level.epic > 0) {
-        name += '-epic'
-    } else if (level.featured) {
-        name += '-featured'
-    }
-
-    return `https://browser.gdps.io/assets/difficulties/${name}.png`;
-};
-
 export const difficulty = (level) => {
     let difficulty = '';
 

@@ -4,7 +4,7 @@ import Username from "@/Components/Username.vue";
 import Lightbox from "@/Components/Lightbox.vue";
 import {Link, useForm} from "@inertiajs/vue3";
 import ReportModal from "@/Components/ReportModal.vue";
-import {displayRating, face, getPrefs, isAdmin, isAuthenticated, isModerator, isUser} from "@/util.js";
+import {displayRating, getPrefs, isAdmin, isAuthenticated, isModerator, isUser} from "@/util.js";
 import route from "ziggy-js";
 import TipTap from "@/Components/TipTap.vue";
 import Timestamp from "@/Components/Timestamp.vue";
@@ -16,6 +16,7 @@ import UserFlag from "@/Components/UserFlag.vue";
 import WeightBadge from "@/Components/WeightBadge.vue";
 import {useElementSize} from "@vueuse/core";
 import RatingInput from "@/Components/RatingInput.vue";
+import DifficultyFace from "@/Components/DifficultyFace.vue";
 
 const props = defineProps({
     review: Object,
@@ -89,9 +90,9 @@ const prefs = getPrefs();
         <div class="y items-center rounded-lg shadow bg-ui-900 p-2 relative z-0" :class="isUser(review.user_id) && review.author ? '-mt-0.5 border-2 border-amber-500' : ''">
             <div v-if="review.level" class="absolute inset-0 rounded-md bg-center bg-cover [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.4)_100%);]" :style="`background-image: url(${review.level.banner_url ?? 'https://levelthumbs.prevter.me/thumbnail/' + review.level.id + '/small'})`"></div>
             <div class="z-10 flex flex-col md:flex-row gap-2 items-center w-full justify-between">
-                <div v-if="review.level" class="x items-center space-x-2">
+                <div v-if="review.level" class="x items-center space-x-4">
                     <Link :href="route('levels.show', review.level.id)">
-                        <img class="h-14" :src="face(review.level)" alt=""/>
+                        <DifficultyFace v-bind="review.level" class="w-16"/>
                     </Link>
                     <div class="y">
                         <Link :href="route('levels.show', review.level.id)" class="font-bold text-2xl">{{ review.level.name }}</Link>

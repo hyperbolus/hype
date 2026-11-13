@@ -1,6 +1,6 @@
 <script setup>
 import {Link, useForm} from "@inertiajs/vue3";
-import {difficulty, face, isAdmin} from "@/util.js";
+import {difficulty, isAdmin} from "@/util.js";
 import LevelRatingStamp from "@/Components/LevelRatingStamp.vue";
 import Tooltip from "@/Components/Tooltip.vue";
 import route from "ziggy-js";
@@ -10,6 +10,7 @@ import {ref, useTemplateRef} from "vue";
 import {isAuthenticated} from "@/util";
 import {usePlaylistManager} from "@/lib/composables/usePlaylistManager";
 import AutoLink from "@/Components/AutoLink.vue";
+import DifficultyFace from "@/Components/DifficultyFace.vue";
 
 const props = defineProps({
     level: Object,
@@ -78,8 +79,8 @@ const {submit} = usePlaylistManager();
                         <span v-if="level.epic > 1" class="rounded-full p-[.15rem] px-2 bg-fuchsia-500"></span>
                         <span v-if="level.epic > 2" class="rounded-full p-[.15rem] px-2 bg-cyan-300"></span>
                     </span>
-                    <Tooltip :message="difficulty(level)" class="sm:ml-3 mr-3 my-2 sm:flex place-items-center w-16 aspect-square shrink-0">
-                        <img :src="face(level)" alt=""/>
+                    <Tooltip :message="difficulty(level)" class="ml-2 sm:ml-4 mr-4 my-2 sm:flex shrink-0">
+                        <DifficultyFace v-bind="level" class="w-16"/>
                     </Tooltip>
                     <div class="y">
                         <component :is="clickable ? Link : 'div'" :href="route('levels.show', level.id)" class="x z-10 pt-2 items-center w-fit">

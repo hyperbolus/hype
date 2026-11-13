@@ -3,10 +3,10 @@ import {computed, nextTick, ref, watch} from 'vue'
 import {MeiliSearch} from 'meilisearch'
 import {Link} from '@inertiajs/vue3'
 import route from 'ziggy-js'
-import {face} from "@/util.js";
 import Username from "@/Components/Username.vue";
 import Icon from "@/Components/Icon.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
+import DifficultyFace from "@/Components/DifficultyFace.vue";
 
 const client = new MeiliSearch({
     host: 'https://search.gdps.io',
@@ -118,9 +118,8 @@ const results = computed(() => {
                     <div class="px-2 text-sm py-1" v-else>Found {{ results }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
                     <div class="y !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
                         <span class="text-xs text-ui-500 font-bold uppercase px-2">Levels</span>
-                        <Link v-for="(hit, i) in searches[lastQuery].results[0].hits" :class="{'bg-ui-950': index === i}" :key="i" :href="route('levels.show', hit.id)"
-                              class="x space-x-2 items-center px-2 py-1">
-                            <img class="w-12" alt="Difficulty" :src="face(hit)"/>
+                        <Link v-for="(hit, i) in searches[lastQuery].results[0].hits" :class="{'bg-ui-950': index === i}" :key="i" :href="route('levels.show', hit.id)" class="x space-x-4 items-center px-2 py-1">
+                            <DifficultyFace v-bind="hit" class="w-16"/>
                             <div class="y leading-tight">
                                 <h1 class="font-bold">{{ hit.name }}</h1>
                                 <h2 class="text-xs text-ui-500">{{ hit.creator }}</h2>
