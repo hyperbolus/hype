@@ -5,19 +5,16 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
-use App\Models\WikiPage;
 use App\Wiki;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class LevelTagController extends Controller
 {
     public function index(): Responsable
     {
         return page('Tags/Index', [
-            'tags' => Tag::query()->withCount(['levels'])->get(),
+            'tags' => Tag::query()->withCount(['levels', 'wikiPage'])->get(),
         ])->meta('Level Tags', 'Browse levels by tag');
     }
 

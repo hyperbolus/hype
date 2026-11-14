@@ -6,6 +6,7 @@ import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
 import {onBeforeMount, ref} from "vue";
 import {isAdmin} from "@/util.js";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
     tags: Array,
@@ -62,7 +63,10 @@ const tiny = n => format.format(n);
                 <div v-for="bucket in directory" class="flex flex-col pb-2 gap-1 break-inside-avoid-column">
                     <h2 class="text-4xl font-bold text-center">{{ bucket }}</h2>
                     <Link v-for="tag in buckets[bucket]" :href="route('tags.show', tags[tag].id)" class="flex justify-between bg-ui-900 rounded-lg px-2 py-1">
-                        <span class="grow">{{ tags[tag].name }}</span>
+                        <div class="flex items-center gap-1">
+                            <span class="grow">{{ tags[tag].name }}</span>
+                            <Icon v-if="tags[tag].wiki_page_count" name="document-text" size="16" scale="size-4 text-ui-500"/>
+                        </div>
                         <span class="text-ui-500">{{ tiny(tags[tag].levels_count) }}</span>
                     </Link>
                 </div>
