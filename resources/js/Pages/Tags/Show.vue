@@ -18,9 +18,8 @@ const props = defineProps({
 <template>
     <app-layout>
         <div class="y space-y-2 w-full">
-            <div>
+            <div v-if="article">
                 <TipTap
-                    v-if="article"
                     ref="tiptapEditor"
                     :wiki="true"
                     language="html"
