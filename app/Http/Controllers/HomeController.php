@@ -31,6 +31,10 @@ class HomeController extends Controller
 
         if ($fpl) $fpl = Level::query()->withCount(['reviews'])->find($fpl->value);
 
+        $fpr = Setting::query()->where('key', '=', 'frontpage_review')->first();
+
+        if ($fpr) $fpr = Review::query()->with(['level'])->find($fpr->value);
+
 //        $dcr = Http::asForm()->withUserAgent('')
 //            ->post('https://www.boomlings.com/database/getGJComments21.php', [
 //                'levelID' => '60805571',
@@ -53,6 +57,7 @@ class HomeController extends Controller
         return page('Home', [
             'frontpage_article' => $fpa,
             'frontpage_level' => $fpl,
+            'frontpage_review' => $fpr,
             'recent_articles' => Article::query()
                 ->latest()
                 ->whereNot('id', '=', $q->id ?? 0)

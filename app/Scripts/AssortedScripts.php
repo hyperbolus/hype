@@ -32,16 +32,31 @@ class AssortedScripts
     }
 
     #[Script(
-        title: 'Set featured',
+        title: 'Set featured level',
         description: 'Set featured level. Please make sure level is added and has a banner.',
         permissions: ['role:admin', 'role:moderator'],
     )]
-    public static function setFeatured(
+    public static function setFeaturedLevel(
         #[Script(title: 'Level ID')]
         int $id,
     ): void
     {
         $setting = Setting::query()->where('key', 'frontpage_level')->first();
+        $setting->value = $id;
+        $setting->save();
+    }
+
+    #[Script(
+        title: 'Set featured review',
+        description: 'Set featured review',
+        permissions: ['role:admin', 'role:moderator'],
+    )]
+    public static function setFeaturedReview(
+        #[Script(title: 'Review ID')]
+        int $id,
+    ): void
+    {
+        $setting = Setting::query()->where('key', 'frontpage_review')->first();
         $setting->value = $id;
         $setting->save();
     }

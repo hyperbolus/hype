@@ -23,6 +23,7 @@ const props = defineProps({
     newest_user: Object,
     frontpage_article: Object,
     frontpage_level: Object,
+    frontpage_review: Object,
     daily_chat: Object,
     online: Object
 });
@@ -40,6 +41,11 @@ const props = defineProps({
                 <h2 v-if="frontpage_level" class="font-bold text-2xl">Featured Level</h2>
                 <div v-if="frontpage_level" class="rounded-lg bg-white border-2 border-white !mb-4 [box-shadow:#ffff_0_0_2px_0,#ffaf2b_0_0_15px_0px;]">
                     <LevelTicket :level="frontpage_level"/>
+                </div>
+
+                <h2 v-if="frontpage_review" class="font-bold text-2xl">Featured Review</h2>
+                <div v-if="frontpage_review" class="rounded-lg bg-white border-2 border-white !mb-4 [box-shadow:#ffff_0_0_2px_0,#ffaf2b_0_0_15px_0px;]">
+                    <LevelReview :review="frontpage_review"/>
                 </div>
 
                 <div class="x justify-between items-center space-x-2">
