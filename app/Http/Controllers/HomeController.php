@@ -33,7 +33,7 @@ class HomeController extends Controller
 
         $fpr = Setting::query()->where('key', '=', 'frontpage_review')->first();
 
-        if ($fpr) $fpr = Review::query()->with(['level'])->find($fpr->value);
+        if ($fpr) $fpr = Review::query()->with(['level', 'author'])->find($fpr->value);
 
 //        $dcr = Http::asForm()->withUserAgent('')
 //            ->post('https://www.boomlings.com/database/getGJComments21.php', [
