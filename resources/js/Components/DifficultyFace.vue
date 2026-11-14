@@ -25,7 +25,7 @@ const props = defineProps({
         default: false,
     },
     epic: {
-        type: Number,
+        type: [Boolean, Number],
         default: 0,
     },
 });
@@ -67,7 +67,7 @@ const fitted = ref(false);
 
 const faceSize = computed(() => {
     if (fitted.value) {
-        return !props.featured && props.epic === 0 ? 'scale-[200%]' : 'scale-[150%]';
+        return !props.featured && !props.epic ? 'scale-[200%]' : 'scale-[150%]';
     } else {
         return 'scale-[200%]';
     }
