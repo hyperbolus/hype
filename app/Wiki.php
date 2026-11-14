@@ -63,7 +63,7 @@ class Wiki
         return self::getPage($title, Wiki::$defaultLang, Wiki::$moduleNamespace);
     }
 
-    public static function getPage(string $title, int|string|null $language, int|string|null $namespace): ?WikiPage
+    public static function getPage(string $title, int|string|null $language = null, int|string|null $namespace = null): ?WikiPage
     {
         if ($language === null) $language = Wiki::$defaultLang;
         if ($namespace === null) $namespace = Wiki::$defaultLang;

@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use App\Models\Content\Tag;
 use App\Models\Game\Level;
+use App\Models\WikiPage;
+use App\Wiki;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class LevelTagController extends Controller
 {
-    public function index(): Response
+    public function index(): Responsable
     {
-        return Inertia::render('Tags/Index', [
-            'tags' => Tag::all(),
+        return page('Tags/Index', [
+            'tags' => Tag::query()->withCount(['levels'])->get(),
         ]);
     }
 
@@ -41,7 +44,10 @@ class LevelTagController extends Controller
     {
         return Inertia::render('Tags/Show', [
             // TODO: Add filters
-            'levels' => $tag->levels()->withCount('reviews')->paginate(10),
+            'article' => Wiki::getPage($tag->id, namespace: 'Tag'),
+            'levels' => $tag->levels()
+                ->withCount('reviews')
+                ->paginate(10),
             'tag' => $tag,
         ]);
     }
