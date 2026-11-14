@@ -6,7 +6,7 @@ import route from 'ziggy-js'
 import Username from "@/Components/Username.vue";
 import Icon from "@/Components/Icon.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
-import DifficultyFace from "@/Components/DifficultyFace.vue";
+import LevelSearchResult from "@/Components/LevelSearchResult.vue";
 
 const client = new MeiliSearch({
     host: 'https://search.gdps.io',
@@ -47,12 +47,6 @@ const search = async () => {
 watch(newQuery, search)
 watch(pageLevels, search) // TODO: make search aware of pages
 
-/** @type {Intl.NumberFormat} */
-const format = Intl.NumberFormat('en-US', {
-    notation: "compact",
-    maximumFractionDigits: 1
-});
-
 const searchInput = ref(null);
 const trigger = ref(null);
 const dropdown = ref(null);
@@ -86,10 +80,8 @@ whenever(escape, () => {
 
 const open = ref(false);
 
-const tiny = n => format.format(n);
-
 const results = computed(() => {
-    return searches.value[lastQuery.value].results.map(r => r.totalHits).reduce((p, a) => p + a, 0)
+    return searches.value[lastQuery.value]?.results.map(r => r.totalHits).reduce((p, a) => p + a, 0) ?? [];
 })
 </script>
 <template>
@@ -100,41 +92,34 @@ const results = computed(() => {
         <div v-show="open" @click="open = false" class="x items-center justify-end px-4 md:hidden absolute right-0 top-0 bg-ui-900 h-16 w-1/3">
             <Icon scale="size-6" size="20" name="x-mark"/>
         </div>
-        <div v-show="open" @click="open = false" class="y cursor-pointer items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-16 md:mt-[4rem] md:p-4 z-30">
-            <div class="y md:space-y-4 cursor-auto w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl h-full">
-                <div @click.stop class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-md md:bg-ui-950">
-                    <Icon scale="size-6" class="shrink-0" size="24" name="magnifying-glass"/>
-                    <div v-if="false" class="bg-ui-900 px-2 py-1 border border-ui-700 rounded-md text-sm uppercase">Level</div>
+        <div v-show="open" @click="open = false" class="y cursor-pointer items-center bg-ui-950 md:bg-black/50 absolute inset-0 mt-[4.5rem] md:mt-[4.5rem] md:p-2 z-30">
+            <div class="y md:space-y-2 cursor-auto w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl h-full">
+                <div @click.stop class="flex items-center px-3 border-0 md:border border-ui-700 space-x-3 md:shadow-xl rounded-lg md:bg-ui-950">
+                    <Icon scale="size-6" class="shrink-0 text-ui-500" size="24" name="magnifying-glass"/>
+                    <div v-if="false" class="bg-ui-900 px-2 py-1 border border-ui-700 rounded-lg text-sm uppercase">Level</div>
                     <input ref="searchInput" placeholder="Search..." v-model="newQuery" type="text" class="w-full border-b border-ui-700 md:border-b-0 truncate shrink text-xl pl-0 py-2 border-0 focus-visible:ring-0 bg-transparent placeholder-ui-500"/>
+                    <span class="text-ui-600 text-sm px-2 py-1 whitespace-nowrap" v-if="results > 0">{{ results }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</span>
                 </div>
                 <div @click.stop v-if="false" class="y space-y-2 pane">
                     <div class="x space-x-2 items-center">
-                        <div class="px-2 py-1 rounded-md bg-red-500/25 text-white font-bold">type: User</div>
+                        <div class="px-2 py-1 rounded-lg bg-red-500/25 text-white font-bold">type: User</div>
                         <span>Search for a user</span>
                     </div>
                 </div>
-                <div @click.stop class="y space-y-2 border-0 md:border border-ui-700 md:bg-ui-900 md:rounded-md overflow-y-auto" v-if="searches[lastQuery]">
-                    <div class="px-2" v-if="results === 0">No results</div>
-                    <div class="px-2 text-sm py-1" v-else>Found {{ results }} results in {{ Math.max(...searches[lastQuery].results.map(r => r.processingTimeMs)) }}ms</div>
-                    <div class="y !mt-0 py-1 space-y-1" v-if="searches[lastQuery].results[0].hits.length > 0">
-                        <span class="text-xs text-ui-500 font-bold uppercase px-2">Levels</span>
-                        <Link v-for="(hit, i) in searches[lastQuery].results[0].hits" :class="{'bg-ui-950': index === i}" :key="i" :href="route('levels.show', hit.id)" class="x space-x-4 items-center px-2 py-1">
-                            <DifficultyFace v-bind="hit" class="w-16"/>
-                            <div class="y leading-tight">
-                                <h1 class="font-bold">{{ hit.name }}</h1>
-                                <h2 class="text-xs text-ui-500">{{ hit.creator }}</h2>
-                                <div class="text-xs text-ui-400 x items-center space-x-1">
-                                    <Icon scale="size-3" name="eye"/>
-                                    <div class="mr-4">{{ tiny(hit.downloads) }}</div>
-                                    <Icon scale="size-3" name="hand-thumb-up" :class="{'rotate-180': hit.likes < 0}"/>
-                                    <div>{{ tiny(hit.likes) }}</div>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div class="y px-2" v-if="searches[lastQuery].results[1].hits.length > 0">
-                        <span class="text-xs text-ui-500 font-bold uppercase">Users</span>
-                        <Username v-for="hit in searches[lastQuery].results[1].hits" :card="false" :key="hit.id" :user="hit"/>
+                <div @click.stop class="y space-y-2 border-0 md:border border-ui-700 md:bg-ui-950 md:rounded-md overflow-y-auto" v-if="searches[lastQuery]">
+                    <p v-if="results === 0" class="text-center px-2 py-1 text-ui-500">No Results</p>
+                    <div class="flex flex-col md:flex-row mt-2" v-if="results > 0">
+                        <div class="flex flex-col gap-2 shrink-0" :class="{'md:w-1/2': searches[lastQuery].results[0].hits.length > 0}" v-if="searches[lastQuery].results[0].hits.length > 0">
+                            <span class="text-xs text-ui-500 font-bold uppercase px-2">Levels</span>
+                            <LevelSearchResult v-for="(hit, i) in searches[lastQuery].results[0].hits" :level="hit" :link="true" class="hover:bg-ui-900"/>
+                        </div>
+                        <div class="flex flex-col gap-2 grow" v-if="searches[lastQuery].results[1].hits.length > 0">
+                            <span class="text-xs text-ui-500 font-bold uppercase px-2">Users</span>
+                            <Link :href="route('users.show', hit.id)" class="flex gap-2 hover:bg-ui-900 px-2 py-1" v-for="hit in searches[lastQuery].results[1].hits">
+                                <Icon name="user-circle" scale="size-8" class="p-0.5 bg-ui-700 text-ui-500 rounded-full"/>
+                                <Username :card="false" :href="false" :key="hit.id" :user="hit"/>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
