@@ -12,6 +12,7 @@ import {useTagManager} from "@/lib/composables/useTagManager";
 import Lightbox from "@/Components/Lightbox.vue";
 import Toggle from "@/Components/Toggle.vue";
 import DifficultyFace from "@/Components/DifficultyFace.vue";
+import usercoin from '../../../resources/sprites/usercoin_small01_001.png'
 
 const props = computed(() => usePage().props);
 
@@ -98,7 +99,7 @@ const {formVote, searchQuery, searchResults, vote, verify} = useTagManager(tags.
                     </div>
                     <Link :href="route('profiles.show', level.creator)" class="text-xl">{{ level.creator }}</Link>
                     <div class="x -space-x-2">
-                        <img v-for="img in level.coins" class="size-6" src="https://browser.gdps.io/assets/silvercoin.png" alt="">
+                        <img v-for="img in level.coins" class="size-6" :src="usercoin" alt="">
                     </div>
                 </div>
                 <RatingOverview class="!hidden md:!flex" :level="level"/>
