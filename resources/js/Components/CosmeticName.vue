@@ -6,7 +6,7 @@ const props = defineProps({
         type: Object,
         default: {},
     },
-    banned: Boolean,
+    banned: [Boolean, String],
     premium: {
         type: Boolean,
         default: false,
