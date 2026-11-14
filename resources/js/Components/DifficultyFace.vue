@@ -74,9 +74,9 @@ const faceSize = computed(() => {
 });
 </script>
 <template>
-    <div class="relative z-0">
-        <img v-if="coin" alt="" :src="coin" :class="fitted ? 'scale-[150%]' : 'scale-[200%]'" class="z-0 absolute top-0"/>
-        <img v-if="face" alt="" :src="face" :class="faceSize" class="z-10 relative"/>
+    <div class="relative select-none z-0">
+        <img v-if="coin" alt="" :src="coin" :class="fitted ? 'scale-[150%]' : 'scale-[200%]'" class="z-0 absolute top-0 pointer-events-none"/>
+        <img v-if="face" alt="" :src="face" :class="faceSize" class="z-10 relative pointer-events-none"/>
         <div v-if="0" class="flex justify-center absolute bottom-0 w-full">
             <span class="z-20 text-xs rounded-full text-white px-2 py-0 bg-ui-1000 font-bold">10 &star;</span>
         </div>
