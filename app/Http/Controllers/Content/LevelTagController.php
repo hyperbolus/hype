@@ -18,7 +18,7 @@ class LevelTagController extends Controller
     {
         return page('Tags/Index', [
             'tags' => Tag::query()->withCount(['levels'])->get(),
-        ]);
+        ])->meta('Level Tags', 'Browse levels by tag');
     }
 
     public function create()
@@ -40,16 +40,16 @@ class LevelTagController extends Controller
         return back();
     }
 
-    public function show(Tag $tag): Response
+    public function show(Tag $tag): Responsable
     {
-        return Inertia::render('Tags/Show', [
+        return page('Tags/Show', [
             // TODO: Add filters
             'article' => Wiki::getPage($tag->id, namespace: 'Tag'),
             'levels' => $tag->levels()
                 ->withCount('reviews')
                 ->paginate(10),
             'tag' => $tag,
-        ]);
+        ])->meta($tag->name, 'View levels tagged as ' . $tag->name);
     }
 
     public function edit(Tag $levelTag)

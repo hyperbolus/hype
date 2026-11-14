@@ -56,7 +56,7 @@ const tiny = n => format.format(n);
 <template>
     <app-layout>
         <div class="flex flex-col space-y-2 md:w-3/4">
-            <h1 class="font-bold text-2xl capitalize">Levels Tags</h1>
+            <h1 class="font-bold text-2xl capitalize">Level Tags</h1>
             <div class="columns-1 sm:columns-2 lg:columns-3">
                 <div v-for="bucket in directory" class="flex flex-col pb-2 gap-1 break-inside-avoid-column">
                     <h2 class="text-4xl font-bold text-center">{{ bucket }}</h2>
