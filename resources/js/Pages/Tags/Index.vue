@@ -4,7 +4,8 @@ import AppLayout from "@/Layouts/Dash.vue";
 import route from 'ziggy-js'
 import Input from "@/Jetstream/Input.vue";
 import Button from "@/Jetstream/Button.vue";
-import {computed, onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
+import {isAdmin} from "@/util.js";
 
 const props = defineProps({
     tags: Array,
@@ -55,9 +56,9 @@ const tiny = n => format.format(n);
 </script>
 <template>
     <app-layout>
-        <div class="flex flex-col space-y-2 md:w-3/4">
+        <div class="flex flex-col space-y-2" :class="isAdmin() ? 'md:w-3/4' : 'w-full'">
             <h1 class="font-bold text-2xl capitalize">Level Tags</h1>
-            <div class="columns-1 sm:columns-2 lg:columns-3">
+            <div class="columns-1 sm:columns-2 lg:columns-3" :class="{'xl:columns-4': !isAdmin()}">
                 <div v-for="bucket in directory" class="flex flex-col pb-2 gap-1 break-inside-avoid-column">
                     <h2 class="text-4xl font-bold text-center">{{ bucket }}</h2>
                     <Link v-for="tag in buckets[bucket]" :href="route('tags.show', tags[tag].id)" class="flex justify-between bg-ui-900 rounded-lg px-2 py-1">
@@ -67,7 +68,7 @@ const tiny = n => format.format(n);
                 </div>
             </div>
         </div>
-        <div v-if="$page.props.auth && $page.props.user.roles.includes('admin')" class="flex flex-col space-y-2 md:w-1/4">
+        <div v-if="isAdmin()" class="flex flex-col space-y-2 md:w-1/4">
             <h2 class="font-bold text-2xl capitalize">Add Tag</h2>
             <div class="rounded-lg bg-ui-900 p-3 space-y-2">
                 <label>
