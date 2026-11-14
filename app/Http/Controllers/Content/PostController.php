@@ -81,13 +81,28 @@ class PostController extends Controller
         return back();
     }
 
-    public function show(Post $post)
+    public function show(Request $request, Post $post)
     {
-        $post->load(['thread', 'thread.forum', 'thread.author', 'author', 'media', 'reactions', 'reactions.reacter']);
-        // TODO: Either highlighted or go to page (both prolly)
-        return Inertia::render('Posts/Show', [
-            'post' => $post,
-        ]);
+        if ($request->has('single')) {
+            $post->load(['thread', 'thread.forum', 'thread.author', 'author', 'media', 'reactions', 'reactions.reacter']);
+
+            return page('Posts/Show', [
+                'post' => $post,
+            ]);
+        }
+
+        $post->load(['thread']);
+
+        $position = Post::query()
+            ->where('thread_id', $post->thread_id)
+            ->where('posts.created_at', '<=', $post->created_at)
+            ->oldest()
+            ->count();
+
+        return redirect(route('threads.show', [
+            'thread' => $post->thread->slug,
+            'page' => ceil($position / 10),
+        ]).'#~post/'.$post->id);
     }
 
     /**

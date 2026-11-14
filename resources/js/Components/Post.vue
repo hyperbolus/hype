@@ -5,7 +5,7 @@ import route from "ziggy-js";
 import Avatar from "@/Components/Avatar.vue";
 import TipTap from "@/Components/TipTap.vue";
 import Timestamp from "@/Components/Timestamp.vue";
-import {onBeforeMount, onUpdated, ref} from "vue";
+import {nextTick, onBeforeMount, onMounted, onUpdated, ref} from "vue";
 import prettyBytes from "pretty-bytes";
 import Lightbox from "@/Components/Lightbox.vue";
 import ReportModal from "@/Components/ReportModal.vue";
@@ -61,11 +61,21 @@ const sendLike = () => {
     like.post(route('likes.store', props.post), {
         preserveScroll: true
     })
-}
+};
 
+const highlighted = ref(false);
+
+onBeforeMount(() => {
+    let hash = [...window.location.hash.matchAll(/^#~post\/(\d+)$/g)];
+
+    if (hash.length > 0 && hash[0].length > 1 && hash[0][1] === `${props.post?.id}`) {
+        highlighted.value = true;
+        setTimeout(() => highlighted.value = false, 1500)
+    }
+});
 </script>
 <template>
-    <div :id="`~post/${post.id}`" class="y pane !p-0 border border-ui-700">
+    <div :id="`~post/${post.id}`" class="y pane !p-0 border border-ui-700 outline transition-[outline-color] duration-1000" :class="{'outline-blue-500': highlighted, 'outline-transparent': !highlighted}">
         <div class="flex flex-col md:flex-row">
             <div v-if="postbit" class="relative rounded-tl-lg bg-ui-800 !bg-opacity-50 shrink-0 items-center md:border-r border-r-ui-700">
                 <div class="flex md:flex-col md:items-center z-10 gap-4 p-4 sticky top-0 md:w-48">
