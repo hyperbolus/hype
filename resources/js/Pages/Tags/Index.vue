@@ -60,7 +60,7 @@ const tiny = n => format.format(n);
             <div class="columns-1 sm:columns-2 lg:columns-3">
                 <div v-for="bucket in directory" class="flex flex-col pb-2 gap-1 break-inside-avoid-column">
                     <h2 class="text-4xl font-bold text-center">{{ bucket }}</h2>
-                    <Link v-for="tag in buckets[bucket]" :href="route('tags.show', tag)" class="flex justify-between bg-ui-900 rounded-lg px-2 py-1">
+                    <Link v-for="tag in buckets[bucket]" :href="route('tags.show', tags[tag].id)" class="flex justify-between bg-ui-900 rounded-lg px-2 py-1">
                         <span class="grow">{{ tags[tag].name }}</span>
                         <span class="text-ui-500">{{ tiny(tags[tag].levels_count) }}</span>
                     </Link>
