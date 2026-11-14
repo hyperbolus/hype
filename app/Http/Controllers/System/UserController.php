@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         // TODO: appends
         return page('Users/Show', [
-            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews', 'names']),
+            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'playlists', 'videos', 'reviews', 'names']),
             'comments' => $user->comments()->latest()->paginate(10, ['*'], 'comments'),
             'reviews' => Review::withReview()
                 ->latest()
@@ -63,7 +63,7 @@ class UserController extends Controller
         }
 
         return page('Users/Sections/Reviews', [
-            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews']),
+            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'playlists', 'videos', 'reviews']),
             'reviews' => sorting($reviews)->latest()
                 ->filters()
                 ->with('level')
@@ -87,7 +87,7 @@ class UserController extends Controller
         $paginate = $videos->paginate();
 
         return page('Users/Sections/Videos', [
-            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews']),
+            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'playlists', 'videos', 'reviews']),
             'videos' => $paginate,
             'sorting' => $videos
         ])->meta('Videos', $user->name . ' has added ' . $paginate->total() . ' to the site')
@@ -112,7 +112,7 @@ class UserController extends Controller
         $playlists = $playlists->paginate(10);
 
         return page('Users/Sections/Playlists', [
-            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews']),
+            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'playlists', 'videos', 'reviews']),
             'playlists' => $playlists,
             'sorting' => sorting(Playlist::class)
         ])->meta('Playlists', $user->name . ' has ' . $playlists->total() . ' playlists')
@@ -131,7 +131,7 @@ class UserController extends Controller
             ->paginate(10);
 
         return page('Users/Sections/Posts', [
-            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'reviews']),
+            'profile' => $user->withBlocks()->loadCount(['threads', 'posts', 'playlists', 'videos', 'reviews']),
             'posts' => $posts,
             'sorting' => sorting(Post::class)
         ])->meta('Posts', $user->name . ' has ' . $posts->total() . ' posts')

@@ -25,6 +25,28 @@ const isOnline = (time) => {
     const then = new Date(time)
     return now - then <= 300000 // 1000 * 60 * 5
 }
+
+const tabs = {
+    'users.show': {
+        title: 'Overview',
+    },
+    'users.reviews': {
+        title: 'Reviews',
+        count: 'reviews_count',
+    },
+    'users.posts': {
+        title: 'Posts',
+        count: 'posts_count',
+    },
+    'users.playlists': {
+        title: 'Playlists',
+        count: 'playlists_count',
+    },
+    'users.videos': {
+        title: 'Videos',
+        count: 'videos_count',
+    },
+};
 </script>
 <template>
     <div class="y w-full items-center bg-center bg-cover" :style="`background-image: url('${profile.banner_url ?? soundparty}');`" style="box-shadow: rgba(0, 0, 0, 0.85) 0 -100px 55px -25px inset;">
@@ -61,22 +83,19 @@ const isOnline = (time) => {
                         </Dropdown>
                     </template>
                 </div>
-                <div class="x items-end justify-between">
-                    <div class="x items-end">
-                        <div class="x relative shrink-0 shadow-lg justify-center items-center rounded-full -mb-16 z-10 mr-4">
-                            <Avatar class="relative z-0" width="w-40" :user="profile"/>
-                        </div>
-                        <div class="leading-none text-ui-200">
-                            <div class="x items-center space-x-2 font-bold text-2xl">
-                                <Username :user="profile" :card="false" :flag="true"/>
-                                <Tooltip v-if="profile.blocking" message="This user has blocked you">
-                                    <Icon name="no-symbol" class="text-red-500"/>
-                                </Tooltip>
-                            </div>
-                            <p><UserTitle :user="profile"/><span v-if="profile.pronouns"> &middot; {{ profile.pronouns }}</span><span v-if="profile.location"> &middot; {{ profile.location }}</span></p>
-                        </div>
+                <div class="x items-end">
+                    <div class="x relative shrink-0 shadow-lg justify-center items-center rounded-full -mb-16 z-10 mr-4">
+                        <Avatar class="relative z-0" width="w-40" :user="profile"/>
                     </div>
-                    <Stats :profile="profile"/>
+                    <div class="leading-none text-ui-200">
+                        <div class="x items-center space-x-2 font-bold text-2xl">
+                            <Username :user="profile" :card="false" :flag="true"/>
+                            <Tooltip v-if="profile.blocking" message="This user has blocked you">
+                                <Icon name="no-symbol" class="text-red-500"/>
+                            </Tooltip>
+                        </div>
+                        <p><UserTitle :user="profile"/><span v-if="profile.pronouns"> &middot; {{ profile.pronouns }}</span><span v-if="profile.location"> &middot; {{ profile.location }}</span></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,11 +108,10 @@ const isOnline = (time) => {
     </div>
     <div class="x justify-center w-full bg-ui-950 items-center px-4">
         <div class="flex flex-wrap font-bold text-sm justify-center z-10">
-            <Link :href="route('users.show', profile.id)" :class="{'bg-ui-900': route().current('users.show')}" class="py-1.5 px-4">Overview</Link>
-            <Link :href="route('users.reviews', profile.id)" :class="{'bg-ui-900': route().current('users.reviews')}" class="py-1.5 px-4">Reviews</Link>
-            <Link :href="route('users.posts', profile.id)" :class="{'bg-ui-900': route().current('users.posts')}" class="py-1.5 px-4">Posts</Link>
-            <Link :href="route('users.playlists', profile.id)" :class="{'bg-ui-900': route().current('users.playlists')}" class="py-1.5 px-4">Playlists</Link>
-            <Link :href="route('users.videos', profile.id)" :class="{'bg-ui-900': route().current('users.videos')}" class="py-1.5 px-4">Videos</Link>
+            <Link v-for="(tab, key) in tabs" :href="route(key, profile.id)" :class="{'bg-ui-900': route().current(key)}" class="py-1.5 px-4">
+                <span>{{ tab.title }}</span>
+                <span class="ml-1 font-normal text-ui-500" v-if="tab.hasOwnProperty('count')">({{ profile[tab.count] }})</span>
+            </Link>
         </div>
     </div>
 </template>
