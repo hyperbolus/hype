@@ -7,6 +7,7 @@ import Button from "@/Jetstream/Button.vue";
 import {onBeforeMount, ref} from "vue";
 import {isAdmin} from "@/util.js";
 import Icon from "@/Components/Icon.vue";
+import Tooltip from "@/Components/Tooltip.vue";
 
 const props = defineProps({
     tags: Array,
@@ -65,7 +66,12 @@ const tiny = n => format.format(n);
                     <Link v-for="tag in buckets[bucket]" :href="route('tags.show', tags[tag].id)" class="flex justify-between bg-ui-900 rounded-lg px-2 py-1">
                         <div class="flex items-center gap-1">
                             <span class="grow">{{ tags[tag].name }}</span>
-                            <Icon v-if="tags[tag].wiki_page_count" name="document-text" size="16" scale="size-4 text-ui-500"/>
+                            <Tooltip message="Wiki Article">
+                                <Icon v-if="tags[tag].wiki_page_count" name="document-text" size="16" scale="size-4 text-ui-500"/>
+                            </Tooltip>
+                            <Tooltip message="Deprecated">
+                                <Icon v-if="tags[tag].deprecated_at" name="exclamation-triangle" size="16" scale="size-4 text-amber-500"/>
+                            </Tooltip>
                         </div>
                         <span class="text-ui-500">{{ tiny(tags[tag].levels_count) }}</span>
                     </Link>
