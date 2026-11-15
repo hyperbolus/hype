@@ -28,9 +28,8 @@ const search = async () => {
                     indexUid: 'hype_gdf_levels',
                     q: newQuery.value,
                     hitsPerPage: 15,
-                    //sort: ['downloads:desc'], // TODO: sort by downloads
-                    //page: pageLevels.value,
-                    attributesToSearchOn: ['name']
+                    sort: ['downloads:desc'],
+                    attributesToSearchOn: ['name', 'id']
                 },
                 {
                     indexUid: 'hype_gdf_users',

@@ -25,11 +25,12 @@ const tiny = n => format.format(n);
         <div class="y leading-tight grow">
             <h1 class="font-bold">{{ level.name }}</h1>
             <h2 class="text-xs text-ui-500">{{ level.creator }}</h2>
-            <div class="text-xs text-ui-400 x items-center space-x-1">
+            <div class="flex items-center text-xs text-ui-400 gap-1 w-full">
                 <Icon scale="size-3" name="eye"/>
-                <div class="mr-4">{{ tiny(level.downloads) }}</div>
+                <div class="mr-1">{{ tiny(level.downloads) }}</div>
                 <Icon scale="size-3" name="hand-thumb-up" :class="{'rotate-180': level.likes < 0}"/>
                 <div>{{ tiny(level.likes) }}</div>
+                <span class="grow text-right font-mono text-ui-600">{{ level.id }}</span>
             </div>
         </div>
         <slot name="side"/>
